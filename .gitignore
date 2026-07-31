@@ -1,19 +1,14 @@
+# Each app keeps its own ignore rules in frontend/ and backend/.
+# This file covers only what sits at the repo root.
+
 # dependencies
 node_modules
-/.pnp
-.pnp.js
 
-# testing
-/coverage
+# local env files
+.env
+.env*.local
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# editor / OS
 .DS_Store
 *.pem
 
@@ -21,14 +16,3 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# local env files
-.env
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
