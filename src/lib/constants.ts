@@ -11,4 +11,5 @@ export const NAV_LINKS = [
   { href: "/baba-shyam", label: "Baba Shyam" },
   { href: "/temple-directory", label: "Temple Directory" },
   { href: "/artists", label: "Artists" },
+  { href: "/contact", label: "Contact Us" },
 ] as const;

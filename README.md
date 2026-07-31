@@ -53,6 +53,24 @@ Then open http://localhost:3000. API docs live at http://localhost:5000/api/docs
 | `/signup` | Create account                                |
 | `/login`  | Sign in                                       |
 
+### Auth flow
+
+`AuthProvider` (mounted in the root layout) owns the session:
+
+- The **access token lives in memory only** — never `localStorage` — so an XSS
+  bug cannot walk off with a usable credential.
+- On mount the provider calls `/auth/refresh`. The httpOnly refresh cookie
+  restores the session across reloads; a 401 there simply means "signed out".
+- A 401 on any authenticated request triggers one silent refresh-and-replay
+  before the error surfaces, so a 15-minute token expiring mid-session is
+  invisible to the user.
+- `useAuth()` exposes `{ user, loading, signup, login, logout }`.
+- `<RequireAuth>` wraps pages that need a session and bounces anonymous
+  visitors to `/login?next=<path>`. It is a UX guard only — the API rejects
+  unauthenticated requests independently, and that is what protects the data.
+- `?next=` is only honoured for same-site paths, so it cannot be used as an
+  open redirect.
+
 ### Structure
 
 ```

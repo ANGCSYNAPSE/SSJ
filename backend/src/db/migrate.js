@@ -1,50 +1,75 @@
 import { readdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { sql } from "../config/database.js";
+import pg from "pg";
+import { env } from "../config/env.js";
 
 const migrationsDir = join(dirname(fileURLToPath(import.meta.url)), "migrations");
 
 /**
- * Applies every .sql file in migrations/ in filename order, skipping the ones
- * already recorded in schema_migrations. Safe to re-run.
+ * Migrations use a regular Postgres connection rather than the Neon HTTP
+ * driver the app uses at runtime: HTTP cannot run multi-statement SQL, and
+ * each file needs to apply atomically inside a transaction.
  */
 async function migrate() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS schema_migrations (
-      name       TEXT PRIMARY KEY,
-      applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `;
+  // TLS settings come from the sslmode in DATABASE_URL; Neon presents a
+  // publicly trusted certificate, so full verification succeeds as-is.
+  const client = new pg.Client({ connectionString: env.databaseUrl });
 
-  const applied = new Set(
-    (await sql`SELECT name FROM schema_migrations`).map((row) => row.name),
-  );
+  await client.connect();
 
-  const files = (await readdir(migrationsDir))
-    .filter((file) => file.endsWith(".sql"))
-    .sort();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS schema_migrations (
+        name       TEXT PRIMARY KEY,
+        applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
 
-  let count = 0;
+    const { rows } = await client.query("SELECT name FROM schema_migrations");
+    const applied = new Set(rows.map((row) => row.name));
 
-  for (const file of files) {
-    if (applied.has(file)) {
-      console.log(`- skipped ${file} (already applied)`);
-      continue;
+    const files = (await readdir(migrationsDir))
+      .filter((file) => file.endsWith(".sql"))
+      .sort();
+
+    let count = 0;
+
+    for (const file of files) {
+      if (applied.has(file)) {
+        console.log(`- skipped ${file} (already applied)`);
+        continue;
+      }
+
+      const contents = await readFile(join(migrationsDir, file), "utf8");
+
+      // Each migration is all-or-nothing, so a failure halfway through cannot
+      // leave the schema in a state the runner would then record as applied.
+      await client.query("BEGIN");
+      try {
+        await client.query(contents);
+        await client.query(
+          "INSERT INTO schema_migrations (name) VALUES ($1)",
+          [file],
+        );
+        await client.query("COMMIT");
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw new Error(`${file}: ${error.message}`);
+      }
+
+      console.log(`+ applied ${file}`);
+      count += 1;
     }
 
-    const contents = await readFile(join(migrationsDir, file), "utf8");
-    // Migration files are trusted local sources, not user input.
-    await sql.unsafe(contents);
-    await sql`INSERT INTO schema_migrations (name) VALUES (${file})`;
-
-    console.log(`+ applied ${file}`);
-    count += 1;
+    console.log(
+      count === 0
+        ? "Schema already up to date."
+        : `Applied ${count} migration(s).`,
+    );
+  } finally {
+    await client.end();
   }
-
-  console.log(
-    count === 0 ? "Schema already up to date." : `Applied ${count} migration(s).`,
-  );
 }
 
 migrate()

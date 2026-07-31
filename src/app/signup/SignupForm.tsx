@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { User, Phone, Mail, Lock, Check } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import {
   AuthField,
   AuthDivider,
@@ -12,7 +13,7 @@ import {
   AuthSwitchLink,
 } from "@/components/auth/AuthShell";
 import { TextField, PasswordField, SubmitButton } from "@/components/auth/TextField";
-import { authApi, ApiError } from "@/lib/api";
+import { ApiError } from "@/lib/api";
 
 type Errors = Partial<Record<string, string>> & { form?: string };
 
@@ -54,10 +55,16 @@ function validate(values: typeof initial, acceptTerms: boolean): Errors {
 
 export default function SignupForm() {
   const router = useRouter();
+  const { user, loading, signup } = useAuth();
   const [values, setValues] = useState(initial);
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
+
+  // Someone already signed in has no business on this page.
+  useEffect(() => {
+    if (!loading && user) router.replace("/");
+  }, [loading, user, router]);
 
   const update =
     (field: keyof typeof initial) =>
@@ -79,8 +86,8 @@ export default function SignupForm() {
     setErrors({});
 
     try {
-      await authApi.signup({ ...values, acceptTerms });
-      router.push("/");
+      await signup({ ...values, acceptTerms });
+      router.replace("/");
     } catch (err) {
       if (err instanceof ApiError && err.errors?.length) {
         setErrors(

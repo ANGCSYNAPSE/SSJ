@@ -22,9 +22,6 @@ export default function Footer() {
                 {link.label}
               </Link>
             ))}
-            <Link href="/contact" className="text-sm text-white/70 transition-colors hover:text-white">
-              Contact Us
-            </Link>
           </nav>
         </div>
         <div className="mt-8 border-t border-white/20 pt-6 text-center text-sm text-white/50">

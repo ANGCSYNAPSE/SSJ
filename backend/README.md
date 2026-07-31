@@ -82,6 +82,18 @@ Every response — success or failure — uses the same shape:
 
 Field-level `errors` let the client highlight the offending input directly.
 
+## Migrations
+
+`npm run migrate` applies every `.sql` file in `src/db/migrations/` in filename
+order, records it in `schema_migrations`, and skips anything already applied —
+so it is safe to re-run. Each file runs inside a transaction, so a failure
+halfway through rolls back rather than leaving a half-migrated schema recorded
+as done.
+
+Migrations connect over TCP with `pg` rather than the Neon HTTP driver the app
+uses at runtime, because the HTTP driver cannot run multi-statement SQL or
+wrap statements in a transaction.
+
 ## Notes
 
 - Passwords are hashed with bcrypt (12 rounds by default).

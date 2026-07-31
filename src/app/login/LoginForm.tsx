@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Lock, Check } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import {
   AuthField,
   AuthDivider,
@@ -12,7 +13,7 @@ import {
   AuthSwitchLink,
 } from "@/components/auth/AuthShell";
 import { TextField, PasswordField, SubmitButton } from "@/components/auth/TextField";
-import { authApi, ApiError } from "@/lib/api";
+import { ApiError } from "@/lib/api";
 
 type Errors = Partial<Record<string, string>> & { form?: string };
 
@@ -33,10 +34,22 @@ function validate(values: typeof initial): Errors {
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { user, loading, login } = useAuth();
   const [values, setValues] = useState(initial);
   const [remember, setRemember] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
+
+  // Where to land after signing in — honours ?next= from a guarded route,
+  // but only for same-site paths so the param cannot be used as an open redirect.
+  const next = searchParams.get("next");
+  const destination = next?.startsWith("/") && !next.startsWith("//") ? next : "/";
+
+  // Someone already signed in has no business on this page.
+  useEffect(() => {
+    if (!loading && user) router.replace(destination);
+  }, [loading, user, destination, router]);
 
   const update =
     (field: keyof typeof initial) =>
@@ -58,8 +71,8 @@ export default function LoginForm() {
     setErrors({});
 
     try {
-      await authApi.login({ ...values, remember });
-      router.push("/");
+      await login({ ...values, remember });
+      router.replace(destination);
     } catch (err) {
       if (err instanceof ApiError && err.errors?.length) {
         setErrors(

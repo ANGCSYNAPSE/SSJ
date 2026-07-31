@@ -4,14 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Heart, LogOut } from "lucide-react";
 import Container from "@/components/ui/Container";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { NAV_LINKS, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+/** First name only — the header has room for one word. */
+function firstName(fullName: string) {
+  return fullName.trim().split(/\s+/)[0];
+}
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { user, loading, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/90 backdrop-blur-md">
@@ -39,12 +46,34 @@ export default function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Link
-            href="/contact"
-            className="rounded-md border border-primary px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
-          >
-            Contact Us
-          </Link>
+          {/* Reserve the slot while the session restores so the bar does not jump */}
+          {loading ? (
+            <span className="h-10 w-[92px] animate-pulse rounded-md bg-cream" />
+          ) : user ? (
+            <>
+              <span className="text-sm text-muted-foreground">
+                Jai Shri Shyam,{" "}
+                <span className="font-medium text-maroon">
+                  {firstName(user.fullName)}
+                </span>
+              </span>
+              <button
+                type="button"
+                onClick={logout}
+                className="flex items-center gap-2 rounded-md border border-border px-4 py-2.5 text-sm font-medium text-maroon transition-colors hover:bg-cream"
+              >
+                <LogOut className="h-4 w-4" aria-hidden />
+                Sign out
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-md border border-primary px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
+            >
+              Sign In
+            </Link>
+          )}
           <Link
             href="/donate"
             className="flex items-center gap-2 rounded-md bg-maroon px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-maroon-light"
@@ -84,19 +113,33 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/contact"
-              onClick={() => setOpen(false)}
-              className="py-3 text-sm text-primary font-medium"
-            >
-              Contact Us
-            </Link>
-            <Link
               href="/donate"
               onClick={() => setOpen(false)}
-              className="py-3 text-sm text-maroon font-medium"
+              className="py-3 text-sm font-medium text-maroon"
             >
               Donation
             </Link>
+            {!loading &&
+              (user ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    logout();
+                  }}
+                  className="py-3 text-left text-sm font-medium text-primary"
+                >
+                  Sign out ({firstName(user.fullName)})
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="py-3 text-sm font-medium text-primary"
+                >
+                  Sign In
+                </Link>
+              ))}
           </Container>
         </nav>
       )}
