@@ -13,22 +13,35 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "#1d4ed8",
+          DEFAULT: "#E87722",
           foreground: "#ffffff",
+          dark: "#D16206",
         },
         secondary: {
           DEFAULT: "#f4f4f5",
           foreground: "#18181b",
         },
+        maroon: {
+          DEFAULT: "#6B1F1F",
+          light: "#8B2E2E",
+        },
+        cream: {
+          DEFAULT: "#FDF6EC",
+          light: "#FFF8F1",
+        },
         muted: {
           DEFAULT: "#f4f4f5",
-          foreground: "#71717a",
+          foreground: "#6B7280",
         },
         accent: {
           DEFAULT: "#f4f4f5",
           foreground: "#18181b",
         },
-        border: "#e4e4e7",
+        border: "#E8DDD0",
+      },
+      fontFamily: {
+        serif: ["EB Garamond", "Georgia", "serif"],
+        sans: ["Poppins", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "0.75rem",
@@ -39,7 +52,7 @@ const config: Config = {
         center: true,
         padding: "1.5rem",
         screens: {
-          "2xl": "1280px",
+          "2xl": "1440px",
         },
       },
     },

@@ -9,7 +9,7 @@ export function Slot({
   children,
   className,
   ...props
-}: React.HTMLAttributes<HTMLElement> & { children: React.ReactNode }) {
+}: React.HTMLAttributes<HTMLElement>) {
   const child = Children.only(children);
 
   if (!isValidElement<React.HTMLAttributes<HTMLElement>>(child)) {

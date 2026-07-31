@@ -1,66 +1,111 @@
-# SSJ
+# SSJ — Shree Shyam Jagat
 
-Web platform built with Next.js 14 (App Router), TypeScript and Tailwind CSS.
+Devotional platform built from the [Figma design file](https://www.figma.com/design/eqyeNqdl9Q5lo7Vouh2p73/SSJ).
 
-## Tech stack
+The repo holds two independent applications:
 
-| Layer      | Choice                          |
-| ---------- | ------------------------------- |
-| Framework  | Next.js 14 (App Router)         |
-| Language   | TypeScript (strict)             |
-| Styling    | Tailwind CSS                    |
-| Icons      | lucide-react                    |
-| Linting    | ESLint (`next/core-web-vitals`) |
+| Folder     | What                                          | Port |
+| ---------- | --------------------------------------------- | ---- |
+| `/` (root) | Next.js 14 frontend (App Router, TypeScript)  | 3000 |
+| `backend/` | Express REST API on Neon Postgres             | 5000 |
+
+They are deployed and run separately — the frontend talks to the API over HTTP
+and contains no database access or API route handlers of its own.
 
 ## Getting started
+
+Run each in its own terminal.
+
+**Backend**
+
+```bash
+cd backend
+npm install
+cp .env.example .env   # fill in DATABASE_URL and the two JWT secrets
+npm run migrate
+npm run dev
+```
+
+**Frontend**
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Then open http://localhost:3000. API docs live at http://localhost:5000/api/docs.
 
-## Scripts
+## Frontend
 
-| Command         | Description                     |
-| --------------- | ------------------------------- |
-| `npm run dev`   | Start the dev server            |
-| `npm run build` | Production build                |
-| `npm run start` | Serve the production build      |
-| `npm run lint`  | Run ESLint                      |
+| Layer     | Choice                          |
+| --------- | ------------------------------- |
+| Framework | Next.js 14 (App Router)         |
+| Language  | TypeScript (strict)             |
+| Styling   | Tailwind CSS                    |
+| Icons     | lucide-react                    |
+| Fonts     | EB Garamond (display), Poppins  |
 
-## Project structure
+### Routes
+
+| Path      | Screen                                        |
+| --------- | --------------------------------------------- |
+| `/`       | Home — hero (Faith / Service / Humanity)      |
+| `/signup` | Create account                                |
+| `/login`  | Sign in                                       |
+
+### Structure
 
 ```
 src/
-  app/                 # App Router routes
-    layout.tsx         # Root layout (header + footer)
-    page.tsx           # Home
-    about/             # /about
-    services/          # /services
-    contact/           # /contact
-    not-found.tsx      # 404
-    globals.css        # Tailwind entry + CSS variables
+  app/
+    layout.tsx          Root layout (header + footer)
+    page.tsx            Home
+    signup/             page.tsx + SignupForm.tsx (client)
+    login/              page.tsx + LoginForm.tsx (client)
+    globals.css         Tailwind entry + fonts
   components/
-    layout/            # Header, Footer
-    ui/                # Button, Card, Container, Section, Slot
+    auth/               AuthShell, TextField, PasswordField, SubmitButton
+    layout/             Header, Footer
+    ui/                 Button, Card, Container, Section, Slot
   lib/
-    constants.ts       # Site metadata, nav links
-    utils.ts           # cn() class merge helper
-public/                # Static assets (icons, images)
+    api.ts              Typed client for the backend
+    constants.ts        Site metadata, nav links
+    utils.ts            cn() class merge helper
+public/images/          Assets exported from Figma
 ```
 
-## Environment variables
+### Design tokens
 
-Copy `.env.example` to `.env.local` and fill in values as needed.
+Pulled from the Figma file into `tailwind.config.ts` — use these rather than
+hardcoding hex values:
 
-## Conventions
+| Token           | Value     | Used for                    |
+| --------------- | --------- | --------------------------- |
+| `primary`       | `#E87722` | CTAs, links, active nav     |
+| `primary-dark`  | `#D16206` | Button gradient end         |
+| `maroon`        | `#6B1F1F` | Headings, brand text        |
+| `cream`         | `#FDF6EC` | Page background             |
+| `cream-light`   | `#FFF8F1` | Input fills, right panel    |
+| `border`        | `#E8DDD0` | Hairlines, input borders    |
 
-- Components are server components by default; add `"use client"` only when a
-  component needs state, effects or browser APIs.
+### Conventions
+
+- Server components by default; add `"use client"` only for state or effects.
 - Import via the `@/` alias (maps to `src/`).
-- Design tokens (colors, radii, container widths) live in `tailwind.config.ts`.
-  Change them there rather than hardcoding values in components.
-- Standard icons come from `lucide-react`. Custom / brand icons go in
-  `public/icons/` and are rendered via `next/image` or inline SVG components.
+- Standard icons come from `lucide-react`; brand art lives in `public/images/`.
+- Forms validate client-side with the same rules the API enforces, then render
+  the API's field-level errors when the server rejects a submission.
+
+### Environment
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+## Backend
+
+Node.js + Express + Neon serverless Postgres, documented with OpenAPI 3.
+Layering is one-directional: `routes → controllers → services → models`.
+
+See [backend/README.md](backend/README.md) for the full endpoint reference,
+token model and schema notes.

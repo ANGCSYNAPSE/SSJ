@@ -1,12 +1,14 @@
 export const SITE = {
-  name: "SSJ",
-  description: "SSJ — web platform built with Next.js.",
+  name: "Shyam Jagat",
+  description: "Shree Shyam Jagat — Faith, Service, Humanity",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "About Us" },
+  { href: "/initiatives", label: "Our Initiatives" },
+  { href: "/baba-shyam", label: "Baba Shyam" },
+  { href: "/temple-directory", label: "Temple Directory" },
+  { href: "/artists", label: "Artists" },
 ] as const;
