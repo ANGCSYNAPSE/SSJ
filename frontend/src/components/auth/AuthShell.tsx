@@ -18,9 +18,9 @@ export default function AuthShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-[calc(100vh-72px)] items-stretch bg-cream">
+    <div className="flex min-h-screen items-stretch overflow-hidden bg-cream">
       {/* Left image panel — hidden on small screens where the form takes over */}
-      <div className="relative hidden w-1/2 shrink-0 lg:block">
+      <div className="relative hidden w-1/2 shrink-0 overflow-hidden lg:block">
         <Image
           src="/images/signup/left-panel.png"
           alt=""
@@ -63,7 +63,7 @@ export default function AuthShell({
       </div>
 
       {/* Right form panel */}
-      <div className="relative flex w-full items-center justify-center overflow-hidden bg-cream-light px-4 py-12 lg:w-1/2">
+      <div className="relative flex w-full items-center justify-center overflow-hidden bg-cream-light px-4 py-6 sm:py-8 lg:w-1/2 lg:py-12">
         {/* Decorative line art. These are SVGs, so they bypass the image
             optimizer — it cannot rasterise them and yields a broken image. */}
         <Image
@@ -73,7 +73,7 @@ export default function AuthShell({
           height={200}
           unoptimized
           aria-hidden
-          className="pointer-events-none absolute -left-[60px] -top-[60px] select-none"
+          className="pointer-events-none absolute -left-[40px] -top-[40px] select-none sm:-left-[60px] sm:-top-[60px]"
         />
         <Image
           src="/images/signup/flower.svg"
@@ -82,7 +82,7 @@ export default function AuthShell({
           height={240}
           unoptimized
           aria-hidden
-          className="pointer-events-none absolute -right-10 top-10 select-none"
+          className="pointer-events-none absolute -right-[20px] top-2 select-none sm:-right-10 sm:top-10"
         />
         <Image
           src="/images/signup/lamp.svg"
@@ -91,10 +91,10 @@ export default function AuthShell({
           height={120}
           unoptimized
           aria-hidden
-          className="pointer-events-none absolute bottom-10 left-10 hidden select-none lg:block"
+          className="pointer-events-none absolute bottom-6 left-6 hidden select-none sm:bottom-10 sm:left-10 lg:block"
         />
 
-        <div className="relative z-10 w-full max-w-[480px] rounded-[28px] bg-white/95 px-8 py-7 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
+        <div className="relative z-10 w-full max-w-[480px] rounded-2xl sm:rounded-[28px] bg-white/95 px-6 py-6 sm:px-8 sm:py-7 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
           <div className="flex items-center justify-center gap-2">
             <Image
               src="/images/brand/logo.png"
