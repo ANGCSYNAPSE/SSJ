@@ -64,32 +64,37 @@ export default function AuthShell({
 
       {/* Right form panel */}
       <div className="relative flex w-full items-center justify-center overflow-hidden bg-cream-light px-4 py-12 lg:w-1/2">
+        {/* Decorative line art. These are SVGs, so they bypass the image
+            optimizer — it cannot rasterise them and yields a broken image. */}
         <Image
-          src="/images/signup/atom.png"
+          src="/images/signup/atom.svg"
           alt=""
           width={200}
           height={200}
+          unoptimized
           aria-hidden
           className="pointer-events-none absolute -left-[60px] -top-[60px] select-none"
         />
         <Image
-          src="/images/signup/flower.png"
+          src="/images/signup/flower.svg"
           alt=""
           width={240}
           height={240}
+          unoptimized
           aria-hidden
           className="pointer-events-none absolute -right-10 top-10 select-none"
         />
         <Image
-          src="/images/signup/lamp.png"
+          src="/images/signup/lamp.svg"
           alt=""
           width={120}
           height={120}
+          unoptimized
           aria-hidden
-          className="pointer-events-none absolute bottom-10 left-10 select-none"
+          className="pointer-events-none absolute bottom-10 left-10 hidden select-none lg:block"
         />
 
-        <div className="relative z-10 w-full max-w-[480px] rounded-[28px] bg-white/92 px-8 py-7 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
+        <div className="relative z-10 w-full max-w-[480px] rounded-[28px] bg-white/95 px-8 py-7 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
           <div className="flex items-center justify-center gap-2">
             <Image
               src="/images/brand/logo.png"
@@ -150,7 +155,14 @@ export function GoogleButton({ label }: { label: string }) {
       type="button"
       className="flex w-full items-center justify-center gap-3 rounded-xl border-[1.5px] border-border bg-white py-2.5 transition-colors hover:bg-cream"
     >
-      <Image src="/images/brand/google.png" alt="" width={20} height={20} aria-hidden />
+      <Image
+        src="/images/brand/google.svg"
+        alt=""
+        width={20}
+        height={20}
+        unoptimized
+        aria-hidden
+      />
       <span className="text-[15px] font-semibold text-maroon">{label}</span>
     </button>
   );
