@@ -102,7 +102,7 @@ export default function Header() {
             </Link>
           )}
           <Link
-            href="/donate"
+            href="/donation"
             className="flex items-center gap-2 rounded-lg bg-maroon px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-maroon-light"
           >
             <Heart className="h-4 w-4 fill-current" aria-hidden />
@@ -141,7 +141,7 @@ export default function Header() {
             ))}
 
             <Link
-              href="/donate"
+              href="/donation"
               onClick={() => setOpen(false)}
               className="py-3 text-sm font-medium text-maroon"
             >
