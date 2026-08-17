@@ -372,7 +372,7 @@ export default function TempleRegistrationPage() {
                   type="text"
                   placeholder="e.g. 332002"
                   {...formik.getFieldProps("pinCode")}
-                  maxLength="6"
+                  maxLength={6}
                   className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
                     formik.touched.pinCode && formik.errors.pinCode
                       ? "border-red-500 bg-red-50"
@@ -643,7 +643,7 @@ export default function TempleRegistrationPage() {
                     <button
                       type="button"
                       onClick={() => {
-                        const updated = formik.values.templePhotos.filter((_: any, i: number) => i !== idx);
+                        const updated = (formik.values.templePhotos ?? []).filter((_: any, i: number) => i !== idx);
                         formik.setFieldValue("templePhotos", updated);
                       }}
                       className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
