@@ -9,7 +9,7 @@ export default function AboutPage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[72px] min-h-screen w-full overflow-hidden pt-[72px]">
+      <section className="relative min-h-screen w-full overflow-hidden">
         <Image
           src="/images/about/Hero.png"
           alt="Shyam Jagat - About Us"
