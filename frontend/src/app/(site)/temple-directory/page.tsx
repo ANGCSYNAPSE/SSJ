@@ -197,7 +197,7 @@ export default function TempleDirectoryPage() {
   const [selectedPuja, setSelectedPuja] = useState("Puja, Darshan, Seva");
   const [selectedRating, setSelectedRating] = useState("Any Rating");
   const [selectedRegion, setSelectedRegion] = useState("All");
-  const [expandedFAQ, setExpandedFAQ] = useState(1);
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(1);
 
   const handleSearch = () => {
     console.log("Search clicked with:", { selectedCity, selectedType, selectedPuja, selectedRating });
