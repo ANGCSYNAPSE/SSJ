@@ -75,7 +75,7 @@ export default function ArtistRegistrationPage() {
 
           {/* Description */}
           <p className="text-base sm:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Join Shyam Jagat's growing community of devotional artists. Showcase your talent at spiritual events, cultural programs, and sacred gatherings across India.
+            Join Shyam Jagat&apos;s growing community of devotional artists. Showcase your talent at spiritual events, cultural programs, and sacred gatherings across India.
           </p>
         </div>
       </section>

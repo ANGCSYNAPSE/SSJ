@@ -967,7 +967,7 @@ export default function DonationPage() {
                 </button>
                 {expandedFaq === "anonymous" && (
                   <p className="text-sm text-[#666] pb-4">
-                    Yes, you can check the "Make my donation anonymous" option during the donation process.
+                    Yes, you can check the &quot;Make my donation anonymous&quot; option during the donation process.
                   </p>
                 )}
               </div>
@@ -1053,7 +1053,7 @@ export default function DonationPage() {
 
           {/* Subheading */}
           <p className="text-base lg:text-lg text-[#666] italic mb-10 max-w-2xl mx-auto">
-            "Your contribution is more than a donation–it is a blessing that helps transform lives."
+            &quot;Your contribution is more than a donation–it is a blessing that helps transform lives.&quot;
           </p>
 
           {/* Buttons */}
