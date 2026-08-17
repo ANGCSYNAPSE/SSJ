@@ -527,7 +527,6 @@ export default function ArtistRegistrationPage() {
                       <input
                         type="checkbox"
                         id={event}
-                        defaultChecked={["Bhajan Sandhya", "Temple Festivals", "Online Events"].includes(event)}
                         className="w-4 h-4 accent-[#E07C2D] cursor-pointer"
                       />
                       <label htmlFor={event} className="text-sm text-[#583939] cursor-pointer">
@@ -549,7 +548,6 @@ export default function ArtistRegistrationPage() {
                       <input
                         type="checkbox"
                         id={region}
-                        defaultChecked={["Rajasthan", "Delhi NCR", "Pan India"].includes(region)}
                         className="w-4 h-4 accent-[#E07C2D] cursor-pointer"
                       />
                       <label htmlFor={region} className="text-sm text-[#583939] cursor-pointer">
@@ -588,7 +586,6 @@ export default function ArtistRegistrationPage() {
                           type="radio"
                           id={option}
                           name="travelWillingness"
-                          defaultChecked={option === "Across India"}
                           className="w-4 h-4 accent-[#E07C2D] cursor-pointer"
                         />
                         <label htmlFor={option} className="text-sm text-[#583939] cursor-pointer">
@@ -629,7 +626,6 @@ export default function ArtistRegistrationPage() {
                     type="checkbox"
                     id="consentContact"
                     className="mt-1 w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                    defaultChecked
                   />
                   <label htmlFor="consentContact" className="text-sm text-[#583939] cursor-pointer">
                     I consent to being contacted for event opportunities via email and phone.
