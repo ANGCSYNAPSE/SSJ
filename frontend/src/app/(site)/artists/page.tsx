@@ -217,7 +217,7 @@ export default function ArtistsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[500px] sm:h-[600px] lg:h-[750px] w-full overflow-hidden">
+      <section className="relative min-h-[680px] py-10 sm:h-[600px] sm:py-0 lg:h-[750px] w-full overflow-hidden">
         {/* Background Image */}
         <Image
           src="/images/artist/hero.png"

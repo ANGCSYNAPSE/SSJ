@@ -174,7 +174,7 @@ export default function DonationPage() {
       {/* Stats Section */}
       <section className="bg-[#FBF6F1] py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
             {/* Stat 1 */}
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-[#E07C2D] rounded-full flex items-center justify-center mb-4">
