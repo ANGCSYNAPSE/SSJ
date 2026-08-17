@@ -93,9 +93,9 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-white/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/15 to-transparent sm:bg-gradient-to-r sm:from-white/70 sm:via-white/25 sm:to-transparent" />
         <div className="relative mx-auto flex min-h-screen w-full max-w-[1440px] items-center px-6 pt-[72px] lg:px-[98px]">
-          <div className="max-w-xl py-16">
+          <div className="max-w-xl rounded-2xl bg-white/70 p-6 py-10 backdrop-blur-sm sm:bg-transparent sm:p-0 sm:py-16 sm:backdrop-blur-none">
             <p className="text-2xl text-[#583939]">|| जय श्री श्याम ||</p>
             <h1 className="mt-4 font-serif text-5xl font-bold leading-[1.05] sm:text-6xl lg:text-[64px]">
               <span className="mt-2 block text-[#E07C2D]">Seva</span>
