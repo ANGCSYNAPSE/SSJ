@@ -156,7 +156,7 @@ export default function DonationPage() {
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href="/donate"
+                    href="#donate-form"
                     className="inline-block bg-[#E07C2D] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#D46B1B] transition-all text-center"
                   >
                     Donate Now
@@ -234,7 +234,7 @@ export default function DonationPage() {
       </section>
 
       {/* Donation Form Section */}
-      <section className="bg-white py-16 lg:py-24">
+      <section id="donate-form" className="bg-white py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Left Side - Donation Form */}

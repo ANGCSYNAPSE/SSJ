@@ -98,8 +98,8 @@ export default function HomePage() {
           <div className="max-w-xl py-16">
             <p className="text-2xl text-[#583939]">|| जय श्री श्याम ||</p>
             <h1 className="mt-4 font-serif text-5xl font-bold leading-[1.05] sm:text-6xl lg:text-[64px]">
-              <span className="block text-[#583939]">Sahyog</span>
               <span className="mt-2 block text-[#E07C2D]">Seva</span>
+              <span className="block text-[#583939]">Sahyog</span>
               <span className="mt-2 block text-[#8D3135]">Smarpan</span>
             </h1>
             <p className="mt-8 max-w-md text-base font-medium leading-[25px] text-[#595656]">
@@ -114,7 +114,7 @@ export default function HomePage() {
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <Link
-                href="/donate"
+                href="/donation"
                 className="flex h-9 w-[145px] items-center justify-center gap-2 rounded-[13px] bg-[#E47105] text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
               >
                 Donate Now
