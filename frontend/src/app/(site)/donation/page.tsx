@@ -3,7 +3,59 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Lock, Check } from "lucide-react";
+import {
+  Lock,
+  Check,
+  Utensils,
+  GraduationCap,
+  HeartHandshake,
+  Home,
+  Briefcase,
+  Landmark,
+} from "lucide-react";
+
+function ProgressCircle({
+  percent,
+  children,
+}: {
+  percent: number;
+  children: React.ReactNode;
+}) {
+  const size = 96;
+  const stroke = 6;
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percent / 100) * circumference;
+
+  return (
+    <div className="relative mb-4 h-24 w-24">
+      <svg className="h-24 w-24 -rotate-90" viewBox={`0 0 ${size} ${size}`}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="#7A4A52"
+          stroke="rgba(255,255,255,0.15)"
+          strokeWidth={stroke}
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#E07C2D"
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center text-[#E07C2D]">
+        {children}
+      </div>
+    </div>
+  );
+}
 
 export default function DonationPage() {
   const [donationAmount, setDonationAmount] = useState("");
@@ -622,66 +674,54 @@ export default function DonationPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
             {/* Annadan - 35% */}
             <div className="bg-white/10 rounded-2xl p-8 flex flex-col items-center border border-white/20">
-              <div className="w-24 h-24 rounded-full bg-[#7A4A52] border-4 border-[#E07C2D] flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-[#E07C2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m0 0h6m-6-6h-6m0 0H6" />
-                </svg>
-              </div>
+              <ProgressCircle percent={35}>
+                <Utensils className="w-10 h-10" strokeWidth={2} />
+              </ProgressCircle>
               <p className="text-3xl font-bold text-white mb-1">35%</p>
               <p className="text-white/80 text-center text-sm">Annadan</p>
             </div>
 
             {/* Education - 25% */}
             <div className="bg-white/10 rounded-2xl p-8 flex flex-col items-center border border-white/20">
-              <div className="w-24 h-24 rounded-full bg-[#7A4A52] border-4 border-[#E07C2D] flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-[#E07C2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C6.228 6.228 2 10.228 2 15s4.228 8.772 10 8.772 10-4.228 10-8.772c0-4.772-4.228-8.747-10-8.747z" />
-                </svg>
-              </div>
+              <ProgressCircle percent={25}>
+                <GraduationCap className="w-10 h-10" strokeWidth={2} />
+              </ProgressCircle>
               <p className="text-3xl font-bold text-white mb-1">25%</p>
               <p className="text-white/80 text-center text-sm">Education</p>
             </div>
 
             {/* Women Empowerment - 15% */}
             <div className="bg-white/10 rounded-2xl p-8 flex flex-col items-center border border-white/20">
-              <div className="w-24 h-24 rounded-full bg-[#7A4A52] border-4 border-[#E07C2D] flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-[#E07C2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
+              <ProgressCircle percent={15}>
+                <HeartHandshake className="w-10 h-10" strokeWidth={2} />
+              </ProgressCircle>
               <p className="text-3xl font-bold text-white mb-1">15%</p>
               <p className="text-white/80 text-center text-sm">Women Empowerment</p>
             </div>
 
             {/* Old Age Home - 10% */}
             <div className="bg-white/10 rounded-2xl p-8 flex flex-col items-center border border-white/20">
-              <div className="w-24 h-24 rounded-full bg-[#7A4A52] border-4 border-[#E07C2D] flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-[#E07C2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 4v4m0 0v2m0-2v-4m9 0v4m0 0v2m0-2v-4" />
-                </svg>
-              </div>
+              <ProgressCircle percent={10}>
+                <Home className="w-10 h-10" strokeWidth={2} />
+              </ProgressCircle>
               <p className="text-3xl font-bold text-white mb-1">10%</p>
               <p className="text-white/80 text-center text-sm">Old Age Home</p>
             </div>
 
             {/* Employment - 10% */}
             <div className="bg-white/10 rounded-2xl p-8 flex flex-col items-center border border-white/20">
-              <div className="w-24 h-24 rounded-full bg-[#7A4A52] border-4 border-[#E07C2D] flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-[#E07C2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </div>
+              <ProgressCircle percent={10}>
+                <Briefcase className="w-10 h-10" strokeWidth={2} />
+              </ProgressCircle>
               <p className="text-3xl font-bold text-white mb-1">10%</p>
               <p className="text-white/80 text-center text-sm">Employment</p>
             </div>
 
             {/* Temple Dev - 5% */}
             <div className="bg-white/10 rounded-2xl p-8 flex flex-col items-center border border-white/20">
-              <div className="w-24 h-24 rounded-full bg-[#7A4A52] border-4 border-[#E07C2D] flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-[#E07C2D]" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L9 8H3L8 12L6 18L12 15L18 18L16 12L21 8H15L12 2Z" />
-                </svg>
-              </div>
+              <ProgressCircle percent={5}>
+                <Landmark className="w-10 h-10" strokeWidth={2} />
+              </ProgressCircle>
               <p className="text-3xl font-bold text-white mb-1">5%</p>
               <p className="text-white/80 text-center text-sm">Temple Dev.</p>
             </div>
