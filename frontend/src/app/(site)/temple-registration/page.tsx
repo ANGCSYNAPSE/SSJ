@@ -1,782 +1,552 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useFormik } from "formik";
-import { useState } from "react";
-import { templeRegistrationValidationSchema, type TempleRegistrationFormData } from "@/lib/validations/temple-registration";
-import { Upload, X, Users, Calendar, Gift, Sparkles } from "lucide-react";
+import { Camera, ChevronDown, UploadCloud, Check } from "lucide-react";
+import AdSlot from "@/components/ui/AdSlot";
+
+function FormSelect({
+  options,
+  value,
+  onChange,
+}: {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        className="flex h-12 w-full items-center justify-between rounded-lg border border-[#e5e7eb] bg-white px-4 text-sm text-[#3e1815]"
+      >
+        {value}
+        <ChevronDown
+          className={`h-3 w-3 text-[#3e1815] transition-transform ${isOpen ? "rotate-180" : ""}`}
+          aria-hidden
+        />
+      </button>
+      {isOpen && (
+        <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-lg">
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className={`block w-full px-4 py-2.5 text-left text-sm ${
+                value === option
+                  ? "bg-primary text-white"
+                  : "text-[#3e1815] hover:bg-cream"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FieldLabel({ label, required }: { label: string; required?: boolean }) {
+  return (
+    <div className="flex items-start gap-1 text-sm font-semibold text-[#3e1815]">
+      <p>{label}</p>
+      {required && <p className="text-primary">*</p>}
+    </div>
+  );
+}
+
+function TextInput({
+  placeholder,
+  value,
+  onChange,
+}: {
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <input
+      type="text"
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="h-12 w-full rounded-lg border border-[#e5e7eb] px-4 text-sm text-[#3e1815] placeholder:text-[#9ca3af] focus:border-primary focus:outline-none"
+    />
+  );
+}
+
+function TextArea({
+  placeholder,
+  value,
+  onChange,
+  rows = 3,
+}: {
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+  rows?: number;
+}) {
+  return (
+    <textarea
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      rows={rows}
+      className="w-full resize-none rounded-lg border border-[#e5e7eb] p-4 text-sm text-[#3e1815] placeholder:text-[#9ca3af] focus:border-primary focus:outline-none"
+    />
+  );
+}
+
+function Checkbox({
+  checked,
+  onChange,
+  children,
+}: {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="flex cursor-pointer items-start gap-3">
+      <button
+        type="button"
+        onClick={() => onChange(!checked)}
+        className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded border-2 border-primary ${
+          checked ? "bg-primary" : "bg-white"
+        }`}
+        aria-pressed={checked}
+      >
+        {checked && <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />}
+      </button>
+      <div className="flex-1 text-sm text-[#3e1815]">{children}</div>
+    </label>
+  );
+}
+
+function FormCard({
+  title,
+  children,
+}: {
+  title?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-8 rounded-[20px] border border-[rgba(212,175,55,0.25)] bg-white p-8 shadow-[0px_12px_16px_rgba(139,0,0,0.05)] sm:p-12">
+      {title && (
+        <div className="flex flex-col items-center gap-3 text-center">
+          <h2 className="font-serif text-[32px] font-semibold leading-[1.1] text-maroon sm:text-[44px]">
+            {title}
+          </h2>
+          <div className="h-[3px] w-[100px] rounded-full bg-[#e47105]" />
+        </div>
+      )}
+      {children}
+    </div>
+  );
+}
+
+const templeTypes = ["Mandir", "Dham", "Ashram", "Shrine", "Temple Complex"];
+const states = ["Rajasthan", "Delhi", "Gujarat", "Maharashtra", "Uttar Pradesh"];
+
+const services = [
+  { title: "Daily Darshan", desc: "Regular public viewing hours" },
+  { title: "Prasad Distribution", desc: "Daily offering of sacred food" },
+  { title: "Marriage Ceremonies", desc: "Space/services for holy matrimony" },
+  { title: "Annapurna Seva (Free Meals)", desc: "Free community kitchen / Bhandara" },
+  { title: "Spiritual Discourses", desc: "Pravachan, satsang or katha facilities" },
+  { title: "Festival Celebrations", desc: "Special arrangements for big occasions like Falgun Mela" },
+  { title: "Meditation Hall", desc: "Quiet prayer/dhyana space" },
+  { title: "Dharamshala / Guest Stay", desc: "Lodging for visiting pilgrims" },
+  { title: "Gaushala (Cow Shelter)", desc: "Caring for sacred cows on premises" },
+  { title: "Vedic Pathshala", desc: "Education programs for scriptures" },
+];
+
+const whyFeatures = [
+  {
+    emoji: "🫂",
+    title: "Reach Devotees",
+    desc: "Connect with millions of devotees searching for temples near them, guiding them to your holy site.",
+  },
+  {
+    emoji: "📅",
+    title: "Manage Events",
+    desc: "Announce regular festivals, special poojas, and bhandaras to a wider, highly engaged audience.",
+  },
+  {
+    emoji: "🪙",
+    title: "Receive Donations",
+    desc: "Accept online donations securely and transparently, generating direct financial support for temple maintenance.",
+  },
+  {
+    emoji: "✨",
+    title: "Build Community",
+    desc: "Grow your temple audience digital-first, sending blessings and sharing spiritual teachings smoothly.",
+  },
+];
 
 export default function TempleRegistrationPage() {
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [templeName, setTempleName] = useState("");
+  const [deity, setDeity] = useState("");
+  const [yearEstablished, setYearEstablished] = useState("");
+  const [templeType, setTempleType] = useState(templeTypes[0]);
+  const [trustName, setTrustName] = useState("");
+  const [regNumber, setRegNumber] = useState("");
 
-  const formik = useFormik<Partial<TempleRegistrationFormData>>({
-    initialValues: {
-      templeName: "",
-      deityName: "",
-      yearOfEstablishment: "",
-      templeType: "Mandir",
-      templeTrust: "",
-      registrationNumber: "",
-      templePhoto: undefined,
-      fullAddress: "",
-      city: "",
-      state: "Rajasthan",
-      pinCode: "",
-      googleMapsLink: "",
-      contactPersonName: "",
-      contactPhone: "",
-      contactEmail: "",
-      dailyOpeningTime: "",
-      dailyClosingTime: "",
-      specialAartiTimings: "",
-      servicesOffered: [],
-      templeDescription: "",
-      templePhotos: [],
-      certification1: false,
-      certification2: false,
-      certification3: false,
-    },
-    validationSchema: templeRegistrationValidationSchema,
-    onSubmit: async (values) => {
-      console.log("Form submitted:", values);
-      alert("Temple registration submitted successfully!");
-    },
-  });
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState(states[0]);
+  const [pinCode, setPinCode] = useState("");
+  const [mapsLink, setMapsLink] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.currentTarget.files?.[0];
-    if (file) {
-      setUploadedFile(file);
-      formik.setFieldValue("templePhoto", file);
-    }
-  };
+  const [openingTime, setOpeningTime] = useState("");
+  const [closingTime, setClosingTime] = useState("");
+  const [aartiTimings, setAartiTimings] = useState("");
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [description, setDescription] = useState("");
 
-  const templeTypes = ["Mandir", "Gurudwara", "Mosque", "Church", "Monastery", "Shrine", "Other"];
-  const availableServices = [
-    { id: "daily-darshan", label: "Daily Darshan", description: "Regular public viewing hours" },
-    { id: "prasad-distribution", label: "Prasad Distribution", description: "Daily offerings of sacred food" },
-    { id: "marriage-ceremonies", label: "Marriage Ceremonies", description: "Specialized services for holy matrimony" },
-    { id: "annapoorna-seva", label: "Annapoorna Seva (Free Meals)", description: "Free community kitchen / Bhandarai" },
-    { id: "spiritual-discourses", label: "Spiritual Discourses", description: "Pravaachan, satsang or katha facilities" },
-    { id: "festival-celebrations", label: "Festival Celebrations", description: "Special arrangements for big occasions" },
-    { id: "meditation-hall", label: "Meditation Hall", description: "Quiet prayer/meditative space" },
-    { id: "dharamshala", label: "Dharamshala / Guest Stay", description: "Lodging for visiting pilgrims" },
-    { id: "goushala", label: "Goushala (Cow Shelter)", description: "Caring for sacred cows on premises" },
-    { id: "vedic-pathshala", label: "Vedic Pathshala", description: "Education programs for scriptures" },
-  ];
-  const indianStates = [
-    "Rajasthan", "Uttar Pradesh", "Maharashtra", "Gujarat", "Delhi", "Karnataka",
-    "Tamil Nadu", "West Bengal", "Punjab", "Haryana", "Madhya Pradesh", "Andhra Pradesh",
-    "Telangana", "Kerala", "Bihar", "Jharkhand", "Odisha", "Assam", "Himachal Pradesh",
-    "Jammu & Kashmir", "Ladakh", "Uttarakhand", "Chhattisgarh", "Goa", "Manipur",
-    "Meghalaya", "Mizoram", "Nagaland", "Sikkim", "Tripura", "Arunachal Pradesh"
-  ];
+  const [certifyAccurate, setCertifyAccurate] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [consentComms, setConsentComms] = useState(false);
+
+  function toggleService(title: string) {
+    setSelectedServices((prev) =>
+      prev.includes(title) ? prev.filter((s) => s !== title) : [...prev, title],
+    );
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+  }
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative h-[500px] sm:h-[600px] lg:h-[700px] w-full overflow-hidden">
-        {/* Background Image */}
-        <Image
-          src="/images/temple-reg/hero.png"
-          alt="Temple Registration"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/35"></div>
-
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
-
-          {/* Main Heading */}
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
+      {/* Hero */}
+      <section className="relative flex items-center justify-center overflow-hidden px-6 py-20 lg:px-[120px] lg:py-24">
+        <div aria-hidden className="absolute inset-0">
+          <Image
+            src="/images/temple-registration/hero.png"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-[rgba(61,16,16,0.75)]" />
+        </div>
+        <div className="relative flex flex-col items-center gap-6 text-center">
+          <h1 className="font-serif text-4xl font-bold text-white sm:text-5xl lg:text-[56px]">
             Register Your Temple
           </h1>
-
-          {/* Description */}
-          <p className="text-base sm:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed">
-            List your temple on Shyam Jagat and connect with millions of devotees. Help pilgrims discover your sacred space, services, daily darshan timings, and upcoming festivals.
+          <p className="max-w-[800px] text-base leading-7 text-cream sm:text-lg">
+            List your temple on Shyam Jagat and connect with millions of devotees.
+            Help pilgrims discover your sacred space, services, daily darshan
+            timings, and upcoming festivals.
           </p>
         </div>
       </section>
 
-      {/* Registration Form Section */}
-      <section className="bg-[#FBF6F1] py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="bg-white rounded-2xl p-8 lg:p-12">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Temple Information</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
-            </div>
+      <AdSlot size="leaderboard" />
 
-            <form onSubmit={formik.handleSubmit} className="space-y-6">
-              {/* Temple Name */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Temple Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
+      <form onSubmit={handleSubmit} className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1000px] flex-col gap-8">
+          {/* Temple Information */}
+          <FormCard title="Temple Information">
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Temple Name" required />
+                <TextInput
                   placeholder="e.g. Shree Khatu Shyam Ji Temple"
-                  {...formik.getFieldProps("templeName")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.templeName && formik.errors.templeName
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
+                  value={templeName}
+                  onChange={setTempleName}
                 />
-                {formik.touched.templeName && formik.errors.templeName && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.templeName}</p>
-                )}
               </div>
-
-              {/* Deity Name */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Deity / Presiding God <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Khatu Shyam, Hanuman Ji, Shiv Ji"
-                  {...formik.getFieldProps("deityName")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.deityName && formik.errors.deityName
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Deity / Presiding God" required />
+                <TextInput
+                  placeholder="e.g. Khatu Shyam Ji, Hanuman Ji, Shiv Ji"
+                  value={deity}
+                  onChange={setDeity}
                 />
-                {formik.touched.deityName && formik.errors.deityName && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.deityName}</p>
-                )}
               </div>
-
-              {/* Year of Establishment */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Year of Establishment <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Year of Establishment" required />
+                <TextInput
                   placeholder="e.g. 1956 or ancient"
-                  {...formik.getFieldProps("yearOfEstablishment")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.yearOfEstablishment && formik.errors.yearOfEstablishment
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
+                  value={yearEstablished}
+                  onChange={setYearEstablished}
                 />
-                {formik.touched.yearOfEstablishment && formik.errors.yearOfEstablishment && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.yearOfEstablishment}</p>
-                )}
               </div>
-
-              {/* Temple Type */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Temple Type <span className="text-red-500">*</span>
-                </label>
-                <select
-                  {...formik.getFieldProps("templeType")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.templeType && formik.errors.templeType
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
-                >
-                  {templeTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-                {formik.touched.templeType && formik.errors.templeType && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.templeType}</p>
-                )}
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Temple Type" required />
+                <FormSelect options={templeTypes} value={templeType} onChange={setTempleType} />
               </div>
-
-              {/* Temple Trust / Organization Name */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Temple Trust / Organization Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Temple Trust / Organization Name" required />
+                <TextInput
                   placeholder="e.g. Shree Shyam Mandir Committee"
-                  {...formik.getFieldProps("templeTrust")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.templeTrust && formik.errors.templeTrust
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
+                  value={trustName}
+                  onChange={setTrustName}
                 />
-                {formik.touched.templeTrust && formik.errors.templeTrust && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.templeTrust}</p>
-                )}
               </div>
-
-              {/* Registration Number */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Registration Number (Optional)
-                </label>
-                <input
-                  type="text"
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Registration Number (Optional)" />
+                <TextInput
                   placeholder="Trust/Society Registration No."
-                  {...formik.getFieldProps("registrationNumber")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-[#E0E0E0] focus:border-[#E07C2D] focus:outline-none transition-all"
+                  value={regNumber}
+                  onChange={setRegNumber}
                 />
               </div>
-
-              {/* Upload Primary Temple Photo */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Upload Primary Temple Photo
-                </label>
-                <div
-                  className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all ${
-                    formik.touched.templePhoto && formik.errors.templePhoto
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E07C2D] bg-[#FFF0E6]"
-                  }`}
-                >
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png"
-                    onChange={handleFileChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                  <div className="flex flex-col items-center">
-                    {uploadedFile ? (
-                      <>
-                        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3">
-                          <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <p className="text-[#583939] font-semibold">{uploadedFile.name}</p>
-                        <p className="text-sm text-[#666]">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setUploadedFile(null);
-                            formik.setFieldValue("templePhoto", undefined);
-                          }}
-                          className="mt-3 text-red-500 hover:text-red-700 flex items-center gap-1"
-                        >
-                          <X className="w-4 h-4" /> Remove
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <div className="w-12 h-12 bg-[#E07C2D]/20 rounded-full flex items-center justify-center mb-3">
-                          <Upload className="w-6 h-6 text-[#E07C2D]" />
-                        </div>
-                        <p className="text-[#E07C2D] font-semibold">Upload Temple Photo</p>
-                        <p className="text-sm text-[#666] mt-1">This will be featured as the primary image of your temple profile (Max 5MB)</p>
-                      </>
-                    )}
-                  </div>
-                </div>
-                {formik.touched.templePhoto && formik.errors.templePhoto && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.templePhoto}</p>
-                )}
-              </div>
-            </form>
-          </div>
-
-          {/* Location & Contact Details Form */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Location & Contact Details</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
             </div>
 
-            <div className="space-y-6">
-              {/* Full Address */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Full Address <span className="text-red-500">*</span>
-                </label>
-                <textarea
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-semibold text-[#3e1815]">
+                Upload Primary Temple Photo
+              </p>
+              <button
+                type="button"
+                className="flex flex-col items-center justify-center gap-3 rounded-xl border-[1.5px] border-dashed border-[#e47105] bg-cream p-6"
+              >
+                <Camera className="h-8 w-8 text-primary" />
+                <p className="text-sm font-semibold text-primary">Upload Temple Photo</p>
+                <p className="text-xs text-[#8c8c8c]">
+                  This will be featured as the primary image of your temple profile (Max
+                  5MB)
+                </p>
+              </button>
+            </div>
+          </FormCard>
+
+          {/* Location & Contact */}
+          <FormCard title="Location & Contact Details">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Full Address" required />
+                <TextArea
                   placeholder="Enter complete physical address of the temple..."
-                  {...formik.getFieldProps("fullAddress")}
+                  value={address}
+                  onChange={setAddress}
                   rows={3}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all resize-none ${
-                    formik.touched.fullAddress && formik.errors.fullAddress
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
                 />
-                {formik.touched.fullAddress && formik.errors.fullAddress && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.fullAddress}</p>
-                )}
               </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* City / Town */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    City / Town <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Sikar"
-                    {...formik.getFieldProps("city")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.city && formik.errors.city
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  />
-                  {formik.touched.city && formik.errors.city && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.city}</p>
-                  )}
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="City / Town" required />
+                  <TextInput placeholder="e.g. Sikar" value={city} onChange={setCity} />
                 </div>
-
-                {/* State */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    State <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    {...formik.getFieldProps("state")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.state && formik.errors.state
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  >
-                    {indianStates.map((state) => (
-                      <option key={state} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
-                  {formik.touched.state && formik.errors.state && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.state}</p>
-                  )}
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="State" required />
+                  <FormSelect options={states} value={state} onChange={setState} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="PIN Code" required />
+                  <TextInput placeholder="e.g. 332602" value={pinCode} onChange={setPinCode} />
                 </div>
               </div>
-
-              {/* PIN Code */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  PIN Code <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. 332002"
-                  {...formik.getFieldProps("pinCode")}
-                  maxLength={6}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.pinCode && formik.errors.pinCode
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
-                />
-                {formik.touched.pinCode && formik.errors.pinCode && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.pinCode}</p>
-                )}
-              </div>
-
-              {/* Google Maps Link */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-semibold text-[#3e1815]">
                   Google Maps Link (Optional)
-                </label>
-                <input
-                  type="url"
+                </p>
+                <TextInput
                   placeholder="Paste the share link or coordinates URL from Google Maps"
-                  {...formik.getFieldProps("googleMapsLink")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.googleMapsLink && formik.errors.googleMapsLink
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
+                  value={mapsLink}
+                  onChange={setMapsLink}
                 />
-                {formik.touched.googleMapsLink && formik.errors.googleMapsLink && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.googleMapsLink}</p>
-                )}
               </div>
-
-              {/* Contact Person Name */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Contact Person Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Pujari Ji / Secretary"
-                  {...formik.getFieldProps("contactPersonName")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.contactPersonName && formik.errors.contactPersonName
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
-                />
-                {formik.touched.contactPersonName && formik.errors.contactPersonName && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.contactPersonName}</p>
-                )}
-              </div>
-
-              {/* Contact Phone */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Contact Phone <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  placeholder="e.g. +91 9876543210"
-                  {...formik.getFieldProps("contactPhone")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.contactPhone && formik.errors.contactPhone
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
-                />
-                {formik.touched.contactPhone && formik.errors.contactPhone && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.contactPhone}</p>
-                )}
-              </div>
-
-              {/* Contact Email */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Contact Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  placeholder="e.g. mandir@shyamjagat.org"
-                  {...formik.getFieldProps("contactEmail")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.contactEmail && formik.errors.contactEmail
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
-                />
-                {formik.touched.contactEmail && formik.errors.contactEmail && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.contactEmail}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Temple Details & Services Form */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Temple Details & Services</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
-            </div>
-
-            <div className="space-y-6">
-              {/* Daily Opening & Closing Time */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Daily Opening Time <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="time"
-                    {...formik.getFieldProps("dailyOpeningTime")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.dailyOpeningTime && formik.errors.dailyOpeningTime
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Contact Person Name" required />
+                  <TextInput
+                    placeholder="e.g. Pujari Ji / Secretary"
+                    value={contactName}
+                    onChange={setContactName}
                   />
-                  {formik.touched.dailyOpeningTime && formik.errors.dailyOpeningTime && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.dailyOpeningTime}</p>
-                  )}
                 </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Daily Closing Time <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="time"
-                    {...formik.getFieldProps("dailyClosingTime")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.dailyClosingTime && formik.errors.dailyClosingTime
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Contact Phone" required />
+                  <TextInput
+                    placeholder="e.g. +91 9876543210"
+                    value={contactPhone}
+                    onChange={setContactPhone}
                   />
-                  {formik.touched.dailyClosingTime && formik.errors.dailyClosingTime && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.dailyClosingTime}</p>
-                  )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Contact Email" required />
+                  <TextInput
+                    placeholder="e.g. mandir@shyamjagat.org"
+                    value={contactEmail}
+                    onChange={setContactEmail}
+                  />
                 </div>
               </div>
+            </div>
+          </FormCard>
 
-              {/* Special Aarti Timings */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Special Aarti Timings <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
+          {/* Temple Details & Services */}
+          <FormCard title="Temple Details & Services">
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Daily Opening Time" required />
+                  <TextInput
+                    placeholder="e.g. 05:00 AM"
+                    value={openingTime}
+                    onChange={setOpeningTime}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Daily Closing Time" required />
+                  <TextInput
+                    placeholder="e.g. 09:00 PM"
+                    value={closingTime}
+                    onChange={setClosingTime}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Special Aarti Timings" required />
+                <TextArea
                   placeholder="e.g. Mangla Aarti 5:00 AM, Shringaar Aarti 8:30 AM, Sandhya Aarti 7:00 PM"
-                  {...formik.getFieldProps("specialAartiTimings")}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                    formik.touched.specialAartiTimings && formik.errors.specialAartiTimings
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
+                  value={aartiTimings}
+                  onChange={setAartiTimings}
+                  rows={3}
                 />
-                {formik.touched.specialAartiTimings && formik.errors.specialAartiTimings && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.specialAartiTimings}</p>
-                )}
               </div>
-
-              {/* Services Offered */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-4">
-                  Services Offered <span className="text-red-500">*</span>
-                </label>
-                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">
-                  {availableServices.map((service) => (
-                    <div key={service.id} className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        id={service.id}
-                        value={service.id}
-                        checked={formik.values.servicesOffered?.includes(service.id) || false}
-                        onChange={(e) => {
-                          const updatedServices = formik.values.servicesOffered || [];
-                          if (e.target.checked) {
-                            formik.setFieldValue("servicesOffered", [...updatedServices, service.id]);
-                          } else {
-                            formik.setFieldValue(
-                              "servicesOffered",
-                              updatedServices.filter((s) => s !== service.id)
-                            );
-                          }
-                        }}
-                        className="mt-1 w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                      />
-                      <div className="flex-1">
-                        <label htmlFor={service.id} className="font-medium text-[#583939] cursor-pointer">
-                          {service.label}
-                        </label>
-                        <p className="text-sm text-[#666]">{service.description}</p>
-                      </div>
-                    </div>
+              <div className="flex flex-col gap-3">
+                <p className="text-sm font-semibold text-[#3e1815]">Services Offered</p>
+                <div className="grid grid-cols-3 gap-3">
+                  {services.map((service) => (
+                    <Checkbox
+                      key={service.title}
+                      checked={selectedServices.includes(service.title)}
+                      onChange={() => toggleService(service.title)}
+                    >
+                      <p className="font-medium text-[#3e1815]">{service.title}</p>
+                      <p className="text-xs text-[#8c8c8c]">{service.desc}</p>
+                    </Checkbox>
                   ))}
                 </div>
-                {formik.touched.servicesOffered && formik.errors.servicesOffered && (
-                  <p className="text-red-500 text-sm mt-2">{formik.errors.servicesOffered}</p>
-                )}
               </div>
-
-              {/* Brief Description of Temple */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Brief Description of Temple <span className="text-red-500">*</span>
-                </label>
-                <textarea
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Brief Description of Temple" required />
+                <TextArea
                   placeholder="Tell devotees about your temple history, significance, legendary miracles, and what makes this sacred space special..."
-                  {...formik.getFieldProps("templeDescription")}
+                  value={description}
+                  onChange={setDescription}
                   rows={5}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all resize-none ${
-                    formik.touched.templeDescription && formik.errors.templeDescription
-                      ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                  }`}
                 />
-                {formik.touched.templeDescription && formik.errors.templeDescription && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.templeDescription}</p>
-                )}
-              </div>
-
-            </div>
-          </div>
-
-          {/* Temple Photo Gallery Section */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <h3 className="font-serif text-3xl font-bold text-[#583939] text-center mb-8">Temple Photo Gallery</h3>
-
-            {/* Photo Upload Area */}
-            <div className="border-2 border-dashed border-[#E07C2D] rounded-xl p-8 bg-[#FBF6F1] text-center mb-8">
-              <svg className="w-12 h-12 text-[#E07C2D] mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-              </svg>
-              <p className="text-[#583939] font-semibold mb-1">
-                Drag & drop photos of your temple here or{" "}
-                <label className="text-[#E07C2D] cursor-pointer font-semibold hover:underline">
-                  Browse Files
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/jpeg,image/png"
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      formik.setFieldValue("templePhotos", files);
-                    }}
-                    className="hidden"
-                  />
-                </label>
-              </p>
-              <p className="text-sm text-[#999]">
-                Upload up to 10 photos. Accepted formats: JPG, PNG, Max 5MB per photo. Include photos of the main deity, temple exterior, interior, and premises.
-              </p>
-            </div>
-
-            {/* Photo Preview */}
-            {formik.values.templePhotos && formik.values.templePhotos.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-                {formik.values.templePhotos.map((file: any, idx: number) => (
-                  <div key={idx} className="relative group">
-                    <div className="bg-[#F5F5F5] rounded-lg overflow-hidden aspect-square flex items-center justify-center">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`Temple photo ${idx + 1}`}
-                        width={150}
-                        height={150}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updated = (formik.values.templePhotos ?? []).filter((_: any, i: number) => i !== idx);
-                        formik.setFieldValue("templePhotos", updated);
-                      }}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                    <p className="text-xs text-[#666] mt-1 truncate">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Certification Checkboxes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="certification1"
-                  checked={formik.values.certification1 || false}
-                  onChange={(e) => formik.setFieldValue("certification1", e.target.checked)}
-                  className="mt-1 w-5 h-5 accent-[#E07C2D] cursor-pointer flex-shrink-0"
-                />
-                <label htmlFor="certification1" className="text-sm text-[#583939] cursor-pointer">
-                  I certify that the information provided is accurate and I am authorized to register this temple on behalf of the temple trust.
-                </label>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="certification2"
-                  checked={formik.values.certification2 || false}
-                  onChange={(e) => formik.setFieldValue("certification2", e.target.checked)}
-                  className="mt-1 w-5 h-5 accent-[#E07C2D] cursor-pointer flex-shrink-0"
-                />
-                <label htmlFor="certification2" className="text-sm text-[#583939] cursor-pointer">
-                  I agree to the Terms of Service and Privacy Policy of Shyam Jagot spiritual platform.
-                </label>
-              </div>
-
-              <div className="flex items-start gap-3 sm:col-span-2">
-                <input
-                  type="checkbox"
-                  id="certification3"
-                  checked={formik.values.certification3 || false}
-                  onChange={(e) => formik.setFieldValue("certification3", e.target.checked)}
-                  className="mt-1 w-5 h-5 accent-[#E07C2D] cursor-pointer flex-shrink-0"
-                />
-                <label htmlFor="certification3" className="text-sm text-[#583939] cursor-pointer">
-                  I consent to receiving communications about platform updates and devotee inquiries.
-                </label>
               </div>
             </div>
+          </FormCard>
 
-            {/* Submit Button */}
+          {/* Upload Gallery */}
+          <FormCard title="Temple Photo Gallery">
             <button
-              type="submit"
-              disabled={formik.isSubmitting}
-              className="w-full bg-[#E07C2D] text-white px-8 py-4 rounded-lg font-semibold transition-all hover:bg-[#D46B1B] disabled:opacity-50 disabled:cursor-not-allowed"
+              type="button"
+              className="flex flex-col items-center justify-center gap-3 rounded-xl border-[1.5px] border-dashed border-[#e47105] bg-cream p-8"
             >
-              {formik.isSubmitting ? "Registering..." : "Submit Temple Registration"}
+              <UploadCloud className="h-10 w-10 text-primary" />
+              <p className="flex items-center gap-1 text-base font-semibold text-[#3e1815]">
+                Drag &amp; drop photos of your temple here or{" "}
+                <span className="text-primary underline">Browse Files</span>
+              </p>
+              <p className="max-w-[760px] text-center text-[13px] text-[#8c8c8c]">
+                Upload up to 10 photos. Accepted formats: JPG, PNG. Max 5MB per photo.
+                Include photos of the main deity, temple exterior, interior, and
+                premises.
+              </p>
             </button>
+          </FormCard>
 
-            <p className="text-sm text-[#666] text-center mt-4">
-              Already registered?{" "}
-              <Link href="/login" className="text-[#E07C2D] font-semibold hover:underline">
-                Login here
-              </Link>
-            </p>
-          </div>
+          {/* Terms & Submit */}
+          <FormCard>
+            <div className="flex flex-col gap-5">
+              <Checkbox checked={certifyAccurate} onChange={setCertifyAccurate}>
+                I certify that the information provided is accurate and I am
+                authorized to register this temple on behalf of the temple trust.
+              </Checkbox>
+              <Checkbox checked={agreeTerms} onChange={setAgreeTerms}>
+                I agree to the Terms of Service and Privacy Policy of Shyam Jagat
+                spiritual platform.
+              </Checkbox>
+              <Checkbox checked={consentComms} onChange={setConsentComms}>
+                I consent to receiving communications about platform updates and
+                devotee inquiries.
+              </Checkbox>
+            </div>
+            <div className="flex flex-col items-center gap-4">
+              <button
+                type="submit"
+                className="w-full rounded-lg bg-[#e47105] py-4 text-base font-bold text-white shadow-[0px_8px_8px_rgba(228,113,5,0.15)] transition hover:bg-primary-dark"
+              >
+                Submit Temple Registration
+              </button>
+              <p className="flex items-center gap-1 text-sm text-[#595656]">
+                Already registered?{" "}
+                <Link href="/login" className="font-semibold text-maroon underline">
+                  Login here
+                </Link>
+              </p>
+            </div>
+          </FormCard>
         </div>
-      </section>
-        {/* Why List Your Temple Section */}
-      <section className="bg-white py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">
+      </form>
+
+      <AdSlot size="rectangle" />
+
+      {/* Why Choose */}
+      <section className="bg-[#fffbf3] px-6 py-16 lg:px-[108px] lg:py-24">
+        <div className="mx-auto flex max-w-[1224px] flex-col gap-12">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <h2 className="font-serif text-[32px] font-semibold leading-[1.1] text-maroon sm:text-[44px]">
               Why List Your Temple on Shyam Jagat?
             </h2>
-            <div className="h-1 w-20 bg-[#E07C2D] mx-auto mb-6"></div>
-            <p className="text-base text-[#666] max-w-3xl mx-auto leading-relaxed">
-              Connecting sacred places of devotion with millions of seekers worldwide. Simplify communication, organize events, and manage community support effortlessly.
+            <div className="h-[3px] w-[100px] rounded-full bg-[#e47105]" />
+            <p className="max-w-[760px] text-base leading-relaxed text-[#595656]">
+              Connecting sacred places of devotion with millions of seekers
+              worldwide. Simplify communication, organize events, and manage
+              community support effortlessly.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Reach Devotees Card */}
-            <div className="bg-[#FBF6F1] rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#E07C2D]/10 rounded-lg mb-4">
-                <Users className="w-6 h-6 text-[#583939]" />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {whyFeatures.map((feature) => (
+              <div
+                key={feature.title}
+                className="flex flex-col gap-4 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white p-6 shadow-[0px_12px_16px_rgba(139,0,0,0.05)]"
+              >
+                <div className="flex size-14 items-center justify-center rounded-full bg-cream text-2xl">
+                  {feature.emoji}
+                </div>
+                <h3 className="font-serif text-[22px] font-bold text-[#3e1815]">
+                  {feature.title}
+                </h3>
+                <p className="text-sm leading-[22px] text-[#595656]">{feature.desc}</p>
+                <div className="h-0.5 w-full rounded-full bg-[#e47105]" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">Reach Devotees</h3>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Connect with millions of devotees searching for temples near them, guiding them to your site.
-              </p>
-              <div className="h-1 w-12 bg-[#E07C2D] mx-auto mt-4"></div>
-            </div>
-
-            {/* Manage Events Card */}
-            <div className="bg-[#FBF6F1] rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#E07C2D]/10 rounded-lg mb-4">
-                <Calendar className="w-6 h-6 text-[#583939]" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">Manage Events</h3>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Announce regular festivals, special pujas, and bhandaras to a wider, highly engaged audience.
-              </p>
-              <div className="h-1 w-12 bg-[#E07C2D] mx-auto mt-4"></div>
-            </div>
-
-            {/* Receive Donations Card */}
-            <div className="bg-[#FBF6F1] rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#E07C2D]/10 rounded-lg mb-4">
-                <Gift className="w-6 h-6 text-[#583939]" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">Receive Donations</h3>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Accept online donations securely and transparently, generating direct financial support for temple maintenance.
-              </p>
-              <div className="h-1 w-12 bg-[#E07C2D] mx-auto mt-4"></div>
-            </div>
-
-            {/* Build Community Card */}
-            <div className="bg-[#FBF6F1] rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#E07C2D]/10 rounded-lg mb-4">
-                <Sparkles className="w-6 h-6 text-[#583939]" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">Build Community</h3>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Grow your temple audience digital-first, sending blessings and sharing spiritual teachings smoothly.
-              </p>
-              <div className="h-1 w-12 bg-[#E07C2D] mx-auto mt-4"></div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

@@ -1,87 +1,83 @@
 "use client";
 
-import { useState, useRef, useEffect, type ComponentType } from "react";
-import { ChevronDown, Search, MapPin, Zap, Star, ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import {
+  MapPin,
+  Building2,
+  Sparkles,
+  Star,
+  ChevronDown,
+  Search,
+  ArrowRight,
+} from "lucide-react";
+import AdSlot from "@/components/ui/AdSlot";
 
-// Hide scrollbar CSS
-const scrollbarHideCss = `
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-`;
-
-type CustomSelectProps = {
-  icon: ComponentType<any>;
+type SelectProps = {
+  icon: ComponentType<{ className?: string }>;
   options: string[];
   value: string;
   onChange: (value: string) => void;
-  placeholder: string;
 };
 
-function CustomSelect({ icon: Icon, options, value, onChange, placeholder }: CustomSelectProps) {
+function FilterSelect({ icon: Icon, options, value, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
-    };
-
+    }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className="relative group" ref={dropdownRef} style={{ zIndex: isOpen ? 9999 : 40 }}>
+    <div className="relative flex-1" ref={ref}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center gap-2 rounded-lg border-2 border-[#E0E0E0] bg-white px-3 py-2.5 text-sm transition-all duration-300 hover:border-[#E07C2D] hover:shadow-md focus:border-[#E07C2D] focus:bg-[#FFF0E6] focus:shadow-lg focus:outline-none"
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        className="flex w-full items-center gap-2 rounded-lg border border-[rgba(212,175,55,0.25)] bg-white px-4 py-3 text-sm"
       >
-        <Icon className="h-4 w-4 text-[#E07C2D] flex-shrink-0 transition-transform duration-300" aria-hidden />
-        <span className="flex-1 text-left font-medium text-[#583939]">{value || placeholder}</span>
-        <ChevronDown className={`h-4 w-4 pointer-events-none text-[#999] transition-all duration-300 flex-shrink-0 ${isOpen ? "rotate-180 text-[#E07C2D] scale-110" : ""}`} aria-hidden />
+        <Icon className="h-4 w-4 shrink-0 text-[#595656]" aria-hidden />
+        <span className="flex-1 text-left text-[#595656]">{value}</span>
+        <ChevronDown
+          className={`h-3 w-3 shrink-0 text-[#595656] transition-transform ${isOpen ? "rotate-180" : ""}`}
+          aria-hidden
+        />
       </button>
-
       {isOpen && (
-        <div className="absolute z-[9999] w-full mt-2 bg-white border-2 border-[#E07C2D] rounded-lg shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200" style={{ boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}>
-          <div className="max-h-60 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {options.map((option) => (
-              <button
-                key={option}
-                onClick={() => {
-                  onChange(option);
-                  setIsOpen(false);
-                }}
-                className={`w-full px-4 py-3 text-left text-sm font-medium transition-all duration-150 flex items-center gap-2 ${
-                  value === option
-                    ? "bg-[#E07C2D] text-white"
-                    : "text-[#583939] hover:bg-[#FFF0E6] hover:text-[#E07C2D]"
-                }`}
-              >
-                {value === option && (
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                )}
-                {option}
-              </button>
-            ))}
-          </div>
+        <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-[rgba(212,175,55,0.25)] bg-white shadow-lg">
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className={`block w-full px-4 py-2.5 text-left text-sm ${
+                value === option
+                  ? "bg-primary text-white"
+                  : "text-[#595656] hover:bg-cream"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
         </div>
       )}
     </div>
   );
 }
 
-const cities = ["Select City", "Khatu", "Jaipur", "Udaipur", "Jodhpur", "Ajmer", "Pushkar", "Mathura", "Vrindavan"];
-const templeTypes = ["All Types", "Ancient Temple", "Modern Temple", "Pilgrimage Site", "Monastery", "Shrine"];
-const pujaTypes = ["Puja, Darshan, Seva", "Puja Only", "Darshan Only", "Seva Only", "All Services"];
-const ratings = ["Any Rating", "4.8+ Stars", "4.5+ Stars", "4.0+ Stars", "3.0+ Stars"];
+const cities = ["Select City", "Khatu", "Jaipur", "Udaipur", "Delhi", "Veraval"];
+const templeTypes = ["All Types", "Ancient Temple", "Modern Temple", "Pilgrimage Site"];
+const pujaTypes = ["Puja, Darshan, Seva", "Puja Only", "Darshan Only", "Seva Only"];
+const ratings = ["Any Rating", "4.8+ Stars", "4.5+ Stars", "4.0+ Stars"];
 
 const regions = ["All", "Rajasthan", "Delhi", "Gujarat", "Maharashtra", "UP"];
 
@@ -89,11 +85,11 @@ const temples = [
   {
     id: 1,
     name: "Khatu Shyam Temple",
-    location: "Khatu, Rajasthan",
+    location: "Sikar, Rajasthan",
     region: "Rajasthan",
-    rating: 4.8,
-    image: "/images/temple/khatu-shyam.png",
-    description: "The sacred abode of Radha Shyam — India's most revered pilgrimage.",
+    rating: 4.9,
+    image: "/images/temple-directory/khatu-shyam.png",
+    description: "The sacred abode of Baba Shyam — India's most revered pilgrimage.",
     services: ["Darshan", "Puja", "Live Aarti"],
   },
   {
@@ -102,7 +98,7 @@ const temples = [
     location: "Churu, Rajasthan",
     region: "Rajasthan",
     rating: 4.8,
-    image: "/images/temple/salasar-balaji.png",
+    image: "/images/temple-directory/salasar-balaji.png",
     description: "Ancient Hanuman temple known for miraculous blessings and devotion.",
     services: ["Darshan", "Seva"],
   },
@@ -112,7 +108,7 @@ const temples = [
     location: "Dausa, Rajasthan",
     region: "Rajasthan",
     rating: 4.7,
-    image: "/images/temple/mehandipur.png",
+    image: "/images/temple-directory/mehandipur.png",
     description: "A powerful spiritual destination for healing and divine intervention.",
     services: ["Puja", "Healing"],
   },
@@ -122,7 +118,7 @@ const temples = [
     location: "Delhi",
     region: "Delhi",
     rating: 4.8,
-    image: "/images/temple/iskcon.png",
+    image: "/images/temple-directory/iskcon.png",
     description: "A grand Krishna temple promoting devotion, education, and community.",
     services: ["Darshan", "Bhajan", "Food"],
   },
@@ -132,594 +128,520 @@ const temples = [
     location: "Delhi",
     region: "Delhi",
     rating: 4.9,
-    image: "/images/temple/akshardam.png",
+    image: "/images/temple-directory/akshardham.png",
     description: "Magnificent temple showcasing Indian culture, spirituality, and architecture.",
     services: ["Darshan", "Exhibition"],
   },
   {
     id: 6,
     name: "Somnath Temple",
-    location: "Veraval, Gujarat",
+    location: "Gujarat",
     region: "Gujarat",
     rating: 4.9,
-    image: "/images/temple/somnath.png",
+    image: "/images/temple-directory/somnath.png",
     description: "One of the 12 Jyotirlingas — a timeless symbol of faith and resilience.",
     services: ["Darshan", "Puja", "Aarti"],
   },
 ];
 
-const faqs = [
+const services = [
   {
-    id: 1,
-    question: "How do I register my temple?",
-    answer: "Our platform allows full management of temple assets, schedules, darshan timings, online puja bookings, and direct communication channels with thousands of active devotees.",
+    emoji: "🛕",
+    title: "Register Your Temple",
+    desc: "List your temple on our platform — manage profiles, schedules, offerings, and connect with thousands of devotees online.",
   },
   {
-    id: 2,
-    question: "Is temple registration free?",
-    answer: "Yes, temple registration is completely free. There are no hidden charges or subscription fees to get started.",
+    emoji: "📅",
+    title: "Book Puja & Seva",
+    desc: "Browse available pujas, sevas, and special rituals at registered temples. Book online with instant confirmation.",
   },
   {
-    id: 3,
-    question: "How long does approval take?",
-    answer: "Most temple registrations are approved within 24-48 hours. Our team reviews each submission to ensure quality and authenticity.",
+    emoji: "📺",
+    title: "Live Darshan",
+    desc: "Watch live aarti and darshan streams from temples across India. Stay connected to your faith from anywhere.",
   },
   {
-    id: 4,
-    question: "Can I manage multiple temples?",
-    answer: "Yes, you can register and manage multiple temples through a single account. Each temple will have its own profile and dashboard.",
-  },
-  {
-    id: 5,
-    question: "How do devotees find my temple?",
-    answer: "Devotees can discover your temple through our search and filter system, region-based browsing, and personalized recommendations based on their preferences.",
-  },
-  {
-    id: 6,
-    question: "Can I offer live darshan?",
-    answer: "Yes, registered temples can stream live aarti and darshan to devotees worldwide. Our platform provides easy streaming integration.",
-  },
-  {
-    id: 7,
-    question: "What payment methods are supported?",
-    answer: "We support all major payment methods including credit/debit cards, UPI, net banking, and digital wallets for seamless transactions.",
-  },
-  {
-    id: 8,
-    question: "How do I update temple timings?",
-    answer: "You can update your temple timings anytime through your dashboard. Changes are reflected immediately and devotees will see the updated schedule.",
+    emoji: "🎤",
+    title: "Book Artists",
+    desc: "Find and book bhajan singers, katha speakers, and performers for temple events and celebrations.",
   },
 ];
 
+const steps = [
+  {
+    number: "01",
+    title: "Create Profile",
+    desc: "Fill in your temple's name, location, history, timings, and upload photos to create a stunning temple profile.",
+  },
+  {
+    number: "02",
+    title: "Add Services",
+    desc: "List the pujas, sevas, darshan slots, and events your temple offers. Set availability and pricing.",
+  },
+  {
+    number: "03",
+    title: "Go Live",
+    desc: "Once approved, your temple is live on the platform — start receiving bookings and connecting with devotees.",
+  },
+];
+
+const blogPosts = [
+  {
+    date: "Jul 2026",
+    tag: "Temple News",
+    title: "Khatu Shyam Temple Renovations Complete — New Darshan Hall Opens",
+    desc: "The newly renovated darshan hall welcomes devotees with improved facilities and shorter wait times.",
+    image: "/images/temple-directory/blog-darshan-hall.png",
+  },
+  {
+    date: "Jun 2026",
+    tag: "Seva Updates",
+    title: "How Shyam Jagat Served 50,000 Meals in Falgun Mela 2026",
+    desc: "A record-breaking Annadan seva during this year's Falgun Mela, serving thousands of weary pilgrims.",
+    image: "/images/temple-directory/blog-annadan-seva.png",
+  },
+  {
+    date: "Jun 2026",
+    tag: "Spiritual Guidance",
+    title: "5 Practices for Deepening Your Daily Devotion to Baba Shyam",
+    desc: "Simple yet powerful ways to strengthen your spiritual connection and bring peace to your home.",
+    image: "/images/temple-directory/blog-daily-devotion.png",
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Registering on Shyam Jagat brought our temple online. We now receive 3x more bookings and connect with devotees we never could before.",
+    name: "Pandit Ramesh Ji",
+    place: "Khatu Shyam Temple, Sikar",
+  },
+  {
+    quote:
+      "The booking system is smooth and the support team is always helpful. Our temple's visibility has increased tremendously.",
+    name: "Mahant Suresh Das",
+    place: "Salasar Balaji Temple, Churu",
+  },
+  {
+    quote:
+      "The live darshan feature has been a blessing for elderly devotees who can't travel. Technology serving devotion beautifully.",
+    name: "Acharya Vinod Ji",
+    place: "ISKCON, Delhi",
+  },
+];
+
+type Faq = { q: string; a?: string };
+
+const faqsLeft: Faq[] = [
+  {
+    q: "How do I register my temple?",
+    a: "Our platform allows full management of temple assets, schedules, darshan timings, online puja bookings, and direct communication channels with thousands of active devotees.",
+  },
+  { q: "Is temple registration free?" },
+  { q: "How long does approval take?" },
+  { q: "Can I manage multiple temples?" },
+];
+
+const faqsRight: Faq[] = [
+  { q: "How do devotees find my temple?" },
+  { q: "Can I offer live darshan?" },
+  { q: "What payment methods are supported?" },
+  { q: "How do I update temple timings?" },
+];
+
 export default function TempleDirectoryPage() {
-  const [selectedCity, setSelectedCity] = useState("Select City");
-  const [selectedType, setSelectedType] = useState("All Types");
-  const [selectedPuja, setSelectedPuja] = useState("Puja, Darshan, Seva");
-  const [selectedRating, setSelectedRating] = useState("Any Rating");
-  const [selectedRegion, setSelectedRegion] = useState("All");
-  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(1);
+  const [city, setCity] = useState(cities[0]);
+  const [templeType, setTempleType] = useState(templeTypes[0]);
+  const [pujaType, setPujaType] = useState(pujaTypes[0]);
+  const [rating, setRating] = useState(ratings[0]);
+  const [region, setRegion] = useState("All");
+  const [openFaq, setOpenFaq] = useState<string | null>("left-0");
 
-  const handleSearch = () => {
-    console.log("Search clicked with:", { selectedCity, selectedType, selectedPuja, selectedRating });
-  };
-
-  const filteredTemples = selectedRegion === "All" ? temples : temples.filter(t => t.region === selectedRegion);
+  const filteredTemples =
+    region === "All" ? temples : temples.filter((t) => t.region === region);
 
   return (
     <>
-      <style>{scrollbarHideCss}</style>
-      <section className="relative min-h-[650px] w-full overflow-hidden bg-gradient-to-br from-[#FBF6F1] to-[#F5EDDE]">
-      <div className="mx-auto max-w-[1440px] px-6 py-12 lg:px-10 lg:py-16">
-        {/* Header */}
-        <div className="mb-12">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#E07C2D]">TEMPLE DIRECTORY</p>
-          <h1 className="mt-4 font-serif text-4xl font-bold text-[#583939] sm:text-5xl">
-            Find & Register a <span className="block text-[#E07C2D]">Temple</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-base text-[#666]">
-            Discover the perfect temple for darshan, book pujas, or register your temple on our growing spiritual platform.
+      {/* Hero */}
+      <section className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
+        <div className="relative mx-auto max-w-[1280px]">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-1/2 hidden size-[300px] -translate-y-1/2 opacity-[0.08] lg:block"
+          >
+            <Building2 className="size-full text-maroon" strokeWidth={0.5} />
+          </div>
+
+          <div className="flex max-w-[800px] flex-col items-start gap-5">
+            <p className="text-sm font-semibold tracking-[2px] text-primary">
+              TEMPLE DIRECTORY
+            </p>
+            <h1 className="font-serif text-4xl font-bold leading-[1.1] text-maroon sm:text-5xl lg:text-[56px] lg:leading-[62px]">
+              Find &amp; Register a <span className="text-primary">Temple</span>
+            </h1>
+            <p className="text-base text-[#595656] sm:text-lg">
+              Discover the perfect temple for darshan, book pujas, or register your
+              temple on our growing spiritual platform.
+            </p>
+          </div>
+
+          <div className="mt-10 flex flex-col gap-4 rounded-2xl bg-white p-4 shadow-[0px_15px_15px_rgba(0,0,0,0.04)] lg:flex-row lg:items-center">
+            <FilterSelect icon={MapPin} options={cities} value={city} onChange={setCity} />
+            <FilterSelect icon={Building2} options={templeTypes} value={templeType} onChange={setTempleType} />
+            <FilterSelect icon={Sparkles} options={pujaTypes} value={pujaType} onChange={setPujaType} />
+            <FilterSelect icon={Star} options={ratings} value={rating} onChange={setRating} />
+            <button
+              type="button"
+              className="flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-primary-dark"
+            >
+              <Search className="h-[18px] w-[18px]" aria-hidden />
+              Search Temples
+            </button>
+          </div>
+
+          <p className="mt-6 text-sm font-medium text-[#8c8c8c]">
+            500+ Temples Listed &nbsp;•&nbsp; 50+ Cities &nbsp;•&nbsp; 10,000+ Bookings
+            &nbsp;•&nbsp; 4.8★ Avg Rating
           </p>
         </div>
+      </section>
 
-        {/* Filters Section */}
-        <div className="rounded-2xl bg-white p-6 shadow-md lg:p-8">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            <CustomSelect icon={MapPin} options={cities} value={selectedCity} onChange={setSelectedCity} placeholder="Select City" />
-            <CustomSelect icon={Zap} options={templeTypes} value={selectedType} onChange={setSelectedType} placeholder="All Types" />
-            <CustomSelect icon={MapPin} options={pujaTypes} value={selectedPuja} onChange={setSelectedPuja} placeholder="Puja, Darshan, Seva" />
-            <CustomSelect icon={Star} options={ratings} value={selectedRating} onChange={setSelectedRating} placeholder="Any Rating" />
+      <AdSlot size="leaderboard" />
 
-            {/* Search Button */}
-            <button
-              onClick={handleSearch}
-              className="flex items-center justify-center gap-2 rounded-lg bg-[#E07C2D] px-6 py-2.5 font-semibold text-white transition-all hover:bg-[#D46B1B] active:scale-95 sm:col-span-2 lg:col-span-1"
+      {/* Featured Temples */}
+      <section className="bg-white px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
+                Featured Temples
+              </h2>
+              <div className="mt-4 h-[3px] w-[100px] bg-primary" />
+            </div>
+            <Link
+              href="#"
+              className="flex items-center gap-1.5 text-[15px] font-semibold text-primary sm:text-base"
             >
-              <Search className="h-4 w-4" aria-hidden />
-              <span>Search Temples</span>
-            </button>
+              View All <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
-          {/* Stats */}
-          <div className="mt-6 flex flex-wrap gap-4 border-t border-[#E0E0E0] pt-6 text-sm text-[#666] lg:gap-8">
-            <div>
-              <span className="font-semibold text-[#583939]">500+</span> Temples Listed
-            </div>
-            <div>
-              <span className="font-semibold text-[#583939]">50+</span> Cities
-            </div>
-            <div>
-              <span className="font-semibold text-[#583939]">10,000+</span> Bookings
-            </div>
-            <div>
-              <span className="font-semibold text-[#583939]">4.8</span> ⭐ Avg rating
-            </div>
+          <div className="flex flex-wrap gap-3">
+            {regions.map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRegion(r)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  region === r ? "bg-primary text-white" : "bg-cream text-maroon"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section className="bg-white py-16 lg:py-20">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Header */}
-        <div className="mb-12 flex items-center justify-between">
-          <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl">Featured Temples</h2>
-          <a href="#" className="text-sm font-semibold text-[#E07C2D] hover:opacity-80 flex items-center gap-1">
-            View All <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
-
-        {/* Region Filter */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          {regions.map((region) => (
-            <button
-              key={region}
-              onClick={() => setSelectedRegion(region)}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
-                selectedRegion === region ? "bg-[#E07C2D] text-white" : "bg-[#F5F5F5] text-[#666] hover:bg-[#E0E0E0]"
-              }`}
-            >
-              {region === "All" && <span>🏛️</span>}
-              {region}
-            </button>
-          ))}
-        </div>
-
-        {/* Temple Cards Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredTemples.map((temple) => (
-            <div key={temple.id} className="overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-lg transition-shadow">
-              {/* Image Container */}
-              <div className="relative h-48 overflow-hidden bg-gray-200">
-                <Image
-                  src={temple.image}
-                  alt={temple.name}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                {/* Rating Badge */}
-                <div className="absolute top-3 right-3 flex items-center gap-1 rounded-lg bg-white px-2.5 py-1 text-sm font-semibold text-[#583939]">
-                  <Star className="h-4 w-4 fill-[#E07C2D] text-[#E07C2D]" />
-                  {temple.rating}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredTemples.map((temple) => (
+              <div
+                key={temple.id}
+                className="overflow-hidden rounded-2xl bg-white shadow-[0px_10px_24px_rgba(0,0,0,0.05)]"
+              >
+                <div className="relative h-[220px] w-full">
+                  <Image
+                    src={temple.image}
+                    alt={temple.name}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                  <div className="absolute left-4 top-4 flex items-center gap-1 rounded-full bg-white px-3 py-1.5">
+                    <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+                    <span className="text-[13px] font-semibold text-maroon">
+                      {temple.rating}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3 p-5">
+                  <h3 className="font-serif text-[22px] font-bold text-maroon">
+                    {temple.name}
+                  </h3>
+                  <div className="flex items-center gap-1.5 text-[13px] text-[#8c8c8c]">
+                    <MapPin className="h-3.5 w-3.5" />
+                    {temple.location}
+                  </div>
+                  <p className="text-sm leading-5 text-[#595656]">{temple.description}</p>
+                  <div className="h-px w-full bg-border" />
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1.5">
+                      {temple.services.map((service) => (
+                        <span
+                          key={service}
+                          className="rounded-md bg-cream px-2 py-1 text-[11px] font-semibold text-maroon"
+                        >
+                          {service}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      href="#"
+                      className="flex shrink-0 items-center gap-1 text-[13px] font-semibold text-primary"
+                    >
+                      View Details <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              {/* Content */}
-              <div className="p-5">
-                {/* Temple Name */}
-                <h3 className="font-serif text-lg font-bold text-[#583939]">{temple.name}</h3>
+      {/* Temple Services */}
+      <section className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-12">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[2px] text-primary">
+              SUPPORTING DEVOTION
+            </p>
+            <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
+              Temple Services
+            </h2>
+            <div className="h-[3px] w-[100px] bg-primary" />
+            <p className="max-w-[760px] text-base text-[#595656]">
+              Everything you need to manage, discover, and connect with temples.
+            </p>
+          </div>
 
-                {/* Location */}
-                <div className="mt-2 flex items-center gap-2 text-sm text-[#E07C2D] font-medium">
-                  <MapPin className="h-4 w-4" />
-                  {temple.location}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {services.map((service) => (
+              <div
+                key={service.title}
+                className="flex flex-col items-center gap-5 rounded-[20px] bg-white p-8 text-center shadow-[0px_8px_10px_rgba(0,0,0,0.04)]"
+              >
+                <div className="flex size-[72px] items-center justify-center rounded-full bg-cream text-[32px]">
+                  {service.emoji}
                 </div>
+                <h3 className="font-serif text-2xl font-semibold text-maroon">
+                  {service.title}
+                </h3>
+                <p className="text-sm leading-[22px] text-[#595656]">{service.desc}</p>
+                <Link href="#" className="flex items-center gap-1.5 text-sm font-semibold text-primary">
+                  Learn More <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                {/* Description */}
-                <p className="mt-3 text-sm text-[#666] line-clamp-2">{temple.description}</p>
+      <AdSlot size="rectangle" />
 
-                {/* Services */}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {temple.services.map((service) => (
-                    <span
-                      key={service}
-                      className="inline-block rounded-full bg-[#FFF0E6] px-3 py-1 text-xs font-medium text-[#E07C2D]"
-                    >
-                      {service}
-                    </span>
+      {/* How It Works */}
+      <section className="bg-white px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-12">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[2px] text-primary">
+              SIMPLE PROCESS
+            </p>
+            <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
+              Register Your Temple in 3 Steps
+            </h2>
+            <div className="h-[3px] w-[100px] bg-primary" />
+            <p className="text-base text-[#595656]">
+              Simple, free, and takes less than 5 minutes.
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col items-stretch gap-4 lg:flex-row lg:items-center">
+            {steps.map((step, i) => (
+              <div key={step.number} className="flex flex-1 items-center gap-4">
+                <div className="flex flex-1 flex-col items-center gap-4 rounded-[20px] bg-cream p-8 text-center">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-maroon text-lg font-bold text-white">
+                    {step.number}
+                  </div>
+                  <h3 className="font-serif text-[22px] font-semibold text-maroon">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-5 text-[#595656]">{step.desc}</p>
+                </div>
+                {i < steps.length - 1 && (
+                  <ArrowRight className="hidden h-5 w-10 shrink-0 text-primary lg:block" />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/temple-registration"
+            className="flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-white shadow-[0px_10px_10px_rgba(232,119,34,0.2)] transition hover:bg-primary-dark"
+          >
+            Register Your Temple Now <ArrowRight className="h-[18px] w-[18px]" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Blog */}
+      <section className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[2px] text-primary">
+                UPDATES &amp; BLOG
+              </p>
+              <h2 className="mt-4 font-serif text-3xl font-semibold text-maroon sm:text-4xl">
+                Latest from the Community
+              </h2>
+              <div className="mt-4 h-[3px] w-[100px] bg-primary" />
+            </div>
+            <Link href="#" className="flex shrink-0 items-center gap-1.5 text-base font-semibold text-primary">
+              View All <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {blogPosts.map((post) => (
+              <div
+                key={post.title}
+                className="overflow-hidden rounded-2xl bg-white shadow-[0px_8px_16px_rgba(0,0,0,0.03)]"
+              >
+                <div className="relative h-[200px] w-full">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                  <span className="absolute left-4 top-4 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-white">
+                    {post.date}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-3 p-6">
+                  <p className="text-xs font-semibold uppercase text-primary">{post.tag}</p>
+                  <h3 className="font-serif text-xl font-bold text-maroon">{post.title}</h3>
+                  <p className="text-sm leading-[22px] text-[#595656]">{post.desc}</p>
+                  <Link href="#" className="flex items-center gap-1.5 pt-2 text-sm font-semibold text-primary">
+                    Read More <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="bg-white px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-12">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[2px] text-primary">
+              REVIEWS
+            </p>
+            <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
+              What Temple Administrators Say
+            </h2>
+            <div className="h-[3px] w-[100px] bg-primary" />
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.name} className="flex flex-col gap-4 rounded-[20px] bg-cream p-8">
+                <p className="font-serif text-5xl font-bold leading-5 text-primary/30">&ldquo;</p>
+                <p className="text-[15px] italic leading-6 text-[#595656]">{t.quote}</p>
+                <div className="flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary" />
                   ))}
                 </div>
-
-                {/* View Details Link */}
-                <a href="#" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E07C2D] hover:opacity-80">
-                  View Details <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-[#FBF6F1] py-16 lg:py-20">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#E07C2D] mb-4">SUPPORTING DEVOTION</p>
-          <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl mb-6">Temple Services</h2>
-          <p className="text-base text-[#666] max-w-2xl mx-auto">
-            Everything you need to manage, discover, and connect with temples.
-          </p>
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Register Temple */}
-          <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-6">
-              <div className="text-5xl">🏛️</div>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Register Your Temple</h3>
-            <p className="text-sm text-[#666] mb-6">
-              List your temple on our platform — manage profiles, schedules, offerings, and connect with thousands of devotees online.
-            </p>
-            <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center justify-center gap-1">
-              Learn More <span>→</span>
-            </a>
-          </div>
-
-          {/* Book Puja */}
-          <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-6">
-              <div className="text-5xl">📅</div>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Book Puja & Seva</h3>
-            <p className="text-sm text-[#666] mb-6">
-              Browse available pujas, sevass, and special rituals at registered temples. Book puja with instant confirmation.
-            </p>
-            <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center justify-center gap-1">
-              Learn More <span>→</span>
-            </a>
-          </div>
-
-          {/* Live Darshan */}
-          <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-6">
-              <div className="text-5xl">📺</div>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Live Darshan</h3>
-            <p className="text-sm text-[#666] mb-6">
-              Watch live aarti and darshan streams from temples across India. Stay connected to your faith from anywhere.
-            </p>
-            <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center justify-center gap-1">
-              Learn More <span>→</span>
-            </a>
-          </div>
-
-          {/* Book Artists */}
-          <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-shadow">
-            <div className="flex justify-center mb-6">
-              <div className="text-5xl">🎨</div>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Book Artists</h3>
-            <p className="text-sm text-[#666] mb-6">
-              Find and book bhajan singers, katha speakers, and performers for temple events and collaborations.
-            </p>
-            <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center justify-center gap-1">
-              Learn More <span>→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-white py-16 lg:py-20">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#E07C2D] mb-4">SIMPLE PROCESS</p>
-          <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl mb-6">Register Your Temple in 3 Steps</h2>
-          <p className="text-base text-[#666]">Simple, free, and takes less than 5 minutes.</p>
-        </div>
-
-        {/* Steps Container */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-8 mb-12">
-          {/* Step 1 */}
-          <div className="flex-1 bg-[#FBF6F1] rounded-xl p-8 text-center">
-            <div className="w-14 h-14 bg-[#583939] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">
-              01
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Create Profile</h3>
-            <p className="text-sm text-[#666]">
-              Fill in your temples name, location, history, timings and upload photos to create a stunning temple profile.
-            </p>
-          </div>
-
-          {/* Arrow 1 */}
-          <div className="hidden lg:flex text-3xl text-[#E07C2D]">→</div>
-          <div className="lg:hidden text-3xl text-[#E07C2D]">↓</div>
-
-          {/* Step 2 */}
-          <div className="flex-1 bg-[#FBF6F1] rounded-xl p-8 text-center">
-            <div className="w-14 h-14 bg-[#583939] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">
-              02
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Add Services</h3>
-            <p className="text-sm text-[#666]">
-              List the pujas, sevas, darshan slots, and events your temple offers. Set availability and pricing.
-            </p>
-          </div>
-
-          {/* Arrow 2 */}
-          <div className="hidden lg:flex text-3xl text-[#E07C2D]">→</div>
-          <div className="lg:hidden text-3xl text-[#E07C2D]">↓</div>
-
-          {/* Step 3 */}
-          <div className="flex-1 bg-[#FBF6F1] rounded-xl p-8 text-center">
-            <div className="w-14 h-14 bg-[#583939] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">
-              03
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#583939] mb-4">Go Live</h3>
-            <p className="text-sm text-[#666]">
-              Once approved, your temple is live on the platform — start receiving bookings and connecting with devotees.
-            </p>
-          </div>
-        </div>
-
-        {/* CTA Button */}
-        <div className="text-center">
-          <a
-            href="/temple-registration"
-            className="inline-flex items-center gap-2 rounded-full bg-[#E07C2D] px-8 py-3 font-semibold text-white transition-all hover:bg-[#D46B1B]"
-          >
-            Register Your Temple Now <ArrowRight className="h-5 w-5" />
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-[#FBF6F1] py-16 lg:py-20">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Header */}
-        <div className="mb-12 flex items-center justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#E07C2D] mb-4">UPDATES & BLOG</p>
-            <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl">Latest from the Community</h2>
-          </div>
-          <a href="#" className="text-sm font-semibold text-[#E07C2D] hover:opacity-80">
-            View All →
-          </a>
-        </div>
-
-        {/* Blog Cards Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Card 1 */}
-          <div className="overflow-hidden rounded-lg bg-white hover:shadow-lg transition-shadow">
-            <div className="relative h-48 overflow-hidden bg-gray-200">
-              <Image
-                src="/images/temple/khatu-shyam.png"
-                alt="Khatu Shyam Temple Renovations"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div className="absolute top-4 left-4 bg-[#E07C2D] text-white px-3 py-1 rounded-full text-xs font-semibold">
-                TEMPLE NEWS
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">
-                Khatu Shyam Temple Renovations Complete — New Darshan Hall Opens
-              </h3>
-              <p className="text-sm text-[#666] mb-4">
-                The newly renovated darshan hall welcomes devotees with improved facilities, and an interactive museum experience.
-              </p>
-              <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center gap-1">
-                Read More →
-              </a>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="overflow-hidden rounded-lg bg-white hover:shadow-lg transition-shadow">
-            <div className="relative h-48 overflow-hidden bg-gray-200">
-              <Image
-                src="/images/temple/mehandipur.png"
-                alt="Shyam Jagat Seva Updates"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div className="absolute top-4 left-4 bg-[#E07C2D] text-white px-3 py-1 rounded-full text-xs font-semibold">
-                SEVA UPDATES
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">
-                How Shyam Jagat Served 50,000 Meals in Falguna Mela 2024
-              </h3>
-              <p className="text-sm text-[#666] mb-4">
-                A record-breaking devotion seva during this years Falguna Mela, serving thousands of weary pilgrims.
-              </p>
-              <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center gap-1">
-                Read More →
-              </a>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="overflow-hidden rounded-lg bg-white hover:shadow-lg transition-shadow">
-            <div className="relative h-48 overflow-hidden bg-gray-200">
-              <Image
-                src="/images/temple/salasar-balaji.png"
-                alt="Spiritual Guidance"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div className="absolute top-4 left-4 bg-[#E07C2D] text-white px-3 py-1 rounded-full text-xs font-semibold">
-                SPIRITUAL GUIDANCE
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-3">
-                5 Practices for Deepening Your Daily Devotion to Radha Shyam
-              </h3>
-              <p className="text-sm text-[#666] mb-4">
-                Simple yet powerful ways to strengthen your spiritual connection and bring peace to your home.
-              </p>
-              <a href="#" className="text-[#E07C2D] font-semibold text-sm hover:opacity-80 flex items-center gap-1">
-                Read More →
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-white py-16 lg:py-20">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#E07C2D] mb-4">REVIEWS</p>
-          <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl mb-4">What Temple Administrators Say</h2>
-          <div className="h-1 w-16 bg-[#E07C2D] mx-auto"></div>
-        </div>
-
-        {/* Testimonials Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Review 1 */}
-          <div className="bg-[#FBF6F1] rounded-lg p-8">
-            <div className="text-4xl text-[#E07C2D] mb-4">&quot;</div>
-            <p className="text-sm text-[#666] mb-6">
-              Registering on Shyam Jagat brought our temple online. We now receive 3x more bookings and connect with devotees we never could before.
-            </p>
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-[#E07C2D]">★</span>
-              ))}
-            </div>
-            <div>
-              <p className="font-semibold text-[#583939]">Pundit Ramesh Ji</p>
-              <p className="text-xs text-[#666]">Khatu Shyam Temple, Sikar</p>
-            </div>
-          </div>
-
-          {/* Review 2 */}
-          <div className="bg-[#FBF6F1] rounded-lg p-8">
-            <div className="text-4xl text-[#E07C2D] mb-4">&#34;</div>
-            <p className="text-sm text-[#666] mb-6">
-              The booking system is smooth and the support team is always helpful. Our temple visibility has increased tremendously.
-            </p>
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-[#E07C2D]">★</span>
-              ))}
-            </div>
-            <div>
-              <p className="font-semibold text-[#583939]">Mahant Suresh Das</p>
-              <p className="text-xs text-[#666]">Salasar Balaji Temple, Churu</p>
-            </div>
-          </div>
-
-          {/* Review 3 */}
-          <div className="bg-[#FBF6F1] rounded-lg p-8">
-            <div className="text-4xl text-[#E07C2D] mb-4">&quot;</div>
-            <p className="text-sm text-[#666] mb-6">
-              The live darshan feature has been a blessing for elderly devotees who can not travel. Technology serving devotion beautifully.
-            </p>
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-[#E07C2D]">★</span>
-              ))}
-            </div>
-            <div>
-              <p className="font-semibold text-[#583939]">Acharya Vinod Ji</p>
-              <p className="text-xs text-[#666]">ISKCON, Delhi</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-[#FBF6F1] py-16 lg:py-20">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#E07C2D] mb-4">HAVE QUESTIONS?</p>
-          <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl mb-2">Frequently Asked Questions</h2>
-          <div className="h-1 w-16 bg-[#E07C2D] mx-auto"></div>
-        </div>
-
-        {/* FAQ Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 mb-16">
-          {/* Left Column */}
-          <div className="space-y-6">
-            {faqs.slice(0, 4).map((faq) => (
-              <button
-                key={faq.id}
-                onClick={() => setExpandedFAQ(expandedFAQ === faq.id ? null : faq.id)}
-                className="w-full text-left bg-white rounded-lg p-6 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-[#583939]">{faq.question}</h3>
-                  <span className="text-[#E07C2D] text-xl font-bold">{expandedFAQ === faq.id ? "−" : "+"}</span>
+                <div>
+                  <p className="font-serif text-lg font-bold text-maroon">{t.name}</p>
+                  <p className="text-[13px] text-[#8c8c8c]">{t.place}</p>
                 </div>
-                {expandedFAQ === faq.id && (
-                  <p className="mt-3 text-sm text-[#666]">{faq.answer}</p>
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-6">
-            {faqs.slice(4).map((faq) => (
-              <button
-                key={faq.id}
-                onClick={() => setExpandedFAQ(expandedFAQ === faq.id ? null : faq.id)}
-                className="w-full text-left bg-white rounded-lg p-6 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-[#583939]">{faq.question}</h3>
-                  <span className="text-[#E07C2D] text-xl font-bold">{expandedFAQ === faq.id ? "−" : "+"}</span>
-                </div>
-                {expandedFAQ === faq.id && (
-                  <p className="mt-3 text-sm text-[#666]">{faq.answer}</p>
-                )}
-              </button>
+              </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* CTA Section */}
-        <div className=" rounded-xl p-12 text-center">
-          <h2 className="font-serif text-3xl font-bold text-[#583939] sm:text-4xl mb-4">
-            Ready to Bring Your Temple Online?
-          </h2>
-          <p className="text-base text-[#666] mb-8 max-w-2xl mx-auto">
-            Join 500+ temples already connecting with millions of devotees through Shyam Jagat.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <a
+      {/* FAQ */}
+      <section className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1000px] flex-col items-center gap-12">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[2px] text-primary">
+              HAVE QUESTIONS?
+            </p>
+            <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
+              Frequently Asked Questions
+            </h2>
+            <div className="h-[3px] w-[100px] bg-primary" />
+          </div>
+
+          <div className="grid w-full gap-6 sm:grid-cols-2">
+            {[faqsLeft, faqsRight].map((column, colIdx) => (
+              <div key={colIdx} className="flex flex-col gap-4">
+                {column.map((faq, i) => {
+                  const key = `${colIdx === 0 ? "left" : "right"}-${i}`;
+                  const isOpen = openFaq === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : key)}
+                      className="flex flex-col gap-3 rounded-xl border border-[rgba(212,175,55,0.25)] bg-white p-5 text-left"
+                    >
+                      <div className="flex w-full items-center justify-between gap-4">
+                        <p className="text-[16px] font-bold text-maroon">{faq.q}</p>
+                        <span className="shrink-0 text-xl font-bold text-maroon">
+                          {isOpen ? "−" : "›"}
+                        </span>
+                      </div>
+                      {isOpen && faq.a && (
+                        <p className="text-sm leading-[22px] text-[#595656]">{faq.a}</p>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <AdSlot size="banner" />
+
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-cream-light px-6 py-16 lg:px-20 lg:py-20">
+        
+        <div className="relative mx-auto flex max-w-[850px] flex-col items-center gap-8 text-center">
+          <div className="flex flex-col  items-center gap-4">
+            <h2 className="font-serif text-[32px] font-bold text-maroon sm:text-[44px]">
+              Ready to Bring Your Temple Online?
+            </h2>
+            <p className="text-base text-[#595656]">
+              Join 500+ temples already connecting with millions of devotees through
+              Shyam Jagat.
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
+            <Link
               href="/temple-registration"
-              className="bg-[#E07C2D] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#D46B1B] transition-colors"
+              className="rounded-lg bg-primary px-7 py-3.5 text-base font-semibold text-white transition hover:bg-primary-dark"
             >
               Register Your Temple
-            </a>
-            <a
-              href="#"
-              className="border-2 border-[#583939] text-[#583939] px-8 py-3 rounded-lg font-semibold hover:bg-[#583939] hover:text-white transition-colors"
+            </Link>
+            <Link
+              href="/contact"
+              className="rounded-lg border border-maroon px-7 py-3.5 text-base font-semibold text-maroon transition hover:bg-maroon hover:text-white"
             >
               Contact Our Team
-            </a>
+            </Link>
           </div>
-          <p className="text-xs text-[#666]">
-            Questions? Call +91 12345 67890 • temples@shyamjagat.org
+          <p className="text-[13px] text-[#8c8c8c]">
+            Questions? Call +91 12345 67890 &nbsp;•&nbsp; temples@shyamjagat.org
           </p>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }

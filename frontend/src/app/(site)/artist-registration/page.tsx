@@ -1,15 +1,236 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useFormik } from "formik";
-import { useState } from "react";
-import { artistRegistrationValidationSchema, type ArtistRegistrationFormData } from "@/lib/validations/artist-registration";
-import { Upload, X, FileText } from "lucide-react";
+import {
+  Camera,
+  Check,
+  ChevronDown,
+  Cloud,
+  FileImage,
+  Video,
+  Volume2,
+  XCircle,
+} from "lucide-react";
+import {
+  artistRegistrationValidationSchema,
+  type ArtistRegistrationFormData,
+} from "@/lib/validations/artist-registration";
+import AdSlot from "@/components/ui/AdSlot";
+
+function Card({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-8 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white p-6 shadow-[0px_12px_16px_rgba(139,0,0,0.03)] sm:p-10">
+      <div className="flex flex-col gap-3">
+        <h2 className="font-serif text-2xl font-semibold text-maroon sm:text-[28px]">
+          {title}
+        </h2>
+        <div className="h-[2px] w-[60px] bg-primary" />
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function FieldLabel({ label, required }: { label: string; required?: boolean }) {
+  return (
+    <div className="flex items-center gap-1 text-sm font-semibold text-maroon">
+      <p>{label}</p>
+      {required && <p className="font-bold text-primary">*</p>}
+    </div>
+  );
+}
+
+function inputClasses(hasError?: boolean) {
+  return `h-12 w-full rounded-lg border px-4 text-sm text-[#444] placeholder:text-[#9ca3af] focus:outline-none ${
+    hasError ? "border-red-500 bg-red-50" : "border-[#e5e7eb] focus:border-primary"
+  }`;
+}
+
+function Select({
+  options,
+  value,
+  onChange,
+  hasError,
+}: {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+  hasError?: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        className={`flex h-12 w-full items-center justify-between rounded-lg border px-4 text-sm text-[#444] ${
+          hasError ? "border-red-500 bg-red-50" : "border-[#e5e7eb]"
+        }`}
+      >
+        {value}
+        <ChevronDown
+          className={`h-4 w-4 text-[#444] transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      {isOpen && (
+        <div className="absolute z-20 mt-2 max-h-60 w-full overflow-y-auto rounded-lg border border-[#e5e7eb] bg-white shadow-lg">
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className={`block w-full px-4 py-2.5 text-left text-sm ${
+                value === option ? "bg-primary text-white" : "text-[#444] hover:bg-cream"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Checkbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className="flex items-center gap-3 text-left"
+    >
+      <span
+        className={`flex size-5 shrink-0 items-center justify-center rounded border-[1.5px] ${
+          checked ? "border-primary bg-primary" : "border-[#e5e7eb] bg-white"
+        }`}
+      >
+        {checked && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+      </span>
+      <span className="text-sm text-[#444]">{label}</span>
+    </button>
+  );
+}
+
+function AgreementCheckbox({
+  checked,
+  onChange,
+  children,
+}: {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="flex cursor-pointer items-center gap-3">
+      <button
+        type="button"
+        onClick={() => onChange(!checked)}
+        className={`flex size-5 shrink-0 items-center justify-center rounded border-[1.5px] ${
+          checked ? "border-primary bg-primary" : "border-[#e5e7eb] bg-white"
+        }`}
+      >
+        {checked && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+      </button>
+      <span className="flex-1 text-sm text-[#444]">{children}</span>
+    </label>
+  );
+}
+
+function Radio({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <button type="button" onClick={onChange} className="flex items-center gap-3">
+      <span
+        className={`flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] ${
+          checked ? "border-primary" : "border-[#e5e7eb]"
+        }`}
+      >
+        {checked && <span className="size-2.5 rounded-full bg-primary" />}
+      </span>
+      <span className="whitespace-nowrap text-sm text-[#444]">{label}</span>
+    </button>
+  );
+}
+
+const genderOptions = ["Select Gender", "Male", "Female", "Other", "Prefer Not to Say"];
+const artistTypes = ["Bhajan Singer", "Musician", "Dancer", "Speaker", "Painter", "Composer", "Other"];
+const experienceOptions = ["0-1 Years", "1-3 Years", "3-5 Years", "5-10 Years", "10+ Years"];
+const indianStates = [
+  "Rajasthan", "Uttar Pradesh", "Maharashtra", "Gujarat", "Delhi", "Karnataka",
+  "Tamil Nadu", "West Bengal", "Punjab", "Haryana", "Madhya Pradesh", "Andhra Pradesh",
+];
+const honorariumOptions = ["₹15,000-50,000", "₹50,000-100,000", "₹100,000-250,000", "₹250,000-500,000", "₹500,000+"];
+const eventOptions = ["Bhajan Sandhya", "Temple Festivals", "Cultural Programs", "Private Events", "Weddings & Celebrations", "Online Events"];
+const regionOptions = ["Rajasthan", "Delhi NCR", "Uttar Pradesh", "Madhya Pradesh", "Gujarat", "Maharashtra", "Pan India"];
+const travelOptions = ["Within City", "Within State", "Across India"];
+
+const whyFeatures = [
+  { emoji: "🌐", title: "Reach Thousands", desc: "Get discovered by temple boards and premier event organizers across India." },
+  { emoji: "🛕", title: "Sacred Platform", desc: "Perform at prestigious temple festivals, continuous satsangs, and major cultural gatherings." },
+  { emoji: "🤝", title: "Grow Your Art", desc: "Connect with veteran devotional masters, exchange techniques, and expand your spiritual network." },
+  { emoji: "💳", title: "Fair Compensation", desc: "Experience transparent booking terms and fast, verified digital payments directly to your account." },
+];
+
+const workFileIcons: Record<string, typeof Volume2> = {
+  audio: Volume2,
+  image: FileImage,
+  video: Video,
+};
 
 export default function ArtistRegistrationPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [uploadedWorkFiles, setUploadedWorkFiles] = useState<File[]>([]);
+  const [secondaryArtForm, setSecondaryArtForm] = useState("Select Secondary Art Form");
+  const [guruName, setGuruName] = useState("");
+  const [portfolioLink, setPortfolioLink] = useState("");
+  const [workFiles, setWorkFiles] = useState<{ name: string; size: string; type: keyof typeof workFileIcons }[]>([
+    { name: "Khatu_Dham_Bhajan.mp3", size: "4.2 MB", type: "audio" },
+    { name: "Perform_Live_01.jpg", size: "1.8 MB", type: "image" },
+    { name: "Stage_Performance.mp4", size: "8.5 MB", type: "video" },
+  ]);
+  const [availableEvents, setAvailableEvents] = useState<string[]>([]);
+  const [regions, setRegions] = useState<string[]>([]);
+  const [honorarium, setHonorarium] = useState(honorariumOptions[0]);
+  const [travelWillingness, setTravelWillingness] = useState("Across India");
+  const [consentContact, setConsentContact] = useState(false);
 
   const formik = useFormik<Partial<ArtistRegistrationFormData>>({
     initialValues: {
@@ -17,12 +238,12 @@ export default function ArtistRegistrationPage() {
       emailAddress: "",
       phoneNumber: "",
       dateOfBirth: "",
-      gender: "Select Gender",
+      gender: genderOptions[0],
       city: "",
-      state: "Rajasthan",
+      state: indianStates[0],
       profilePhoto: undefined,
-      artistType: "Singer",
-      experience: "0-1 years",
+      artistType: artistTypes[0],
+      experience: experienceOptions[0],
       bio: "",
       agreeToTerms: false,
     },
@@ -33,706 +254,429 @@ export default function ArtistRegistrationPage() {
     },
   });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function toggleFromList(list: string[], setList: (v: string[]) => void, item: string) {
+    setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.currentTarget.files?.[0];
     if (file) {
       setUploadedFile(file);
       formik.setFieldValue("profilePhoto", file);
     }
-  };
+  }
 
-  const genderOptions = ["Male", "Female", "Other", "Prefer Not to Say"];
-  const artistTypes = ["Singer", "Musician", "Dancer", "Speaker", "Painter", "Composer", "Other"];
-  const experienceOptions = ["0-1 years", "1-3 years", "3-5 years", "5-10 years", "10+ years"];
-  const indianStates = [
-    "Rajasthan", "Uttar Pradesh", "Maharashtra", "Gujarat", "Delhi", "Karnataka",
-    "Tamil Nadu", "West Bengal", "Punjab", "Haryana", "Madhya Pradesh", "Andhra Pradesh",
-    "Telangana", "Kerala", "Bihar", "Jharkhand", "Odisha", "Assam", "Himachal Pradesh",
-    "Jammu & Kashmir", "Ladakh", "Uttarakhand", "Chhattisgarh", "Goa", "Manipur",
-    "Meghalaya", "Mizoram", "Nagaland", "Sikkim", "Tripura", "Arunachal Pradesh"
-  ];
+  function removeWorkFile(index: number) {
+    setWorkFiles((files) => files.filter((_, i) => i !== index));
+  }
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative h-[500px] sm:h-[600px] lg:h-[700px] w-full overflow-hidden">
-        {/* Background Image */}
-        <Image
-          src="/images/artist-reg/hero.png"
-          alt="Artist Registration"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
-          {/* Main Heading */}
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
+      {/* Hero */}
+      <section className="relative flex items-center justify-center overflow-hidden px-6 py-16 lg:px-20 lg:py-20">
+        <div aria-hidden className="absolute inset-0">
+          <Image
+            src="/images/artist-registration/hero.png"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-[rgba(61,16,16,0.75)]" />
+        </div>
+        <div className="relative flex flex-col items-center gap-6 text-center">
+          <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl lg:text-[52px]">
             Register as an Artist
           </h1>
-
-          {/* Description */}
-          <p className="text-base sm:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Join Shyam Jagat&apos;s growing community of devotional artists. Showcase your talent at spiritual events, cultural programs, and sacred gatherings across India.
+          <p className="max-w-[800px] text-base leading-7 text-cream sm:text-lg">
+            Join Shyam Jagat&apos;s growing community of devotional artists. Showcase
+            your talent at spiritual events, cultural programs, and sacred
+            gatherings across India.
           </p>
         </div>
       </section>
 
-      {/* Registration Form Section */}
-      <section className="bg-[#FBF6F1] py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="bg-white rounded-2xl p-8 lg:p-12">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Personal Information</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
-            </div>
+      <AdSlot size="leaderboard" />
 
-            <form onSubmit={formik.handleSubmit} className="space-y-8">
-              {/* Row 1: Full Name and Email */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Full Name */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
+      <form onSubmit={formik.handleSubmit} className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-8">
+          {/* Personal Information */}
+          <Card title="Personal Information">
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Full Name" required />
                   <input
                     type="text"
                     placeholder="Enter your full name"
                     {...formik.getFieldProps("fullName")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.fullName && formik.errors.fullName
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
+                    className={inputClasses(formik.touched.fullName && !!formik.errors.fullName)}
                   />
                   {formik.touched.fullName && formik.errors.fullName && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.fullName}</p>
+                    <p className="text-sm text-red-500">{formik.errors.fullName}</p>
                   )}
                 </div>
-
-                {/* Email Address */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Email Address" required />
                   <input
                     type="email"
                     placeholder="Enter your email address"
                     {...formik.getFieldProps("emailAddress")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.emailAddress && formik.errors.emailAddress
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
+                    className={inputClasses(formik.touched.emailAddress && !!formik.errors.emailAddress)}
                   />
                   {formik.touched.emailAddress && formik.errors.emailAddress && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.emailAddress}</p>
+                    <p className="text-sm text-red-500">{formik.errors.emailAddress}</p>
                   )}
                 </div>
               </div>
-
-              {/* Row 2: Phone Number and Date of Birth */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Phone Number */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Phone Number <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    placeholder="+91 10-digit mobile number"
-                    {...formik.getFieldProps("phoneNumber")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.phoneNumber && formik.errors.phoneNumber
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  />
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Phone Number" required />
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#444]">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      placeholder="10-digit mobile number"
+                      {...formik.getFieldProps("phoneNumber")}
+                      className={`${inputClasses(formik.touched.phoneNumber && !!formik.errors.phoneNumber)} pl-12`}
+                    />
+                  </div>
                   {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.phoneNumber}</p>
+                    <p className="text-sm text-red-500">{formik.errors.phoneNumber}</p>
                   )}
                 </div>
-
-                {/* Date of Birth */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Date of Birth <span className="text-red-500">*</span>
-                  </label>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Date of Birth" required />
                   <input
                     type="text"
                     placeholder="DD / MM / YYYY"
                     {...formik.getFieldProps("dateOfBirth")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.dateOfBirth && formik.errors.dateOfBirth
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
+                    className={inputClasses(formik.touched.dateOfBirth && !!formik.errors.dateOfBirth)}
                   />
                   {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.dateOfBirth}</p>
+                    <p className="text-sm text-red-500">{formik.errors.dateOfBirth}</p>
                   )}
                 </div>
               </div>
-
-              {/* Row 3: Gender and City */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Gender */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Gender <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    {...formik.getFieldProps("gender")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.gender && formik.errors.gender
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  >
-                    <option value="Select Gender">Select Gender</option>
-                    {genderOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Gender" required />
+                  <Select
+                    options={genderOptions}
+                    value={formik.values.gender ?? genderOptions[0]}
+                    onChange={(v) => formik.setFieldValue("gender", v)}
+                    hasError={formik.touched.gender && !!formik.errors.gender}
+                  />
                   {formik.touched.gender && formik.errors.gender && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.gender}</p>
+                    <p className="text-sm text-red-500">{formik.errors.gender}</p>
                   )}
                 </div>
-
-                {/* City */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    City <span className="text-red-500">*</span>
-                  </label>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="City" required />
                   <input
                     type="text"
                     placeholder="Enter your city of residence"
                     {...formik.getFieldProps("city")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.city && formik.errors.city
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
+                    className={inputClasses(formik.touched.city && !!formik.errors.city)}
                   />
                   {formik.touched.city && formik.errors.city && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.city}</p>
+                    <p className="text-sm text-red-500">{formik.errors.city}</p>
                   )}
                 </div>
               </div>
-
-              {/* Row 4: State and Profile Photo */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* State */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    State <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    {...formik.getFieldProps("state")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.state && formik.errors.state
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  >
-                    {indianStates.map((state) => (
-                      <option key={state} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="State" required />
+                  <Select
+                    options={indianStates}
+                    value={formik.values.state ?? indianStates[0]}
+                    onChange={(v) => formik.setFieldValue("state", v)}
+                    hasError={formik.touched.state && !!formik.errors.state}
+                  />
                   {formik.touched.state && formik.errors.state && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.state}</p>
+                    <p className="text-sm text-red-500">{formik.errors.state}</p>
                   )}
                 </div>
-
-                {/* Profile Photo */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Profile Photo <span className="text-red-500">*</span>
-                  </label>
-                  <div
-                    className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all ${
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Profile Photo" required />
+                  <label
+                    className={`relative flex h-12 cursor-pointer items-center gap-3 rounded-lg border-[1.5px] border-dashed px-4 ${
                       formik.touched.profilePhoto && formik.errors.profilePhoto
                         ? "border-red-500 bg-red-50"
-                        : "border-[#E07C2D] bg-[#FFF0E6]"
+                        : "border-primary bg-cream"
                     }`}
                   >
                     <input
                       type="file"
                       accept="image/jpeg,image/png"
                       onChange={handleFileChange}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="absolute inset-0 cursor-pointer opacity-0"
                     />
-                    {uploadedFile ? (
-                      <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-2">
-                          <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <p className="text-[#583939] font-semibold text-sm">{uploadedFile.name}</p>
-                        <p className="text-xs text-[#666]">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setUploadedFile(null);
-                            formik.setFieldValue("profilePhoto", undefined);
-                          }}
-                          className="mt-2 text-red-500 hover:text-red-700 flex items-center gap-1 text-sm"
-                        >
-                          <X className="w-4 h-4" /> Remove
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center">
-                        <Upload className="w-8 h-8 text-[#E07C2D] mb-2" />
-                        <p className="text-[#E07C2D] font-semibold text-sm">Upload Photo</p>
-                        <p className="text-xs text-[#666] mt-1">JPG, PNG format, (Max 2MB)</p>
-                      </div>
-                    )}
-                  </div>
+                    <Camera className="h-6 w-6 shrink-0 text-primary" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-primary">
+                        {uploadedFile ? uploadedFile.name : "Upload Photo"}
+                      </p>
+                      <p className="text-xs text-[#6b7280]">
+                        {uploadedFile
+                          ? `${(uploadedFile.size / 1024 / 1024).toFixed(2)} MB`
+                          : "JPG, PNG format (Max 2MB)"}
+                      </p>
+                    </div>
+                  </label>
                   {formik.touched.profilePhoto && formik.errors.profilePhoto && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.profilePhoto}</p>
+                    <p className="text-sm text-red-500">{formik.errors.profilePhoto}</p>
                   )}
                 </div>
               </div>
-
-              <p className="text-xs text-[#666] text-center">
-                * Required fields. Your information is secure and will only be used for artist profile verification.
-              </p>
-            </form>
-          </div>
-
-          {/* Your Art & Expertise Section */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Your Art & Expertise</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
             </div>
+          </Card>
 
-            <div className="space-y-8">
-              {/* Row 1: Primary Art Form and Secondary Art Form */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Primary Art Form */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Primary Art Form <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    {...formik.getFieldProps("artistType")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.artistType && formik.errors.artistType
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  >
-                    {artistTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
+          {/* Your Art & Expertise */}
+          <Card title="Your Art & Expertise">
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Primary Art Form" required />
+                  <Select
+                    options={artistTypes}
+                    value={formik.values.artistType ?? artistTypes[0]}
+                    onChange={(v) => formik.setFieldValue("artistType", v)}
+                    hasError={formik.touched.artistType && !!formik.errors.artistType}
+                  />
                   {formik.touched.artistType && formik.errors.artistType && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.artistType}</p>
+                    <p className="text-sm text-red-500">{formik.errors.artistType}</p>
                   )}
                 </div>
-
-                {/* Secondary Art Form */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Secondary Art Form (Optional)
-                  </label>
-                  <select className="w-full px-4 py-3 rounded-lg border-2 border-[#E0E0E0] focus:border-[#E07C2D] focus:outline-none transition-all">
-                    <option value="">Select Secondary Art Form</option>
-                    {artistTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Row 2: Years of Experience and Guru/Teacher Name */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Years of Experience */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Years of Experience <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    {...formik.getFieldProps("experience")}
-                    className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all ${
-                      formik.touched.experience && formik.errors.experience
-                        ? "border-red-500 bg-red-50"
-                        : "border-[#E0E0E0] focus:border-[#E07C2D]"
-                    }`}
-                  >
-                    {experienceOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {formik.touched.experience && formik.errors.experience && (
-                    <p className="text-red-500 text-sm mt-1">{formik.errors.experience}</p>
-                  )}
-                </div>
-
-                {/* Guru / Teacher Name */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Guru / Teacher Name (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Name of your Guru or Academy"
-                    className="w-full px-4 py-3 rounded-lg border-2 border-[#E0E0E0] focus:border-[#E07C2D] focus:outline-none transition-all"
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Secondary Art Form (Optional)" />
+                  <Select
+                    options={["Select Secondary Art Form", ...artistTypes]}
+                    value={secondaryArtForm}
+                    onChange={setSecondaryArtForm}
                   />
                 </div>
               </div>
-
-              {/* Brief Bio / About Your Art */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Brief Bio / About Your Art <span className="text-red-500">*</span>
-                </label>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Years of Experience" required />
+                  <Select
+                    options={experienceOptions}
+                    value={formik.values.experience ?? experienceOptions[0]}
+                    onChange={(v) => formik.setFieldValue("experience", v)}
+                    hasError={formik.touched.experience && !!formik.errors.experience}
+                  />
+                  {formik.touched.experience && formik.errors.experience && (
+                    <p className="text-sm text-red-500">{formik.errors.experience}</p>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Guru / Teacher Name (Optional)" />
+                  <input
+                    type="text"
+                    placeholder="Name of your Guru or Academy"
+                    value={guruName}
+                    onChange={(e) => setGuruName(e.target.value)}
+                    className={inputClasses()}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Brief Bio / About Your Art" required />
                 <textarea
                   placeholder="Tell us about your journey as an artist, your training, and what inspires your devotional art..."
                   {...formik.getFieldProps("bio")}
                   rows={5}
-                  className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition-all resize-none ${
+                  className={`w-full resize-none rounded-lg border p-4 text-sm text-[#444] placeholder:text-[#9ca3af] focus:outline-none ${
                     formik.touched.bio && formik.errors.bio
                       ? "border-red-500 bg-red-50"
-                      : "border-[#E0E0E0] focus:border-[#E07C2D]"
+                      : "border-[#e5e7eb] focus:border-primary"
                   }`}
                 />
                 {formik.touched.bio && formik.errors.bio && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.bio}</p>
+                  <p className="text-sm text-red-500">{formik.errors.bio}</p>
                 )}
               </div>
-
-              {/* Portfolio Link */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-2">
-                  Portfolio Link (YouTube, Instagram or Website)
-                </label>
+              <div className="flex flex-col gap-2">
+                <FieldLabel label="Portfolio Link (YouTube, Instagram or Website)" />
                 <input
                   type="url"
                   placeholder="https://youtube.com/yourchannel"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-[#E0E0E0] focus:border-[#E07C2D] focus:outline-none transition-all"
+                  value={portfolioLink}
+                  onChange={(e) => setPortfolioLink(e.target.value)}
+                  className={inputClasses()}
                 />
               </div>
-
-              <p className="text-xs text-[#666] text-center">
-                Your information will help us understand your artistic background and connect you with the right opportunities.
-              </p>
             </div>
-          </div>
+          </Card>
 
-          {/* Upload Your Work Section */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Upload Your Work</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
-            </div>
-
-            <div className="space-y-8">
-              {/* Upload Area */}
-              <div className="border-2 border-dashed border-[#E07C2D] rounded-xl p-8 sm:p-12 bg-[#FFF0E6] text-center">
-                <div
-                  className="cursor-pointer"
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    const files = Array.from(e.dataTransfer.files);
-                    const newFiles = [...uploadedWorkFiles, ...files].slice(0, 5);
-                    setUploadedWorkFiles(newFiles);
-                  }}
-                >
-                  <Upload className="w-12 h-12 text-[#E07C2D] mx-auto mb-3" />
-                  <p className="text-[#583939] font-semibold mb-1">
-                    Drag & drop your photos, videos, or audio files here
+          {/* Upload Your Work */}
+          <Card title="Upload Your Work">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-[rgba(212,175,55,0.25)] bg-cream-light p-10 text-center">
+                <Cloud className="h-12 w-12 text-primary" />
+                <div className="flex flex-col items-center gap-1">
+                  <p className="text-base font-semibold text-maroon">
+                    Drag &amp; drop your photos, videos, or audio files here
                   </p>
-                  <label className="text-[#E07C2D] cursor-pointer font-semibold hover:underline">
-                    or Browse Files
-                    <input
-                      type="file"
-                      multiple
-                      accept=".jpg,.jpeg,.png,.mp4,.mp3,.mid,.midi"
-                      onChange={(e) => {
-                        const files = Array.from(e.target.files || []);
-                        const newFiles = [...uploadedWorkFiles, ...files].slice(0, 5);
-                        setUploadedWorkFiles(newFiles);
-                      }}
-                      className="hidden"
-                    />
-                  </label>
-                  <p className="text-sm text-[#999] mt-2">
-                    Accepted formats: JPG, PNG, MP4, MP3, Max MIDI per file. Upload up to 5 files.
+                  <p className="flex items-center gap-1 text-sm">
+                    <span className="text-[#6b7280]">or</span>
+                    <span className="font-semibold text-primary">Browse Files</span>
                   </p>
                 </div>
+                <p className="text-xs text-[#6b7280]">
+                  Accepted formats: JPG, PNG, MP4, MP3. Max 10MB per file. Upload up to
+                  5 files.
+                </p>
               </div>
-
-              {/* Uploaded Files Preview */}
-              {uploadedWorkFiles.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
-                  {uploadedWorkFiles.map((file, idx) => (
-                    <div key={idx} className="bg-[#FBF6F1] rounded-lg p-4 flex items-center justify-between">
-                      <div className="flex items-center gap-3 flex-1">
-                        <FileText className="w-6 h-6 text-[#E07C2D] flex-shrink-0" />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-[#583939] truncate">{file.name}</p>
-                          <p className="text-xs text-[#666]">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setUploadedWorkFiles(uploadedWorkFiles.filter((_, i) => i !== idx));
-                        }}
-                        className="ml-2 p-1 hover:bg-red-100 rounded-full transition-all flex-shrink-0"
+              {workFiles.length > 0 && (
+                <div className="grid gap-6 sm:grid-cols-3">
+                  {workFiles.map((file, index) => {
+                    const Icon = workFileIcons[file.type];
+                    return (
+                      <div
+                        key={file.name}
+                        className="flex items-center gap-3 rounded-lg border border-[#e5e7eb] bg-white p-4"
                       >
-                        <X className="w-5 h-5 text-red-500 hover:text-red-700" />
-                      </button>
-                    </div>
-                  ))}
+                        <Icon className="h-6 w-6 shrink-0 text-primary" />
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-semibold text-[#444]">
+                            {file.name}
+                          </p>
+                          <p className="text-xs text-[#6b7280]">{file.size}</p>
+                        </div>
+                        <button type="button" onClick={() => removeWorkFile(index)}>
+                          <XCircle className="h-4 w-4 shrink-0 text-[#9ca3af]" />
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
-
             </div>
-          </div>
+          </Card>
 
-          {/* Availability & Preferences Section */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Availability & Preferences</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
-            </div>
-
-            <div className="space-y-8">
-              {/* Available for Events */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-4">
-                  Available for Events <span className="text-red-500">*</span>
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {["Bhajan Sandhya", "Temple Festivals", "Cultural Programs", "Private Events", "Weddings & Celebrations", "Online Events"].map((event) => (
-                    <div key={event} className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id={event}
-                        className="w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                      />
-                      <label htmlFor={event} className="text-sm text-[#583939] cursor-pointer">
-                        {event}
-                      </label>
-                    </div>
+          {/* Availability & Preferences */}
+          <Card title="Availability & Preferences">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4">
+                <FieldLabel label="Available for Events" required />
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {eventOptions.map((event) => (
+                    <Checkbox
+                      key={event}
+                      label={event}
+                      checked={availableEvents.includes(event)}
+                      onChange={() => toggleFromList(availableEvents, setAvailableEvents, event)}
+                    />
                   ))}
                 </div>
               </div>
-
-              {/* Preferred Performance Regions */}
-              <div>
-                <label className="block text-sm font-semibold text-[#583939] mb-4">
-                  Preferred Performance Regions <span className="text-red-500">*</span>
-                </label>
-                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {["Rajasthan", "Delhi NCR", "Uttar Pradesh", "Madhya Pradesh", "Gujarat", "Maharashtra", "Pan India"].map((region) => (
-                    <div key={region} className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id={region}
-                        className="w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                      />
-                      <label htmlFor={region} className="text-sm text-[#583939] cursor-pointer">
-                        {region}
-                      </label>
-                    </div>
+              <div className="flex flex-col gap-4">
+                <FieldLabel label="Preferred Performance Regions" required />
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {regionOptions.map((region) => (
+                    <Checkbox
+                      key={region}
+                      label={region}
+                      checked={regions.includes(region)}
+                      onChange={() => toggleFromList(regions, setRegions, region)}
+                    />
                   ))}
                 </div>
               </div>
-
-              {/* Row: Expected Honorarium Range and Travel Willingness */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Expected Honorarium Range */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-2">
-                    Expected Honorarium Range <span className="text-red-500">*</span>
-                  </label>
-                  <select className="w-full px-4 py-3 rounded-lg border-2 border-[#E0E0E0] focus:border-[#E07C2D] focus:outline-none transition-all">
-                    <option>₹15,000-50,000</option>
-                    <option>₹50,000-100,000</option>
-                    <option>₹100,000-250,000</option>
-                    <option>₹250,000-500,000</option>
-                    <option>₹500,000+</option>
-                  </select>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <FieldLabel label="Expected Honorarium Range" required />
+                  <Select options={honorariumOptions} value={honorarium} onChange={setHonorarium} />
                 </div>
-
-                {/* Travel Willingness */}
-                <div>
-                  <label className="block text-sm font-semibold text-[#583939] mb-4">
-                    Travel Willingness <span className="text-red-500">*</span>
-                  </label>
-                  <div className="flex gap-3">
-                    {["Within City", "Within State", "Across India"].map((option) => (
-                      <div key={option} className="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          id={option}
-                          name="travelWillingness"
-                          className="w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                        />
-                        <label htmlFor={option} className="text-sm text-[#583939] cursor-pointer">
-                          {option}
-                        </label>
-                      </div>
+                <div className="flex flex-col gap-4">
+                  <FieldLabel label="Travel Willingness" required />
+                  <div className="flex h-12 items-center gap-6">
+                    {travelOptions.map((option) => (
+                      <Radio
+                        key={option}
+                        label={option}
+                        checked={travelWillingness === option}
+                        onChange={() => setTravelWillingness(option)}
+                      />
                     ))}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
 
-          {/* Submission & Agreement Section */}
-          <div className="bg-white rounded-2xl p-8 lg:p-12 mt-8">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-[#583939] mb-2">Submission & Agreement</h2>
-              <div className="h-1 w-20 bg-[#E07C2D] mx-auto"></div>
-            </div>
-
-            <div className="space-y-6">
-              {/* Agreement Checkboxes */}
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    id="agreeTerms"
-                    {...formik.getFieldProps("agreeToTerms")}
-                    className="mt-1 w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                  />
-                  <label htmlFor="agreeTerms" className="text-sm text-[#583939] cursor-pointer">
-                    I agree to the Terms of Service and Privacy Policy of Shyam Jagat.
-                  </label>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    id="consentContact"
-                    className="mt-1 w-4 h-4 accent-[#E07C2D] cursor-pointer"
-                  />
-                  <label htmlFor="consentContact" className="text-sm text-[#583939] cursor-pointer">
-                    I consent to being contacted for event opportunities via email and phone.
-                  </label>
-                </div>
+          {/* Submission & Agreement */}
+          <Card title="Submission & Agreement">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4">
+                <AgreementCheckbox
+                  checked={formik.values.agreeToTerms ?? false}
+                  onChange={(v) => formik.setFieldValue("agreeToTerms", v)}
+                >
+                  I agree to the Terms of Service and Privacy Policy of Shyam Jagat.
+                </AgreementCheckbox>
+                <AgreementCheckbox checked={consentContact} onChange={setConsentContact}>
+                  I consent to being contacted for event opportunities via email and
+                  phone.
+                </AgreementCheckbox>
               </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={formik.isSubmitting}
-                className="w-full bg-[#E07C2D] hover:bg-[#D46B1B] text-white px-8 py-4 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-8"
-              >
-                {formik.isSubmitting ? "Submitting..." : "Submit Registration →"}
-              </button>
-
-              {/* Login Link */}
-              <p className="text-sm text-[#666] text-center">
-                Already registered?{" "}
-                <Link href="/login" className="text-[#E07C2D] font-semibold hover:underline">
-                  Login here
-                </Link>
-              </p>
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  type="submit"
+                  disabled={formik.isSubmitting}
+                  className="w-full rounded-lg bg-primary py-4 text-base font-bold text-white shadow-[0px_8px_8px_rgba(232,119,34,0.2)] transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {formik.isSubmitting ? "Submitting..." : "Submit Registration →"}
+                </button>
+                <p className="flex items-center gap-1.5 text-sm text-[#595656]">
+                  Already registered?{" "}
+                  <Link href="/login" className="font-semibold text-maroon">
+                    Login here
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
+          </Card>
         </div>
-      </section>
+      </form>
 
-      {/* Why Join Shyam Jagat as an Artist Section */}
-      <section className="bg-white py-16 lg:py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          {/* Heading */}
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl lg:text-5xl font-bold text-[#583939] mb-4">
+      <AdSlot size="rectangle" />
+
+      {/* Why Join */}
+      <section className="border-y border-[rgba(212,175,55,0.25)] bg-[#fffbf3] px-6 py-16 lg:px-[108px] lg:py-24">
+        <div className="mx-auto flex max-w-[1224px] flex-col gap-12">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <h2 className="font-serif text-3xl font-bold leading-[1.1] text-maroon sm:text-[48px]">
               Why Join Shyam Jagat as an Artist?
             </h2>
-            <p className="text-base lg:text-lg text-[#666] max-w-2xl mx-auto">
-              Devotion meets showcase. Step onto a platform built to honor your sacred craft and connect you with global devotees.
+            <div className="h-[3px] w-[100px] bg-primary" />
+            <p className="max-w-[760px] text-base leading-7 text-[#595656] sm:text-lg">
+              Devotion meets showcase. Step onto a platform built to honor your sacred
+              craft and connect you with global devotees.
             </p>
           </div>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Card 1: Reach Thousands */}
-            <div className="text-center bg-[#FBF6F1] p-4 rounded-lg shadow-md hover:shadow-lg transition-all">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-[#583939] rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {whyFeatures.map((feature) => (
+              <div
+                key={feature.title}
+                className="flex flex-col gap-4 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white p-6 shadow-[0px_12px_16px_rgba(139,0,0,0.03)]"
+              >
+                <div className="flex size-14 items-center justify-center rounded-full bg-maroon text-2xl">
+                  {feature.emoji}
                 </div>
+                <h3 className="font-serif text-[22px] font-bold text-maroon">
+                  {feature.title}
+                </h3>
+                <p className="text-sm leading-[22px] text-[#595656]">{feature.desc}</p>
+                <div className="h-0.5 w-full rounded-full bg-primary" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-2">Reach Thousands</h3>
-              <div className="h-1 w-16 bg-[#E07C2D] mx-auto mb-4"></div>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Get discovered by temple boards and premier event organizers across India.
-              </p>
-            </div>
-
-            {/* Card 2: Sacred Platform */}
-            <div className="text-center bg-[#FBF6F1] p-4 rounded-lg shadow-md hover:shadow-lg transition-all">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-[#583939] rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-2">Sacred Platform</h3>
-              <div className="h-1 w-16 bg-[#E07C2D] mx-auto mb-4"></div>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Perform at prestigious temple festivals, continuous satsangs, and major cultural gatherings.
-              </p>
-            </div>
-
-            {/* Card 3: Grow Your Art */}
-            <div className="text-center bg-[#FBF6F1] p-4 rounded-lg shadow-md hover:shadow-lg transition-all">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-[#583939] rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M11.584 2.376a.75.75 0 01.832 0l9 5.25a.75.75 0 11-.832 1.248L12 4.622 3.416 8.874a.75.75 0 01-.832-1.248l9-5.25z" />
-                    <path fillRule="evenodd" d="M20.75 10.04a.75.75 0 00-.416-.672l-9-5.25a.75.75 0 00-.668 0l-9 5.25a.75.75 0 00-.416.672v8.42a.75.75 0 00.416.672l9 5.25a.75.75 0 00.668 0l9-5.25a.75.75 0 00.416-.672V10.04zM12 13a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-2">Grow Your Art</h3>
-              <div className="h-1 w-16 bg-[#E07C2D] mx-auto mb-4"></div>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Connect with veteran devotional masters, exchange techniques, and expand your spiritual network.
-              </p>
-            </div>
-
-            {/* Card 4: Fair Compensation */}
-            <div className="text-center bg-[#FBF6F1] p-4 rounded-lg shadow-md hover:shadow-lg transition-all ">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-[#583939] rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="font-serif text-xl font-bold text-[#583939] mb-2">Fair Compensation</h3>
-              <div className="h-1 w-16 bg-[#E07C2D] mx-auto mb-4"></div>
-              <p className="text-sm text-[#666] leading-relaxed">
-                Experience transparent booking terms and fast, verified digital payments directly to your account.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

@@ -4,8 +4,8 @@ import Footer from "@/components/layout/Footer";
 /**
  * Marketing and content pages: full chrome.
  *
- * The header is fixed, so `main` reserves its height. The home hero opts back
- * out with a negative margin to sit underneath the transparent bar.
+ * The header is fixed at 100px tall, so `main` reserves that height. Full-bleed
+ * hero sections opt back out with a matching negative margin.
  */
 export default function SiteLayout({
   children,
@@ -15,7 +15,7 @@ export default function SiteLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 pt-[72px]">{children}</main>
+      <main className="flex-1 pt-[100px]">{children}</main>
       <Footer />
     </div>
   );

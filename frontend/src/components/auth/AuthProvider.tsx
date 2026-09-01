@@ -35,28 +35,11 @@ export default function AuthProvider({
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // On mount, try to restore the session from the httpOnly refresh cookie.
-  // A 401 here just means nobody is signed in, which is not an error.
+  // Session restore is disabled for now — there's no backend running, and the
+  // refresh call was just failing with a connection error on every page load.
+  // Re-enable this effect once the auth API is back.
   useEffect(() => {
-    let cancelled = false;
-
-    authApi
-      .refresh()
-      .then((result) => {
-        if (cancelled) return;
-        tokenStore.set(result.accessToken);
-        setUser(result.user);
-      })
-      .catch(() => {
-        if (!cancelled) tokenStore.set(null);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
+    setLoading(false);
   }, []);
 
   const signup = useCallback(async (input: SignupInput) => {

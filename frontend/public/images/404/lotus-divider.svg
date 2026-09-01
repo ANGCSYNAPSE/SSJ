@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="400" height="32" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Lotus-Divider">
+<line id="Line" x1="18" y1="15.5" x2="168" y2="15.5" stroke="#D4AF37"/>
+<g id="circle-x">
+<path id="Vector" d="M204 11.9997L196 20.0003M196 11.9997L204 20.0003M213.334 16C213.334 23.3644 207.364 29.3344 200 29.3344C192.636 29.3344 186.666 23.3644 186.666 16C186.666 8.63561 192.636 2.6656 200 2.6656C207.364 2.6656 213.334 8.63561 213.334 16Z" stroke="#E87722" stroke-width="2" stroke-linecap="round"/>
+</g>
+<line id="Line_2" x1="232" y1="15.5" x2="382" y2="15.5" stroke="#D4AF37"/>
+</g>
+</svg>

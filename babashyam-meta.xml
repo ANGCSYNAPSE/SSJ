@@ -1,0 +1,901 @@
+<frame id="649:6532" name="baba-shyam-page" x="8600" y="0" width="1440" height="16524.05078125">
+  <frame id="649:6533" name="Navbar" x="0" y="0" width="1440" height="100">
+    <rounded-rectangle id="649:6534" name="Logo" x="80" y="18" width="64" height="64" />
+    <frame id="649:6535" name="NavLinks" x="197" y="38" width="825" height="24">
+      <text id="649:6536" name="Home" x="0" y="0" width="48" height="24" />
+      <text id="649:6537" name="About Us" x="88" y="0" width="73" height="24" />
+      <text id="649:6538" name="Our Initiatives" x="201" y="0" width="111" height="24" />
+      <text id="649:6539" name="Baba Shyam" x="352" y="0" width="105" height="24" />
+      <text id="649:6540" name="Temple Directory" x="497" y="0" width="138" height="24" />
+      <text id="649:6541" name="Team" x="675" y="0" width="47" height="24" />
+      <frame id="649:6542" name="More" x="762" y="0" width="63" height="24">
+        <text id="649:6543" name="More" x="0" y="0" width="41" height="24" />
+        <frame id="649:6544" name="chevron-down" x="47" y="4" width="16" height="16" />
+      </frame>
+    </frame>
+    <frame id="649:6546" name="Actions" x="1075" y="28.5" width="285" height="43">
+      <frame id="649:6547" name="Frame" x="0" y="0" width="125" height="43">
+        <text id="649:6548" name="Contact Us" x="20" y="10" width="85" height="23" />
+      </frame>
+      <frame id="649:6549" name="Frame" x="141" y="0" width="144" height="43">
+        <vector id="649:6550" name="Vector" x="20" y="13.5" width="16" height="16" />
+        <text id="649:6551" name="DONATION" x="44" y="10" width="80" height="23" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6552" name="hero" x="0" y="100" width="1440" height="678" />
+  <frame id="649:6582" name="Ad Section - Leaderboard" x="0" y="778" width="1440" height="208">
+    <frame id="649:6583" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:6584" name="ad-content-wrapper" x="356" y="33" width="728" height="142">
+      <text id="649:6585" name="ad-label" x="313" y="16" width="102" height="12" />
+      <frame id="649:6586" name="ad-placeholder-728x90" x="0" y="36" width="728" height="90">
+        <text id="649:6587" name="ad-size-label" x="334" y="26" width="60" height="17" />
+        <text id="649:6588" name="ad-description" x="339" y="51" width="50" height="13" />
+      </frame>
+    </frame>
+    <frame id="649:6589" name="separator-bottom" x="0" y="175" width="1440" height="1" />
+  </frame>
+  <frame id="649:6590" name="Frame" x="0" y="986" width="1440" height="901">
+    <frame id="649:6591" name="Frame" x="100" y="150.5" width="483" height="600">
+      <rounded-rectangle id="649:6592" name="Rectangle" x="12" y="12" width="459" height="576" />
+    </frame>
+    <frame id="649:6593" name="Frame" x="663" y="120" width="677" height="661">
+      <frame id="649:6594" name="atom" x="0" y="0" width="40" height="40" />
+      <frame id="649:6596" name="Frame" x="0" y="72" width="677" height="125">
+        <text id="649:6597" name="The Divine Story of Khatu Shyam Ji" x="0" y="0" width="677" height="106" />
+        <rounded-rectangle id="649:6598" name="Rectangle" x="0" y="122" width="100" height="3" />
+      </frame>
+      <frame id="649:6599" name="Frame" x="0" y="229" width="677" height="301">
+        <text id="649:6600" name="Baba Shyam, worshipped as Khatu Shyam Ji, is believed to be the incarnation of Barbarika, the brave grandson of Bhima from the Mahabharata. Renowned for his unmatched courage, humility, and devotion, Barbarika willingly sacrificed his head before the Kurukshetra war upon Lord Krishna&#39;s request." x="0" y="0" width="677" height="116" />
+        <text id="649:6601" name="Pleased by this supreme sacrifice, Lord Krishna granted him the divine blessing that in Kaliyuga he would be worshipped as Shyam, and devotees remembering him with sincere faith would receive his blessings." x="0" y="136" width="677" height="87" />
+        <text id="649:6602" name="Today, millions visit Khatu every year seeking peace, hope, strength, and divine grace." x="0" y="243" width="677" height="58" />
+      </frame>
+      <frame id="649:6603" name="Frame" x="0" y="562" width="677" height="99">
+        <frame id="649:6604" name="Frame" x="0" y="0" width="209.6666717529297" height="99">
+          <text id="649:6605" name="10M+" x="68.33333587646484" y="20" width="73" height="37" />
+          <text id="649:6606" name="Annual Devotees" x="49.833335876464844" y="61" width="110" height="18" />
+        </frame>
+        <frame id="649:6607" name="Frame" x="233.6666717529297" y="0" width="209.66665649414062" height="99">
+          <text id="649:6608" name="800+" x="73.83332824707031" y="20" width="62" height="37" />
+          <text id="649:6609" name="Years of Faith" x="58.83332824707031" y="61" width="92" height="18" />
+        </frame>
+        <frame id="649:6610" name="Frame" x="467.33331298828125" y="0" width="209.66665649414062" height="99">
+          <text id="649:6611" name="1" x="97.33332824707031" y="20" width="15" height="37" />
+          <text id="649:6612" name="Sacred Temple" x="58.33332824707031" y="61" width="93" height="18" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6613" name="Frame" x="0" y="1887" width="1440" height="982">
+    <frame id="649:6614" name="Frame" x="100" y="120" width="1240" height="72">
+      <text id="649:6615" name="The Sacred History" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:6616" name="Rectangle" x="570" y="69" width="100" height="3" />
+    </frame>
+    <frame id="649:6617" name="Frame" x="100" y="256" width="1240" height="606">
+      <rounded-rectangle id="649:6618" name="Rectangle" x="0" y="53" width="580" height="500" />
+      <frame id="649:6619" name="Frame" x="660" y="0" width="580" height="606">
+        <frame id="649:6620" name="Frame" x="0" y="0" width="524" height="425">
+          <text id="649:6621" name="Barbarika was born to Ghatotkacha and Ahilavati. From childhood he displayed exceptional bravery and dedication toward righteousness." x="0" y="0" width="524" height="87" />
+          <text id="649:6622" name="Through intense penance, he received three infallible arrows and a divine bow from Lord Shiva." x="0" y="103" width="524" height="58" />
+          <text id="649:6623" name="Before the Mahabharata war, he vowed to always support the weaker side. Recognizing the consequences of this promise, Lord Krishna tested him and eventually requested his head as an offering." x="0" y="177" width="524" height="116" />
+          <text id="649:6624" name="Without hesitation, Barbarika accepted, demonstrating the highest form of devotion and sacrifice. His severed head was placed on a hill from where he witnessed the entire Mahabharata war." x="0" y="309" width="524" height="116" />
+        </frame>
+        <frame id="649:6625" name="Frame" x="0" y="449" width="580" height="157">
+          <text id="649:6626" name="&quot;In Kaliyuga, you shall be worshipped as Shyam — and those who remember you with sincerity shall receive your blessings.&quot; — Lord Krishna" x="32" y="32" width="516" height="93" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6627" name="Ad Section - Medium Rectangle" x="0" y="2869" width="1440" height="368">
+    <frame id="649:6628" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:6629" name="ad-content-wrapper" x="570" y="33" width="300" height="302">
+      <text id="649:6630" name="ad-label" x="99" y="16" width="102" height="12" />
+      <frame id="649:6631" name="ad-placeholder-300x250" x="0" y="36" width="300" height="250">
+        <text id="649:6632" name="ad-size-label" x="115" y="106" width="70" height="17" />
+        <text id="649:6633" name="ad-description" x="125" y="131" width="50" height="13" />
+      </frame>
+    </frame>
+    <frame id="649:6634" name="separator-bottom" x="0" y="335" width="1440" height="1" />
+  </frame>
+  <frame id="649:6635" name="Frame" x="0" y="3237" width="1440" height="3298">
+    <frame id="649:6636" name="Frame" x="0" y="80" width="1440" height="175">
+      <text id="649:6637" name="The Divine Journey of Barbarika" x="100" y="0" width="1240" height="57" />
+      <frame id="649:6638" name="Frame" x="648" y="69" width="144" height="8">
+        <rounded-rectangle id="649:6639" name="Rectangle" x="0" y="3" width="60" height="2" />
+        <ellipse id="649:6640" name="Ellipse" x="68" y="0" width="8" height="8" />
+        <rounded-rectangle id="649:6641" name="Rectangle" x="84" y="3" width="60" height="2" />
+      </frame>
+      <text id="649:6642" name="From a warrior&#39;s birth to eternal divine grace - the sacred story of Baba Shyam." x="370" y="89" width="700" height="26" />
+    </frame>
+    <frame id="649:6643" name="Frame" x="270" y="255" width="900" height="2787">
+      <rounded-rectangle id="649:6644" name="Rectangle" x="449" y="0" width="2" height="2787" />
+      <frame id="649:6645" name="Frame" x="0" y="0" width="900" height="400">
+        <frame id="649:6646" name="Frame" x="0" y="0" width="900" height="376">
+          <frame id="649:6647" name="Frame" x="0" y="30" width="380" height="316">
+            <frame id="649:6648" name="Frame" x="20" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6649" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6650" name="Birth" x="150.5" y="192" width="59" height="34" />
+            <text id="649:6651" name="Born to Ghatotkacha and Ahilavati, Barbarika came into the world with extraordinary strength and divine purpose." x="-7" y="238" width="374" height="78" />
+          </frame>
+          <frame id="649:6652" name="Frame" x="380" y="161" width="120" height="54">
+            <frame id="649:6653" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6654" name="1" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6655" name="Frame" x="500" y="98" width="380" height="180" />
+        </frame>
+        <frame id="649:6656" name="Frame" x="0" y="376" width="900" height="24">
+          <frame id="649:6657" name="Frame" x="423" y="0" width="54" height="24">
+            <rounded-rectangle id="649:6658" name="Rectangle" x="26" y="0" width="2" height="24" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:6659" name="Frame" x="0" y="400" width="900" height="400">
+        <frame id="649:6660" name="Frame" x="0" y="0" width="900" height="376">
+          <frame id="649:6661" name="Frame" x="0" y="98" width="380" height="180" />
+          <frame id="649:6662" name="Frame" x="380" y="161" width="120" height="54">
+            <frame id="649:6663" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6664" name="2" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6665" name="Frame" x="500" y="30" width="380" height="316">
+            <frame id="649:6666" name="Frame" x="40" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6667" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6668" name="Training from Lord Shiva" x="59.5" y="192" width="281" height="34" />
+            <text id="649:6669" name="Through intense penance and devotion, Barbarika received the blessings and training of Lord Shiva himself." x="40" y="238" width="320" height="78" />
+          </frame>
+        </frame>
+        <frame id="649:6670" name="Frame" x="0" y="376" width="900" height="24">
+          <frame id="649:6671" name="Frame" x="423" y="0" width="54" height="24">
+            <rounded-rectangle id="649:6672" name="Rectangle" x="26" y="0" width="2" height="24" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:6673" name="Frame" x="0" y="800" width="900" height="400">
+        <frame id="649:6674" name="Frame" x="0" y="0" width="900" height="376">
+          <frame id="649:6675" name="Frame" x="0" y="30" width="380" height="316">
+            <frame id="649:6676" name="Frame" x="20" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6677" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6678" name="Three Divine Arrows" x="64" y="192" width="232" height="34" />
+            <text id="649:6679" name="Lord Shiva bestowed upon him three infallible arrows - each capable of destroying entire armies single-handedly." x="-7" y="238" width="374" height="78" />
+          </frame>
+          <frame id="649:6680" name="Frame" x="380" y="161" width="120" height="54">
+            <frame id="649:6681" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6682" name="3" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6683" name="Frame" x="500" y="98" width="380" height="180" />
+        </frame>
+        <frame id="649:6684" name="Frame" x="0" y="376" width="900" height="24">
+          <frame id="649:6685" name="Frame" x="423" y="0" width="54" height="24">
+            <rounded-rectangle id="649:6686" name="Rectangle" x="26" y="0" width="2" height="24" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:6687" name="Frame" x="0" y="1200" width="900" height="400">
+        <frame id="649:6688" name="Frame" x="0" y="0" width="900" height="376">
+          <frame id="649:6689" name="Frame" x="0" y="98" width="380" height="180" />
+          <frame id="649:6690" name="Frame" x="380" y="161" width="120" height="54">
+            <frame id="649:6691" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6692" name="4" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6693" name="Frame" x="500" y="30" width="380" height="316">
+            <frame id="649:6694" name="Frame" x="40" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6695" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6696" name="Meeting Lord Krishna" x="77.5" y="192" width="245" height="34" />
+            <text id="649:6697" name="Before the Kurukshetra war, Barbarika encountered Lord Krishna who tested his resolve and wisdom." x="40" y="238" width="320" height="78" />
+          </frame>
+        </frame>
+        <frame id="649:6698" name="Frame" x="0" y="376" width="900" height="24">
+          <frame id="649:6699" name="Frame" x="423" y="0" width="54" height="24">
+            <rounded-rectangle id="649:6700" name="Rectangle" x="26" y="0" width="2" height="24" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:6701" name="Frame" x="0" y="1600" width="900" height="400">
+        <frame id="649:6702" name="Frame" x="0" y="0" width="900" height="376">
+          <frame id="649:6703" name="Frame" x="0" y="30" width="380" height="316">
+            <frame id="649:6704" name="Frame" x="20" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6705" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6706" name="The Supreme Sacrifice" x="59.5" y="192" width="241" height="34" />
+            <text id="649:6707" name="When Krishna requested his head as an offering, Barbarika unhesitatingly gave it - an act of ultimate devotion." x="20" y="238" width="320" height="78" />
+          </frame>
+          <frame id="649:6708" name="Frame" x="380" y="161" width="120" height="54">
+            <frame id="649:6709" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6710" name="5" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6711" name="Frame" x="500" y="98" width="380" height="180" />
+        </frame>
+        <frame id="649:6712" name="Frame" x="0" y="376" width="900" height="24">
+          <frame id="649:6713" name="Frame" x="423" y="0" width="54" height="24">
+            <rounded-rectangle id="649:6714" name="Rectangle" x="26" y="0" width="2" height="24" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:6715" name="Frame" x="0" y="2000" width="900" height="426">
+        <frame id="649:6716" name="Frame" x="0" y="0" width="900" height="402">
+          <frame id="649:6717" name="Frame" x="0" y="111" width="380" height="180" />
+          <frame id="649:6718" name="Frame" x="380" y="174" width="120" height="54">
+            <frame id="649:6719" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6720" name="6" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6721" name="Frame" x="500" y="30" width="380" height="342">
+            <frame id="649:6722" name="Frame" x="40" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6723" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6724" name="Witness of Mahabharata" x="67" y="192" width="266" height="34" />
+            <text id="649:6725" name="His severed head was placed on a hill from where he witnessed the entire Mahabharata war as promised by Krishna." x="40" y="238" width="320" height="104" />
+          </frame>
+        </frame>
+        <frame id="649:6726" name="Frame" x="0" y="402" width="900" height="24">
+          <frame id="649:6727" name="Frame" x="423" y="0" width="54" height="24">
+            <rounded-rectangle id="649:6728" name="Rectangle" x="26" y="0" width="2" height="24" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:6729" name="Frame" x="0" y="2426" width="900" height="361">
+        <frame id="649:6730" name="Frame" x="0" y="0" width="900" height="361">
+          <frame id="649:6731" name="Frame" x="0" y="30" width="380" height="301">
+            <frame id="649:6732" name="Frame" x="20" y="0" width="320" height="180">
+              <rounded-rectangle id="649:6733" name="Rectangle" x="20" y="0" width="280" height="180" />
+            </frame>
+            <text id="649:6734" name="Blessed as Baba Shyam" x="59" y="192" width="242" height="34" />
+            <text id="649:6735" name="Lord Krishna declared Barbarika would be worshipped as Shyam in Kaliyuga and millions would be blessed by his grace." x="20" y="238" width="320" height="63" />
+          </frame>
+          <frame id="649:6736" name="Frame" x="380" y="153.5" width="120" height="54">
+            <frame id="649:6737" name="Frame" x="33" y="0" width="54" height="54">
+              <text id="649:6738" name="7" x="21" y="12.5" width="12" height="29" />
+            </frame>
+          </frame>
+          <frame id="649:6739" name="Frame" x="500" y="90.5" width="380" height="180" />
+        </frame>
+      </frame>
+    </frame>
+    <frame id="649:6740" name="Frame" x="0" y="3042" width="1440" height="256">
+      <frame id="649:6741" name="Frame" x="625" y="60" width="190" height="6">
+        <rounded-rectangle id="649:6742" name="Rectangle" x="0" y="2.5" width="80" height="1" />
+        <ellipse id="649:6743" name="Ellipse" x="92" y="0" width="6" height="6" />
+        <rounded-rectangle id="649:6744" name="Rectangle" x="110" y="2.5" width="80" height="1" />
+      </frame>
+      <text id="649:6745" name="Faith. Devotion. Sacrifice. Blessings." x="100" y="82" width="1240" height="42" />
+      <text id="649:6746" name="Jai Shree Shyam!" x="100" y="140" width="1240" height="34" />
+      <frame id="649:6747" name="Frame" x="625" y="190" width="190" height="6">
+        <rounded-rectangle id="649:6748" name="Rectangle" x="0" y="2.5" width="80" height="1" />
+        <ellipse id="649:6749" name="Ellipse" x="92" y="0" width="6" height="6" />
+        <rounded-rectangle id="649:6750" name="Rectangle" x="110" y="2.5" width="80" height="1" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6751" name="Frame" x="0" y="6535" width="1440" height="1338">
+    <frame id="649:6752" name="Frame" x="100" y="120" width="1240" height="115">
+      <text id="649:6753" name="Teachings of Baba Shyam" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:6754" name="Rectangle" x="570" y="69" width="100" height="3" />
+      <text id="649:6755" name="Sacred values and virtues that guide millions on the path of righteous living." x="0" y="88" width="1240" height="27" />
+    </frame>
+    <frame id="649:6756" name="Frame" x="100" y="299" width="1240" height="919">
+      <frame id="649:6757" name="Frame" x="0" y="0" width="1240" height="293">
+        <frame id="649:6758" name="Frame" x="18" y="0" width="380" height="293">
+          <frame id="649:6759" name="Frame" x="40" y="40" width="64" height="64">
+            <text id="649:6760" name="🙏" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6761" name="Faith" x="40" y="124" width="62" height="37" />
+          <text id="649:6762" name="True devotion brings peace, strength, and divine grace in every moment of life." x="40" y="181" width="300" height="72" />
+        </frame>
+        <frame id="649:6763" name="Frame" x="430" y="0" width="380" height="269">
+          <frame id="649:6764" name="Frame" x="40" y="40" width="64" height="64">
+            <text id="649:6765" name="🌸" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6766" name="Humility" x="40" y="124" width="109" height="37" />
+          <text id="649:6767" name="Remain humble regardless of power or position — greatness lies in simplicity." x="40" y="181" width="300" height="48" />
+        </frame>
+        <frame id="649:6768" name="Frame" x="842" y="0" width="380" height="269">
+          <frame id="649:6769" name="Frame" x="40" y="40" width="64" height="64">
+            <text id="649:6770" name="💛" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6771" name="Sacrifice" x="40" y="124" width="98" height="37" />
+          <text id="649:6772" name="Selfless service and giving without expectation is the highest virtue." x="40" y="181" width="300" height="48" />
+        </frame>
+      </frame>
+      <frame id="649:6773" name="Frame" x="0" y="325" width="1240" height="293">
+        <frame id="649:6774" name="Frame" x="18" y="0" width="380" height="293">
+          <frame id="649:6775" name="Frame" x="40" y="40" width="64" height="64">
+            <text id="649:6776" name="🤲" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6777" name="Compassion" x="40" y="124" width="143" height="37" />
+          <text id="649:6778" name="Open your heart and help those who are in need — see the divine in every being." x="40" y="181" width="300" height="72" />
+        </frame>
+        <frame id="649:6779" name="Frame" x="430" y="0" width="380" height="269">
+          <frame id="649:6780" name="Frame" x="40" y="40" width="64" height="64">
+            <text id="649:6781" name="✨" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6782" name="Truth" x="40" y="124" width="71" height="37" />
+          <text id="649:6783" name="Walk the path of righteousness and let truth be your guiding light." x="40" y="181" width="300" height="48" />
+        </frame>
+        <frame id="649:6784" name="Frame" x="842" y="0" width="380" height="293">
+          <frame id="649:6785" name="Frame" x="40" y="40" width="64" height="64">
+            <text id="649:6786" name="🌍" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6787" name="Equality" x="40" y="124" width="99" height="37" />
+          <text id="649:6788" name="Serve everyone without discrimination — all are equal in the eyes of Baba Shyam." x="40" y="181" width="300" height="72" />
+        </frame>
+      </frame>
+      <frame id="649:6789" name="Frame" x="430" y="650" width="380" height="269">
+        <frame id="649:6790" name="Frame" x="40" y="40" width="64" height="64">
+          <text id="649:6791" name="🕉️" x="16" y="16" width="32" height="32" />
+        </frame>
+        <text id="649:6792" name="Seva" x="40" y="124" width="51" height="37" />
+        <text id="649:6793" name="Serving humanity is the truest and highest form of serving God himself." x="40" y="181" width="300" height="48" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6794" name="Frame" x="0" y="7873" width="1440" height="969">
+    <frame id="649:6795" name="Frame" x="100" y="152.5" width="580" height="664">
+      <rounded-rectangle id="649:6796" name="Rectangle" x="0" y="0" width="580" height="400" />
+      <frame id="649:6797" name="Frame" x="0" y="424" width="580" height="240">
+        <rounded-rectangle id="649:6798" name="Rectangle" x="0" y="0" width="278" height="240" />
+        <rounded-rectangle id="649:6799" name="Rectangle" x="302" y="0" width="278" height="240" />
+      </frame>
+    </frame>
+    <frame id="649:6800" name="Frame" x="760" y="120" width="602" height="729">
+      <frame id="649:6801" name="Frame" x="0" y="0" width="156" height="34">
+        <text id="649:6802" name="Sacred Pilgrimage" x="16" y="8" width="124" height="18" />
+      </frame>
+      <frame id="649:6803" name="Frame" x="0" y="66" width="602" height="125">
+        <text id="649:6804" name="The Divine Abode of Baba Shyam" x="0" y="0" width="602" height="106" />
+        <rounded-rectangle id="649:6805" name="Rectangle" x="0" y="122" width="100" height="3" />
+      </frame>
+      <frame id="649:6806" name="Frame" x="0" y="223" width="602" height="301">
+        <text id="649:6807" name="The sacred Khatu Shyam Temple is located in Khatu village, Sikar district, Rajasthan. According to tradition, Baba Shyam&#39;s divine head was discovered at this location and later enshrined by the local king following divine guidance." x="0" y="0" width="602" height="116" />
+        <text id="649:6808" name="Over the centuries, the temple has become one of India&#39;s most revered pilgrimage destinations, welcoming millions of devotees every year." x="0" y="136" width="602" height="58" />
+        <text id="649:6809" name="Especially during the annual Falgun Mela, when devotees gather from across the world to seek Baba Shyam&#39;s blessings, the temple transforms into a magnificent ocean of faith and devotion." x="0" y="214" width="602" height="87" />
+      </frame>
+      <frame id="649:6810" name="Frame" x="0" y="556" width="225" height="173">
+        <frame id="649:6811" name="Frame" x="0" y="0" width="183" height="47">
+          <text id="649:6812" name="📍 Sikar, Rajasthan" x="20" y="12" width="143" height="23" />
+        </frame>
+        <frame id="649:6813" name="Frame" x="0" y="63" width="200" height="47">
+          <text id="649:6814" name="🕐 Open 4 AM – 10 PM" x="20" y="12" width="160" height="23" />
+        </frame>
+        <frame id="649:6815" name="Frame" x="0" y="126" width="225" height="47">
+          <text id="649:6816" name="🎪 Falgun Mela (Annual)" x="20" y="12" width="185" height="23" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6817" name="Ad Section - Large Banner" x="0" y="8842" width="1440" height="368">
+    <frame id="649:6818" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:6819" name="ad-content-wrapper" x="235" y="33" width="970" height="302">
+      <text id="649:6820" name="ad-label" x="434" y="16" width="102" height="12" />
+      <frame id="649:6821" name="ad-placeholder-970x250" x="0" y="36" width="970" height="250">
+        <text id="649:6822" name="ad-size-label" x="451" y="106" width="68" height="17" />
+        <text id="649:6823" name="ad-description" x="460" y="131" width="50" height="13" />
+      </frame>
+    </frame>
+    <frame id="649:6824" name="separator-bottom" x="0" y="335" width="1440" height="1" />
+  </frame>
+  <frame id="649:6825" name="Frame" x="0" y="9210" width="1440" height="948">
+    <frame id="649:6826" name="Frame" x="100" y="120" width="1240" height="115">
+      <text id="649:6827" name="Miracles &amp; Divine Blessings" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:6828" name="Rectangle" x="570" y="69" width="100" height="3" />
+      <text id="649:6829" name="&quot;Countless devotees believe Baba Shyam fulfills sincere prayers.&quot;" x="0" y="88" width="1240" height="27" />
+    </frame>
+    <frame id="649:6830" name="Frame" x="100" y="315" width="1240" height="273">
+      <frame id="649:6831" name="Frame" x="0" y="0" width="392" height="273">
+        <text id="649:6832" name="“" x="40" y="40" width="34" height="8" />
+        <text id="649:6833" name="“Baba Shyam answered my prayers when all hope was lost. His divine grace brought healing to my family.”" x="40" y="72" width="312" height="116" />
+        <frame id="649:6834" name="Frame" x="40" y="212" width="170" height="21">
+          <rounded-rectangle id="649:6835" name="Rectangle" x="0" y="10" width="20" height="1" />
+          <text id="649:6836" name="Meera Devi, Jaipur" x="32" y="0" width="138" height="21" />
+        </frame>
+      </frame>
+      <frame id="649:6837" name="Frame" x="424" y="0" width="392" height="273">
+        <text id="649:6838" name="“" x="40" y="40" width="34" height="8" />
+        <text id="649:6839" name="“I came with a broken heart and left with peace. Baba Shyam&#39;s presence is beyond words — it must be felt.”" x="40" y="72" width="312" height="116" />
+        <frame id="649:6840" name="Frame" x="40" y="212" width="194" height="21">
+          <rounded-rectangle id="649:6841" name="Rectangle" x="0" y="10" width="20" height="1" />
+          <text id="649:6842" name="Rajesh Sharma, Delhi" x="32" y="0" width="162" height="21" />
+        </frame>
+      </frame>
+      <frame id="649:6843" name="Frame" x="848" y="0" width="392" height="273">
+        <text id="649:6844" name="“" x="40" y="40" width="34" height="8" />
+        <text id="649:6845" name="“Years of struggle ended the moment I surrendered to Baba Shyam with full faith. He never disappoints his devotees.”" x="40" y="72" width="312" height="116" />
+        <frame id="649:6846" name="Frame" x="40" y="212" width="186" height="21">
+          <rounded-rectangle id="649:6847" name="Rectangle" x="0" y="10" width="20" height="1" />
+          <text id="649:6848" name="Anita Singh, Mumbai" x="32" y="0" width="154" height="21" />
+        </frame>
+      </frame>
+    </frame>
+    <frame id="649:6849" name="Frame" x="100" y="668" width="1240" height="160">
+      <frame id="649:6850" name="Frame" x="40" y="40" width="290" height="80">
+        <text id="649:6851" name="10M+" x="93" y="0" width="104" height="52" />
+        <text id="649:6852" name="Devotees Annually" x="80" y="60" width="130" height="20" />
+      </frame>
+      <frame id="649:6853" name="Frame" x="330" y="40" width="290" height="80">
+        <text id="649:6854" name="800+" x="101" y="0" width="88" height="52" />
+        <text id="649:6855" name="Years of Worship" x="84.5" y="60" width="121" height="20" />
+      </frame>
+      <frame id="649:6856" name="Frame" x="620" y="40" width="290" height="80">
+        <text id="649:6857" name="100K+" x="85.5" y="0" width="119" height="52" />
+        <text id="649:6858" name="Daily Prayers" x="99" y="60" width="92" height="20" />
+      </frame>
+      <frame id="649:6859" name="Frame" x="910" y="40" width="290" height="80">
+        <text id="649:6860" name="∞" x="128.5" y="0" width="33" height="52" />
+        <text id="649:6861" name="Miracles of Faith" x="85" y="60" width="120" height="20" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6862" name="Frame" x="0" y="10158" width="1440" height="728">
+    <frame id="649:6863" name="Frame" x="100" y="120" width="1240" height="72">
+      <text id="649:6864" name="Festivals &amp; Celebrations" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:6865" name="Rectangle" x="570" y="69" width="100" height="3" />
+    </frame>
+    <frame id="649:6866" name="Frame" x="100" y="256" width="1240" height="352">
+      <frame id="649:6867" name="Frame" x="0" y="0" width="232" height="352">
+        <rounded-rectangle id="649:6868" name="Rectangle" x="24" y="24" width="184" height="160" />
+        <frame id="649:6869" name="Frame" x="24" y="200" width="184" height="128">
+          <text id="649:6870" name="Falgun Mela" x="0" y="0" width="124" height="31" />
+          <text id="649:6871" name="Feb/Mar" x="0" y="39" width="54" height="18" />
+          <text id="649:6872" name="The grandest festival when millions visit Khatu for 3 days." x="0" y="65" width="184" height="63" />
+        </frame>
+      </frame>
+      <frame id="649:6873" name="Frame" x="252" y="0" width="232" height="352">
+        <rounded-rectangle id="649:6874" name="Rectangle" x="24" y="24" width="184" height="160" />
+        <frame id="649:6875" name="Frame" x="24" y="200" width="184" height="128">
+          <text id="649:6876" name="Janmashtami" x="0" y="0" width="131" height="31" />
+          <text id="649:6877" name="August" x="0" y="39" width="49" height="18" />
+          <text id="649:6878" name="Celebrating birth of Lord Krishna with bhajans and midnight puja." x="0" y="65" width="184" height="63" />
+        </frame>
+      </frame>
+      <frame id="649:6879" name="Frame" x="504" y="0" width="232" height="352">
+        <rounded-rectangle id="649:6880" name="Rectangle" x="24" y="24" width="184" height="160" />
+        <frame id="649:6881" name="Frame" x="24" y="200" width="186" height="128">
+          <text id="649:6882" name="Ekadashi" x="0" y="0" width="91" height="31" />
+          <text id="649:6883" name="Monthly" x="0" y="39" width="58" height="18" />
+          <text id="649:6884" name="Sacred fasting day observed with special aarti and darshan." x="0" y="65" width="186" height="63" />
+        </frame>
+      </frame>
+      <frame id="649:6885" name="Frame" x="756" y="0" width="232" height="352">
+        <rounded-rectangle id="649:6886" name="Rectangle" x="24" y="24" width="184" height="160" />
+        <frame id="649:6887" name="Frame" x="24" y="200" width="185" height="128">
+          <text id="649:6888" name="Bhajan Sandhya" x="0" y="0" width="159" height="31" />
+          <text id="649:6889" name="Seasonal" x="0" y="39" width="62" height="18" />
+          <text id="649:6890" name="Devotional music evenings filled with kirtan and community prayer." x="0" y="65" width="185" height="63" />
+        </frame>
+      </frame>
+      <frame id="649:6891" name="Frame" x="1008" y="0" width="232" height="352">
+        <rounded-rectangle id="649:6892" name="Rectangle" x="24" y="24" width="184" height="160" />
+        <frame id="649:6893" name="Frame" x="24" y="200" width="178" height="128">
+          <text id="649:6894" name="Shyam Katha" x="0" y="0" width="133" height="31" />
+          <text id="649:6895" name="Year-round" x="0" y="39" width="81" height="18" />
+          <text id="649:6896" name="Regular discourses narrating the divine story of Baba Shyam." x="0" y="65" width="178" height="63" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6897" name="Frame" x="0" y="10886" width="1440" height="709">
+    <frame id="649:6898" name="Frame" x="100" y="120" width="1240" height="115">
+      <text id="649:6899" name="Daily Temple Rituals" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:6900" name="Rectangle" x="570" y="69" width="100" height="3" />
+      <text id="649:6901" name="The sacred schedule of worship observed every day at Khatu Shyam Temple." x="0" y="88" width="1240" height="27" />
+    </frame>
+    <frame id="649:6902" name="Frame" x="100" y="315" width="1240" height="274">
+      <frame id="649:6903" name="Frame" x="0" y="0" width="206.6666717529297" height="274">
+        <frame id="649:6904" name="Frame" x="0" y="0" width="206.6666717529297" height="40">
+          <line id="649:6905" name="Line" x="0" y="20" width="83.33333587646484" height="0" />
+          <frame id="649:6906" name="Frame" x="83.33333587646484" y="0" width="40" height="40">
+            <text id="649:6907" name="1" x="17.5" y="11" width="5" height="18" />
+          </frame>
+          <line id="649:6908" name="Line" x="123.33333587646484" y="20" width="83.33333587646484" height="0" />
+        </frame>
+        <frame id="649:6909" name="Frame" x="41.333335876464844" y="64" width="124" height="210">
+          <frame id="649:6910" name="Frame" x="30" y="0" width="64" height="64">
+            <frame id="649:6911" name="lamp" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6913" name="4:30 AM" x="33" y="76" width="58" height="21" />
+          <text id="649:6914" name="Mangla Aarti" x="0" y="109" width="124" height="29" />
+          <text id="649:6915" name="The first prayer of the day to wake the deity." x="0" y="150" width="124" height="60" />
+        </frame>
+      </frame>
+      <frame id="649:6916" name="Frame" x="206.6666717529297" y="0" width="206.6666717529297" height="254">
+        <frame id="649:6917" name="Frame" x="0" y="0" width="206.6666717529297" height="40">
+          <line id="649:6918" name="Line" x="0" y="20" width="83.33333587646484" height="0" />
+          <frame id="649:6919" name="Frame" x="83.33333587646484" y="0" width="40" height="40">
+            <text id="649:6920" name="2" x="16.5" y="11" width="7" height="18" />
+          </frame>
+          <line id="649:6921" name="Line" x="123.33333587646484" y="20" width="83.33333587646484" height="0" />
+        </frame>
+        <frame id="649:6922" name="Frame" x="20.833335876464844" y="64" width="165" height="190">
+          <frame id="649:6923" name="Frame" x="50.5" y="0" width="64" height="64">
+            <frame id="649:6924" name="lamp" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6926" name="7:00 AM" x="54.5" y="76" width="56" height="21" />
+          <text id="649:6927" name="Shringar Darshan" x="0" y="109" width="165" height="29" />
+          <text id="649:6928" name="Deity adorned with ornaments and flowers." x="0" y="150" width="165" height="40" />
+        </frame>
+      </frame>
+      <frame id="649:6929" name="Frame" x="413.3333435058594" y="0" width="206.6666717529297" height="274">
+        <frame id="649:6930" name="Frame" x="0" y="0" width="206.6666717529297" height="40">
+          <line id="649:6931" name="Line" x="0" y="20" width="83.33333587646484" height="0" />
+          <frame id="649:6932" name="Frame" x="83.33333587646484" y="0" width="40" height="40">
+            <text id="649:6933" name="3" x="16" y="11" width="8" height="18" />
+          </frame>
+          <line id="649:6934" name="Line" x="123.33333587646484" y="20" width="83.33333587646484" height="0" />
+        </frame>
+        <frame id="649:6935" name="Frame" x="39.833335876464844" y="64" width="127" height="210">
+          <frame id="649:6936" name="Frame" x="31.5" y="0" width="64" height="64">
+            <frame id="649:6937" name="lamp" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6939" name="12:00 PM" x="33" y="76" width="61" height="21" />
+          <text id="649:6940" name="Rajbhog" x="24" y="109" width="79" height="29" />
+          <text id="649:6941" name="Grand mid-day meal offered to Baba Shyam." x="0" y="150" width="127" height="60" />
+        </frame>
+      </frame>
+      <frame id="649:6942" name="Frame" x="620" y="0" width="206.6666717529297" height="254">
+        <frame id="649:6943" name="Frame" x="0" y="0" width="206.6666717529297" height="40">
+          <line id="649:6944" name="Line" x="0" y="20" width="83.33333587646484" height="0" />
+          <frame id="649:6945" name="Frame" x="83.33333587646484" y="0" width="40" height="40">
+            <text id="649:6946" name="4" x="15.5" y="11" width="9" height="18" />
+          </frame>
+          <line id="649:6947" name="Line" x="123.33333587646484" y="20" width="83.33333587646484" height="0" />
+        </frame>
+        <frame id="649:6948" name="Frame" x="12.833335876464844" y="64" width="181" height="190">
+          <frame id="649:6949" name="Frame" x="58.5" y="0" width="64" height="64">
+            <frame id="649:6950" name="lamp" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6952" name="3:00 PM" x="62.5" y="76" width="56" height="21" />
+          <text id="649:6953" name="Afternoon Darshan" x="0" y="109" width="181" height="29" />
+          <text id="649:6954" name="Temple reopens for devotees after rest." x="0" y="150" width="181" height="40" />
+        </frame>
+      </frame>
+      <frame id="649:6955" name="Frame" x="826.6666870117188" y="0" width="206.66665649414062" height="274">
+        <frame id="649:6956" name="Frame" x="0" y="0" width="206.66665649414062" height="40">
+          <line id="649:6957" name="Line" x="0" y="20" width="83.33332824707031" height="0" />
+          <frame id="649:6958" name="Frame" x="83.33332824707031" y="0" width="40" height="40">
+            <text id="649:6959" name="5" x="16" y="11" width="8" height="18" />
+          </frame>
+          <line id="649:6960" name="Line" x="123.33332824707031" y="20" width="83.33332824707031" height="0" />
+        </frame>
+        <frame id="649:6961" name="Frame" x="37.33332824707031" y="64" width="132" height="210">
+          <frame id="649:6962" name="Frame" x="34" y="0" width="64" height="64">
+            <frame id="649:6963" name="lamp" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6965" name="7:00 PM" x="38.5" y="76" width="55" height="21" />
+          <text id="649:6966" name="Sandhya Aarti" x="0" y="109" width="132" height="29" />
+          <text id="649:6967" name="Evening prayers amidst spiritual hymns." x="0" y="150" width="132" height="60" />
+        </frame>
+      </frame>
+      <frame id="649:6968" name="Frame" x="1033.3333740234375" y="0" width="206.66665649414062" height="274">
+        <frame id="649:6969" name="Frame" x="0" y="0" width="206.66665649414062" height="40">
+          <line id="649:6970" name="Line" x="0" y="20" width="83.33332824707031" height="0" />
+          <frame id="649:6971" name="Frame" x="83.33332824707031" y="0" width="40" height="40">
+            <text id="649:6972" name="6" x="16" y="11" width="8" height="18" />
+          </frame>
+          <line id="649:6973" name="Line" x="123.33332824707031" y="20" width="83.33332824707031" height="0" />
+        </frame>
+        <frame id="649:6974" name="Frame" x="29.333328247070312" y="64" width="148" height="210">
+          <frame id="649:6975" name="Frame" x="42" y="0" width="64" height="64">
+            <frame id="649:6976" name="lamp" x="16" y="16" width="32" height="32" />
+          </frame>
+          <text id="649:6978" name="9:00 PM" x="46" y="76" width="56" height="21" />
+          <text id="649:6979" name="Shayan Darshan" x="0" y="109" width="148" height="29" />
+          <text id="649:6980" name="Final prayers before the deity retires for night." x="0" y="150" width="148" height="60" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:6981" name="Ad Section - Medium Rectangle" x="0" y="11595" width="1440" height="368">
+    <frame id="649:6982" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:6983" name="ad-content-wrapper" x="570" y="33" width="300" height="302">
+      <text id="649:6984" name="ad-label" x="99" y="16" width="102" height="12" />
+      <frame id="649:6985" name="ad-placeholder-300x250" x="0" y="36" width="300" height="250">
+        <text id="649:6986" name="ad-size-label" x="115" y="89.5" width="70" height="17" />
+        <text id="649:6987" name="ad-description" x="125" y="114.5" width="50" height="13" />
+        <frame id="649:6988" name="ad-cta" x="95.5" y="135.5" width="109" height="25">
+          <text id="649:6989" name="cta-text" x="16" y="6" width="77" height="13" />
+        </frame>
+      </frame>
+    </frame>
+    <frame id="649:6990" name="separator-bottom" x="0" y="335" width="1440" height="1" />
+  </frame>
+  <frame id="649:6991" name="Frame" x="0" y="11963" width="1440" height="871.0499877929688">
+    <frame id="649:6992" name="Frame" x="100" y="120" width="1240" height="72">
+      <text id="649:6993" name="Bhajans &amp; Spiritual Wisdom" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:6994" name="Rectangle" x="570" y="69" width="100" height="3" />
+    </frame>
+    <frame id="649:6995" name="Frame" x="100" y="256" width="1240" height="131.0500030517578">
+      <frame id="649:6996" name="Frame" x="0" y="0" width="397.3333435058594" height="131.0500030517578">
+        <frame id="649:6997" name="Frame" x="24" y="41.525001525878906" width="48" height="48">
+          <frame id="649:6998" name="play-circle" x="15" y="15" width="18" height="18" />
+        </frame>
+        <frame id="649:7000" name="Frame" x="92" y="24" width="281.3333435058594" height="83.05000305175781">
+          <text id="649:7001" name="Shyam Teri Bansi" x="0" y="0" width="145" height="26" />
+          <text id="649:7002" name="Popular Devotional Artist" x="0" y="30" width="147" height="18" />
+          <frame id="649:7003" name="Frame" x="0" y="52" width="98" height="31.049999237060547">
+            <rounded-rectangle id="649:7004" name="Rectangle" x="0" y="10.529998779296875" width="3" height="17.989999771118164" />
+            <rounded-rectangle id="649:7005" name="Rectangle" x="5" y="8.520000457763672" width="3" height="22.010000228881836" />
+            <rounded-rectangle id="649:7006" name="Rectangle" x="10" y="17.150001525878906" width="3" height="4.75" />
+            <rounded-rectangle id="649:7007" name="Rectangle" x="15" y="10.375" width="3" height="18.299999237060547" />
+            <rounded-rectangle id="649:7008" name="Rectangle" x="20" y="8" width="3" height="23.049999237060547" />
+            <rounded-rectangle id="649:7009" name="Rectangle" x="25" y="9.729999542236328" width="3" height="19.59000015258789" />
+            <rounded-rectangle id="649:7010" name="Rectangle" x="30" y="16.084999084472656" width="3" height="6.880000114440918" />
+            <rounded-rectangle id="649:7011" name="Rectangle" x="35" y="10.189998626708984" width="3" height="18.670000076293945" />
+            <rounded-rectangle id="649:7012" name="Rectangle" x="40" y="16.40999984741211" width="3" height="6.230000019073486" />
+            <rounded-rectangle id="649:7013" name="Rectangle" x="45" y="17.150001525878906" width="3" height="4.75" />
+            <rounded-rectangle id="649:7014" name="Rectangle" x="50" y="14.580001831054688" width="3" height="9.890000343322754" />
+            <rounded-rectangle id="649:7015" name="Rectangle" x="55" y="16.485000610351562" width="3" height="6.079999923706055" />
+            <rounded-rectangle id="649:7016" name="Rectangle" x="60" y="17.020000457763672" width="3" height="5.010000228881836" />
+            <rounded-rectangle id="649:7017" name="Rectangle" x="65" y="15.510002136230469" width="3" height="8.029999732971191" />
+            <rounded-rectangle id="649:7018" name="Rectangle" x="70" y="12.549999237060547" width="3" height="13.949999809265137" />
+            <rounded-rectangle id="649:7019" name="Rectangle" x="75" y="10.889999389648438" width="3" height="17.270000457763672" />
+            <rounded-rectangle id="649:7020" name="Rectangle" x="80" y="14.380001068115234" width="3" height="10.289999961853027" />
+            <rounded-rectangle id="649:7021" name="Rectangle" x="85" y="13.939998626708984" width="3" height="11.170000076293945" />
+            <rounded-rectangle id="649:7022" name="Rectangle" x="90" y="15.779998779296875" width="3" height="7.489999771118164" />
+            <rounded-rectangle id="649:7023" name="Rectangle" x="95" y="15.984999656677246" width="3" height="7.079999923706055" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:7024" name="Frame" x="421.3333435058594" y="0" width="397.33331298828125" height="130.86000061035156">
+        <frame id="649:7025" name="Frame" x="24" y="41.43000030517578" width="48" height="48">
+          <frame id="649:7026" name="play-circle" x="15" y="15" width="18" height="18" />
+        </frame>
+        <frame id="649:7028" name="Frame" x="92" y="24" width="281.33331298828125" height="82.86000061035156">
+          <text id="649:7029" name="Hey Shyam Sunder" x="0" y="0" width="158" height="26" />
+          <text id="649:7030" name="Popular Devotional Artist" x="0" y="30" width="147" height="18" />
+          <frame id="649:7031" name="Frame" x="0" y="52" width="98" height="30.860000610351562">
+            <rounded-rectangle id="649:7032" name="Rectangle" x="0" y="15.240001678466797" width="3" height="8.380000114440918" />
+            <rounded-rectangle id="649:7033" name="Rectangle" x="5" y="15.020000457763672" width="3" height="8.819999694824219" />
+            <rounded-rectangle id="649:7034" name="Rectangle" x="10" y="13.669998168945312" width="3" height="11.520000457763672" />
+            <rounded-rectangle id="649:7035" name="Rectangle" x="15" y="16.415000915527344" width="3" height="6.03000020980835" />
+            <rounded-rectangle id="649:7036" name="Rectangle" x="20" y="16.03499984741211" width="3" height="6.789999961853027" />
+            <rounded-rectangle id="649:7037" name="Rectangle" x="25" y="9.580001831054688" width="3" height="19.700000762939453" />
+            <rounded-rectangle id="649:7038" name="Rectangle" x="30" y="14.375" width="3" height="10.109999656677246" />
+            <rounded-rectangle id="649:7039" name="Rectangle" x="35" y="17.31999969482422" width="3" height="4.21999979019165" />
+            <rounded-rectangle id="649:7040" name="Rectangle" x="40" y="14.290000915527344" width="3" height="10.279999732971191" />
+            <rounded-rectangle id="649:7041" name="Rectangle" x="45" y="11.104999542236328" width="3" height="16.649999618530273" />
+            <rounded-rectangle id="649:7042" name="Rectangle" x="50" y="9.794998168945312" width="3" height="19.270000457763672" />
+            <rounded-rectangle id="649:7043" name="Rectangle" x="55" y="16.59000015258789" width="3" height="5.679999828338623" />
+            <rounded-rectangle id="649:7044" name="Rectangle" x="60" y="10.044998168945312" width="3" height="18.770000457763672" />
+            <rounded-rectangle id="649:7045" name="Rectangle" x="65" y="8" width="3" height="22.860000610351562" />
+            <rounded-rectangle id="649:7046" name="Rectangle" x="70" y="12.75" width="3" height="13.359999656677246" />
+            <rounded-rectangle id="649:7047" name="Rectangle" x="75" y="13.200000762939453" width="3" height="12.460000038146973" />
+            <rounded-rectangle id="649:7048" name="Rectangle" x="80" y="14.430000305175781" width="3" height="10" />
+            <rounded-rectangle id="649:7049" name="Rectangle" x="85" y="12.135002136230469" width="3" height="14.59000015258789" />
+            <rounded-rectangle id="649:7050" name="Rectangle" x="90" y="14.895000457763672" width="3" height="9.069999694824219" />
+            <rounded-rectangle id="649:7051" name="Rectangle" x="95" y="16.795000076293945" width="3" height="5.269999980926514" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:7052" name="Frame" x="842.6666259765625" y="0" width="397.33331298828125" height="129.8699951171875">
+        <frame id="649:7053" name="Frame" x="24" y="40.935001373291016" width="48" height="48">
+          <frame id="649:7054" name="play-circle" x="15" y="15" width="18" height="18" />
+        </frame>
+        <frame id="649:7056" name="Frame" x="92" y="24" width="281.33331298828125" height="81.87000274658203">
+          <text id="649:7057" name="Khatu Wale Shyam" x="0" y="0" width="159" height="26" />
+          <text id="649:7058" name="Popular Devotional Artist" x="0" y="30" width="147" height="18" />
+          <frame id="649:7059" name="Frame" x="0" y="52" width="98" height="29.8700008392334">
+            <rounded-rectangle id="649:7060" name="Rectangle" x="0" y="11.720001220703125" width="3" height="14.430000305175781" />
+            <rounded-rectangle id="649:7061" name="Rectangle" x="5" y="8.834999084472656" width="3" height="20.200000762939453" />
+            <rounded-rectangle id="649:7062" name="Rectangle" x="10" y="9.255001068115234" width="3" height="19.360000610351562" />
+            <rounded-rectangle id="649:7063" name="Rectangle" x="15" y="14.299999237060547" width="3" height="9.270000457763672" />
+            <rounded-rectangle id="649:7064" name="Rectangle" x="20" y="12.78499984741211" width="3" height="12.300000190734863" />
+            <rounded-rectangle id="649:7065" name="Rectangle" x="25" y="16.825000762939453" width="3" height="4.21999979019165" />
+            <rounded-rectangle id="649:7066" name="Rectangle" x="30" y="10.279998779296875" width="3" height="17.309999465942383" />
+            <rounded-rectangle id="649:7067" name="Rectangle" x="35" y="9.095001220703125" width="3" height="19.68000030517578" />
+            <rounded-rectangle id="649:7068" name="Rectangle" x="40" y="13.904998779296875" width="3" height="10.0600004196167" />
+            <rounded-rectangle id="649:7069" name="Rectangle" x="45" y="9.674999237060547" width="3" height="18.520000457763672" />
+            <rounded-rectangle id="649:7070" name="Rectangle" x="50" y="15.255001068115234" width="3" height="7.360000133514404" />
+            <rounded-rectangle id="649:7071" name="Rectangle" x="55" y="14.384998321533203" width="3" height="9.100000381469727" />
+            <rounded-rectangle id="649:7072" name="Rectangle" x="60" y="16.264999389648438" width="3" height="5.340000152587891" />
+            <rounded-rectangle id="649:7073" name="Rectangle" x="65" y="13.904998779296875" width="3" height="10.0600004196167" />
+            <rounded-rectangle id="649:7074" name="Rectangle" x="70" y="13.180000305175781" width="3" height="11.510000228881836" />
+            <rounded-rectangle id="649:7075" name="Rectangle" x="75" y="8.014999389648438" width="3" height="21.84000015258789" />
+            <rounded-rectangle id="649:7076" name="Rectangle" x="80" y="8" width="3" height="21.8700008392334" />
+            <rounded-rectangle id="649:7077" name="Rectangle" x="85" y="16.720001220703125" width="3" height="4.429999828338623" />
+            <rounded-rectangle id="649:7078" name="Rectangle" x="90" y="14.979999542236328" width="3" height="7.909999847412109" />
+            <rounded-rectangle id="649:7079" name="Rectangle" x="95" y="14.820000648498535" width="3" height="8.229999542236328" />
+          </frame>
+        </frame>
+      </frame>
+    </frame>
+    <frame id="649:7080" name="Frame" x="100" y="451.04998779296875" width="1240" height="300">
+      <frame id="649:7081" name="Frame" x="0" y="-0.0498046875" width="669" height="132">
+        <text id="649:7082" name="&quot;सच्चे दिल से जो याद करे, बाबा श्याम उसकी सुनते हैं।&quot;" x="32.5" y="48" width="604" height="42" />
+      </frame>
+      <frame id="649:7083" name="Frame" x="698" y="-0.0498046875" width="542" height="132">
+        <text id="649:7084" name="&quot;जो शरण में आया, उसे मेरा आसरा मिला।&quot;" x="35.5" y="48" width="471" height="42" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:7085" name="Frame" x="0" y="12834.0498046875" width="1440" height="1165">
+    <frame id="649:7086" name="Frame" x="100" y="120" width="1240" height="72">
+      <text id="649:7087" name="Divine Moments Gallery" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:7088" name="Rectangle" x="570" y="69" width="100" height="3" />
+    </frame>
+    <frame id="649:7089" name="Frame" x="348.5" y="256" width="743" height="41">
+      <frame id="649:7090" name="Frame" x="0" y="0" width="58" height="41">
+        <text id="649:7091" name="All" x="20" y="10" width="18" height="21" />
+      </frame>
+      <frame id="649:7092" name="Frame" x="70" y="0" width="94" height="41">
+        <text id="649:7093" name="Temple" x="20" y="10" width="54" height="21" />
+      </frame>
+      <frame id="649:7094" name="Frame" x="176" y="0" width="107" height="41">
+        <text id="649:7095" name="Devotees" x="20" y="10" width="67" height="21" />
+      </frame>
+      <frame id="649:7096" name="Frame" x="295" y="0" width="75" height="41">
+        <text id="649:7097" name="Aarti" x="20" y="10" width="35" height="21" />
+      </frame>
+      <frame id="649:7098" name="Frame" x="382" y="0" width="127" height="41">
+        <text id="649:7099" name="Decorations" x="20" y="10" width="87" height="21" />
+      </frame>
+      <frame id="649:7100" name="Frame" x="521" y="0" width="103" height="41">
+        <text id="649:7101" name="Festivals" x="20" y="10" width="63" height="21" />
+      </frame>
+      <frame id="649:7102" name="Frame" x="636" y="0" width="107" height="41">
+        <text id="649:7103" name="Annadan" x="20" y="10" width="67" height="21" />
+      </frame>
+    </frame>
+    <frame id="649:7104" name="Frame" x="100" y="361" width="1240" height="684">
+      <frame id="649:7105" name="Frame" x="0" y="0" width="397.3333435058594" height="684">
+        <rounded-rectangle id="649:7106" name="Rectangle" x="0" y="0" width="397.3333435058594" height="260" />
+        <rounded-rectangle id="649:7107" name="Rectangle" x="0" y="284" width="397.3333435058594" height="400" />
+      </frame>
+      <frame id="649:7108" name="Frame" x="421.3333435058594" y="0" width="397.33331298828125" height="684">
+        <rounded-rectangle id="649:7109" name="Rectangle" x="0" y="0" width="397.33331298828125" height="400" />
+        <rounded-rectangle id="649:7110" name="Rectangle" x="0" y="424" width="397.33331298828125" height="260" />
+      </frame>
+      <frame id="649:7111" name="Frame" x="842.6666259765625" y="0" width="397.33331298828125" height="684">
+        <rounded-rectangle id="649:7112" name="Rectangle" x="0" y="0" width="397.33331298828125" height="260" />
+        <rounded-rectangle id="649:7113" name="Rectangle" x="0" y="284" width="397.33331298828125" height="400" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:7114" name="Frame" x="0" y="13999.0498046875" width="1440" height="936">
+    <frame id="649:7115" name="Frame" x="100" y="120" width="1240" height="72">
+      <text id="649:7116" name="Plan Your Visit to Khatu" x="0" y="0" width="1240" height="53" />
+      <rounded-rectangle id="649:7117" name="Rectangle" x="570" y="69" width="100" height="3" />
+    </frame>
+    <frame id="649:7118" name="Frame" x="100" y="256" width="1240" height="560">
+      <frame id="649:7119" name="Frame" x="0" y="29" width="483" height="502">
+        <frame id="649:7120" name="Frame" x="0" y="0" width="483" height="83">
+          <frame id="649:7121" name="Frame" x="20" y="21.5" width="40" height="40">
+            <text id="649:7122" name="📍" x="10" y="10" width="20" height="20" />
+          </frame>
+          <frame id="649:7123" name="Frame" x="80" y="20" width="383" height="43">
+            <text id="649:7124" name="Location" x="0" y="0" width="63" height="18" />
+            <text id="649:7125" name="Khatu Village, Sikar, Rajasthan — 80km from Jaipur" x="0" y="20" width="379" height="23" />
+          </frame>
+        </frame>
+        <frame id="649:7126" name="Frame" x="0" y="99" width="483" height="83">
+          <frame id="649:7127" name="Frame" x="20" y="21.5" width="40" height="40">
+            <text id="649:7128" name="🕐" x="10" y="10" width="20" height="20" />
+          </frame>
+          <frame id="649:7129" name="Frame" x="80" y="20" width="383" height="43">
+            <text id="649:7130" name="Timings" x="0" y="0" width="51" height="18" />
+            <text id="649:7131" name="4:30 AM – 9:30 PM daily, extended during festivals" x="0" y="20" width="369" height="23" />
+          </frame>
+        </frame>
+        <frame id="649:7132" name="Frame" x="0" y="198" width="483" height="83">
+          <frame id="649:7133" name="Frame" x="20" y="21.5" width="40" height="40">
+            <text id="649:7134" name="🚗" x="10" y="10" width="20" height="20" />
+          </frame>
+          <frame id="649:7135" name="Frame" x="80" y="20" width="383" height="43">
+            <text id="649:7136" name="Parking" x="0" y="0" width="55" height="18" />
+            <text id="649:7137" name="Large parking facility available near the temple" x="0" y="20" width="354" height="23" />
+          </frame>
+        </frame>
+        <frame id="649:7138" name="Frame" x="0" y="297" width="483" height="83">
+          <frame id="649:7139" name="Frame" x="20" y="21.5" width="40" height="40">
+            <text id="649:7140" name="🏨" x="10" y="10" width="20" height="20" />
+          </frame>
+          <frame id="649:7141" name="Frame" x="80" y="20" width="383" height="43">
+            <text id="649:7142" name="Accommodation" x="0" y="0" width="115" height="18" />
+            <text id="649:7143" name="Dharamshalas and hotels available for pilgrims" x="0" y="20" width="356" height="23" />
+          </frame>
+        </frame>
+        <frame id="649:7144" name="Frame" x="0" y="396" width="483" height="106">
+          <frame id="649:7145" name="Frame" x="20" y="33" width="40" height="40">
+            <text id="649:7146" name="🎯" x="10" y="10" width="20" height="20" />
+          </frame>
+          <frame id="649:7147" name="Frame" x="80" y="20" width="383" height="66">
+            <text id="649:7148" name="Nearby" x="0" y="0" width="49" height="18" />
+            <text id="649:7149" name="Salasar Balaji — 65km, Ringas Railway Station — 17km" x="0" y="20" width="383" height="46" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:7150" name="Frame" x="547" y="0" width="677" height="560">
+        <rounded-rectangle id="649:7151" name="Rectangle" x="8" y="8" width="661" height="544" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:7152" name="Frame" x="0" y="14935.0498046875" width="1440" height="686">
+    <rounded-rectangle id="649:7153" name="ChatGPT Image Jul 11, 2026, 02_26_31 PM 1" x="-4" y="0.9501953125" width="1446" height="684" />
+    <frame id="649:7154" name="Frame" x="100" y="140" width="1240" height="53">
+      <text id="649:7155" name="Words of Divine Wisdom" x="0" y="0" width="1240" height="53" />
+    </frame>
+    <frame id="649:7156" name="Frame" x="100" y="276" width="1240" height="161">
+      <frame id="649:7157" name="chevron-left" x="0" y="64.5" width="32" height="32" />
+      <frame id="649:7159" name="Frame" x="220" y="0" width="800" height="161">
+        <text id="649:7160" name="“" x="383" y="0" width="34" height="8" />
+        <text id="649:7161" name="&quot;Where devotion resides, blessings follow.&quot;" x="0" y="32" width="800" height="52" />
+        <text id="649:7162" name="Divine Proverb" x="343.5" y="108" width="113" height="21" />
+        <frame id="649:7163" name="Frame" x="380" y="153" width="40" height="8" />
+      </frame>
+      <frame id="649:7167" name="chevron-right" x="1208" y="64.5" width="32" height="32" />
+    </frame>
+  </frame>
+  <frame id="649:7169" name="Ad Section - Large Banner" x="0" y="15621.0498046875" width="1440" height="368">
+    <frame id="649:7170" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:7171" name="ad-content-wrapper" x="235" y="33" width="970" height="302">
+      <text id="649:7172" name="ad-label" x="434" y="16" width="102" height="12" />
+      <frame id="649:7173" name="ad-placeholder-970x250" x="0" y="36" width="970" height="250">
+        <text id="649:7174" name="ad-size-label" x="451" y="106" width="68" height="17" />
+        <text id="649:7175" name="ad-description" x="460" y="131" width="50" height="13" />
+      </frame>
+    </frame>
+    <frame id="649:7176" name="separator-bottom" x="0" y="335" width="1440" height="1" />
+  </frame>
+  <frame id="665:14444" name="Footer" x="0" y="15989.0498046875" width="1440" height="535">
+    <frame id="665:14445" name="Frame" x="108" y="100" width="1224" height="254">
+      <frame id="665:14446" name="Frame" x="0" y="0" width="320" height="254">
+        <rounded-rectangle id="665:14447" name="Rectangle" x="0" y="0" width="88" height="88" />
+        <text id="665:14448" name="Preserving our timeless traditions while serving the contemporary needs of our global devotee community." x="0" y="120" width="320" height="66" />
+        <frame id="665:14449" name="Frame" x="0" y="218" width="192" height="36">
+          <frame id="665:14450" name="Frame" x="0" y="0" width="36" height="36">
+            <frame id="665:14451" name="facebook" x="9" y="9" width="18" height="18" />
+          </frame>
+          <frame id="665:14453" name="Frame" x="52" y="0" width="36" height="36">
+            <frame id="665:14454" name="instagram" x="9" y="9" width="18" height="18" />
+          </frame>
+          <frame id="665:14456" name="Frame" x="104" y="0" width="36" height="36">
+            <frame id="665:14457" name="youtube" x="9" y="9" width="18" height="18" />
+          </frame>
+          <frame id="665:14459" name="Frame" x="156" y="0" width="36" height="36">
+            <frame id="665:14460" name="twitter" x="9" y="9" width="18" height="18" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="665:14462" name="Frame" x="623" y="0" width="601" height="206">
+        <frame id="665:14463" name="Frame" x="0" y="0" width="114" height="206">
+          <text id="665:14464" name="Quick Links" x="0" y="0" width="114" height="29" />
+          <frame id="665:14465" name="Frame" x="0" y="53" width="71" height="153">
+            <text id="665:14466" name="About Us" x="0" y="0" width="63" height="21" />
+            <text id="665:14467" name="History" x="0" y="33" width="48" height="21" />
+            <text id="665:14468" name="Our Vision" x="0" y="66" width="71" height="21" />
+            <text id="665:14469" name="Seva List" x="0" y="99" width="60" height="21" />
+            <text id="665:14470" name="Gallery" x="0" y="132" width="50" height="21" />
+          </frame>
+        </frame>
+        <frame id="665:14471" name="Frame" x="194" y="0" width="95" height="206">
+          <text id="665:14472" name="Support" x="0" y="0" width="76" height="29" />
+          <frame id="665:14473" name="Frame" x="0" y="53" width="95" height="153">
+            <text id="665:14474" name="Contact Us" x="0" y="0" width="78" height="21" />
+            <text id="665:14475" name="Privacy Policy" x="0" y="33" width="95" height="21" />
+            <text id="665:14476" name="Donation FAQ" x="0" y="66" width="95" height="21" />
+            <text id="665:14477" name="Volunteer" x="0" y="99" width="68" height="21" />
+            <text id="665:14478" name="Live Help" x="0" y="132" width="62" height="21" />
+          </frame>
+        </frame>
+        <frame id="665:14479" name="Frame" x="369" y="0" width="232" height="161">
+          <text id="665:14480" name="Contact" x="0" y="0" width="74" height="29" />
+          <frame id="665:14481" name="Frame" x="0" y="53" width="232" height="108">
+            <text id="665:14482" name="contact@shreeshyamjagat.org" x="0" y="0" width="232" height="21" />
+            <text id="665:14483" name="+91 1234 567 890" x="0" y="33" width="200" height="21" />
+            <text id="665:14484" name="123 Temple Road, Rajasthan, India" x="0" y="66" width="200" height="42" />
+          </frame>
+        </frame>
+      </frame>
+    </frame>
+    <frame id="665:14485" name="Frame" x="108" y="434" width="1224" height="61">
+      <text id="665:14486" name="© 2026 Shyam Jagat Organization. All Rights Reserved." x="0" y="40" width="381" height="21" />
+      <text id="665:14487" name="Design by ANGC Synapse" x="1046" y="40" width="178" height="21" />
+    </frame>
+  </frame>
+</frame>

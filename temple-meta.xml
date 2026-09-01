@@ -1,0 +1,691 @@
+<frame id="649:8345" name="temple-registration-page" x="20880" y="0" width="1440" height="7158">
+  <frame id="649:8346" name="Navbar" x="0" y="0" width="1440" height="100">
+    <rounded-rectangle id="649:8347" name="Logo" x="80" y="18" width="64" height="64" />
+    <frame id="649:8348" name="NavLinks" x="196.5" y="38" width="826" height="24">
+      <text id="649:8349" name="Home" x="0" y="0" width="48" height="24" />
+      <text id="649:8350" name="About Us" x="88" y="0" width="73" height="24" />
+      <text id="649:8351" name="Our Initiatives" x="201" y="0" width="111" height="24" />
+      <text id="649:8352" name="Baba Shyam" x="352" y="0" width="104" height="24" />
+      <text id="649:8353" name="Temple Directory" x="496" y="0" width="140" height="24" />
+      <text id="649:8354" name="Team" x="676" y="0" width="47" height="24" />
+      <frame id="649:8355" name="More" x="763" y="0" width="63" height="24">
+        <text id="649:8356" name="More" x="0" y="0" width="41" height="24" />
+        <frame id="649:8357" name="chevron-down" x="47" y="4" width="16" height="16" />
+      </frame>
+    </frame>
+    <frame id="649:8359" name="Actions" x="1075" y="28.5" width="285" height="43">
+      <frame id="649:8360" name="Frame" x="0" y="0" width="125" height="43">
+        <text id="649:8361" name="Contact Us" x="20" y="10" width="85" height="23" />
+      </frame>
+      <frame id="649:8362" name="Frame" x="141" y="0" width="144" height="43">
+        <vector id="649:8363" name="Vector" x="20" y="13.5" width="16" height="16" />
+        <text id="649:8364" name="DONATION" x="44" y="10" width="80" height="23" />
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:8365" name="HeroSection" x="0" y="100" width="1440" height="523">
+    <frame id="649:8366" name="Frame" x="960" y="62" width="400" height="400">
+      <frame id="649:8367" name="building" x="0" y="0" width="400" height="400">
+        <vector id="649:8368" name="Vector" x="66.68000030517578" y="33.31999969482422" width="266.6399841308594" height="333.3600158691406" />
+      </frame>
+    </frame>
+    <frame id="649:8369" name="Frame" x="80" y="80" width="800" height="179">
+      <text id="649:8370" name="TEMPLE DIRECTORY" x="0" y="0" width="162" height="21" />
+      <text id="649:8371" name="Find &amp; Register a Temple" x="0" y="41" width="800" height="62" />
+      <text id="649:8372" name="Discover the perfect temple for darshan, book pujas, or register your temple on our growing spiritual platform." x="0" y="123" width="800" height="56" />
+    </frame>
+    <frame id="649:8373" name="Frame" x="80" y="299" width="1280" height="83">
+      <frame id="649:8374" name="Frame" x="16" y="19" width="246.75" height="45">
+        <frame id="649:8375" name="map-pin" x="16" y="14.5" width="16" height="16" />
+        <text id="649:8377" name="Select City" x="40" y="12" width="170.75" height="21" />
+        <frame id="649:8378" name="chevron-down" x="218.75" y="16.5" width="12" height="12" />
+      </frame>
+      <frame id="649:8380" name="Frame" x="278.75" y="19" width="246.75" height="45">
+        <frame id="649:8381" name="building" x="16" y="14.5" width="16" height="16" />
+        <text id="649:8383" name="All Types" x="40" y="12" width="170.75" height="21" />
+        <frame id="649:8384" name="chevron-down" x="218.75" y="16.5" width="12" height="12" />
+      </frame>
+      <frame id="649:8386" name="Frame" x="541.5" y="19" width="246.75" height="45">
+        <frame id="649:8387" name="circle-x" x="16" y="14.5" width="16" height="16" />
+        <text id="649:8389" name="Puja, Darshan, Seva" x="40" y="12" width="170.75" height="21" />
+        <frame id="649:8390" name="chevron-down" x="218.75" y="16.5" width="12" height="12" />
+      </frame>
+      <frame id="649:8392" name="Frame" x="804.25" y="19" width="246.75" height="45">
+        <frame id="649:8393" name="star" x="16" y="14.5" width="16" height="16" />
+        <text id="649:8395" name="Any Rating" x="40" y="12" width="170.75" height="21" />
+        <frame id="649:8396" name="chevron-down" x="218.75" y="16.5" width="12" height="12" />
+      </frame>
+      <frame id="649:8398" name="Frame" x="1067" y="16" width="197" height="51">
+        <frame id="649:8399" name="search" x="24" y="16.5" width="18" height="18" />
+        <text id="649:8401" name="Search Temples" x="50" y="14" width="123" height="23" />
+      </frame>
+    </frame>
+    <frame id="649:8402" name="Frame" x="80" y="422" width="539" height="21">
+      <text id="649:8403" name="500+ Temples Listed • 50+ Cities • 10,000+ Bookings • 4.8★ Avg Rating" x="0" y="0" width="539" height="21" />
+    </frame>
+  </frame>
+  <frame id="649:8404" name="Ad Section - Leaderboard" x="0" y="623" width="1440" height="208">
+    <frame id="649:8405" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:8406" name="ad-content-wrapper" x="356" y="33" width="728" height="142">
+      <text id="649:8407" name="ad-label" x="313" y="16" width="102" height="12" />
+      <frame id="649:8408" name="ad-placeholder-728x90" x="0" y="36" width="728" height="90">
+        <text id="649:8409" name="ad-size-label" x="334" y="26" width="60" height="17" />
+        <text id="649:8410" name="ad-description" x="339" y="51" width="50" height="13" />
+      </frame>
+    </frame>
+    <frame id="649:8411" name="separator-bottom" x="0" y="175" width="1440" height="1" />
+  </frame>
+  <frame id="649:8412" name="FeaturedTemplesSection" x="0" y="831" width="1440" height="1220">
+    <frame id="649:8413" name="Frame" x="80" y="80" width="1280" height="67">
+      <frame id="649:8414" name="Frame" x="0" y="0" width="1194" height="67">
+        <text id="649:8415" name="Featured Temples" x="0" y="0" width="1194" height="48" />
+        <rounded-rectangle id="649:8416" name="Rectangle" x="0" y="64" width="100" height="3" />
+      </frame>
+      <frame id="649:8417" name="Frame" x="1194" y="21.5" width="86" height="24">
+        <text id="649:8418" name="View All" x="0" y="0" width="64" height="24" />
+        <frame id="649:8419" name="arrow-right" x="70" y="4" width="16" height="16" />
+      </frame>
+    </frame>
+    <frame id="649:8421" name="Frame" x="80" y="187" width="546" height="37">
+      <frame id="649:8422" name="Frame" x="0" y="0" width="50" height="37">
+        <text id="649:8423" name="All" x="16" y="8" width="18" height="21" />
+      </frame>
+      <frame id="649:8424" name="Frame" x="62" y="0" width="105" height="37">
+        <text id="649:8425" name="Rajasthan" x="16" y="8" width="73" height="21" />
+      </frame>
+      <frame id="649:8426" name="Frame" x="179" y="0" width="68" height="37">
+        <text id="649:8427" name="Delhi" x="16" y="8" width="36" height="21" />
+      </frame>
+      <frame id="649:8428" name="Frame" x="259" y="0" width="86" height="37">
+        <text id="649:8429" name="Gujarat" x="16" y="8" width="54" height="21" />
+      </frame>
+      <frame id="649:8430" name="Frame" x="357" y="0" width="126" height="37">
+        <text id="649:8431" name="Maharashtra" x="16" y="8" width="94" height="21" />
+      </frame>
+      <frame id="649:8432" name="Frame" x="495" y="0" width="51" height="37">
+        <text id="649:8433" name="UP" x="16" y="8" width="19" height="21" />
+      </frame>
+    </frame>
+    <frame id="649:8434" name="Frame" x="80" y="264" width="1280" height="876">
+      <frame id="649:8435" name="Frame" x="0" y="0" width="1280" height="422">
+        <frame id="649:8436" name="Frame" x="0" y="0" width="410.6666564941406" height="422">
+          <frame id="649:8437" name="Frame" x="0" y="0" width="410.6666564941406" height="220">
+            <rounded-rectangle id="649:8438" name="Rectangle" x="0" y="0" width="410.6666564941406" height="220" />
+            <frame id="649:8439" name="Frame" x="16" y="16" width="63" height="32">
+              <frame id="649:8440" name="star" x="12" y="9" width="14" height="14" />
+              <text id="649:8442" name="4.9" x="30" y="6" width="21" height="20" />
+            </frame>
+          </frame>
+          <frame id="649:8443" name="Frame" x="0" y="220" width="410.6666564941406" height="202">
+            <text id="649:8444" name="Khatu Shyam Temple" x="20" y="20" width="370.6666564941406" height="29" />
+            <frame id="649:8445" name="Frame" x="20" y="61" width="370.6666564941406" height="20">
+              <frame id="649:8446" name="map-pin" x="0" y="3" width="14" height="14" />
+              <text id="649:8448" name="Sikar, Rajasthan" x="20" y="0" width="350.6666564941406" height="20" />
+            </frame>
+            <text id="649:8449" name="The sacred abode of Baba Shyam — India&#39;s most revered pilgrimage." x="20" y="93" width="370.6666564941406" height="40" />
+            <line id="649:8450" name="Line" x="20" y="145" width="370.6666564941406" height="0" />
+            <frame id="649:8451" name="Frame" x="20" y="157" width="370.6666564941406" height="25">
+              <frame id="649:8452" name="Frame" x="0" y="0" width="185" height="25">
+                <frame id="649:8453" name="Frame" x="0" y="0" width="64" height="25">
+                  <text id="649:8454" name="Darshan" x="8" y="4" width="48" height="17" />
+                </frame>
+                <frame id="649:8455" name="Frame" x="70" y="0" width="41" height="25">
+                  <text id="649:8456" name="Puja" x="8" y="4" width="25" height="17" />
+                </frame>
+                <frame id="649:8457" name="Frame" x="117" y="0" width="68" height="25">
+                  <text id="649:8458" name="Live Aarti" x="8" y="4" width="52" height="17" />
+                </frame>
+              </frame>
+              <frame id="649:8459" name="Frame" x="273.6666564941406" y="2.5" width="97" height="20">
+                <text id="649:8460" name="View Details" x="0" y="0" width="81" height="20" />
+                <frame id="649:8461" name="arrow-right" x="85" y="4" width="12" height="12" />
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+        <frame id="649:8463" name="Frame" x="434.6666564941406" y="0" width="410.66668701171875" height="422">
+          <frame id="649:8464" name="Frame" x="0" y="0" width="410.66668701171875" height="220">
+            <rounded-rectangle id="649:8465" name="Rectangle" x="0" y="0" width="410.66668701171875" height="220" />
+            <frame id="649:8466" name="Frame" x="16" y="16" width="63" height="32">
+              <frame id="649:8467" name="star" x="12" y="9" width="14" height="14" />
+              <text id="649:8469" name="4.8" x="30" y="6" width="21" height="20" />
+            </frame>
+          </frame>
+          <frame id="649:8470" name="Frame" x="0" y="220" width="410.66668701171875" height="202">
+            <text id="649:8471" name="Salasar Balaji Temple" x="20" y="20" width="370.66668701171875" height="29" />
+            <frame id="649:8472" name="Frame" x="20" y="61" width="370.66668701171875" height="20">
+              <frame id="649:8473" name="map-pin" x="0" y="3" width="14" height="14" />
+              <text id="649:8475" name="Churu, Rajasthan" x="20" y="0" width="350.66668701171875" height="20" />
+            </frame>
+            <text id="649:8476" name="Ancient Hanuman temple known for miraculous blessings and devotion." x="20" y="93" width="370.66668701171875" height="40" />
+            <line id="649:8477" name="Line" x="20" y="145" width="370.66668701171875" height="0" />
+            <frame id="649:8478" name="Frame" x="20" y="157" width="370.66668701171875" height="25">
+              <frame id="649:8479" name="Frame" x="0" y="0" width="114" height="25">
+                <frame id="649:8480" name="Frame" x="0" y="0" width="64" height="25">
+                  <text id="649:8481" name="Darshan" x="8" y="4" width="48" height="17" />
+                </frame>
+                <frame id="649:8482" name="Frame" x="70" y="0" width="44" height="25">
+                  <text id="649:8483" name="Seva" x="8" y="4" width="28" height="17" />
+                </frame>
+              </frame>
+              <frame id="649:8484" name="Frame" x="273.66668701171875" y="2.5" width="97" height="20">
+                <text id="649:8485" name="View Details" x="0" y="0" width="81" height="20" />
+                <frame id="649:8486" name="arrow-right" x="85" y="4" width="12" height="12" />
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+        <frame id="649:8488" name="Frame" x="869.3333740234375" y="0" width="410.66668701171875" height="422">
+          <frame id="649:8489" name="Frame" x="0" y="0" width="410.66668701171875" height="220">
+            <rounded-rectangle id="649:8490" name="Rectangle" x="0" y="0" width="410.66668701171875" height="220" />
+            <frame id="649:8491" name="Frame" x="16" y="16" width="62" height="32">
+              <frame id="649:8492" name="star" x="12" y="9" width="14" height="14" />
+              <text id="649:8494" name="4.7" x="30" y="6" width="20" height="20" />
+            </frame>
+          </frame>
+          <frame id="649:8495" name="Frame" x="0" y="220" width="410.66668701171875" height="202">
+            <text id="649:8496" name="Mehandipur Balaji" x="20" y="20" width="370.66668701171875" height="29" />
+            <frame id="649:8497" name="Frame" x="20" y="61" width="370.66668701171875" height="20">
+              <frame id="649:8498" name="map-pin" x="0" y="3" width="14" height="14" />
+              <text id="649:8500" name="Dausa, Rajasthan" x="20" y="0" width="350.66668701171875" height="20" />
+            </frame>
+            <text id="649:8501" name="A powerful spiritual destination for healing and divine intervention." x="20" y="93" width="370.66668701171875" height="40" />
+            <line id="649:8502" name="Line" x="20" y="145" width="370.66668701171875" height="0" />
+            <frame id="649:8503" name="Frame" x="20" y="157" width="370.66668701171875" height="25">
+              <frame id="649:8504" name="Frame" x="0" y="0" width="106" height="25">
+                <frame id="649:8505" name="Frame" x="0" y="0" width="41" height="25">
+                  <text id="649:8506" name="Puja" x="8" y="4" width="25" height="17" />
+                </frame>
+                <frame id="649:8507" name="Frame" x="47" y="0" width="59" height="25">
+                  <text id="649:8508" name="Healing" x="8" y="4" width="43" height="17" />
+                </frame>
+              </frame>
+              <frame id="649:8509" name="Frame" x="273.66668701171875" y="2.5" width="97" height="20">
+                <text id="649:8510" name="View Details" x="0" y="0" width="81" height="20" />
+                <frame id="649:8511" name="arrow-right" x="85" y="4" width="12" height="12" />
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:8513" name="Frame" x="0" y="454" width="1280" height="422">
+        <frame id="649:8514" name="Frame" x="0" y="0" width="410.6666564941406" height="422">
+          <frame id="649:8515" name="Frame" x="0" y="0" width="410.6666564941406" height="220">
+            <rounded-rectangle id="649:8516" name="Rectangle" x="0" y="0" width="410.6666564941406" height="220" />
+            <frame id="649:8517" name="Frame" x="16" y="16" width="63" height="32">
+              <frame id="649:8518" name="star" x="12" y="9" width="14" height="14" />
+              <text id="649:8520" name="4.8" x="30" y="6" width="21" height="20" />
+            </frame>
+          </frame>
+          <frame id="649:8521" name="Frame" x="0" y="220" width="410.6666564941406" height="202">
+            <text id="649:8522" name="ISKCON Temple" x="20" y="20" width="370.6666564941406" height="29" />
+            <frame id="649:8523" name="Frame" x="20" y="61" width="370.6666564941406" height="20">
+              <frame id="649:8524" name="map-pin" x="0" y="3" width="14" height="14" />
+              <text id="649:8526" name="Delhi" x="20" y="0" width="350.6666564941406" height="20" />
+            </frame>
+            <text id="649:8527" name="A grand Krishna temple promoting devotion, education, and community." x="20" y="93" width="370.6666564941406" height="40" />
+            <line id="649:8528" name="Line" x="20" y="145" width="370.6666564941406" height="0" />
+            <frame id="649:8529" name="Frame" x="20" y="157" width="370.6666564941406" height="25">
+              <frame id="649:8530" name="Frame" x="0" y="0" width="176" height="25">
+                <frame id="649:8531" name="Frame" x="0" y="0" width="64" height="25">
+                  <text id="649:8532" name="Darshan" x="8" y="4" width="48" height="17" />
+                </frame>
+                <frame id="649:8533" name="Frame" x="70" y="0" width="56" height="25">
+                  <text id="649:8534" name="Bhajan" x="8" y="4" width="40" height="17" />
+                </frame>
+                <frame id="649:8535" name="Frame" x="132" y="0" width="44" height="25">
+                  <text id="649:8536" name="Food" x="8" y="4" width="28" height="17" />
+                </frame>
+              </frame>
+              <frame id="649:8537" name="Frame" x="273.6666564941406" y="2.5" width="97" height="20">
+                <text id="649:8538" name="View Details" x="0" y="0" width="81" height="20" />
+                <frame id="649:8539" name="arrow-right" x="85" y="4" width="12" height="12" />
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+        <frame id="649:8541" name="Frame" x="434.6666564941406" y="0" width="410.66668701171875" height="422">
+          <frame id="649:8542" name="Frame" x="0" y="0" width="410.66668701171875" height="220">
+            <rounded-rectangle id="649:8543" name="Rectangle" x="0" y="0" width="410.66668701171875" height="220" />
+            <frame id="649:8544" name="Frame" x="16" y="16" width="63" height="32">
+              <frame id="649:8545" name="star" x="12" y="9" width="14" height="14" />
+              <text id="649:8547" name="4.9" x="30" y="6" width="21" height="20" />
+            </frame>
+          </frame>
+          <frame id="649:8548" name="Frame" x="0" y="220" width="410.66668701171875" height="202">
+            <text id="649:8549" name="Akshardham Temple" x="20" y="20" width="370.66668701171875" height="29" />
+            <frame id="649:8550" name="Frame" x="20" y="61" width="370.66668701171875" height="20">
+              <frame id="649:8551" name="map-pin" x="0" y="3" width="14" height="14" />
+              <text id="649:8553" name="Delhi" x="20" y="0" width="350.66668701171875" height="20" />
+            </frame>
+            <text id="649:8554" name="Magnificent temple showcasing Indian culture, spirituality, and architecture." x="20" y="93" width="370.66668701171875" height="40" />
+            <line id="649:8555" name="Line" x="20" y="145" width="370.66668701171875" height="0" />
+            <frame id="649:8556" name="Frame" x="20" y="157" width="370.66668701171875" height="25">
+              <frame id="649:8557" name="Frame" x="0" y="0" width="141" height="25">
+                <frame id="649:8558" name="Frame" x="0" y="0" width="64" height="25">
+                  <text id="649:8559" name="Darshan" x="8" y="4" width="48" height="17" />
+                </frame>
+                <frame id="649:8560" name="Frame" x="70" y="0" width="71" height="25">
+                  <text id="649:8561" name="Exhibition" x="8" y="4" width="55" height="17" />
+                </frame>
+              </frame>
+              <frame id="649:8562" name="Frame" x="273.66668701171875" y="2.5" width="97" height="20">
+                <text id="649:8563" name="View Details" x="0" y="0" width="81" height="20" />
+                <frame id="649:8564" name="arrow-right" x="85" y="4" width="12" height="12" />
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+        <frame id="649:8566" name="Frame" x="869.3333740234375" y="0" width="410.66668701171875" height="422">
+          <frame id="649:8567" name="Frame" x="0" y="0" width="410.66668701171875" height="220">
+            <rounded-rectangle id="649:8568" name="Rectangle" x="0" y="0" width="410.66668701171875" height="220" />
+            <frame id="649:8569" name="Frame" x="16" y="16" width="63" height="32">
+              <frame id="649:8570" name="star" x="12" y="9" width="14" height="14" />
+              <text id="649:8572" name="4.9" x="30" y="6" width="21" height="20" />
+            </frame>
+          </frame>
+          <frame id="649:8573" name="Frame" x="0" y="220" width="410.66668701171875" height="202">
+            <text id="649:8574" name="Somnath Temple" x="20" y="20" width="370.66668701171875" height="29" />
+            <frame id="649:8575" name="Frame" x="20" y="61" width="370.66668701171875" height="20">
+              <frame id="649:8576" name="map-pin" x="0" y="3" width="14" height="14" />
+              <text id="649:8578" name="Gujarat" x="20" y="0" width="350.66668701171875" height="20" />
+            </frame>
+            <text id="649:8579" name="One of the 12 Jyotirlingas — a timeless symbol of faith and resilience." x="20" y="93" width="370.66668701171875" height="40" />
+            <line id="649:8580" name="Line" x="20" y="145" width="370.66668701171875" height="0" />
+            <frame id="649:8581" name="Frame" x="20" y="157" width="370.66668701171875" height="25">
+              <frame id="649:8582" name="Frame" x="0" y="0" width="161" height="25">
+                <frame id="649:8583" name="Frame" x="0" y="0" width="64" height="25">
+                  <text id="649:8584" name="Darshan" x="8" y="4" width="48" height="17" />
+                </frame>
+                <frame id="649:8585" name="Frame" x="70" y="0" width="41" height="25">
+                  <text id="649:8586" name="Puja" x="8" y="4" width="25" height="17" />
+                </frame>
+                <frame id="649:8587" name="Frame" x="117" y="0" width="44" height="25">
+                  <text id="649:8588" name="Aarti" x="8" y="4" width="28" height="17" />
+                </frame>
+              </frame>
+              <frame id="649:8589" name="Frame" x="273.66668701171875" y="2.5" width="97" height="20">
+                <text id="649:8590" name="View Details" x="0" y="0" width="81" height="20" />
+                <frame id="649:8591" name="arrow-right" x="85" y="4" width="12" height="12" />
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:8593" name="OurServicesSection" x="0" y="2051" width="1440" height="688">
+    <frame id="649:8594" name="Frame" x="80" y="80" width="1280" height="144">
+      <text id="649:8595" name="SUPPORTING DEVOTION" x="540" y="0" width="200" height="21" />
+      <text id="649:8596" name="Temple Services" x="0" y="37" width="1280" height="48" />
+      <rounded-rectangle id="649:8597" name="Rectangle" x="590" y="101" width="100" height="3" />
+      <text id="649:8598" name="Everything you need to manage, discover, and connect with temples." x="260" y="120" width="760" height="24" />
+    </frame>
+    <frame id="649:8599" name="Frame" x="80" y="272" width="1280" height="336">
+      <frame id="649:8600" name="Frame" x="0" y="0" width="302" height="336">
+        <frame id="649:8601" name="Frame" x="115" y="32" width="72" height="72">
+          <text id="649:8602" name="🛕" x="20" y="20" width="32" height="32" />
+        </frame>
+        <text id="649:8603" name="Register Your Temple" x="32" y="124" width="238" height="31" />
+        <text id="649:8604" name="List your temple on our platform — manage profiles, schedules, offerings, and connect with thousands of devotees online." x="32" y="175" width="238" height="88" />
+        <frame id="649:8605" name="Frame" x="101.5" y="283" width="99" height="21">
+          <text id="649:8606" name="Learn More" x="0" y="0" width="79" height="21" />
+          <frame id="649:8607" name="arrow-right" x="85" y="3.5" width="14" height="14" />
+        </frame>
+      </frame>
+      <frame id="649:8609" name="Frame" x="326" y="0" width="302" height="336">
+        <frame id="649:8610" name="Frame" x="115" y="32" width="72" height="72">
+          <text id="649:8611" name="📅" x="20" y="20" width="32" height="32" />
+        </frame>
+        <text id="649:8612" name="Book Puja &amp; Seva" x="32" y="124" width="238" height="31" />
+        <text id="649:8613" name="Browse available pujas, sevas, and special rituals at registered temples. Book online with instant confirmation." x="32" y="175" width="238" height="88" />
+        <frame id="649:8614" name="Frame" x="101.5" y="283" width="99" height="21">
+          <text id="649:8615" name="Learn More" x="0" y="0" width="79" height="21" />
+          <frame id="649:8616" name="arrow-right" x="85" y="3.5" width="14" height="14" />
+        </frame>
+      </frame>
+      <frame id="649:8618" name="Frame" x="652" y="0" width="302" height="336">
+        <frame id="649:8619" name="Frame" x="115" y="32" width="72" height="72">
+          <text id="649:8620" name="📺" x="20" y="20" width="32" height="32" />
+        </frame>
+        <text id="649:8621" name="Live Darshan" x="32" y="124" width="238" height="31" />
+        <text id="649:8622" name="Watch live aarti and darshan streams from temples across India. Stay connected to your faith from anywhere." x="32" y="175" width="238" height="88" />
+        <frame id="649:8623" name="Frame" x="101.5" y="283" width="99" height="21">
+          <text id="649:8624" name="Learn More" x="0" y="0" width="79" height="21" />
+          <frame id="649:8625" name="arrow-right" x="85" y="3.5" width="14" height="14" />
+        </frame>
+      </frame>
+      <frame id="649:8627" name="Frame" x="978" y="0" width="302" height="336">
+        <frame id="649:8628" name="Frame" x="115" y="32" width="72" height="72">
+          <text id="649:8629" name="🎤" x="20" y="20" width="32" height="32" />
+        </frame>
+        <text id="649:8630" name="Book Artists" x="32" y="124" width="238" height="31" />
+        <text id="649:8631" name="Find and book bhajan singers, katha speakers, and performers for temple events and celebrations." x="32" y="175" width="238" height="88" />
+        <frame id="649:8632" name="Frame" x="101.5" y="283" width="99" height="21">
+          <text id="649:8633" name="Learn More" x="0" y="0" width="79" height="21" />
+          <frame id="649:8634" name="arrow-right" x="85" y="3.5" width="14" height="14" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:8636" name="Ad Section - Medium Rectangle" x="0" y="2739" width="1440" height="368">
+    <frame id="649:8637" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:8638" name="ad-content-wrapper" x="570" y="33" width="300" height="302">
+      <text id="649:8639" name="ad-label" x="99" y="16" width="102" height="12" />
+      <frame id="649:8640" name="ad-placeholder-300x250" x="0" y="36" width="300" height="250">
+        <text id="649:8641" name="ad-size-label" x="115" y="106" width="70" height="17" />
+        <text id="649:8642" name="ad-description" x="125" y="131" width="50" height="13" />
+      </frame>
+    </frame>
+    <frame id="649:8643" name="separator-bottom" x="0" y="335" width="1440" height="1" />
+  </frame>
+  <frame id="649:8644" name="HowItWorksSection" x="0" y="3107" width="1440" height="697">
+    <frame id="649:8645" name="Frame" x="80" y="80" width="1280" height="144">
+      <text id="649:8646" name="SIMPLE PROCESS" x="569.5" y="0" width="141" height="21" />
+      <text id="649:8647" name="Register Your Temple in 3 Steps" x="0" y="37" width="1280" height="48" />
+      <rounded-rectangle id="649:8648" name="Rectangle" x="590" y="101" width="100" height="3" />
+      <text id="649:8649" name="Simple, free, and takes less than 5 minutes." x="260" y="120" width="760" height="24" />
+    </frame>
+    <frame id="649:8650" name="Frame" x="80" y="272" width="1280" height="241">
+      <frame id="649:8651" name="Frame" x="0" y="0" width="378.6666564941406" height="241">
+        <frame id="649:8652" name="Frame" x="161.3333282470703" y="32" width="56" height="56">
+          <text id="649:8653" name="01" x="18.5" y="14.5" width="19" height="27" />
+        </frame>
+        <text id="649:8654" name="Create Profile" x="32" y="104" width="314.6666564941406" height="29" />
+        <text id="649:8655" name="Fill in your temple&#39;s name, location, history, timings, and upload photos to create a stunning temple profile." x="32" y="149" width="314.6666564941406" height="60" />
+      </frame>
+      <frame id="649:8656" name="arrow-right" x="394.6666564941406" y="110.5" width="40" height="20" />
+      <frame id="649:8658" name="Frame" x="450.6666564941406" y="0" width="378.66668701171875" height="241">
+        <frame id="649:8659" name="Frame" x="161.33334350585938" y="32" width="56" height="56">
+          <text id="649:8660" name="02" x="16.5" y="14.5" width="23" height="27" />
+        </frame>
+        <text id="649:8661" name="Add Services" x="32" y="104" width="314.66668701171875" height="29" />
+        <text id="649:8662" name="List the pujas, sevas, darshan slots, and events your temple offers. Set availability and pricing." x="32" y="149" width="314.66668701171875" height="60" />
+      </frame>
+      <frame id="649:8663" name="arrow-right" x="845.3333740234375" y="110.5" width="40" height="20" />
+      <frame id="649:8665" name="Frame" x="901.3333740234375" y="0" width="378.66668701171875" height="241">
+        <frame id="649:8666" name="Frame" x="161.33334350585938" y="32" width="56" height="56">
+          <text id="649:8667" name="03" x="16.5" y="14.5" width="23" height="27" />
+        </frame>
+        <text id="649:8668" name="Go Live" x="32" y="104" width="314.66668701171875" height="29" />
+        <text id="649:8669" name="Once approved, your temple is live on the platform — start receiving bookings and connecting with devotees." x="32" y="149" width="314.66668701171875" height="60" />
+      </frame>
+    </frame>
+    <frame id="649:8670" name="Frame" x="567.5" y="561" width="305" height="56">
+      <text id="649:8671" name="Register Your Temple Now" x="32" y="16" width="215" height="24" />
+      <frame id="649:8672" name="arrow-right" x="255" y="19" width="18" height="18" />
+    </frame>
+  </frame>
+  <frame id="649:8674" name="BlogSection" x="0" y="3804" width="1440" height="739">
+    <frame id="649:8675" name="Frame" x="80" y="80" width="1280" height="104">
+      <frame id="649:8676" name="Frame" x="0" y="0" width="1194" height="104">
+        <text id="649:8677" name="UPDATES &amp; BLOG" x="0" y="0" width="144" height="21" />
+        <text id="649:8678" name="Latest from the Community" x="0" y="37" width="1194" height="48" />
+        <rounded-rectangle id="649:8679" name="Rectangle" x="0" y="101" width="100" height="3" />
+      </frame>
+      <frame id="649:8680" name="Frame" x="1194" y="40" width="86" height="24">
+        <text id="649:8681" name="View All" x="0" y="0" width="64" height="24" />
+        <frame id="649:8682" name="arrow-right" x="70" y="4" width="16" height="16" />
+      </frame>
+    </frame>
+    <frame id="649:8684" name="Frame" x="80" y="232" width="1280" height="427">
+      <frame id="649:8685" name="Frame" x="0" y="0" width="410.6666564941406" height="427">
+        <frame id="649:8686" name="Frame" x="0" y="0" width="410.6666564941406" height="200">
+          <rounded-rectangle id="649:8687" name="Rectangle" x="0" y="0" width="410.6666564941406" height="200" />
+          <frame id="649:8688" name="Frame" x="16" y="16" width="75" height="30">
+            <text id="649:8689" name="Jul 2026" x="12" y="6" width="51" height="18" />
+          </frame>
+        </frame>
+        <frame id="649:8690" name="Frame" x="0" y="200" width="410.6666564941406" height="227">
+          <text id="649:8691" name="Temple News" x="24" y="24" width="81" height="18" />
+          <text id="649:8692" name="Khatu Shyam Temple Renovations Complete — New Darshan Hall Opens" x="24" y="54" width="362.6666564941406" height="52" />
+          <text id="649:8693" name="The newly renovated darshan hall welcomes devotees with improved facilities and shorter wait times." x="24" y="118" width="362.6666564941406" height="44" />
+          <frame id="649:8694" name="Frame" x="24" y="174" width="96" height="29">
+            <text id="649:8695" name="Read More" x="0" y="8" width="76" height="21" />
+            <frame id="649:8696" name="arrow-right" x="82" y="11.5" width="14" height="14" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:8698" name="Frame" x="434.6666564941406" y="0" width="410.66668701171875" height="427">
+        <frame id="649:8699" name="Frame" x="0" y="0" width="410.66668701171875" height="200">
+          <rounded-rectangle id="649:8700" name="Rectangle" x="0" y="0" width="410.66668701171875" height="200" />
+          <frame id="649:8701" name="Frame" x="16" y="16" width="79" height="30">
+            <text id="649:8702" name="Jun 2026" x="12" y="6" width="55" height="18" />
+          </frame>
+        </frame>
+        <frame id="649:8703" name="Frame" x="0" y="200" width="410.66668701171875" height="227">
+          <text id="649:8704" name="Seva Updates" x="24" y="24" width="88" height="18" />
+          <text id="649:8705" name="How Shyam Jagat Served 50,000 Meals in Falgun Mela 2026" x="24" y="54" width="362.66668701171875" height="52" />
+          <text id="649:8706" name="A record-breaking Annadan seva during this year&#39;s Falgun Mela, serving thousands of weary pilgrims." x="24" y="118" width="362.66668701171875" height="44" />
+          <frame id="649:8707" name="Frame" x="24" y="174" width="96" height="29">
+            <text id="649:8708" name="Read More" x="0" y="8" width="76" height="21" />
+            <frame id="649:8709" name="arrow-right" x="82" y="11.5" width="14" height="14" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:8711" name="Frame" x="869.3333740234375" y="0" width="410.66668701171875" height="427">
+        <frame id="649:8712" name="Frame" x="0" y="0" width="410.66668701171875" height="200">
+          <rounded-rectangle id="649:8713" name="Rectangle" x="0" y="0" width="410.66668701171875" height="200" />
+          <frame id="649:8714" name="Frame" x="16" y="16" width="79" height="30">
+            <text id="649:8715" name="Jun 2026" x="12" y="6" width="55" height="18" />
+          </frame>
+        </frame>
+        <frame id="649:8716" name="Frame" x="0" y="200" width="410.66668701171875" height="227">
+          <text id="649:8717" name="Spiritual Guidance" x="24" y="24" width="124" height="18" />
+          <text id="649:8718" name="5 Practices for Deepening Your Daily Devotion to Baba Shyam" x="24" y="54" width="362.66668701171875" height="52" />
+          <text id="649:8719" name="Simple yet powerful ways to strengthen your spiritual connection and bring peace to your home." x="24" y="118" width="362.66668701171875" height="44" />
+          <frame id="649:8720" name="Frame" x="24" y="174" width="96" height="29">
+            <text id="649:8721" name="Read More" x="0" y="8" width="76" height="21" />
+            <frame id="649:8722" name="arrow-right" x="82" y="11.5" width="14" height="14" />
+          </frame>
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:8724" name="TestimonialSection" x="0" y="4543" width="1440" height="601">
+    <frame id="649:8725" name="Frame" x="80" y="80" width="1280" height="104">
+      <text id="649:8726" name="REVIEWS" x="603.5" y="0" width="73" height="21" />
+      <text id="649:8727" name="What Temple Administrators Say" x="0" y="37" width="1280" height="48" />
+      <rounded-rectangle id="649:8728" name="Rectangle" x="590" y="101" width="100" height="3" />
+    </frame>
+    <frame id="649:8729" name="Frame" x="80" y="232" width="1280" height="289">
+      <frame id="649:8730" name="Frame" x="0" y="0" width="410.6666564941406" height="289">
+        <text id="649:8731" name="“" x="32" y="32" width="22" height="20" />
+        <text id="649:8732" name="Registering on Shyam Jagat brought our temple online. We now receive 3x more bookings and connect with devotees we never could before." x="32" y="68" width="346.6666564941406" height="96" />
+        <frame id="649:8733" name="Frame" x="32" y="180" width="86" height="14">
+          <frame id="649:8734" name="star" x="0" y="0" width="14" height="14" />
+          <frame id="649:8736" name="star" x="18" y="0" width="14" height="14" />
+          <frame id="649:8738" name="star" x="36" y="0" width="14" height="14" />
+          <frame id="649:8740" name="star" x="54" y="0" width="14" height="14" />
+          <frame id="649:8742" name="star" x="72" y="0" width="14" height="14" />
+        </frame>
+        <frame id="649:8744" name="Frame" x="32" y="210" width="346.6666564941406" height="47">
+          <text id="649:8745" name="Pandit Ramesh Ji" x="0" y="0" width="131" height="23" />
+          <text id="649:8746" name="Khatu Shyam Temple, Sikar" x="0" y="27" width="177" height="20" />
+        </frame>
+      </frame>
+      <frame id="649:8747" name="Frame" x="434.6666564941406" y="0" width="410.66668701171875" height="265">
+        <text id="649:8748" name="“" x="32" y="32" width="22" height="20" />
+        <text id="649:8749" name="The booking system is smooth and the support team is always helpful. Our temple&#39;s visibility has increased tremendously." x="32" y="68" width="346.66668701171875" height="72" />
+        <frame id="649:8750" name="Frame" x="32" y="156" width="86" height="14">
+          <frame id="649:8751" name="star" x="0" y="0" width="14" height="14" />
+          <frame id="649:8753" name="star" x="18" y="0" width="14" height="14" />
+          <frame id="649:8755" name="star" x="36" y="0" width="14" height="14" />
+          <frame id="649:8757" name="star" x="54" y="0" width="14" height="14" />
+          <frame id="649:8759" name="star" x="72" y="0" width="14" height="14" />
+        </frame>
+        <frame id="649:8761" name="Frame" x="32" y="186" width="346.66668701171875" height="47">
+          <text id="649:8762" name="Mahant Suresh Das" x="0" y="0" width="146" height="23" />
+          <text id="649:8763" name="Salasar Balaji Temple, Churu" x="0" y="27" width="186" height="20" />
+        </frame>
+      </frame>
+      <frame id="649:8764" name="Frame" x="869.3333740234375" y="0" width="410.66668701171875" height="265">
+        <text id="649:8765" name="“" x="32" y="32" width="22" height="20" />
+        <text id="649:8766" name="The live darshan feature has been a blessing for elderly devotees who can&#39;t travel. Technology serving devotion beautifully." x="32" y="68" width="346.66668701171875" height="72" />
+        <frame id="649:8767" name="Frame" x="32" y="156" width="86" height="14">
+          <frame id="649:8768" name="star" x="0" y="0" width="14" height="14" />
+          <frame id="649:8770" name="star" x="18" y="0" width="14" height="14" />
+          <frame id="649:8772" name="star" x="36" y="0" width="14" height="14" />
+          <frame id="649:8774" name="star" x="54" y="0" width="14" height="14" />
+          <frame id="649:8776" name="star" x="72" y="0" width="14" height="14" />
+        </frame>
+        <frame id="649:8778" name="Frame" x="32" y="186" width="346.66668701171875" height="47">
+          <text id="649:8779" name="Acharya Vinod Ji" x="0" y="0" width="129" height="23" />
+          <text id="649:8780" name="ISKCON, Delhi" x="0" y="27" width="87" height="20" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:8781" name="FAQSection" x="0" y="5144" width="1440" height="718">
+    <frame id="649:8782" name="Frame" x="120" y="80" width="1200" height="104">
+      <text id="649:8783" name="HAVE QUESTIONS?" x="522.5" y="0" width="155" height="21" />
+      <text id="649:8784" name="Frequently Asked Questions" x="0" y="37" width="1200" height="48" />
+      <rounded-rectangle id="649:8785" name="Rectangle" x="550" y="101" width="100" height="3" />
+    </frame>
+    <frame id="649:8786" name="Frame" x="120" y="232" width="1200" height="406">
+      <frame id="649:8787" name="Frame" x="0" y="0" width="588" height="406">
+        <frame id="649:8788" name="Frame" x="0" y="0" width="588" height="148">
+          <frame id="649:8789" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8790" name="How do I register my temple?" x="0" y="3" width="537" height="24" />
+            <text id="649:8791" name="−" x="537" y="0" width="11" height="30" />
+          </frame>
+          <text id="649:8792" name="Our platform allows full management of temple assets, schedules, darshan timings, online puja bookings, and direct communication channels with thousands of active devotees." x="20" y="62" width="548" height="66" />
+        </frame>
+        <frame id="649:8793" name="Frame" x="0" y="164" width="588" height="70">
+          <frame id="649:8794" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8795" name="Is temple registration free?" x="0" y="3" width="541" height="24" />
+            <text id="649:8796" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+        <frame id="649:8797" name="Frame" x="0" y="250" width="588" height="70">
+          <frame id="649:8798" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8799" name="How long does approval take?" x="0" y="3" width="541" height="24" />
+            <text id="649:8800" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+        <frame id="649:8801" name="Frame" x="0" y="336" width="588" height="70">
+          <frame id="649:8802" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8803" name="Can I manage multiple temples?" x="0" y="3" width="541" height="24" />
+            <text id="649:8804" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="649:8805" name="Frame" x="612" y="0" width="588" height="328">
+        <frame id="649:8806" name="Frame" x="0" y="0" width="588" height="70">
+          <frame id="649:8807" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8808" name="How do devotees find my temple?" x="0" y="3" width="541" height="24" />
+            <text id="649:8809" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+        <frame id="649:8810" name="Frame" x="0" y="86" width="588" height="70">
+          <frame id="649:8811" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8812" name="Can I offer live darshan?" x="0" y="3" width="541" height="24" />
+            <text id="649:8813" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+        <frame id="649:8814" name="Frame" x="0" y="172" width="588" height="70">
+          <frame id="649:8815" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8816" name="What payment methods are supported?" x="0" y="3" width="541" height="24" />
+            <text id="649:8817" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+        <frame id="649:8818" name="Frame" x="0" y="258" width="588" height="70">
+          <frame id="649:8819" name="Frame" x="20" y="20" width="548" height="30">
+            <text id="649:8820" name="How do I update temple timings?" x="0" y="3" width="541" height="24" />
+            <text id="649:8821" name="›" x="541" y="0" width="7" height="30" />
+          </frame>
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+  <frame id="649:8822" name="Ad Section - Large Banner" x="0" y="5862" width="1440" height="368">
+    <frame id="649:8823" name="separator-top" x="0" y="32" width="1440" height="1" />
+    <frame id="649:8824" name="ad-content-wrapper" x="235" y="33" width="970" height="302">
+      <text id="649:8825" name="ad-label" x="434" y="16" width="102" height="12" />
+      <frame id="649:8826" name="ad-placeholder-970x250" x="0" y="36" width="970" height="250">
+        <text id="649:8827" name="ad-size-label" x="451" y="89.5" width="68" height="17" />
+        <text id="649:8828" name="ad-description" x="460" y="114.5" width="50" height="13" />
+        <frame id="649:8829" name="ad-cta" x="429" y="135.5" width="112" height="25">
+          <text id="649:8830" name="cta-text" x="16" y="6" width="80" height="13" />
+        </frame>
+      </frame>
+    </frame>
+    <frame id="649:8831" name="separator-bottom" x="0" y="335" width="1440" height="1" />
+  </frame>
+  <frame id="649:8832" name="CTASection" x="0" y="6230" width="1440" height="393">
+    <frame id="649:8833" name="Frame" x="470" y="-53" width="500" height="500">
+      <frame id="649:8834" name="circle-x" x="0" y="0" width="500" height="500">
+        <vector id="649:8835" name="Vector" x="41.650001525878906" y="41.650001525878906" width="416.70001220703125" height="416.70001220703125" />
+      </frame>
+    </frame>
+    <frame id="649:8836" name="Frame" x="320" y="80" width="800" height="97">
+      <text id="649:8837" name="Ready to Bring Your Temple Online?" x="0" y="0" width="800" height="57" />
+      <text id="649:8838" name="Join 500+ temples already connecting with millions of devotees through Shyam Jagat." x="0" y="73" width="800" height="24" />
+    </frame>
+    <frame id="649:8839" name="Frame" x="494.5" y="209" width="451" height="52">
+      <frame id="649:8840" name="Frame" x="0" y="0" width="229" height="52">
+        <text id="649:8841" name="Register Your Temple" x="28" y="14" width="173" height="24" />
+      </frame>
+      <frame id="649:8842" name="Frame" x="245" y="0" width="206" height="52">
+        <text id="649:8843" name="Contact Our Team" x="28" y="14" width="150" height="24" />
+      </frame>
+    </frame>
+    <text id="649:8844" name="Questions? Call +91 12345 67890 • temples@shyamjagat.org" x="80" y="293" width="1280" height="20" />
+  </frame>
+  <frame id="665:14759" name="Footer" x="0" y="6623" width="1440" height="535">
+    <frame id="665:14760" name="Frame" x="108" y="100" width="1224" height="254">
+      <frame id="665:14761" name="Frame" x="0" y="0" width="320" height="254">
+        <rounded-rectangle id="665:14762" name="Rectangle" x="0" y="0" width="88" height="88" />
+        <text id="665:14763" name="Preserving our timeless traditions while serving the contemporary needs of our global devotee community." x="0" y="120" width="320" height="66" />
+        <frame id="665:14764" name="Frame" x="0" y="218" width="192" height="36">
+          <frame id="665:14765" name="Frame" x="0" y="0" width="36" height="36">
+            <frame id="665:14766" name="facebook" x="9" y="9" width="18" height="18" />
+          </frame>
+          <frame id="665:14768" name="Frame" x="52" y="0" width="36" height="36">
+            <frame id="665:14769" name="instagram" x="9" y="9" width="18" height="18" />
+          </frame>
+          <frame id="665:14771" name="Frame" x="104" y="0" width="36" height="36">
+            <frame id="665:14772" name="youtube" x="9" y="9" width="18" height="18" />
+          </frame>
+          <frame id="665:14774" name="Frame" x="156" y="0" width="36" height="36">
+            <frame id="665:14775" name="twitter" x="9" y="9" width="18" height="18" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="665:14777" name="Frame" x="623" y="0" width="601" height="206">
+        <frame id="665:14778" name="Frame" x="0" y="0" width="114" height="206">
+          <text id="665:14779" name="Quick Links" x="0" y="0" width="114" height="29" />
+          <frame id="665:14780" name="Frame" x="0" y="53" width="71" height="153">
+            <text id="665:14781" name="About Us" x="0" y="0" width="63" height="21" />
+            <text id="665:14782" name="History" x="0" y="33" width="48" height="21" />
+            <text id="665:14783" name="Our Vision" x="0" y="66" width="71" height="21" />
+            <text id="665:14784" name="Seva List" x="0" y="99" width="60" height="21" />
+            <text id="665:14785" name="Gallery" x="0" y="132" width="50" height="21" />
+          </frame>
+        </frame>
+        <frame id="665:14786" name="Frame" x="194" y="0" width="95" height="206">
+          <text id="665:14787" name="Support" x="0" y="0" width="76" height="29" />
+          <frame id="665:14788" name="Frame" x="0" y="53" width="95" height="153">
+            <text id="665:14789" name="Contact Us" x="0" y="0" width="78" height="21" />
+            <text id="665:14790" name="Privacy Policy" x="0" y="33" width="95" height="21" />
+            <text id="665:14791" name="Donation FAQ" x="0" y="66" width="95" height="21" />
+            <text id="665:14792" name="Volunteer" x="0" y="99" width="68" height="21" />
+            <text id="665:14793" name="Live Help" x="0" y="132" width="62" height="21" />
+          </frame>
+        </frame>
+        <frame id="665:14794" name="Frame" x="369" y="0" width="232" height="161">
+          <text id="665:14795" name="Contact" x="0" y="0" width="74" height="29" />
+          <frame id="665:14796" name="Frame" x="0" y="53" width="232" height="108">
+            <text id="665:14797" name="contact@shreeshyamjagat.org" x="0" y="0" width="232" height="21" />
+            <text id="665:14798" name="+91 1234 567 890" x="0" y="33" width="200" height="21" />
+            <text id="665:14799" name="123 Temple Road, Rajasthan, India" x="0" y="66" width="200" height="42" />
+          </frame>
+        </frame>
+      </frame>
+    </frame>
+    <frame id="665:14800" name="Frame" x="108" y="434" width="1224" height="61">
+      <text id="665:14801" name="© 2026 Shyam Jagat Organization. All Rights Reserved." x="0" y="40" width="381" height="21" />
+      <text id="665:14802" name="Design by ANGC Synapse" x="1046" y="40" width="178" height="21" />
+    </frame>
+  </frame>
+</frame>
