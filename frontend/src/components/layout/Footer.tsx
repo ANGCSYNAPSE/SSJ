@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import Container from "@/components/ui/Container";
+import AdSlot from "@/components/ui/AdSlot";
 import { SITE } from "@/lib/constants";
 
 const QUICK_LINKS = [
@@ -29,78 +30,80 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-maroon text-white">
-      <Container className="py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
-            <div className="flex items-center gap-2">
-              <Image src="/images/brand/logo.png" alt={SITE.name} width={44} height={44} />
-              <span className="font-serif text-xl font-bold">{SITE.name}</span>
-            </div>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
-              Preserving our timeless traditions while serving the contemporary needs of our global devotee community.
-            </p>
-            <div className="mt-6 flex items-center gap-3">
-              {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-primary/80"
-                >
-                  <Icon className="h-4 w-4" aria-hidden />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-serif text-lg font-bold text-primary">Quick Links</h3>
-            <ul className="mt-4 flex flex-col gap-3">
-              {QUICK_LINKS.map((link) => (
-                <li key={link.label}>
+    <>
+      <AdSlot size="leaderboard" />
+      <footer className="bg-maroon text-white">
+        <Container className="px-[27px] pb-10 pt-[100px] lg:px-[108px]">
+          <div className="flex flex-col items-start justify-between gap-10 lg:flex-row">
+            <div className="flex w-full max-w-[320px] flex-col items-start gap-8">
+              <Image src="/images/brand/logo-footer.svg" alt={SITE.name} width={174} height={174} />
+              <p className="w-full text-sm leading-[22px] text-white/80">
+                Preserving our timeless traditions while serving the contemporary needs of our global devotee community.
+              </p>
+              <div className="flex items-start gap-4">
+                {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
                   <Link
-                    href={link.href}
-                    className="text-sm text-white/70 transition-colors hover:text-white"
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    className="flex h-9 w-9 items-center justify-center rounded-[18px] bg-[#e47105] text-white transition-colors hover:bg-[#e47105]/80"
                   >
-                    {link.label}
+                    <Icon className="h-[18px] w-[18px]" aria-hidden />
                   </Link>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-start gap-x-20 gap-y-10">
+              <div className="flex flex-col items-start gap-6">
+                <h3 className="font-serif text-[22px] font-bold text-[#e47105]">Quick Links</h3>
+                <ul className="flex flex-col items-start gap-3 whitespace-nowrap">
+                  {QUICK_LINKS.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-white/90 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col items-start gap-6">
+                <h3 className="font-serif text-[22px] font-bold text-[#e47105]">Support</h3>
+                <ul className="flex flex-col items-start gap-3 whitespace-nowrap">
+                  {SUPPORT_LINKS.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-white/90 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col items-start gap-6">
+                <h3 className="font-serif text-[22px] font-bold text-[#e47105]">Contact</h3>
+                <ul className="flex flex-col items-start gap-3 text-sm text-white/90">
+                  <li className="w-[232px]">contact@shreeshyamjagat.org</li>
+                  <li className="w-[200px]">+91 1234 567 890</li>
+                  <li className="w-[200px]">123 Temple Road, Rajasthan, India</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <h3 className="font-serif text-lg font-bold text-primary">Support</h3>
-            <ul className="mt-4 flex flex-col gap-3">
-              {SUPPORT_LINKS.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/70 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="mt-20 flex flex-col gap-3 border-t border-[#e47105] pt-10 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
+            <p>&copy; {new Date().getFullYear()} {SITE.name} Organization. All Rights Reserved.</p>
+            <p>Design by ANGC Synapse</p>
           </div>
-
-          <div>
-            <h3 className="font-serif text-lg font-bold text-primary">Contact</h3>
-            <ul className="mt-4 flex flex-col gap-3 text-sm text-white/70">
-              <li>contact@shreeshyamjagat.org</li>
-              <li>+91 1234 567 890</li>
-              <li>123 Temple Road, Rajasthan, India</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/20 pt-6 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} {SITE.name} Organization. All Rights Reserved.</p>
-          <p>Design by ANGC Synapse</p>
-        </div>
-      </Container>
-    </footer>
+        </Container>
+      </footer>
+    </>
   );
 }

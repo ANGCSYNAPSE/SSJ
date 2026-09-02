@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BadgeCheck } from "lucide-react";
+import { ArrowLeft, BadgeCheck } from "lucide-react";
 import { SITE } from "@/lib/constants";
 
 /**
@@ -18,7 +18,15 @@ export default function AuthShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen items-stretch overflow-hidden bg-cream">
+    <div className="relative flex min-h-screen items-stretch overflow-hidden bg-cream">
+      <Link
+        href="/"
+        className="absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-maroon shadow-sm backdrop-blur-sm transition-colors hover:bg-white lg:left-6 lg:top-6"
+      >
+        <ArrowLeft className="h-4 w-4" aria-hidden />
+        Back
+      </Link>
+
       {/* Left image panel — hidden on small screens where the form takes over */}
       <div className="relative hidden w-1/2 shrink-0 overflow-hidden lg:block">
         <Image
@@ -97,15 +105,15 @@ export default function AuthShell({
         <div className="relative z-10 w-full max-w-[480px] rounded-2xl sm:rounded-[28px] bg-white/95 px-6 py-6 sm:px-8 sm:py-7 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
           <div className="flex items-center justify-center gap-2">
             <Image
-              src="/images/brand/logo.png"
+              src="/images/brand/logo.svg"
               alt=""
-              width={30}
-              height={30}
+              width={80}
+              height={80}
               aria-hidden
             />
-            <span className="font-serif text-[22px] font-bold text-maroon">
+            {/* <span className="font-serif text-[22px] font-bold text-maroon">
               {SITE.name}
-            </span>
+            </span> */}
           </div>
           {children}
         </div>

@@ -20,7 +20,7 @@ export const MORE_LINKS = [
   { href: "/temple-registration", label: "Temple Registration" },
   { href: "/artists", label: "Artists" },
   { href: "/artist-registration", label: "Artist Registration" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/faq", label: "FAQ" },
+  // { href: "/gallery", label: "Gallery" },
+  // { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact Us" },
 ] as const;

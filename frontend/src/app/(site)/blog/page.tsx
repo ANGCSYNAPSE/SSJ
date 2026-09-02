@@ -371,7 +371,7 @@ export default function BlogPage() {
               </Link>
             </div>
           </div>
-          <div className="relative h-[400px] w-full flex-1 overflow-hidden rounded-[24px] shadow-[0px_16px_16px_rgba(62,24,21,0.1)]">
+          <div className="relative h-[280px] w-full overflow-hidden rounded-[24px] shadow-[0px_16px_16px_rgba(62,24,21,0.1)] lg:h-[400px] lg:flex-1">
             <Image
               src="/images/blog/write-blog-cta.png"
               alt=""
