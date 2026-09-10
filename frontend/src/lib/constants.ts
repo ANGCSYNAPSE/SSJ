@@ -1,14 +1,14 @@
 export const SITE = {
   name: "Shyam Jagat",
-  description: "Shree Shyam Jagat — Faith, Service, Humanity",
+  description: "Shyam Jagat — Faith, Service, Humanity",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/baba-shyam", label: "Baba Shyam" },
   { href: "/about", label: "About Us" },
   { href: "/initiatives", label: "Our Initiatives" },
-  { href: "/baba-shyam", label: "Baba Shyam" },
   { href: "/events", label: "Events" },
   { href: "/team", label: "Team" },
 ] as const;
@@ -17,10 +17,11 @@ export const NAV_LINKS = [
 export const MORE_LINKS = [
   { href: "/blog", label: "Blog" },
   { href: "/temple-directory", label: "Temple Directory" },
-  { href: "/temple-registration", label: "Temple Registration" },
+  // { href: "/temple-registration", label: "Temple Registration" },
   { href: "/artists", label: "Artists" },
-  { href: "/artist-registration", label: "Artist Registration" },
+  // { href: "/artist-registration", label: "Artist Registration" },
   // { href: "/gallery", label: "Gallery" },
   // { href: "/faq", label: "FAQ" },
+  { href: "/donation", label: "Donation" },
   { href: "/contact", label: "Contact Us" },
 ] as const;

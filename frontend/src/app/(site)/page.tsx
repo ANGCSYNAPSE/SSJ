@@ -153,7 +153,7 @@ export default function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[100px] min-h-screen w-full overflow-hidden bg-[#1a1a1a]">
+      <section className="relative -mt-[100px] min-h-screen w-full overflow-hidden bg-[#1a1a1a] lg:-mt-[140px]">
         <Image
           src="/images/home/hero.png"
           alt="Devotees gathered at the Khatu Shyam temple at sunrise"
@@ -192,13 +192,7 @@ export default function HomePage() {
                 Become a Member
                 <CtaArrow src="/images/home/arrow-member.svg" className="h-3 w-6" />
               </Link>
-              <Link
-                href="/donation"
-                className="flex h-9 w-fit p-5 items-center justify-center gap-2 rounded-[13px] bg-[#e47105] text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
-              >
-                Donate Now
-                <Heart className="h-4 w-4 fill-white" aria-hidden />
-              </Link>
+              
             </div>
           </div>
 

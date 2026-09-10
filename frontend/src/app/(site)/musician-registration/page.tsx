@@ -192,7 +192,7 @@ function Radio({
 }
 
 const genderOptions = ["Select Gender", "Male", "Female", "Other", "Prefer Not to Say"];
-const artistTypes = ["Bhajan Singer", "Musician", "Dancer", "Speaker", "Painter", "Composer", "Other"];
+const instrumentGenres = ["Vocals / Bhajan Singing", "Tabla", "Harmonium", "Sitar", "Flute", "Dholak", "Violin", "Other"];
 const experienceOptions = ["0-1 Years", "1-3 Years", "3-5 Years", "5-10 Years", "10+ Years"];
 const indianStates = [
   "Rajasthan", "Uttar Pradesh", "Maharashtra", "Gujarat", "Delhi", "Karnataka",
@@ -205,8 +205,8 @@ const travelOptions = ["Within City", "Within State", "Across India"];
 
 const whyFeatures = [
   { emoji: "🌐", title: "Reach Thousands", desc: "Get discovered by temple boards and premier event organizers across India." },
-  { emoji: "🛕", title: "Sacred Platform", desc: "Perform at prestigious temple festivals, continuous satsangs, and major cultural gatherings." },
-  { emoji: "🤝", title: "Grow Your Art", desc: "Connect with veteran devotional masters, exchange techniques, and expand your spiritual network." },
+  { emoji: "🛕", title: "Sacred Stages", desc: "Perform at prestigious temple festivals, continuous satsangs, and major cultural gatherings." },
+  { emoji: "🤝", title: "Grow Your Craft", desc: "Connect with veteran devotional masters, exchange techniques, and expand your spiritual network." },
   { emoji: "💳", title: "Fair Compensation", desc: "Experience transparent booking terms and fast, verified digital payments directly to your account." },
 ];
 
@@ -216,9 +216,9 @@ const workFileIcons: Record<string, typeof Volume2> = {
   video: Video,
 };
 
-export default function ArtistRegistrationPage() {
+export default function MusicianRegistrationPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [secondaryArtForm, setSecondaryArtForm] = useState("Select Secondary Art Form");
+  const [secondaryInstrument, setSecondaryInstrument] = useState("Select Secondary Instrument / Genre");
   const [guruName, setGuruName] = useState("");
   const [portfolioLink, setPortfolioLink] = useState("");
   const [workFiles, setWorkFiles] = useState<{ name: string; size: string; type: keyof typeof workFileIcons }[]>([]);
@@ -238,7 +238,7 @@ export default function ArtistRegistrationPage() {
       city: "",
       state: indianStates[0],
       profilePhoto: undefined,
-      artistType: artistTypes[0],
+      artistType: instrumentGenres[0],
       experience: experienceOptions[0],
       bio: "",
       agreeToTerms: false,
@@ -246,7 +246,7 @@ export default function ArtistRegistrationPage() {
     validationSchema: artistRegistrationValidationSchema,
     onSubmit: async (values) => {
       console.log("Form submitted:", values);
-      alert("Artist registration submitted successfully!");
+      alert("Musician registration submitted successfully!");
     },
   });
 
@@ -283,12 +283,12 @@ export default function ArtistRegistrationPage() {
         </div>
         <div className="relative flex flex-col items-center gap-6 text-center">
           <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl lg:text-[52px]">
-            Register as an Artist
+            Register as a Musician
           </h1>
           <p className="max-w-[800px] text-base leading-7 text-cream sm:text-lg">
-            Join Shyam Jagat&apos;s growing community of devotional artists. Showcase
-            your talent at spiritual events, cultural programs, and sacred
-            gatherings across India.
+            Join Shyam Jagat&apos;s growing community of devotional musicians.
+            Bring divine melodies — kirtan, bhajan, and classical music — to
+            spiritual events and sacred gatherings across India.
           </p>
         </div>
       </section>
@@ -431,15 +431,15 @@ export default function ArtistRegistrationPage() {
             </div>
           </Card>
 
-          {/* Your Art & Expertise */}
-          <Card title="Your Art & Expertise">
+          {/* Your Music & Expertise */}
+          <Card title="Your Music & Expertise">
             <div className="flex flex-col gap-6">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Primary Art Form" required />
+                  <FieldLabel label="Primary Instrument / Genre" required />
                   <Select
-                    options={artistTypes}
-                    value={formik.values.artistType ?? artistTypes[0]}
+                    options={instrumentGenres}
+                    value={formik.values.artistType ?? instrumentGenres[0]}
                     onChange={(v) => formik.setFieldValue("artistType", v)}
                     hasError={formik.touched.artistType && !!formik.errors.artistType}
                   />
@@ -448,11 +448,11 @@ export default function ArtistRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Secondary Art Form (Optional)" />
+                  <FieldLabel label="Secondary Instrument / Genre (Optional)" />
                   <Select
-                    options={["Select Secondary Art Form", ...artistTypes]}
-                    value={secondaryArtForm}
-                    onChange={setSecondaryArtForm}
+                    options={["Select Secondary Instrument / Genre", ...instrumentGenres]}
+                    value={secondaryInstrument}
+                    onChange={setSecondaryInstrument}
                   />
                 </div>
               </div>
@@ -470,7 +470,7 @@ export default function ArtistRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Guru / Teacher Name (Optional)" />
+                  <FieldLabel label="Guru / Music Academy Name (Optional)" />
                   <input
                     type="text"
                     placeholder="Name of your Guru or Academy"
@@ -481,9 +481,9 @@ export default function ArtistRegistrationPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Brief Bio / About Your Art" required />
+                <FieldLabel label="Brief Bio / About Your Music" required />
                 <textarea
-                  placeholder="Tell us about your journey as an artist, your training, and what inspires your devotional art..."
+                  placeholder="Tell us about your journey as a musician, your training, and what inspires your devotional music..."
                   {...formik.getFieldProps("bio")}
                   rows={5}
                   className={`w-full resize-none rounded-lg border p-4 text-sm text-[#444] placeholder:text-[#9ca3af] focus:outline-none ${
@@ -648,7 +648,7 @@ export default function ArtistRegistrationPage() {
         <div className="mx-auto flex max-w-[1224px] flex-col gap-12">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-3xl font-bold leading-[1.1] text-maroon sm:text-[48px]">
-              Why Join Shyam Jagat as an Artist?
+              Why Join Shyam Jagat as a Musician?
             </h2>
             <div className="h-[3px] w-[100px] bg-primary" />
             <p className="max-w-[760px] text-base leading-7 text-[#595656] sm:text-lg">

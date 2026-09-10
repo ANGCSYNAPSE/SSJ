@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -33,14 +32,12 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
-
   // Session restore is disabled for now — there's no backend running, and the
   // refresh call was just failing with a connection error on every page load.
-  // Re-enable this effect once the auth API is back.
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  // Set this back to `useState(true)` with a restore effect once the auth API
+  // is back; until then there's no async work, so start settled to avoid a
+  // loading-skeleton flash on every page load.
+  const [loading] = useState(false);
 
   const signup = useCallback(async (input: SignupInput) => {
     const result = await authApi.signup(input);
