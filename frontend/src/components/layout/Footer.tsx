@@ -36,7 +36,7 @@ export default function Footer() {
     <>
       <AdSlot size="leaderboard" />
       <footer className="bg-maroon text-white">
-        <Container className="px-[27px] pb-10 pt-[100px] lg:px-[108px]">
+        <Container className="px-[27px] pb-10 pt-[100px] px-20">
           <div className="flex flex-col items-start justify-between gap-10 lg:flex-row">
             <div className="flex w-full max-w-[320px] flex-col items-start gap-8">
               <Image src="/images/brand/logo-footer.svg" alt={SITE.name} width={174} height={174} />
