@@ -19,19 +19,6 @@ type Errors = Partial<Record<string, string>> & { form?: string };
 
 const initial = { email: "", password: "" };
 
-function validate(values: typeof initial): Errors {
-  const errors: Errors = {};
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
-    errors.email = "Enter a valid email address.";
-  }
-  if (values.password.length === 0) {
-    errors.password = "Please enter your password.";
-  }
-
-  return errors;
-}
-
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -40,6 +27,17 @@ export default function LoginForm() {
   const [remember, setRemember] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
+
+  function validate(v: typeof initial): Errors {
+    const found: Errors = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim())) {
+      found.email = "Enter a valid email address.";
+    }
+    if (v.password.length === 0) {
+      found.password = "Please enter your password.";
+    }
+    return found;
+  }
 
   // Where to land after signing in — honours ?next= from a guarded route,
   // but only for same-site paths so the param cannot be used as an open redirect.
@@ -95,33 +93,33 @@ export default function LoginForm() {
     <>
       <div className="mt-3.5 flex flex-col items-center gap-1.5 text-center">
         <h1 className="font-serif text-[34px] font-bold leading-tight text-maroon">
-          Welcome Back
+          {"Welcome Back"}
         </h1>
         <p className="text-sm text-muted-foreground">
-          Sign in to continue your journey of seva.
+          {"Sign in to continue your journey of seva."}
         </p>
       </div>
 
       <form onSubmit={onSubmit} noValidate className="mt-5 flex flex-col gap-4">
         <div className="flex flex-col gap-3">
-          <AuthField label="Email Address" htmlFor="email" error={errors.email}>
+          <AuthField label={"Email Address"} htmlFor="email" error={errors.email}>
             <TextField
               id="email"
               icon={Mail}
               type="email"
               autoComplete="email"
-              placeholder="your@email.com"
+              placeholder={"your@email.com"}
               value={values.email}
               onChange={update("email")}
             />
           </AuthField>
 
-          <AuthField label="Password" htmlFor="password" error={errors.password}>
+          <AuthField label={"Password"} htmlFor="password" error={errors.password}>
             <PasswordField
               id="password"
               icon={Lock}
               autoComplete="current-password"
-              placeholder="Enter your password"
+              placeholder={"Enter your password"}
               value={values.password}
               onChange={update("password")}
             />
@@ -133,7 +131,7 @@ export default function LoginForm() {
                 type="button"
                 role="checkbox"
                 aria-checked={remember}
-                aria-label="Remember me"
+                aria-label={"Remember me"}
                 onClick={() => setRemember((v) => !v)}
                 className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded ${
                   remember
@@ -144,14 +142,14 @@ export default function LoginForm() {
                 {remember && <Check className="h-2.5 w-2.5 text-white" />}
               </button>
               <span className="text-[13px] text-muted-foreground">
-                Remember me
+                {"Remember me"}
               </span>
             </div>
             <Link
               href="/forgot-password"
               className="text-[13px] font-semibold text-primary hover:underline"
             >
-              Forgot password?
+              {"Forgot password?"}
             </Link>
           </div>
         </div>
@@ -165,16 +163,16 @@ export default function LoginForm() {
           </p>
         )}
 
-        <SubmitButton pending={pending}>Sign In →</SubmitButton>
+        <SubmitButton pending={pending}>{"Sign In →"}</SubmitButton>
       </form>
 
       <div className="mt-4 flex flex-col gap-4">
-        <AuthDivider label="— or continue with —" />
-        <GoogleButton label="Continue with Google" />
+        <AuthDivider label={"— or continue with —"} />
+        <GoogleButton label={"Continue with Google"} />
         <AuthSwitchLink
-          prompt="New to Shyam Jagat?"
+          prompt={"New to Shyam Jagat?"}
           href="/signup"
-          label="Create an account"
+          label={"Create an account"}
         />
         <TrustBadges />
       </div>

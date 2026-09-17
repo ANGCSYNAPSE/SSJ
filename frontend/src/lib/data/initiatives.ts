@@ -7,7 +7,7 @@ export interface Initiative {
 }
 
 /** "Our Initiatives" bento grid on the home page — order maps to the grid layout (2 large, 3 medium, 1 full-width). */
-export const initiatives: Initiative[] = [
+export const INITIATIVES: Initiative[] = [
   {
     id: 1,
     tag: "FOOD SEVA",

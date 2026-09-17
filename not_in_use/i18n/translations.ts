@@ -1,5 +1,10 @@
 import type { LocaleCode } from "./locales";
 
+// Currently unused: the app translates via GTranslate (see
+// components/i18n/GTranslateWidget.tsx) instead of this curated dictionary.
+// Kept intact, not imported by any live component, in case we need a
+// dictionary-based translation path again in the future.
+
 /**
  * Site chrome (top bar, header nav, footer) translated into every supported
  * locale. Page body content is still English-only — see the i18n rollout

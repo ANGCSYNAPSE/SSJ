@@ -322,13 +322,10 @@ export default function MandalRegistrationPage() {
   const [memberCount, setMemberCount] = useState(memberCountOptions[0]);
   const [spokespersonName, setSpokespersonName] = useState("");
 
-  const [sevaTypes, setSevaTypes] = useState<string[]>([
-    "Bhajan Sandhya & Jagran",
-    "Bhandara & Prasadi Seva",
-  ]);
+  const [sevaTypes, setSevaTypes] = useState<string[]>([]);
   const [recurringEvents, setRecurringEvents] = useState("");
 
-  const [consent, setConsent] = useState(true);
+  const [consent, setConsent] = useState(false);
 
   function toggleSeva(item: string) {
     setSevaTypes((prev) => (prev.includes(item) ? prev.filter((s) => s !== item) : [...prev, item]));

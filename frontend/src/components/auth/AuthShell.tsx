@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck } from "lucide-react";
@@ -24,7 +26,7 @@ export default function AuthShell({
         className="absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-maroon shadow-sm backdrop-blur-sm transition-colors hover:bg-white lg:left-6 lg:top-6"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
-        Back
+        {"Back"}
       </Link>
 
       {/* Left image panel — hidden on small screens where the form takes over */}
@@ -58,7 +60,7 @@ export default function AuthShell({
               <BadgeCheck className="h-3.5 w-3.5 text-white" aria-hidden />
             </span>
             <span className="text-[13px] font-semibold text-white">
-              Trusted by 5,000+ Devotees
+              {"Trusted by 5,000+ Devotees"}
             </span>
           </div>
 
@@ -177,16 +179,15 @@ export function GoogleButton({ label }: { label: string }) {
 }
 
 export function TrustBadges() {
+  const badges = ["🔒 100% Secure", "✅ 80G Tax Benefits", "🙏 Free to Join"];
   return (
     <div className="flex flex-wrap items-center justify-center gap-3">
-      {["🔒 100% Secure", "✅ 80G Tax Benefits", "🙏 Free to Join"].map(
-        (badge, i) => (
-          <span key={badge} className="flex items-center gap-3">
-            {i > 0 && <span className="text-xs text-border">•</span>}
-            <span className="text-xs text-muted-foreground">{badge}</span>
-          </span>
-        ),
-      )}
+      {badges.map((badge, i) => (
+        <span key={badge} className="flex items-center gap-3">
+          {i > 0 && <span className="text-xs text-border">•</span>}
+          <span className="text-xs text-muted-foreground">{badge}</span>
+        </span>
+      ))}
     </div>
   );
 }

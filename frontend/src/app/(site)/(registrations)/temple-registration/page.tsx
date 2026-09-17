@@ -165,46 +165,58 @@ function FormCard({
   );
 }
 
-const templeTypes = ["Mandir", "Dham", "Ashram", "Shrine", "Temple Complex"];
-const states = ["Rajasthan", "Delhi", "Gujarat", "Maharashtra", "Uttar Pradesh"];
-
-const services = [
-  { title: "Daily Darshan", desc: "Regular public viewing hours" },
-  { title: "Prasad Distribution", desc: "Daily offering of sacred food" },
-  { title: "Marriage Ceremonies", desc: "Space/services for holy matrimony" },
-  { title: "Annapurna Seva (Free Meals)", desc: "Free community kitchen / Bhandara" },
-  { title: "Spiritual Discourses", desc: "Pravachan, satsang or katha facilities" },
-  { title: "Festival Celebrations", desc: "Special arrangements for big occasions like Falgun Mela" },
-  { title: "Meditation Hall", desc: "Quiet prayer/dhyana space" },
-  { title: "Dharamshala / Guest Stay", desc: "Lodging for visiting pilgrims" },
-  { title: "Gaushala (Cow Shelter)", desc: "Caring for sacred cows on premises" },
-  { title: "Vedic Pathshala", desc: "Education programs for scriptures" },
-];
-
-const whyFeatures = [
-  {
-    emoji: "🫂",
-    title: "Reach Devotees",
-    desc: "Connect with millions of devotees searching for temples near them, guiding them to your holy site.",
-  },
-  {
-    emoji: "📅",
-    title: "Manage Events",
-    desc: "Announce regular festivals, special poojas, and bhandaras to a wider, highly engaged audience.",
-  },
-  {
-    emoji: "🪙",
-    title: "Receive Donations",
-    desc: "Accept online donations securely and transparently, generating direct financial support for temple maintenance.",
-  },
-  {
-    emoji: "✨",
-    title: "Build Community",
-    desc: "Grow your temple audience digital-first, sending blessings and sharing spiritual teachings smoothly.",
-  },
-];
-
 export default function TempleRegistrationPage() {
+  const templeTypes = [
+    "Mandir",
+    "Dham",
+    "Ashram",
+    "Shrine",
+    "Temple Complex",
+  ];
+  const states = [
+    "Rajasthan",
+    "Delhi",
+    "Gujarat",
+    "Maharashtra",
+    "Uttar Pradesh",
+  ];
+
+  const services = [
+    { title: "Daily Darshan", desc: "Regular public viewing hours" },
+    { title: "Prasad Distribution", desc: "Daily offering of sacred food" },
+    { title: "Marriage Ceremonies", desc: "Space/services for holy matrimony" },
+    { title: "Annapurna Seva (Free Meals)", desc: "Free community kitchen / Bhandara" },
+    { title: "Spiritual Discourses", desc: "Pravachan, satsang or katha facilities" },
+    { title: "Festival Celebrations", desc: "Special arrangements for big occasions like Falgun Mela" },
+    { title: "Meditation Hall", desc: "Quiet prayer/dhyana space" },
+    { title: "Dharamshala / Guest Stay", desc: "Lodging for visiting pilgrims" },
+    { title: "Gaushala (Cow Shelter)", desc: "Caring for sacred cows on premises" },
+    { title: "Vedic Pathshala", desc: "Education programs for scriptures" },
+  ];
+
+  const whyFeatures = [
+    {
+      emoji: "🫂",
+      title: "Reach Devotees",
+      desc: "Connect with millions of devotees searching for temples near them, guiding them to your holy site.",
+    },
+    {
+      emoji: "📅",
+      title: "Manage Events",
+      desc: "Announce regular festivals, special poojas, and bhandaras to a wider, highly engaged audience.",
+    },
+    {
+      emoji: "🪙",
+      title: "Receive Donations",
+      desc: "Accept online donations securely and transparently, generating direct financial support for temple maintenance.",
+    },
+    {
+      emoji: "✨",
+      title: "Build Community",
+      desc: "Grow your temple audience digital-first, sending blessings and sharing spiritual teachings smoothly.",
+    },
+  ];
+
   const [templeName, setTempleName] = useState("");
   const [deity, setDeity] = useState("");
   const [yearEstablished, setYearEstablished] = useState("");
@@ -224,16 +236,16 @@ export default function TempleRegistrationPage() {
   const [openingTime, setOpeningTime] = useState("");
   const [closingTime, setClosingTime] = useState("");
   const [aartiTimings, setAartiTimings] = useState("");
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedServiceIndexes, setSelectedServiceIndexes] = useState<number[]>([]);
   const [description, setDescription] = useState("");
 
   const [certifyAccurate, setCertifyAccurate] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [consentComms, setConsentComms] = useState(false);
 
-  function toggleService(title: string) {
-    setSelectedServices((prev) =>
-      prev.includes(title) ? prev.filter((s) => s !== title) : [...prev, title],
+  function toggleService(index: number) {
+    setSelectedServiceIndexes((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   }
 
@@ -258,12 +270,10 @@ export default function TempleRegistrationPage() {
         </div>
         <div className="relative flex flex-col items-center gap-6 text-center">
           <h1 className="font-serif text-4xl font-bold text-white sm:text-5xl lg:text-[56px]">
-            Register Your Temple
+            {"Register Your Temple"}
           </h1>
           <p className="max-w-[800px] text-base leading-7 text-cream sm:text-lg">
-            List your temple on Shyam Jagat and connect with millions of devotees.
-            Help pilgrims discover your sacred space, services, daily darshan
-            timings, and upcoming festivals.
+            {"List your temple on Shyam Jagat and connect with millions of devotees. Help pilgrims discover your sacred space, services, daily darshan timings, and upcoming festivals."}
           </p>
         </div>
       </section>
@@ -273,48 +283,48 @@ export default function TempleRegistrationPage() {
       <form onSubmit={handleSubmit} className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
         <div className="mx-auto flex max-w-[1000px] flex-col gap-8">
           {/* Temple Information */}
-          <FormCard title="Temple Information">
+          <FormCard title={"Temple Information"}>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Temple Name" required />
+                <FieldLabel label={"Temple Name"} required />
                 <TextInput
-                  placeholder="e.g. Shree Khatu Shyam Ji Temple"
+                  placeholder={"e.g. Shree Khatu Shyam Ji Temple"}
                   value={templeName}
                   onChange={setTempleName}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Deity / Presiding God" required />
+                <FieldLabel label={"Deity / Presiding God"} required />
                 <TextInput
-                  placeholder="e.g. Khatu Shyam Ji, Hanuman Ji, Shiv Ji"
+                  placeholder={"e.g. Khatu Shyam Ji, Hanuman Ji, Shiv Ji"}
                   value={deity}
                   onChange={setDeity}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Year of Establishment" required />
+                <FieldLabel label={"Year of Establishment"} required />
                 <TextInput
-                  placeholder="e.g. 1956 or ancient"
+                  placeholder={"e.g. 1956 or ancient"}
                   value={yearEstablished}
                   onChange={setYearEstablished}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Temple Type" required />
+                <FieldLabel label={"Temple Type"} required />
                 <FormSelect options={templeTypes} value={templeType} onChange={setTempleType} />
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Temple Trust / Organization Name" required />
+                <FieldLabel label={"Temple Trust / Organization Name"} required />
                 <TextInput
-                  placeholder="e.g. Shree Shyam Mandir Committee"
+                  placeholder={"e.g. Shree Shyam Mandir Committee"}
                   value={trustName}
                   onChange={setTrustName}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Registration Number (Optional)" />
+                <FieldLabel label={"Registration Number (Optional)"} />
                 <TextInput
-                  placeholder="Trust/Society Registration No."
+                  placeholder={"Trust/Society Registration No."}
                   value={regNumber}
                   onChange={setRegNumber}
                 />
@@ -323,29 +333,28 @@ export default function TempleRegistrationPage() {
 
             <div className="flex flex-col gap-2">
               <p className="text-sm font-semibold text-[#3e1815]">
-                Upload Primary Temple Photo
+                {"Upload Primary Temple Photo"}
               </p>
               <button
                 type="button"
                 className="flex flex-col items-center justify-center gap-3 rounded-xl border-[1.5px] border-dashed border-[#e47105] bg-cream p-6"
               >
                 <Camera className="h-8 w-8 text-primary" />
-                <p className="text-sm font-semibold text-primary">Upload Temple Photo</p>
+                <p className="text-sm font-semibold text-primary">{"Upload Temple Photo"}</p>
                 <p className="text-xs text-[#8c8c8c]">
-                  This will be featured as the primary image of your temple profile (Max
-                  5MB)
+                  {"This will be featured as the primary image of your temple profile (Max 5MB)"}
                 </p>
               </button>
             </div>
           </FormCard>
 
           {/* Location & Contact */}
-          <FormCard title="Location & Contact Details">
+          <FormCard title={"Location & Contact Details"}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Full Address" required />
+                <FieldLabel label={"Full Address"} required />
                 <TextArea
-                  placeholder="Enter complete physical address of the temple..."
+                  placeholder={"Enter complete physical address of the temple..."}
                   value={address}
                   onChange={setAddress}
                   rows={3}
@@ -353,49 +362,49 @@ export default function TempleRegistrationPage() {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="City / Town" required />
-                  <TextInput placeholder="e.g. Sikar" value={city} onChange={setCity} />
+                  <FieldLabel label={"City / Town"} required />
+                  <TextInput placeholder={"e.g. Sikar"} value={city} onChange={setCity} />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="State" required />
+                  <FieldLabel label={"State"} required />
                   <FormSelect options={states} value={state} onChange={setState} />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="PIN Code" required />
-                  <TextInput placeholder="e.g. 332602" value={pinCode} onChange={setPinCode} />
+                  <FieldLabel label={"PIN Code"} required />
+                  <TextInput placeholder={"e.g. 332602"} value={pinCode} onChange={setPinCode} />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-semibold text-[#3e1815]">
-                  Google Maps Link (Optional)
+                  {"Google Maps Link (Optional)"}
                 </p>
                 <TextInput
-                  placeholder="Paste the share link or coordinates URL from Google Maps"
+                  placeholder={"Paste the share link or coordinates URL from Google Maps"}
                   value={mapsLink}
                   onChange={setMapsLink}
                 />
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Contact Person Name" required />
+                  <FieldLabel label={"Contact Person Name"} required />
                   <TextInput
-                    placeholder="e.g. Pujari Ji / Secretary"
+                    placeholder={"e.g. Pujari Ji / Secretary"}
                     value={contactName}
                     onChange={setContactName}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Contact Phone" required />
+                  <FieldLabel label={"Contact Phone"} required />
                   <TextInput
-                    placeholder="e.g. +91 9876543210"
+                    placeholder={"e.g. +91 9876543210"}
                     value={contactPhone}
                     onChange={setContactPhone}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Contact Email" required />
+                  <FieldLabel label={"Contact Email"} required />
                   <TextInput
-                    placeholder="e.g. mandir@shyamjagat.org"
+                    placeholder={"e.g. mandir@shyamjagat.org"}
                     value={contactEmail}
                     onChange={setContactEmail}
                   />
@@ -405,43 +414,43 @@ export default function TempleRegistrationPage() {
           </FormCard>
 
           {/* Temple Details & Services */}
-          <FormCard title="Temple Details & Services">
+          <FormCard title={"Temple Details & Services"}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Daily Opening Time" required />
+                  <FieldLabel label={"Daily Opening Time"} required />
                   <TextInput
-                    placeholder="e.g. 05:00 AM"
+                    placeholder={"e.g. 05:00 AM"}
                     value={openingTime}
                     onChange={setOpeningTime}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Daily Closing Time" required />
+                  <FieldLabel label={"Daily Closing Time"} required />
                   <TextInput
-                    placeholder="e.g. 09:00 PM"
+                    placeholder={"e.g. 09:00 PM"}
                     value={closingTime}
                     onChange={setClosingTime}
                   />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Special Aarti Timings" required />
+                <FieldLabel label={"Special Aarti Timings"} required />
                 <TextArea
-                  placeholder="e.g. Mangla Aarti 5:00 AM, Shringaar Aarti 8:30 AM, Sandhya Aarti 7:00 PM"
+                  placeholder={"e.g. Mangla Aarti 5:00 AM, Shringaar Aarti 8:30 AM, Sandhya Aarti 7:00 PM"}
                   value={aartiTimings}
                   onChange={setAartiTimings}
                   rows={3}
                 />
               </div>
               <div className="flex flex-col gap-3">
-                <p className="text-sm font-semibold text-[#3e1815]">Services Offered</p>
+                <p className="text-sm font-semibold text-[#3e1815]">{"Services Offered"}</p>
                 <div className="grid grid-cols-3 gap-3">
-                  {services.map((service) => (
+                  {services.map((service, index) => (
                     <Checkbox
-                      key={service.title}
-                      checked={selectedServices.includes(service.title)}
-                      onChange={() => toggleService(service.title)}
+                      key={index}
+                      checked={selectedServiceIndexes.includes(index)}
+                      onChange={() => toggleService(index)}
                     >
                       <p className="font-medium text-[#3e1815]">{service.title}</p>
                       <p className="text-xs text-[#8c8c8c]">{service.desc}</p>
@@ -450,9 +459,9 @@ export default function TempleRegistrationPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Brief Description of Temple" required />
+                <FieldLabel label={"Brief Description of Temple"} required />
                 <TextArea
-                  placeholder="Tell devotees about your temple history, significance, legendary miracles, and what makes this sacred space special..."
+                  placeholder={"Tell devotees about your temple history, significance, legendary miracles, and what makes this sacred space special..."}
                   value={description}
                   onChange={setDescription}
                   rows={5}
@@ -462,20 +471,18 @@ export default function TempleRegistrationPage() {
           </FormCard>
 
           {/* Upload Gallery */}
-          <FormCard title="Temple Photo Gallery">
+          <FormCard title={"Temple Photo Gallery"}>
             <button
               type="button"
               className="flex flex-col items-center justify-center gap-3 rounded-xl border-[1.5px] border-dashed border-[#e47105] bg-cream p-8"
             >
               <UploadCloud className="h-10 w-10 text-primary" />
               <p className="flex items-center gap-1 text-base font-semibold text-[#3e1815]">
-                Drag &amp; drop photos of your temple here or{" "}
-                <span className="text-primary underline">Browse Files</span>
+                {"Drag & drop photos of your temple here or"}{" "}
+                <span className="text-primary underline">{"Browse Files"}</span>
               </p>
               <p className="max-w-[760px] text-center text-[13px] text-[#8c8c8c]">
-                Upload up to 10 photos. Accepted formats: JPG, PNG. Max 5MB per photo.
-                Include photos of the main deity, temple exterior, interior, and
-                premises.
+                {"Upload up to 10 photos. Accepted formats: JPG, PNG. Max 5MB per photo. Include photos of the main deity, temple exterior, interior, and premises."}
               </p>
             </button>
           </FormCard>
@@ -484,16 +491,13 @@ export default function TempleRegistrationPage() {
           <FormCard>
             <div className="flex flex-col gap-5">
               <Checkbox checked={certifyAccurate} onChange={setCertifyAccurate}>
-                I certify that the information provided is accurate and I am
-                authorized to register this temple on behalf of the temple trust.
+                {"I certify that the information provided is accurate and I am authorized to register this temple on behalf of the temple trust."}
               </Checkbox>
               <Checkbox checked={agreeTerms} onChange={setAgreeTerms}>
-                I agree to the Terms of Service and Privacy Policy of Shyam Jagat
-                spiritual platform.
+                {"I agree to the Terms of Service and Privacy Policy of Shyam Jagat spiritual platform."}
               </Checkbox>
               <Checkbox checked={consentComms} onChange={setConsentComms}>
-                I consent to receiving communications about platform updates and
-                devotee inquiries.
+                {"I consent to receiving communications about platform updates and devotee inquiries."}
               </Checkbox>
             </div>
             <div className="flex flex-col items-center gap-4">
@@ -501,12 +505,12 @@ export default function TempleRegistrationPage() {
                 type="submit"
                 className="w-full rounded-lg bg-[#e47105] py-4 text-base font-bold text-white shadow-[0px_8px_8px_rgba(228,113,5,0.15)] transition hover:bg-primary-dark"
               >
-                Submit Temple Registration
+                {"Submit Temple Registration"}
               </button>
               <p className="flex items-center gap-1 text-sm text-[#595656]">
-                Already registered?{" "}
+                {"Already registered?"}{" "}
                 <Link href="/login" className="font-semibold text-maroon underline">
-                  Login here
+                  {"Login here"}
                 </Link>
               </p>
             </div>
@@ -521,20 +525,18 @@ export default function TempleRegistrationPage() {
         <div className="mx-auto flex max-w-[1224px] flex-col gap-12">
           <div className="flex flex-col items-center gap-3 text-center">
             <h2 className="font-serif text-[32px] font-semibold leading-[1.1] text-maroon sm:text-[44px]">
-              Why List Your Temple on Shyam Jagat?
+              {"Why List Your Temple on Shyam Jagat?"}
             </h2>
             <div className="h-[3px] w-[100px] rounded-full bg-[#e47105]" />
             <p className="max-w-[760px] text-base leading-relaxed text-[#595656]">
-              Connecting sacred places of devotion with millions of seekers
-              worldwide. Simplify communication, organize events, and manage
-              community support effortlessly.
+              {"Connecting sacred places of devotion with millions of seekers worldwide. Simplify communication, organize events, and manage community support effortlessly."}
             </p>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {whyFeatures.map((feature) => (
+            {whyFeatures.map((feature, index) => (
               <div
-                key={feature.title}
+                key={index}
                 className="flex flex-col gap-4 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white p-6 shadow-[0px_12px_16px_rgba(139,0,0,0.05)]"
               >
                 <div className="flex size-14 items-center justify-center rounded-full bg-cream text-2xl">

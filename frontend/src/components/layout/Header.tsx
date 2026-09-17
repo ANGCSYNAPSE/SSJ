@@ -6,27 +6,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, UserPlus, ChevronDown, LogOut } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { useLocale } from "@/components/i18n/LocaleProvider";
-import { LOCALES } from "@/lib/i18n/locales";
+import { LOCALES, DEFAULT_LOCALE, type LocaleCode, switchLanguage } from "@/lib/gtranslate";
 import { NAV_LINKS, MORE_LINKS, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-
-/** NAV_LINKS/MORE_LINKS hrefs, mapped to their translation keys. */
-const NAV_KEY_BY_HREF: Record<string, Parameters<ReturnType<typeof useLocale>["t"]>[0]> = {
-  "/": "nav.home",
-  "/about": "nav.about",
-  "/initiatives": "nav.initiatives",
-  "/baba-shyam": "nav.babaShyam",
-  "/events": "nav.events",
-  "/team": "nav.team",
-  "/blog": "more.blog",
-  "/temple-directory": "more.templeDirectory",
-  "/temple-registration": "more.templeRegistration",
-  "/artists": "more.artists",
-  "/artist-registration": "more.artistRegistration",
-  "/contact": "more.contact",
-  "/donation": "more.donation",
-};
 
 /** First name only — the header has room for one word. */
 function firstName(fullName: string) {
@@ -38,13 +20,12 @@ export default function Header() {
   const [moreOpen, setMoreOpen] = useState(false);
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
-  const { locale, setLocale, t } = useLocale();
   const moreRef = useRef<HTMLDivElement>(null);
-
-  function navLabel(link: { href: string; label: string }) {
-    const key = NAV_KEY_BY_HREF[link.href];
-    return key ? t(key) : link.label;
-  }
+  // Tracks which pill is highlighted only — content translation is handled
+  // entirely by GTranslate (see lib/gtranslate.ts), decoupled from this
+  // app's own locale/dictionary system so the two never fight over the
+  // same DOM text.
+  const [activeLang, setActiveLang] = useState<LocaleCode>(DEFAULT_LOCALE);
 
   const moreActive = MORE_LINKS.some((link) => link.href === pathname);
 
@@ -82,7 +63,7 @@ export default function Header() {
                 pathname === link.href ? "text-primary" : "text-[#595656]",
               )}
             >
-              {navLabel(link)}
+              {link.label}
             </Link>
           ))}
 
@@ -95,7 +76,7 @@ export default function Header() {
                 moreActive || moreOpen ? "text-primary" : "text-[#595656]",
               )}
             >
-              {t("nav.more")}
+              {"More"}
               <ChevronDown
                 className={cn(
                   "h-4 w-4 transition-transform",
@@ -120,7 +101,7 @@ export default function Header() {
                           : "font-medium text-[#595656]",
                       )}
                     >
-                      {navLabel(link)}
+                      {link.label}
                     </Link>
                   </div>
                 ))}
@@ -146,7 +127,7 @@ export default function Header() {
                 className="flex items-center gap-2 rounded-md border border-[#d4af37]/25 bg-white px-5 py-2.5 text-[15px] font-semibold text-maroon transition-colors hover:bg-cream"
               >
                 <LogOut className="h-4 w-4" aria-hidden />
-                {t("header.signOut")}
+                {"Sign out"}
               </button>
             </>
           ) : (
@@ -154,7 +135,7 @@ export default function Header() {
               href="/signup"
               className="rounded-md bg-[#e87722] px-5 py-2.5 text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
             >
-              {t("header.signUp")}
+              {"Sign Up"}
             </Link>
           )}
           <Link
@@ -162,7 +143,7 @@ export default function Header() {
             className="flex items-center gap-2 rounded-md bg-[#8b0000] px-5 py-2.5 text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
           >
             <UserPlus className="h-4 w-4" aria-hidden />
-            {t("header.registration")}
+            {"REGISTRATION"}
           </Link>
         </div>
 
@@ -192,12 +173,12 @@ export default function Header() {
                     : "text-[#595656]",
                 )}
               >
-                {navLabel(link)}
+                {link.label}
               </Link>
             ))}
 
             <p className="pt-3 text-xs font-semibold uppercase tracking-wide text-[#9e9e9e]">
-              {t("nav.more")}
+              {"More"}
             </p>
             {MORE_LINKS.map((link) => (
               <Link
@@ -211,22 +192,25 @@ export default function Header() {
                     : "text-[#595656]",
                 )}
               >
-                {navLabel(link)}
+                {link.label}
               </Link>
             ))}
 
             <p className="pt-3 text-xs font-semibold uppercase tracking-wide text-[#9e9e9e]">
-              {t("topbar.selectLanguage")}
+              {"Select language"}
             </p>
-            <div className="flex flex-wrap gap-x-4 gap-y-2 py-3">
+            <div className="notranslate flex flex-wrap gap-x-4 gap-y-2 py-3">
               {LOCALES.map((option) => (
                 <button
                   key={option.code}
                   type="button"
-                  onClick={() => setLocale(option.code)}
+                  onClick={() => {
+                    setActiveLang(option.code);
+                    switchLanguage(option.code);
+                  }}
                   className={cn(
                     "text-sm transition-colors",
-                    locale === option.code
+                    activeLang === option.code
                       ? "font-semibold text-primary"
                       : "text-[#595656] hover:text-primary",
                   )}
@@ -248,7 +232,7 @@ export default function Header() {
                     className="flex items-center justify-center gap-2 rounded-md border border-[#d4af37]/25 py-2.5 text-[15px] font-semibold text-maroon"
                   >
                     <LogOut className="h-4 w-4" aria-hidden />
-                    {t("header.signOut")} ({firstName(user.fullName)})
+                    {"Sign out"} ({firstName(user.fullName)})
                   </button>
                 ) : (
                   <Link
@@ -256,7 +240,7 @@ export default function Header() {
                     onClick={() => setOpen(false)}
                     className="rounded-md bg-[#e87722] py-2.5 text-center text-[15px] font-semibold text-white"
                   >
-                    {t("header.signUp")}
+                    {"Sign Up"}
                   </Link>
                 ))}
               <Link
@@ -265,7 +249,7 @@ export default function Header() {
                 className="flex items-center justify-center gap-2 rounded-md bg-[#8b0000] py-2.5 text-[15px] font-semibold text-white"
               >
                 <UserPlus className="h-4 w-4" aria-hidden />
-                {t("header.registration")}
+                {"REGISTRATION"}
               </Link>
             </div>
           </div>

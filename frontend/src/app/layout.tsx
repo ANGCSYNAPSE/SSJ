@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AuthProvider from "@/components/auth/AuthProvider";
-import LocaleProvider from "@/components/i18n/LocaleProvider";
+import GTranslateWidget from "@/components/i18n/GTranslateWidget";
 
 export const metadata: Metadata = {
   title: {
@@ -24,9 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <LocaleProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </LocaleProvider>
+        <GTranslateWidget />
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

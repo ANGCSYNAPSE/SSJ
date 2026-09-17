@@ -25,34 +25,6 @@ const initial = {
   confirmPassword: "",
 };
 
-/** Mirrors the backend validator so users get feedback before the round trip. */
-function validate(values: typeof initial, acceptTerms: boolean): Errors {
-  const errors: Errors = {};
-
-  if (values.fullName.trim().length < 2) {
-    errors.fullName = "Please enter your full name.";
-  }
-  if (!/^[6-9]\d{9}$/.test(values.mobile.trim())) {
-    errors.mobile = "Enter a valid 10-digit Indian mobile number.";
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
-    errors.email = "Enter a valid email address.";
-  }
-  if (values.password.length < 8) {
-    errors.password = "Password must be at least 8 characters.";
-  } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(values.password)) {
-    errors.password = "Include at least one letter and one number.";
-  }
-  if (values.confirmPassword !== values.password) {
-    errors.confirmPassword = "Passwords do not match.";
-  }
-  if (!acceptTerms) {
-    errors.acceptTerms = "Please accept the Terms of Service to continue.";
-  }
-
-  return errors;
-}
-
 export default function SignupForm() {
   const router = useRouter();
   const { user, loading, signup } = useAuth();
@@ -60,6 +32,34 @@ export default function SignupForm() {
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
+
+  /** Mirrors the backend validator so users get feedback before the round trip. */
+  function validate(v: typeof initial, accept: boolean): Errors {
+    const found: Errors = {};
+
+    if (v.fullName.trim().length < 2) {
+      found.fullName = "Please enter your full name.";
+    }
+    if (!/^[6-9]\d{9}$/.test(v.mobile.trim())) {
+      found.mobile = "Enter a valid 10-digit Indian mobile number.";
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim())) {
+      found.email = "Enter a valid email address.";
+    }
+    if (v.password.length < 8) {
+      found.password = "Password must be at least 8 characters.";
+    } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(v.password)) {
+      found.password = "Include at least one letter and one number.";
+    }
+    if (v.confirmPassword !== v.password) {
+      found.confirmPassword = "Passwords do not match.";
+    }
+    if (!accept) {
+      found.acceptTerms = "Please accept the Terms of Service to continue.";
+    }
+
+    return found;
+  }
 
   // Someone already signed in has no business on this page.
   useEffect(() => {
@@ -110,27 +110,27 @@ export default function SignupForm() {
     <>
       <div className="mt-3.5 flex flex-col items-center gap-1.5 text-center">
         <h1 className="font-serif text-[34px] font-bold leading-tight text-maroon">
-          Join Our Sacred Family
+          {"Join Our Sacred Family"}
         </h1>
         <p className="text-sm text-muted-foreground">
-          Create your account and begin your journey of seva.
+          {"Create your account and begin your journey of seva."}
         </p>
       </div>
 
       <form onSubmit={onSubmit} noValidate className="mt-3.5 flex flex-col gap-3.5">
         <div className="flex flex-col gap-3">
-          <AuthField label="Full Name" htmlFor="fullName" error={errors.fullName}>
+          <AuthField label={"Full Name"} htmlFor="fullName" error={errors.fullName}>
             <TextField
               id="fullName"
               icon={User}
               autoComplete="name"
-              placeholder="Enter your full name"
+              placeholder={"Enter your full name"}
               value={values.fullName}
               onChange={update("fullName")}
             />
           </AuthField>
 
-          <AuthField label="Mobile Number" htmlFor="mobile" error={errors.mobile}>
+          <AuthField label={"Mobile Number"} htmlFor="mobile" error={errors.mobile}>
             <TextField
               id="mobile"
               icon={Phone}
@@ -139,37 +139,37 @@ export default function SignupForm() {
               inputMode="numeric"
               maxLength={10}
               autoComplete="tel-national"
-              placeholder="Mobile number"
+              placeholder={"Mobile number"}
               value={values.mobile}
               onChange={update("mobile")}
             />
           </AuthField>
 
-          <AuthField label="Email Address" htmlFor="email" error={errors.email}>
+          <AuthField label={"Email Address"} htmlFor="email" error={errors.email}>
             <TextField
               id="email"
               icon={Mail}
               type="email"
               autoComplete="email"
-              placeholder="your@email.com"
+              placeholder={"your@email.com"}
               value={values.email}
               onChange={update("email")}
             />
           </AuthField>
 
-          <AuthField label="Password" htmlFor="password" error={errors.password}>
+          <AuthField label={"Password"} htmlFor="password" error={errors.password}>
             <PasswordField
               id="password"
               icon={Lock}
               autoComplete="new-password"
-              placeholder="Create a password"
+              placeholder={"Create a password"}
               value={values.password}
               onChange={update("password")}
             />
           </AuthField>
 
           <AuthField
-            label="Confirm Password"
+            label={"Confirm Password"}
             htmlFor="confirmPassword"
             error={errors.confirmPassword}
           >
@@ -177,7 +177,7 @@ export default function SignupForm() {
               id="confirmPassword"
               icon={Lock}
               autoComplete="new-password"
-              placeholder="Confirm your password"
+              placeholder={"Confirm your password"}
               value={values.confirmPassword}
               onChange={update("confirmPassword")}
             />
@@ -188,7 +188,7 @@ export default function SignupForm() {
               type="button"
               role="checkbox"
               aria-checked={acceptTerms}
-              aria-label="I agree to the Terms of Service and Privacy Policy"
+              aria-label={`${"I agree to the"} ${"Terms of Service"} ${"and"} ${"Privacy Policy"}`}
               onClick={() => {
                 setAcceptTerms((v) => !v);
                 setErrors((p) => ({ ...p, acceptTerms: undefined }));
@@ -200,13 +200,13 @@ export default function SignupForm() {
               {acceptTerms && <Check className="h-2.5 w-2.5 text-white" />}
             </button>
             <p className="text-[13px] text-muted-foreground">
-              I agree to the{" "}
+              {"I agree to the"}{" "}
               <Link href="/terms" className="text-primary underline">
-                Terms of Service
+                {"Terms of Service"}
               </Link>{" "}
-              and{" "}
+              {"and"}{" "}
               <Link href="/privacy" className="text-primary underline">
-                Privacy Policy
+                {"Privacy Policy"}
               </Link>
             </p>
           </div>
@@ -224,16 +224,16 @@ export default function SignupForm() {
           </p>
         )}
 
-        <SubmitButton pending={pending}>Create My Account →</SubmitButton>
+        <SubmitButton pending={pending}>{"Create My Account →"}</SubmitButton>
       </form>
 
       <div className="mt-3.5 flex flex-col gap-3.5">
-        <AuthDivider label="— or continue with —" />
-        <GoogleButton label="Continue with Google" />
+        <AuthDivider label={"— or continue with —"} />
+        <GoogleButton label={"Continue with Google"} />
         <AuthSwitchLink
-          prompt="Already have an account?"
+          prompt={"Already have an account?"}
           href="/login"
-          label="Sign In"
+          label={"Sign In"}
         />
         <TrustBadges />
       </div>

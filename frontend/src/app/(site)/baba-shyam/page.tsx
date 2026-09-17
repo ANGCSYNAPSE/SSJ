@@ -16,119 +16,9 @@ import {
 } from "lucide-react";
 import AdSlot from "@/components/ui/AdSlot";
 
-const journey = [
-  {
-    step: 1,
-    title: "Birth",
-    image: "/images/baba-shyam/timeline/1-birth.png",
-    desc: "Born to Ghatotkacha and Ahilavati, Barbarika came into the world with extraordinary strength and divine purpose.",
-  },
-  {
-    step: 2,
-    title: "Training from Lord Shiva",
-    image: "/images/baba-shyam/timeline/2-training-shiva.png",
-    desc: "Through intense penance and devotion, Barbarika received the blessings and training of Lord Shiva himself.",
-  },
-  {
-    step: 3,
-    title: "Three Divine Arrows",
-    image: "/images/baba-shyam/timeline/3-three-arrows.png",
-    desc: "Lord Shiva bestowed upon him three infallible arrows - each capable of destroying entire armies single-handedly.",
-  },
-  {
-    step: 4,
-    title: "Meeting Lord Krishna",
-    image: "/images/baba-shyam/timeline/4-meeting-krishna.png",
-    desc: "Before the Kurukshetra war, Barbarika encountered Lord Krishna who tested his resolve and wisdom.",
-  },
-  {
-    step: 5,
-    title: "The Supreme Sacrifice",
-    image: "/images/baba-shyam/timeline/5-supreme-sacrifice.png",
-    desc: "When Krishna requested his head as an offering, Barbarika unhesitatingly gave it - an act of ultimate devotion.",
-  },
-  {
-    step: 6,
-    title: "Witness of Mahabharata",
-    image: "/images/baba-shyam/timeline/6-witness-mahabharata.png",
-    desc: "His severed head was placed on a hill from where he witnessed the entire Mahabharata war as promised by Krishna.",
-  },
-  {
-    step: 7,
-    title: "Blessed as Baba Shyam",
-    image: "/images/baba-shyam/timeline/7-blessed-baba-shyam.png",
-    desc: "Lord Krishna declared Barbarika would be worshipped as Shyam in Kaliyuga and millions would be blessed by his grace.",
-  },
-];
-
-const teachings = [
-  { emoji: "🙏", title: "Faith", desc: "True devotion brings peace, strength, and divine grace in every moment of life." },
-  { emoji: "🌸", title: "Humility", desc: "Remain humble regardless of power or position — greatness lies in simplicity." },
-  { emoji: "💛", title: "Sacrifice", desc: "Selfless service and giving without expectation is the highest virtue." },
-  { emoji: "🤲", title: "Compassion", desc: "Open your heart and help those who are in need — see the divine in every being." },
-  { emoji: "✨", title: "Truth", desc: "Walk the path of righteousness and let truth be your guiding light." },
-  { emoji: "🌍", title: "Equality", desc: "Serve everyone without discrimination — all are equal in the eyes of Baba Shyam." },
-  { emoji: "🕉️", title: "Seva", desc: "Serving humanity is the truest and highest form of serving God himself." },
-];
-
-const testimonials = [
-  { quote: "Baba Shyam answered my prayers when all hope was lost. His divine grace brought healing to my family.", name: "Meera Devi, Jaipur" },
-  { quote: "I came with a broken heart and left with peace. Baba Shyam's presence is beyond words — it must be felt.", name: "Rajesh Sharma, Delhi" },
-  { quote: "Years of struggle ended the moment I surrendered to Baba Shyam with full faith. He never disappoints his devotees.", name: "Anita Singh, Mumbai" },
-];
-
-const miracleStats = [
-  { value: "10M+", label: "Devotees Annually" },
-  { value: "800+", label: "Years of Worship" },
-  { value: "100K+", label: "Daily Prayers" },
-  { value: "∞", label: "Miracles of Faith" },
-];
-
-const festivals = [
-  { image: "/images/baba-shyam/festivals/falgun-mela.png", title: "Falgun Mela", when: "Feb/Mar", desc: "The grandest festival when millions visit Khatu for 3 days." },
-  { image: "/images/baba-shyam/festivals/janmashtami.png", title: "Janmashtami", when: "August", desc: "Celebrating birth of Lord Krishna with bhajans and midnight puja." },
-  { image: "/images/baba-shyam/festivals/ekadashi.png", title: "Ekadashi", when: "Monthly", desc: "Sacred fasting day observed with special aarti and darshan." },
-  { image: "/images/baba-shyam/festivals/bhajan-sandhya.png", title: "Bhajan Sandhya", when: "Seasonal", desc: "Devotional music evenings filled with kirtan and community prayer." },
-  { image: "/images/baba-shyam/festivals/shyam-katha.png", title: "Shyam Katha", when: "Year-round", desc: "Regular discourses narrating the divine story of Baba Shyam." },
-];
-
-const rituals = [
-  { time: "4:30 AM", title: "Mangla Aarti", desc: "The first prayer of the day to wake the deity." },
-  { time: "7:00 AM", title: "Shringar Darshan", desc: "Deity adorned with ornaments and flowers." },
-  { time: "12:00 PM", title: "Rajbhog", desc: "Grand mid-day meal offered to Baba Shyam." },
-  { time: "3:00 PM", title: "Afternoon Darshan", desc: "Temple reopens for devotees after rest." },
-  { time: "7:00 PM", title: "Sandhya Aarti", desc: "Evening prayers amidst spiritual hymns." },
-  { time: "9:00 PM", title: "Shayan Darshan", desc: "Final prayers before the deity retires for night." },
-];
-
-const bhajans = [
-  { title: "Shyam Teri Bansi", artist: "Popular Devotional Artist" },
-  { title: "Hey Shyam Sunder", artist: "Popular Devotional Artist" },
-  { title: "Khatu Wale Shyam", artist: "Popular Devotional Artist" },
-];
-
 const wisdomQuotes = [
   "सच्चे दिल से जो याद करे, बाबा श्याम उसकी सुनते हैं।",
   "जो शरण में आया, उसे मेरा आसरा मिला।",
-];
-
-const galleryFilters = ["All", "Temple", "Devotees", "Aarti", "Decorations", "Festivals", "Annadan"];
-
-const galleryItems = [
-  { image: "/images/baba-shyam/gallery/aarti-hall.png", category: "Aarti", height: "h-[260px]" },
-  { image: "/images/baba-shyam/gallery/family-blessing.png", category: "Devotees", height: "h-[400px]" },
-  { image: "/images/baba-shyam/gallery/annadan-queue.png", category: "Annadan", height: "h-[400px]" },
-  { image: "/images/baba-shyam/gallery/temple-courtyard.png", category: "Temple", height: "h-[260px]" },
-  { image: "/images/baba-shyam/gallery/diya-evening.png", category: "Festivals", height: "h-[260px]" },
-  { image: "/images/baba-shyam/gallery/decorations.png", category: "Decorations", height: "h-[400px]" },
-];
-
-const visitFacts = [
-  { icon: MapPin, label: "Location", value: "Khatu Village, Sikar, Rajasthan — 80km from Jaipur" },
-  { icon: Clock, label: "Timings", value: "4:30 AM – 9:30 PM daily, extended during festivals" },
-  { icon: Car, label: "Parking", value: "Large parking facility available near the temple" },
-  { icon: Building2, label: "Accommodation", value: "Dharamshalas and hotels available for pilgrims" },
-  { icon: Target, label: "Nearby", value: "Salasar Balaji — 65km, Ringas Railway Station — 17km" },
 ];
 
 function Waveform({ seed }: { seed: number }) {
@@ -146,11 +36,129 @@ function Waveform({ seed }: { seed: number }) {
 }
 
 export default function BabaShyamPage() {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("all");
   const [quoteIndex, setQuoteIndex] = useState(0);
 
+  const journey = [
+    {
+      step: 1,
+      title: "Birth",
+      image: "/images/baba-shyam/timeline/1-birth.png",
+      desc: "Born to Ghatotkacha and Ahilyavati, grandson of the mighty Bhima, destined for greatness.",
+    },
+    {
+      step: 2,
+      title: "Training from Lord Shiva",
+      image: "/images/baba-shyam/timeline/2-training-shiva.png",
+      desc: "Blessed with unmatched skills in warfare and archery directly from Lord Shiva.",
+    },
+    {
+      step: 3,
+      title: "Three Divine Arrows",
+      image: "/images/baba-shyam/timeline/3-three-arrows.png",
+      desc: "Received three invincible arrows from Lord Agni, capable of ending any war instantly.",
+    },
+    {
+      step: 4,
+      title: "Meeting Lord Krishna",
+      image: "/images/baba-shyam/timeline/4-meeting-krishna.png",
+      desc: "Encountered Lord Krishna, who tested his devotion and true understanding of dharma.",
+    },
+    {
+      step: 5,
+      title: "The Supreme Sacrifice",
+      image: "/images/baba-shyam/timeline/5-supreme-sacrifice.png",
+      desc: "Offered his own head as the ultimate act of devotion to ensure fairness in the great war.",
+    },
+    {
+      step: 6,
+      title: "Witness of Mahabharata",
+      image: "/images/baba-shyam/timeline/6-witness-mahabharata.png",
+      desc: "His head watched the entire Mahabharata war from atop a hill, seeing all that unfolded.",
+    },
+    {
+      step: 7,
+      title: "Blessed as Baba Shyam",
+      image: "/images/baba-shyam/timeline/7-blessed-baba-shyam.png",
+      desc: "Krishna blessed him to be worshipped in Kalyug as Shyam, granter of every true prayer.",
+    },
+  ];
+
+  const teachings = [
+    { emoji: "🙏", title: "Faith", desc: "Unwavering belief in the divine, even in the darkest of times." },
+    { emoji: "🌸", title: "Humility", desc: "True greatness lies in surrender and humbleness before the divine." },
+    { emoji: "💛", title: "Sacrifice", desc: "The highest form of devotion is selfless sacrifice for a greater good." },
+    { emoji: "🤲", title: "Compassion", desc: "Baba Shyam teaches us to show kindness to all beings, regardless of status." },
+    { emoji: "✨", title: "Truth", desc: "Standing for what is right, even when it is the harder path to take." },
+    { emoji: "🌍", title: "Equality", desc: "He blesses the poor and rich alike, seeing no difference among true devotees." },
+    { emoji: "🕉️", title: "Seva", desc: "Selfless service to others is the truest form of worship." },
+  ];
+
+  const testimonials = [
+    { quote: "“When all hope seemed lost, I turned to Baba Shyam. My prayers were answered in ways I never imagined possible. His blessings changed my life forever.”", name: "Meera Devi, Jaipur" },
+    { quote: "“I have witnessed countless miracles through my devotion to Baba Shyam. He truly is the saviour of the hopeless and the answerer of every true prayer.”", name: "Rajesh Sharma, Delhi" },
+    { quote: "“Baba Shyam's grace helped my family through our darkest hour. Our faith in him has only grown stronger with each passing year.”", name: "Anita Singh, Mumbai" },
+  ];
+
+  const miracleStats = [
+    { value: "10M+", label: "Devotees Annually" },
+    { value: "800+", label: "Years of Worship" },
+    { value: "100K+", label: "Daily Prayers" },
+    { value: "∞", label: "Miracles of Faith" },
+  ];
+
+  const festivals = [
+    { image: "/images/baba-shyam/festivals/falgun-mela.png", title: "Falgun Mela", when: "March (Annual)", desc: "The grandest celebration, drawing millions of devotees over several days of devotion and festivity." },
+    { image: "/images/baba-shyam/festivals/janmashtami.png", title: "Janmashtami", when: "August", desc: "Celebrating Lord Krishna's birth with grand festivities and midnight prayers at the temple." },
+    { image: "/images/baba-shyam/festivals/ekadashi.png", title: "Ekadashi", when: "Twice Monthly", desc: "Special prayers and fasting observed by devotees, seeking Baba Shyam's blessings." },
+    { image: "/images/baba-shyam/festivals/bhajan-sandhya.png", title: "Bhajan Sandhya", when: "Every Evening", desc: "Devotional music sessions filling the temple with soulful hymns and prayers." },
+    { image: "/images/baba-shyam/festivals/shyam-katha.png", title: "Shyam Katha", when: "Weekly", desc: "Storytelling sessions narrating the divine tales and teachings of Baba Shyam." },
+  ];
+
+  const rituals = [
+    { time: "4:30 AM", title: "Mangla Aarti", desc: "The first prayer of the day, welcoming Baba Shyam with devotion at dawn." },
+    { time: "7:00 AM", title: "Shringar Darshan", desc: "Devotees witness Baba Shyam adorned in beautiful attire and ornaments." },
+    { time: "12:00 PM", title: "Rajbhog", desc: "A grand offering of food is presented to Baba Shyam at midday." },
+    { time: "3:00 PM", title: "Afternoon Darshan", desc: "Devotees continue to seek blessings throughout the afternoon hours." },
+    { time: "7:00 PM", title: "Sandhya Aarti", desc: "The evening prayer, marking the transition from day to night with devotion." },
+    { time: "9:00 PM", title: "Shayan Darshan", desc: "The final prayer of the day, as Baba Shyam is prepared for rest." },
+  ];
+
+  const bhajans = [
+    { title: "Shyam Teri Bansi", artist: "Popular Devotional Artist" },
+    { title: "Hey Shyam Sunder", artist: "Popular Devotional Artist" },
+    { title: "Khatu Wale Shyam", artist: "Popular Devotional Artist" },
+  ];
+
+  const galleryFilters = [
+    { key: "all", label: "All" },
+    { key: "Temple", label: "Temple" },
+    { key: "Devotees", label: "Devotees" },
+    { key: "Aarti", label: "Aarti" },
+    { key: "Decorations", label: "Decorations" },
+    { key: "Festivals", label: "Festivals" },
+    { key: "Annadan", label: "Annadan" },
+  ];
+
+  const galleryItems = [
+    { image: "/images/baba-shyam/gallery/aarti-hall.png", category: "Aarti", height: "h-[260px]" },
+    { image: "/images/baba-shyam/gallery/family-blessing.png", category: "Devotees", height: "h-[400px]" },
+    { image: "/images/baba-shyam/gallery/annadan-queue.png", category: "Annadan", height: "h-[400px]" },
+    { image: "/images/baba-shyam/gallery/temple-courtyard.png", category: "Temple", height: "h-[260px]" },
+    { image: "/images/baba-shyam/gallery/diya-evening.png", category: "Festivals", height: "h-[260px]" },
+    { image: "/images/baba-shyam/gallery/decorations.png", category: "Decorations", height: "h-[400px]" },
+  ];
+
+  const visitFacts = [
+    { icon: MapPin, label: "Location", value: "Khatu, Sikar District, Rajasthan" },
+    { icon: Clock, label: "Timings", value: "4:00 AM – 10:00 PM (Daily)" },
+    { icon: Car, label: "Parking", value: "Ample parking available near the temple complex" },
+    { icon: Building2, label: "Accommodation", value: "Numerous dharamshalas and hotels nearby" },
+    { icon: Target, label: "Nearby", value: "Well connected by road, rail, and air from major cities" },
+  ];
+
   const visibleGallery =
-    activeFilter === "All"
+    activeFilter === "all"
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeFilter);
 
@@ -169,23 +177,23 @@ export default function BabaShyamPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1a0505]/80 via-[#1a0505]/0 to-[#1a0505]/0" />
         <div className="relative w-full max-w-[1440px] mx-auto flex flex-col gap-8 px-6 py-16 lg:px-[100px]">
           <h1 className="max-w-xl font-serif text-6xl font-bold leading-[1.05] text-white lg:text-[72px]">
-            The Divine Legacy of Baba Shyam
+            {"The Divine Legacy of Baba Shyam"}
           </h1>
           <p className="max-w-xl text-xl italic leading-relaxed text-white/90">
-            &quot;A symbol of sacrifice, compassion, courage, and unwavering devotion who continues to bless millions of devotees across the world.&quot;
+            {"“Sachche dil se jo yaad kare, Baba Shyam uski sunte hain.”"}
           </p>
           <div className="flex flex-wrap gap-5">
             <Link
               href="#journey"
               className="rounded-lg bg-[#e87722] px-8 py-3.5 text-base font-semibold text-white transition-opacity hover:opacity-90"
             >
-              Explore His Journey
+              {"Explore His Journey"}
             </Link>
             <Link
               href="/temple-directory"
               className="rounded-lg border border-white px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
             >
-              Visit Khatu Temple
+              {"Visit Khatu Temple"}
             </Link>
           </div>
         </div>
@@ -212,18 +220,14 @@ export default function BabaShyamPage() {
             <span className="text-4xl">⚛</span>
             <div className="flex flex-col gap-4">
               <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-                The Divine Story of Khatu Shyam Ji
+                {"The Divine Story of Khatu Shyam Ji"}
               </h2>
               <div className="h-[3px] w-[100px] bg-[#e87722]" />
             </div>
             <div className="flex flex-col gap-5 text-base leading-[1.8] text-[#6b4f4f]">
-              <p>
-                Baba Shyam, worshipped as Khatu Shyam Ji, is believed to be the incarnation of Barbarika, the brave grandson of Bhima from the Mahabharata. Renowned for his unmatched courage, humility, and devotion, Barbarika willingly sacrificed his head before the Kurukshetra war upon Lord Krishna&apos;s request.
-              </p>
-              <p>
-                Pleased by this supreme sacrifice, Lord Krishna granted him the divine blessing that in Kaliyuga he would be worshipped as Shyam, and devotees remembering him with sincere faith would receive his blessings.
-              </p>
-              <p>Today, millions visit Khatu every year seeking peace, hope, strength, and divine grace.</p>
+              <p>{"Khatu Shyam Ji, revered as Baba Shyam, is worshipped as an incarnation of Lord Krishna's blessing to Barbarika, the grandson of the mighty Bhima. Known as the “King of Kalyug,” he is the deity of the poor, the wronged, and the hopeless."}</p>
+              <p>{"His temple in Khatu, Rajasthan, draws millions of devotees each year who come seeking his blessings, believing that he answers every sincere prayer, especially those made from a place of true devotion and surrender."}</p>
+              <p>{"Baba Shyam's story is one of ultimate sacrifice, unwavering faith, and boundless compassion — a story that continues to inspire generations of devotees across the world."}</p>
             </div>
             <div className="grid w-full grid-cols-3 gap-6 text-center text-white">
               {[
@@ -246,7 +250,7 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-16">
           <div className="flex flex-col items-center gap-4">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
-              The Sacred History
+              {"The Sacred History"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
           </div>
@@ -262,22 +266,14 @@ export default function BabaShyamPage() {
             </div>
             <div className="flex max-w-[580px] flex-col gap-6">
               <div className="flex flex-col gap-4 text-base leading-[1.8] text-[#f5f1e8]">
-                <p>
-                  Barbarika was born to Ghatotkacha and Ahilavati. From childhood he displayed exceptional bravery and dedication toward righteousness.
-                </p>
-                <p>
-                  Through intense penance, he received three infallible arrows and a divine bow from Lord Shiva.
-                </p>
-                <p>
-                  Before the Mahabharata war, he vowed to always support the weaker side. Recognizing the consequences of this promise, Lord Krishna tested him and eventually requested his head as an offering.
-                </p>
-                <p>
-                  Without hesitation, Barbarika accepted, demonstrating the highest form of devotion and sacrifice. His severed head was placed on a hill from where he witnessed the entire Mahabharata war.
-                </p>
+                <p>{"Barbarika was the son of Ghatotkacha and grandson of Bhima, one of the five Pandavas. From a young age, he was blessed with extraordinary courage and was trained in the art of warfare by none other than Lord Shiva himself."}</p>
+                <p>{"He was granted three invincible arrows by Lord Agni, which could destroy any enemy and always returned to his quiver. With this power, Barbarika vowed to fight for the weaker side in any battle to ensure fairness."}</p>
+                <p>{"When the Mahabharata war approached, Lord Krishna tested Barbarika's resolve. Understanding that Barbarika's power alone could end the war in a single day, Krishna asked for his head as alms, disguised as a Brahmin."}</p>
+                <p>{"Barbarika, recognizing Krishna's true form, offered his head willingly, fulfilling his promise of ultimate sacrifice. Pleased with his devotion, Krishna blessed him to be worshipped in Kalyug under the name Shyam."}</p>
               </div>
               <div className="rounded-xl border border-[#d4a017] bg-white/[0.04] p-8">
                 <p className="font-serif text-xl italic leading-relaxed text-[#d4a017]">
-                  &quot;In Kaliyuga, you shall be worshipped as Shyam — and those who remember you with sincerity shall receive your blessings.&quot; — Lord Krishna
+                  {"“Whoever worships Barbarika's head with a true heart shall receive blessings equal to worshipping me myself.”"} — Lord Krishna
                 </p>
               </div>
             </div>
@@ -292,11 +288,11 @@ export default function BabaShyamPage() {
       <section id="journey" className="flex scroll-mt-[100px] flex-col items-center bg-[#fdf6ec] pt-20 lg:scroll-mt-[140px]">
         <div className="flex flex-col items-center gap-3 px-6 pb-16 text-center lg:px-[100px]">
           <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[52px]">
-            The Divine Journey of Barbarika
+            {"The Divine Journey of Barbarika"}
           </h2>
           <div className="h-2 w-36 rounded-full bg-[#e47105]" />
           <p className="max-w-[700px] text-base leading-relaxed text-[#7a5c3a]">
-            From a warrior&apos;s birth to eternal divine grace - the sacred story of Baba Shyam.
+            {"From a mighty warrior to the beloved deity of Kalyug"}
           </p>
         </div>
 
@@ -331,10 +327,10 @@ export default function BabaShyamPage() {
         <div className="flex w-full flex-col items-center gap-4 bg-maroon px-6 py-16 lg:px-[100px]">
           <div className="h-1.5 w-[190px] rounded-full bg-[#d4a017]/50" />
           <p className="text-center font-serif text-3xl font-bold text-[#d4a017]">
-            Faith. Devotion. Sacrifice. Blessings.
+            {"Faith. Devotion. Sacrifice. Blessings."}
           </p>
           <p className="text-center font-serif text-2xl font-bold tracking-[2px] text-[#f5edd8]">
-            Jai Shree Shyam!
+            {"Jai Shree Shyam!"}
           </p>
           <div className="h-1.5 w-[190px] rounded-full bg-[#d4a017]/50" />
         </div>
@@ -345,24 +341,24 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-              Teachings of Baba Shyam
+              {"Teachings of Baba Shyam"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
             <p className="max-w-[600px] text-lg text-[#6b4f4f]">
-              Sacred values and virtues that guide millions on the path of righteous living.
+              {"Timeless wisdom for a devoted life"}
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-8">
-            {teachings.map((t) => (
+            {teachings.map((item) => (
               <div
-                key={t.title}
+                key={item.title}
                 className="flex w-full max-w-[380px] flex-col gap-5 rounded-2xl bg-white p-10 shadow-[0_12px_12px_rgba(212,160,23,0.13)]"
               >
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#fdf6ec] text-3xl">
-                  {t.emoji}
+                  {item.emoji}
                 </div>
-                <p className="font-serif text-[28px] font-bold text-[#6b1f1f]">{t.title}</p>
-                <p className="text-[15px] leading-relaxed text-[#6b4f4f]">{t.desc}</p>
+                <p className="font-serif text-[28px] font-bold text-[#6b1f1f]">{item.title}</p>
+                <p className="text-[15px] leading-relaxed text-[#6b4f4f]">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -405,24 +401,18 @@ export default function BabaShyamPage() {
           </div>
           <div className="flex max-w-[602px] flex-col gap-8">
             <span className="w-fit rounded border border-[#e87722] px-4 py-2 text-xs font-bold uppercase text-[#e87722]">
-              Sacred Pilgrimage
+              {"Sacred Pilgrimage"}
             </span>
             <div className="flex flex-col gap-4">
               <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-                The Divine Abode of Baba Shyam
+                {"The Divine Abode of Khatu Shyam Ji"}
               </h2>
               <div className="h-[3px] w-[100px] bg-[#e87722]" />
             </div>
             <div className="flex flex-col gap-5 text-base leading-[1.8] text-[#6b4f4f]">
-              <p>
-                The sacred Khatu Shyam Temple is located in Khatu village, Sikar district, Rajasthan. According to tradition, Baba Shyam&apos;s divine head was discovered at this location and later enshrined by the local king following divine guidance.
-              </p>
-              <p>
-                Over the centuries, the temple has become one of India&apos;s most revered pilgrimage destinations, welcoming millions of devotees every year.
-              </p>
-              <p>
-                Especially during the annual Falgun Mela, when devotees gather from across the world to seek Baba Shyam&apos;s blessings, the temple transforms into a magnificent ocean of faith and devotion.
-              </p>
+              <p>{"The Khatu Shyam Ji temple, located in the small town of Khatu in Sikar district, Rajasthan, stands as one of the most revered pilgrimage sites in India, drawing devotees from every corner of the country and beyond."}</p>
+              <p>{"The temple complex, with its intricate architecture and serene atmosphere, offers a spiritual sanctuary where devotees come to seek blessings, fulfill vows, and experience the divine presence of Baba Shyam."}</p>
+              <p>{"Every year, especially during the Falgun Mela, the temple witnesses an extraordinary gathering of devotees, each carrying their own story of faith, hope, and gratitude toward Baba Shyam."}</p>
             </div>
             <div className="flex flex-col gap-3">
               {["📍 Sikar, Rajasthan", "🕐 Open 4 AM – 10 PM", "🎪 Falgun Mela (Annual)"].map((chip) => (
@@ -436,31 +426,29 @@ export default function BabaShyamPage() {
       </section>
 
       {/* AD - LARGE BANNER */}
-      <AdSlot size="banner" cta="Explore" />
+      <AdSlot size="banner" cta={"Explore"} />
 
       {/* MIRACLES & DIVINE BLESSINGS */}
       <section className="bg-maroon px-6 py-16 lg:px-[100px] lg:py-[120px]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
-              Miracles &amp; Divine Blessings
+              {"Miracles & Divine Blessings"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
-            <p className="text-lg italic text-[#f5f1e8]">
-              &quot;Countless devotees believe Baba Shyam fulfills sincere prayers.&quot;
-            </p>
+            <p className="text-lg italic text-[#f5f1e8]">{"Stories of faith from devotees whose prayers were answered"}</p>
           </div>
           <div className="grid gap-8 lg:grid-cols-3">
-            {testimonials.map((t) => (
+            {testimonials.map((item) => (
               <div
-                key={t.name}
+                key={item.name}
                 className="flex flex-col gap-6 rounded-3xl border border-[#d4af37]/25 bg-white/5 p-10"
               >
                 <p className="text-[80px] leading-[0.1] text-[#d4a017] opacity-30">&ldquo;</p>
-                <p className="text-lg italic leading-relaxed text-white">&ldquo;{t.quote}&rdquo;</p>
+                <p className="text-lg italic leading-relaxed text-white">&ldquo;{item.quote}&rdquo;</p>
                 <div className="flex items-center gap-3">
                   <span className="h-px w-5 bg-[#d4a017]" />
-                  <p className="text-sm font-semibold uppercase text-[#d4a017]">{t.name}</p>
+                  <p className="text-sm font-semibold uppercase text-[#d4a017]">{item.name}</p>
                 </div>
               </div>
             ))}
@@ -481,7 +469,7 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-              Festivals &amp; Celebrations
+              {"Festivals & Celebrations"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
           </div>
@@ -516,11 +504,11 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-20">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-              Daily Temple Rituals
+              {"Daily Temple Rituals"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
             <p className="max-w-[600px] text-lg text-[#6b4f4f]">
-              The sacred schedule of worship observed every day at Khatu Shyam Temple.
+              {"The sacred rhythm of devotion at Khatu Shyam Ji temple"}
             </p>
           </div>
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-6 lg:gap-0">
@@ -555,7 +543,7 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
-              Bhajans &amp; Spiritual Wisdom
+              {"Bhajans & Spiritual Wisdom"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
           </div>
@@ -591,23 +579,23 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-              Divine Moments Gallery
+              {"Divine Moments Gallery"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
             {galleryFilters.map((filter) => (
               <button
-                key={filter}
+                key={filter.key}
                 type="button"
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => setActiveFilter(filter.key)}
                 className={
-                  filter === activeFilter
+                  filter.key === activeFilter
                     ? "rounded-full bg-[#e87722] px-5 py-2.5 text-sm font-semibold text-white"
                     : "rounded-full bg-[#fdf6ec] px-5 py-2.5 text-sm font-semibold text-[#6b1f1f] transition-colors hover:bg-[#f3e6cf]"
                 }
               >
-                {filter}
+                {filter.label}
               </button>
             ))}
           </div>
@@ -632,7 +620,7 @@ export default function BabaShyamPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
-              Plan Your Visit to Khatu
+              {"Plan Your Visit"}
             </h2>
             <div className="h-[3px] w-[100px] bg-[#e87722]" />
           </div>
@@ -674,7 +662,7 @@ export default function BabaShyamPage() {
         />
         <div className="relative flex w-full max-w-[1440px] flex-col items-center gap-14">
           <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">
-            Words of Divine Wisdom
+            {"Words of Divine Wisdom"}
           </h2>
           <div className="flex w-full items-center justify-between gap-6">
             <button
@@ -688,9 +676,9 @@ export default function BabaShyamPage() {
             <div className="flex max-w-[800px] flex-col items-center gap-6">
               <p className="text-[80px] leading-[0.1] text-[#e87722] opacity-30">&ldquo;</p>
               <p className="text-center font-serif text-3xl font-semibold italic text-[#e47105] lg:text-4xl">
-                &quot;Where devotion resides, blessings follow.&quot;
+                {"Where devotion resides, blessings follow."}
               </p>
-              <p className="text-sm font-semibold uppercase text-[#3e1815]">Divine Proverb</p>
+              <p className="text-sm font-semibold uppercase text-[#3e1815]">{"Divine Proverb"}</p>
               <div className="flex gap-2">
                 {[0, 1, 2].map((i) => (
                   <span
@@ -713,7 +701,7 @@ export default function BabaShyamPage() {
       </section>
 
       {/* AD - LARGE BANNER */}
-      <AdSlot size="banner" cta="Explore" />
+      <AdSlot size="banner" cta={"Explore"} />
     </>
   );
 }

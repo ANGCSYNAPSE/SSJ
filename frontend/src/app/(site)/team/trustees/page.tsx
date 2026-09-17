@@ -1,58 +1,61 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AdSlot from "@/components/ui/AdSlot";
 
-const SECONDARY_NAV = [
-  { label: "Overview", href: "/team" },
-  { label: "Chairman", href: "/team/chairman" },
-  { label: "Mukhya Trustee", href: "/team/mukhya-trustee" },
-  { label: "Trustees", href: "/team/trustees", active: true },
-  { label: "Management Team", href: "/team/management-team" },
-  { label: "Advisory Board", href: "/team/advisory-board" },
-  { label: "State Team", href: "/team/state-team" },
-];
-
-const TRUSTEES = [
-  {
-    image: "/images/team/trustees/vikram-singh.png",
-    name: "Shri Vikram Singh Ji",
-    location: "Jaipur, Rajasthan",
-    desc: "Supervising IT transformation, temple verification networks, and data transparency programs.",
-  },
-  {
-    image: "/images/team/trustees/ashok-saraf.png",
-    name: "Shri Ashok Kumar Saraf",
-    location: "Mumbai, Maharashtra",
-    desc: "Directing financial audits, legal compliances, and large corpus fund allocations.",
-  },
-  {
-    image: "/images/team/trustees/rajani-sharma.png",
-    name: "Smt. Rajani Sharma",
-    location: "Delhi, NCR",
-    desc: "Overseeing volunteer mobilization, corporate social responsibility (CSR) tie-ups, and cultural events.",
-  },
-  {
-    image: "/images/team/trustees/devendra-singh.png",
-    name: "Shri Devendra Singh",
-    location: "Indore, Madhya Pradesh",
-    desc: "Coordinating food distribution networks and mobile health clinics across central India.",
-  },
-  {
-    image: "/images/team/trustees/shanti-poddar.png",
-    name: "Smt. Shanti Devi Poddar",
-    location: "Kolkata, West Bengal",
-    desc: "Patronizing standard spiritual literature publication and bhajan artist coordination.",
-  },
-  {
-    image: "/images/team/trustees/kamal-vyas.png",
-    name: "Shri Kamal Kishor Vyas",
-    location: "Bikaner, Rajasthan",
-    desc: "Managing heritage preservation of ancient manuscripts and temple music traditions.",
-  },
-];
-
 export default function TrusteesPage() {
+
+  const SECONDARY_NAV = [
+    { label: "Overview", href: "/team" },
+    { label: "Chairman", href: "/team/chairman" },
+    { label: "Mukhya Trustee", href: "/team/mukhya-trustee" },
+    { label: "Trustees", href: "/team/trustees", active: true },
+    { label: "Management Team", href: "/team/management-team" },
+    { label: "Advisory Board", href: "/team/advisory-board" },
+    { label: "State Team", href: "/team/state-team" },
+  ];
+
+  const TRUSTEES = [
+    {
+      image: "/images/team/trustees/vikram-singh.png",
+      name: "Shri Vikram Singh Ji",
+      location: "Jaipur, Rajasthan",
+      desc: "Supervising IT transformation, temple verification networks, and data transparency programs.",
+    },
+    {
+      image: "/images/team/trustees/ashok-saraf.png",
+      name: "Shri Ashok Kumar Saraf",
+      location: "Mumbai, Maharashtra",
+      desc: "Directing financial audits, legal compliances, and large corpus fund allocations.",
+    },
+    {
+      image: "/images/team/trustees/rajani-sharma.png",
+      name: "Smt. Rajani Sharma",
+      location: "Delhi, NCR",
+      desc: "Overseeing volunteer mobilization, corporate social responsibility (CSR) tie-ups, and cultural events.",
+    },
+    {
+      image: "/images/team/trustees/devendra-singh.png",
+      name: "Shri Devendra Singh",
+      location: "Indore, Madhya Pradesh",
+      desc: "Coordinating food distribution networks and mobile health clinics across central India.",
+    },
+    {
+      image: "/images/team/trustees/shanti-poddar.png",
+      name: "Smt. Shanti Devi Poddar",
+      location: "Kolkata, West Bengal",
+      desc: "Patronizing standard spiritual literature publication and bhajan artist coordination.",
+    },
+    {
+      image: "/images/team/trustees/kamal-vyas.png",
+      name: "Shri Kamal Kishor Vyas",
+      location: "Bikaner, Rajasthan",
+      desc: "Managing heritage preservation of ancient manuscripts and temple music traditions.",
+    },
+  ];
+
   return (
     <>
       {/* Secondary team nav */}
@@ -78,14 +81,14 @@ export default function TrusteesPage() {
       <div className="bg-white px-6 pb-2 pt-6 lg:px-20">
         <div className="mx-auto flex max-w-[1280px] items-center gap-2 text-[13px]">
           <Link href="/" className="text-[#8c8c8c]">
-            Home
+            {"Home"}
           </Link>
           <span className="text-[#9ca3af]">/</span>
           <Link href="/team" className="text-[#8c8c8c]">
-            Our Team
+            {"Our Team"}
           </Link>
           <span className="text-[#9ca3af]">/</span>
-          <span className="font-semibold text-primary">Trustees</span>
+          <span className="font-semibold text-primary">{"Trustees"}</span>
         </div>
       </div>
 
@@ -93,11 +96,10 @@ export default function TrusteesPage() {
       <section className="bg-maroon px-6 py-16 text-center lg:px-20 lg:py-20">
         <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-5">
           <h1 className="font-serif text-4xl font-bold text-[#f2c75c] sm:text-5xl">
-            Our Trustees
+            {"Our Trustees"}
           </h1>
           <p className="max-w-[700px] text-base text-white/80">
-            The Shree Shyam Jagat board of trustees comprises prominent leaders, spiritual
-            reformists, and philanthropists governing our transparent social programs.
+            {"The Shree Shyam Jagat board of trustees comprises prominent leaders, spiritual reformists, and philanthropists governing our transparent social programs."}
           </p>
         </div>
       </section>
@@ -135,17 +137,17 @@ export default function TrusteesPage() {
                   href="#"
                   className="w-fit rounded-lg bg-cream px-5 py-2.5 text-[13px] font-semibold text-maroon"
                 >
-                  View Profile
+                  {"View Profile"}
                 </Link>
               </div>
             ))}
           </div>
 
           {/* Pagination */}
-          <nav className="flex items-center justify-center gap-2" aria-label="Trustees pagination">
+          <nav className="flex items-center justify-center gap-2" aria-label={"Trustees pagination"}>
             <button
               type="button"
-              aria-label="Previous page"
+              aria-label={"Previous page"}
               className="flex h-10 w-10 items-center justify-center rounded-lg text-maroon transition hover:bg-cream"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -163,7 +165,7 @@ export default function TrusteesPage() {
             ))}
             <button
               type="button"
-              aria-label="Next page"
+              aria-label={"Next page"}
               className="flex h-10 w-10 items-center justify-center rounded-lg text-maroon transition hover:bg-cream"
             >
               <ChevronRight className="h-4 w-4" />

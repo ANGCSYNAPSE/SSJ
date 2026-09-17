@@ -278,16 +278,8 @@ export default function DharamshalaRegistrationPage() {
   const [dormitoryBeds, setDormitoryBeds] = useState("");
   const [pricingMode, setPricingMode] = useState(pricingModeOptions[0]);
   const [suggestedPrice, setSuggestedPrice] = useState("");
-  const [amenities, setAmenities] = useState<string[]>([
-    "AC Rooms",
-    "Geyser / Hot Water",
-    "In-house Bhojnalaya (Mess)",
-    "Parking Area",
-    "CCTV Security",
-    "Wheelchair / Ramp Access",
-    "Free RO Drinking Water",
-  ]);
-  const [consent, setConsent] = useState(true);
+  const [amenities, setAmenities] = useState<string[]>([]);
+  const [consent, setConsent] = useState(false);
 
   function toggleAmenity(item: string) {
     setAmenities((prev) => (prev.includes(item) ? prev.filter((a) => a !== item) : [...prev, item]));

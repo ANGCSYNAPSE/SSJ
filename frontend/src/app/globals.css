@@ -22,3 +22,12 @@ body {
   color: var(--foreground);
   font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
 }
+
+/* GTranslate is used purely as a translation engine — its own switcher UI
+   is never shown. The existing navbar language pills drive it instead
+   (see lib/gtranslate.ts). This container is required to exist (per
+   wrapper_selector in GTranslateWidget.tsx) but renders nothing we want
+   visible. */
+.gtranslate_wrapper {
+  display: none !important;
+}

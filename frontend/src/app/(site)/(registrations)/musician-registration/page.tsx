@@ -191,25 +191,6 @@ function Radio({
   );
 }
 
-const genderOptions = ["Select Gender", "Male", "Female", "Other", "Prefer Not to Say"];
-const instrumentGenres = ["Vocals / Bhajan Singing", "Tabla", "Harmonium", "Sitar", "Flute", "Dholak", "Violin", "Other"];
-const experienceOptions = ["0-1 Years", "1-3 Years", "3-5 Years", "5-10 Years", "10+ Years"];
-const indianStates = [
-  "Rajasthan", "Uttar Pradesh", "Maharashtra", "Gujarat", "Delhi", "Karnataka",
-  "Tamil Nadu", "West Bengal", "Punjab", "Haryana", "Madhya Pradesh", "Andhra Pradesh",
-];
-const honorariumOptions = ["₹15,000-50,000", "₹50,000-100,000", "₹100,000-250,000", "₹250,000-500,000", "₹500,000+"];
-const eventOptions = ["Bhajan Sandhya", "Temple Festivals", "Cultural Programs", "Private Events", "Weddings & Celebrations", "Online Events"];
-const regionOptions = ["Rajasthan", "Delhi NCR", "Uttar Pradesh", "Madhya Pradesh", "Gujarat", "Maharashtra", "Pan India"];
-const travelOptions = ["Within City", "Within State", "Across India"];
-
-const whyFeatures = [
-  { emoji: "🌐", title: "Reach Thousands", desc: "Get discovered by temple boards and premier event organizers across India." },
-  { emoji: "🛕", title: "Sacred Stages", desc: "Perform at prestigious temple festivals, continuous satsangs, and major cultural gatherings." },
-  { emoji: "🤝", title: "Grow Your Craft", desc: "Connect with veteran devotional masters, exchange techniques, and expand your spiritual network." },
-  { emoji: "💳", title: "Fair Compensation", desc: "Experience transparent booking terms and fast, verified digital payments directly to your account." },
-];
-
 const workFileIcons: Record<string, typeof Volume2> = {
   audio: Volume2,
   image: FileImage,
@@ -217,6 +198,35 @@ const workFileIcons: Record<string, typeof Volume2> = {
 };
 
 export default function MusicianRegistrationPage() {
+  const genderOptions = ["Select Gender", "Male", "Female", "Other", "Prefer Not to Say"];
+  const instrumentGenres = [
+    "Vocals / Bhajan Singing", "Tabla", "Harmonium", "Sitar",
+    "Flute", "Dholak", "Violin", "Other",
+  ];
+  const experienceOptions = ["0-1 Years", "1-3 Years", "3-5 Years", "5-10 Years", "10+ Years"];
+  const indianStates = [
+    "Rajasthan", "Uttar Pradesh", "Maharashtra", "Gujarat",
+    "Delhi", "Karnataka", "Tamil Nadu", "West Bengal",
+    "Punjab", "Haryana", "Madhya Pradesh", "Andhra Pradesh",
+  ];
+  const honorariumOptions = ["₹15,000-50,000", "₹50,000-100,000", "₹100,000-250,000", "₹250,000-500,000", "₹500,000+"];
+  const eventOptions = [
+    "Bhajan Sandhya", "Temple Festivals", "Cultural Programs",
+    "Private Events", "Weddings & Celebrations", "Online Events",
+  ];
+  const regionOptions = [
+    "Rajasthan", "Delhi NCR", "Uttar Pradesh",
+    "Madhya Pradesh", "Gujarat", "Maharashtra", "Pan India",
+  ];
+  const travelOptions = ["Within City", "Within State", "Across India"];
+
+  const whyFeatures = [
+    { emoji: "🌐", title: "Reach Thousands", desc: "Get discovered by temple boards and premier event organizers across India." },
+    { emoji: "🛕", title: "Sacred Stages", desc: "Perform at prestigious temple festivals, continuous satsangs, and major cultural gatherings." },
+    { emoji: "🤝", title: "Grow Your Craft", desc: "Connect with veteran devotional masters, exchange techniques, and expand your spiritual network." },
+    { emoji: "💳", title: "Fair Compensation", desc: "Experience transparent booking terms and fast, verified digital payments directly to your account." },
+  ];
+
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [secondaryInstrument, setSecondaryInstrument] = useState("Select Secondary Instrument / Genre");
   const [guruName, setGuruName] = useState("");
@@ -249,6 +259,7 @@ export default function MusicianRegistrationPage() {
       alert("Musician registration submitted successfully!");
     },
   });
+
 
   function toggleFromList(list: string[], setList: (v: string[]) => void, item: string) {
     setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
@@ -283,12 +294,10 @@ export default function MusicianRegistrationPage() {
         </div>
         <div className="relative flex flex-col items-center gap-6 text-center">
           <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl lg:text-[52px]">
-            Register as a Musician
+            {"Register as a Musician"}
           </h1>
           <p className="max-w-[800px] text-base leading-7 text-cream sm:text-lg">
-            Join Shyam Jagat&apos;s growing community of devotional musicians.
-            Bring divine melodies — kirtan, bhajan, and classical music — to
-            spiritual events and sacred gatherings across India.
+            {"Join Shyam Jagat's growing community of devotional musicians. Bring divine melodies — kirtan, bhajan, and classical music — to spiritual events and sacred gatherings across India."}
           </p>
         </div>
       </section>
@@ -298,14 +307,14 @@ export default function MusicianRegistrationPage() {
       <form onSubmit={formik.handleSubmit} className="bg-cream px-6 py-16 lg:px-20 lg:py-20">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-8">
           {/* Personal Information */}
-          <Card title="Personal Information">
+          <Card title={"Personal Information"}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Full Name" required />
+                  <FieldLabel label={"Full Name"} required />
                   <input
                     type="text"
-                    placeholder="Enter your full name"
+                    placeholder={"Enter your full name"}
                     {...formik.getFieldProps("fullName")}
                     className={inputClasses(formik.touched.fullName && !!formik.errors.fullName)}
                   />
@@ -314,10 +323,10 @@ export default function MusicianRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Email Address" required />
+                  <FieldLabel label={"Email Address"} required />
                   <input
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder={"Enter your email address"}
                     {...formik.getFieldProps("emailAddress")}
                     className={inputClasses(formik.touched.emailAddress && !!formik.errors.emailAddress)}
                   />
@@ -328,14 +337,14 @@ export default function MusicianRegistrationPage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Phone Number" required />
+                  <FieldLabel label={"Phone Number"} required />
                   <div className="relative">
                     <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#444]">
                       +91
                     </span>
                     <input
                       type="tel"
-                      placeholder="10-digit mobile number"
+                      placeholder={"10-digit mobile number"}
                       {...formik.getFieldProps("phoneNumber")}
                       className={`${inputClasses(formik.touched.phoneNumber && !!formik.errors.phoneNumber)} pl-12`}
                     />
@@ -345,10 +354,10 @@ export default function MusicianRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Date of Birth" required />
+                  <FieldLabel label={"Date of Birth"} required />
                   <input
                     type="text"
-                    placeholder="DD / MM / YYYY"
+                    placeholder={"DD / MM / YYYY"}
                     {...formik.getFieldProps("dateOfBirth")}
                     className={inputClasses(formik.touched.dateOfBirth && !!formik.errors.dateOfBirth)}
                   />
@@ -359,7 +368,7 @@ export default function MusicianRegistrationPage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Gender" required />
+                  <FieldLabel label={"Gender"} required />
                   <Select
                     options={genderOptions}
                     value={formik.values.gender ?? genderOptions[0]}
@@ -371,10 +380,10 @@ export default function MusicianRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="City" required />
+                  <FieldLabel label={"City"} required />
                   <input
                     type="text"
-                    placeholder="Enter your city of residence"
+                    placeholder={"Enter your city of residence"}
                     {...formik.getFieldProps("city")}
                     className={inputClasses(formik.touched.city && !!formik.errors.city)}
                   />
@@ -385,7 +394,7 @@ export default function MusicianRegistrationPage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="State" required />
+                  <FieldLabel label={"State"} required />
                   <Select
                     options={indianStates}
                     value={formik.values.state ?? indianStates[0]}
@@ -397,7 +406,7 @@ export default function MusicianRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Profile Photo" required />
+                  <FieldLabel label={"Profile Photo"} required />
                   <label
                     className={`relative flex h-12 cursor-pointer items-center gap-3 rounded-lg border-[1.5px] border-dashed px-4 ${
                       formik.touched.profilePhoto && formik.errors.profilePhoto
@@ -432,11 +441,11 @@ export default function MusicianRegistrationPage() {
           </Card>
 
           {/* Your Music & Expertise */}
-          <Card title="Your Music & Expertise">
+          <Card title={"Your Music & Expertise"}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Primary Instrument / Genre" required />
+                  <FieldLabel label={"Primary Instrument / Genre"} required />
                   <Select
                     options={instrumentGenres}
                     value={formik.values.artistType ?? instrumentGenres[0]}
@@ -448,7 +457,7 @@ export default function MusicianRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Secondary Instrument / Genre (Optional)" />
+                  <FieldLabel label={"Secondary Instrument / Genre (Optional)"} />
                   <Select
                     options={["Select Secondary Instrument / Genre", ...instrumentGenres]}
                     value={secondaryInstrument}
@@ -458,7 +467,7 @@ export default function MusicianRegistrationPage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Years of Experience" required />
+                  <FieldLabel label={"Years of Experience"} required />
                   <Select
                     options={experienceOptions}
                     value={formik.values.experience ?? experienceOptions[0]}
@@ -470,10 +479,10 @@ export default function MusicianRegistrationPage() {
                   )}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Guru / Music Academy Name (Optional)" />
+                  <FieldLabel label={"Guru / Music Academy Name (Optional)"} />
                   <input
                     type="text"
-                    placeholder="Name of your Guru or Academy"
+                    placeholder={"Name of your Guru or Academy"}
                     value={guruName}
                     onChange={(e) => setGuruName(e.target.value)}
                     className={inputClasses()}
@@ -481,9 +490,9 @@ export default function MusicianRegistrationPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Brief Bio / About Your Music" required />
+                <FieldLabel label={"Brief Bio / About Your Music"} required />
                 <textarea
-                  placeholder="Tell us about your journey as a musician, your training, and what inspires your devotional music..."
+                  placeholder={"Tell us about your journey as a musician, your training, and what inspires your devotional music..."}
                   {...formik.getFieldProps("bio")}
                   rows={5}
                   className={`w-full resize-none rounded-lg border p-4 text-sm text-[#444] placeholder:text-[#9ca3af] focus:outline-none ${
@@ -497,10 +506,10 @@ export default function MusicianRegistrationPage() {
                 )}
               </div>
               <div className="flex flex-col gap-2">
-                <FieldLabel label="Portfolio Link (YouTube, Instagram or Website)" />
+                <FieldLabel label={"Portfolio Link (YouTube, Instagram or Website)"} />
                 <input
                   type="url"
-                  placeholder="https://youtube.com/yourchannel"
+                  placeholder={"https://youtube.com/yourchannel"}
                   value={portfolioLink}
                   onChange={(e) => setPortfolioLink(e.target.value)}
                   className={inputClasses()}
@@ -510,22 +519,21 @@ export default function MusicianRegistrationPage() {
           </Card>
 
           {/* Upload Your Work */}
-          <Card title="Upload Your Work">
+          <Card title={"Upload Your Work"}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-[rgba(212,175,55,0.25)] bg-cream-light p-10 text-center">
                 <Cloud className="h-12 w-12 text-primary" />
                 <div className="flex flex-col items-center gap-1">
                   <p className="text-base font-semibold text-maroon">
-                    Drag &amp; drop your photos, videos, or audio files here
+                    {"Drag & drop your photos, videos, or audio files here"}
                   </p>
                   <p className="flex items-center gap-1 text-sm">
-                    <span className="text-[#6b7280]">or</span>
-                    <span className="font-semibold text-primary">Browse Files</span>
+                    <span className="text-[#6b7280]">{"or"}</span>
+                    <span className="font-semibold text-primary">{"Browse Files"}</span>
                   </p>
                 </div>
                 <p className="text-xs text-[#6b7280]">
-                  Accepted formats: JPG, PNG, MP4, MP3. Max 10MB per file. Upload up to
-                  5 files.
+                  {"Accepted formats: JPG, PNG, MP4, MP3. Max 10MB per file. Upload up to 5 files."}
                 </p>
               </div>
               {workFiles.length > 0 && (
@@ -556,10 +564,10 @@ export default function MusicianRegistrationPage() {
           </Card>
 
           {/* Availability & Preferences */}
-          <Card title="Availability & Preferences">
+          <Card title={"Availability & Preferences"}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-4">
-                <FieldLabel label="Available for Events" required />
+                <FieldLabel label={"Available for Events"} required />
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {eventOptions.map((event) => (
                     <Checkbox
@@ -572,7 +580,7 @@ export default function MusicianRegistrationPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-                <FieldLabel label="Preferred Performance Regions" required />
+                <FieldLabel label={"Preferred Performance Regions"} required />
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {regionOptions.map((region) => (
                     <Checkbox
@@ -586,11 +594,11 @@ export default function MusicianRegistrationPage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <FieldLabel label="Expected Honorarium Range" required />
+                  <FieldLabel label={"Expected Honorarium Range"} required />
                   <Select options={honorariumOptions} value={honorarium} onChange={setHonorarium} />
                 </div>
                 <div className="flex flex-col gap-4">
-                  <FieldLabel label="Travel Willingness" required />
+                  <FieldLabel label={"Travel Willingness"} required />
                   <div className="flex h-12 items-center gap-6">
                     {travelOptions.map((option) => (
                       <Radio
@@ -607,18 +615,17 @@ export default function MusicianRegistrationPage() {
           </Card>
 
           {/* Submission & Agreement */}
-          <Card title="Submission & Agreement">
+          <Card title={"Submission & Agreement"}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-4">
                 <AgreementCheckbox
                   checked={formik.values.agreeToTerms ?? false}
                   onChange={(v) => formik.setFieldValue("agreeToTerms", v)}
                 >
-                  I agree to the Terms of Service and Privacy Policy of Shyam Jagat.
+                  {"I agree to the Terms of Service and Privacy Policy of Shyam Jagat."}
                 </AgreementCheckbox>
                 <AgreementCheckbox checked={consentContact} onChange={setConsentContact}>
-                  I consent to being contacted for event opportunities via email and
-                  phone.
+                  {"I consent to being contacted for event opportunities via email and phone."}
                 </AgreementCheckbox>
               </div>
               <div className="flex flex-col items-center gap-4">
@@ -630,9 +637,9 @@ export default function MusicianRegistrationPage() {
                   {formik.isSubmitting ? "Submitting..." : "Submit Registration →"}
                 </button>
                 <p className="flex items-center gap-1.5 text-sm text-[#595656]">
-                  Already registered?{" "}
+                  {"Already registered?"}{" "}
                   <Link href="/login" className="font-semibold text-maroon">
-                    Login here
+                    {"Login here"}
                   </Link>
                 </p>
               </div>
@@ -648,12 +655,11 @@ export default function MusicianRegistrationPage() {
         <div className="mx-auto flex max-w-[1224px] flex-col gap-12">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-3xl font-bold leading-[1.1] text-maroon sm:text-[48px]">
-              Why Join Shyam Jagat as a Musician?
+              {"Why Join Shyam Jagat as a Musician?"}
             </h2>
             <div className="h-[3px] w-[100px] bg-primary" />
             <p className="max-w-[760px] text-base leading-7 text-[#595656] sm:text-lg">
-              Devotion meets showcase. Step onto a platform built to honor your sacred
-              craft and connect you with global devotees.
+              {"Devotion meets showcase. Step onto a platform built to honor your sacred craft and connect you with global devotees."}
             </p>
           </div>
 

@@ -28,184 +28,21 @@ import {
   Sparkle,
 } from "lucide-react";
 
-const categories = [
-  {
-    icon: Palette,
-    title: "Artist",
-    desc: "Showcase your spiritual art, paintings, and craftsmanship to the global community.",
-    href: "/artist-registration",
-  },
-  {
-    icon: WandSparkles,
-    title: "Dancer",
-    desc: "Share your classical and devotional dance performances at major festivals.",
-    href: "/dancer-registration",
-  },
-  {
-    icon: Music,
-    title: "Musician",
-    desc: "Bring divine melodies — kirtan, bhajan, and classical music instrumental.",
-    href: "/musician-registration",
-  },
-  {
-    icon: Home,
-    title: "Temple",
-    desc: "Register your temple, coordinate live streams, and manage devotee schedules.",
-    href: "/temple-registration",
-  },
-  {
-    icon: Bed,
-    title: "Dharamshala",
-    desc: "List your dharamshala or pilgrim accommodation for visiting travelers.",
-    href: "/dharamshala-registration",
-  },
-  {
-    icon: Users,
-    title: "Organisation (Mandal)",
-    desc: "Register your local religious, cultural, or community bhajan mandali.",
-    href: "/mandal-registration",
-  },
-  {
-    icon: Users2,
-    title: "Community",
-    desc: "Create or join a local devotee community group in your region.",
-    href: "#",
-  },
-  {
-    icon: Scroll,
-    title: "Pandit / Purohit",
-    desc: "Offer local or virtual puja, havan, and holy ceremonial services.",
-    href: "#",
-  },
-  {
-    icon: BookOpen,
-    title: "Kathavachak",
-    desc: "Share divine stories, host discourses, and spread devotional knowledge.",
-    href: "#",
-  },
-  {
-    icon: Calendar,
-    title: "Event Organiser",
-    desc: "Host, promote, and coordinate spiritual events, yatras, and celebrations.",
-    href: "#",
-  },
-  {
-    icon: Heart,
-    title: "Volunteer",
-    desc: "Contribute your time, skills, and energy to serve the holy community.",
-    href: "#",
-  },
-  {
-    icon: ShoppingBag,
-    title: "Products",
-    desc: "Sell spiritual goods — authentic puja items, books, clothing, and crafts.",
-    href: "#",
-  },
-];
-
-const steps = [
-  {
-    icon: MousePointer2,
-    number: "01",
-    title: "Choose Your Category",
-    desc: "Select the profile that best aligns with your spiritual art, services, or organization.",
-  },
-  {
-    icon: Edit3,
-    number: "02",
-    title: "Fill Your Details",
-    desc: "Complete the secure registration form with your authentic credentials and portfolio.",
-  },
-  {
-    icon: ShieldCheck,
-    number: "03",
-    title: "Get Verified & Go Live",
-    desc: "Our team will review your application. Once verified, you are immediately live!",
-  },
-];
-
-const benefits = [
-  {
-    icon: Globe,
-    title: "Nationwide Visibility",
-    desc: "Reach millions of devotees actively looking for spiritual services and items.",
-  },
-  {
-    icon: Award,
-    title: "Verified Trust Badge",
-    desc: "Earn a golden trust badge to showcase authenticity and build devotee confidence.",
-  },
-  {
-    icon: Headphones,
-    title: "Community Support",
-    desc: "Get dedicated round-the-clock help from our digital seva support specialists.",
-  },
-  {
-    icon: Tag,
-    title: "Free Listing",
-    desc: "Absolutely no hidden charges or fees to create your profile and start listing.",
-  },
-];
-
-const testimonials = [
-  {
-    quote:
-      "Singing bhajan at Khatu Shyam Ji events under Shyam Jagat's platform has been the absolute pinnacle of my career. The energy and management are purely spiritual.",
-    avatar: "/images/register/avatar-mukesh.png",
-    name: "Pandit Mukesh Sharma",
-    role: "Bhajan Singer",
-  },
-  {
-    quote:
-      "Registering our historical temple brought us completely online. We now handle darshan bookings smoothly and can stream aarti to elders across the country.",
-    avatar: "/images/register/avatar-ramdas.png",
-    name: "Mahant Ramdas Ji",
-    role: "Temple Administrator",
-  },
-  {
-    quote:
-      "As a classical Kathak dancer, finding the right spiritual platforms was hard. Shyam Jagat linked us directly to major divine events across India.",
-    avatar: "/images/register/avatar-aparna.png",
-    name: "Aparna Sen",
-    role: "Classical Dancer",
-  },
-];
-
-const faqs = [
-  {
-    q: "Is there any registration fee?",
-    a: "No, registration on the Shyam Jagat platform is absolutely free of charge for all individual artists, temples, and organizations.",
-  },
-  {
-    q: "What is the verification process?",
-    a: "Our dedicated seva committee reviews every profile within 24 to 48 hours. We verify ID proofs and credentials to maintain the sacred environment of our directory.",
-  },
-  {
-    q: "Can I manage multiple profiles?",
-    a: "Yes, you can register as an individual and also manage a temple or mandal listing using a unified admin dashboard.",
-  },
-  {
-    q: "How do travelers contact dharamshalas?",
-    a: "Once listed, your contact info, location map, and booking guidelines will be directly visible to millions of pilgrims who can call or book instantly.",
-  },
-];
-
 function PremiumAdSlot() {
   return (
     <div className="flex flex-col items-center bg-cream px-6 py-10 lg:px-20">
       <div className="flex h-[320px] w-full max-w-[1280px] flex-col items-center justify-center gap-4 rounded-[20px] border border-[#d1d5db] bg-[#e5e7eb] p-8 text-center">
         <span className="rounded-full border border-[#d1d5db] bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-[#6b7280]">
-          Ad Placeholder
+          {"Ad Placeholder"}
         </span>
         <p className="max-w-[760px] font-serif text-3xl font-bold text-[#374151] sm:text-4xl">
-          Premium Ad Space
+          {"Premium Ad Space"}
         </p>
         <p className="max-w-[760px] text-base leading-relaxed text-[#6b7280]">
-          Reserve this high-visibility placement for sponsored content, featured
-          listings, or community announcements.
+          {"Reserve this high-visibility placement for sponsored content, featured listings, or community announcements."}
         </p>
         <span className="rounded-full border border-[#d1d5db] bg-white px-4 py-2.5 text-[13px] font-semibold text-[#6b7280]">
-          1280 × 320 px • Premium placement
+          {"1280 × 320 px • Premium placement"}
         </span>
       </div>
     </div>
@@ -233,6 +70,62 @@ function SectionHeader({
 export default function RegisterPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const categories = [
+    { icon: Palette, title: "Artist", desc: "Showcase your spiritual art, paintings, and craftsmanship to the global community.", href: "/artist-registration" },
+    { icon: WandSparkles, title: "Dancer", desc: "Share your classical and devotional dance performances at major festivals.", href: "/dancer-registration" },
+    { icon: Music, title: "Musician", desc: "Bring divine melodies — kirtan, bhajan, and classical music instrumental.", href: "/musician-registration" },
+    { icon: Home, title: "Temple", desc: "Register your temple, coordinate live streams, and manage devotee schedules.", href: "/temple-registration" },
+    { icon: Bed, title: "Dharamshala", desc: "List your dharamshala or pilgrim accommodation for visiting travelers.", href: "/dharamshala-registration" },
+    { icon: Users, title: "Organisation (Mandal)", desc: "Register your local religious, cultural, or community bhajan mandali.", href: "/mandal-registration" },
+    { icon: Users2, title: "Community", desc: "Create or join a local devotee community group in your region.", href: "#" },
+    { icon: Scroll, title: "Pandit / Purohit", desc: "Offer local or virtual puja, havan, and holy ceremonial services.", href: "#" },
+    { icon: BookOpen, title: "Kathavachak", desc: "Share divine stories, host discourses, and spread devotional knowledge.", href: "#" },
+    { icon: Calendar, title: "Event Organiser", desc: "Host, promote, and coordinate spiritual events, yatras, and celebrations.", href: "#" },
+    { icon: Heart, title: "Volunteer", desc: "Contribute your time, skills, and energy to serve the holy community.", href: "#" },
+    { icon: ShoppingBag, title: "Products", desc: "Sell spiritual goods — authentic puja items, books, clothing, and crafts.", href: "#" },
+  ];
+
+  const steps = [
+    { icon: MousePointer2, number: "01", title: "Choose Your Category", desc: "Select the profile that best aligns with your spiritual art, services, or organization." },
+    { icon: Edit3, number: "02", title: "Fill Your Details", desc: "Complete the secure registration form with your authentic credentials and portfolio." },
+    { icon: ShieldCheck, number: "03", title: "Get Verified & Go Live", desc: "Our team will review your application. Once verified, you are immediately live!" },
+  ];
+
+  const benefits = [
+    { icon: Globe, title: "Nationwide Visibility", desc: "Reach millions of devotees actively looking for spiritual services and items." },
+    { icon: Award, title: "Verified Trust Badge", desc: "Earn a golden trust badge to showcase authenticity and build devotee confidence." },
+    { icon: Headphones, title: "Community Support", desc: "Get dedicated round-the-clock help from our digital seva support specialists." },
+    { icon: Tag, title: "Free Listing", desc: "Absolutely no hidden charges or fees to create your profile and start listing." },
+  ];
+
+  const testimonials = [
+    {
+      quote: "Singing bhajan at Khatu Shyam Ji events under Shyam Jagat's platform has been the absolute pinnacle of my career. The energy and management are purely spiritual.",
+      avatar: "/images/register/avatar-mukesh.png",
+      name: "Pandit Mukesh Sharma",
+      role: "Bhajan Singer",
+    },
+    {
+      quote: "Registering our historical temple brought us completely online. We now handle darshan bookings smoothly and can stream aarti to elders across the country.",
+      avatar: "/images/register/avatar-ramdas.png",
+      name: "Mahant Ramdas Ji",
+      role: "Temple Administrator",
+    },
+    {
+      quote: "As a classical Kathak dancer, finding the right spiritual platforms was hard. Shyam Jagat linked us directly to major divine events across India.",
+      avatar: "/images/register/avatar-aparna.png",
+      name: "Aparna Sen",
+      role: "Classical Dancer",
+    },
+  ];
+
+  const faqs = [
+    { q: "Is there any registration fee?", a: "No, registration on the Shyam Jagat platform is absolutely free of charge for all individual artists, temples, and organizations." },
+    { q: "What is the verification process?", a: "Our dedicated seva committee reviews every profile within 24 to 48 hours. We verify ID proofs and credentials to maintain the sacred environment of our directory." },
+    { q: "Can I manage multiple profiles?", a: "Yes, you can register as an individual and also manage a temple or mandal listing using a unified admin dashboard." },
+    { q: "How do travelers contact dharamshalas?", a: "Once listed, your contact info, location map, and booking guidelines will be directly visible to millions of pilgrims who can call or book instantly." },
+  ];
+
   return (
     <>
       {/* Hero */}
@@ -250,15 +143,13 @@ export default function RegisterPage() {
         </div>
         <div className="relative flex max-w-[850px] flex-col items-center gap-6 text-center">
           <p className="text-base font-bold uppercase tracking-[3px] text-primary">
-            || जय श्री श्याम ||
+            {"|| जय श्री श्याम ||"}
           </p>
           <h1 className="font-serif text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-[45px] lg:leading-[64px]">
-            Join the Shyam Jagat Community
+            {"Join the Shyam Jagat Community"}
           </h1>
           <p className="text-base leading-7 text-cream-light opacity-90 sm:text-lg text-balance">
-            Register as an individual, organization, or service provider and
-            become part of our growing spiritual family. Unite in faith,
-            service, and devotion.
+            {"Register as an individual, organization, or service provider and become part of our growing spiritual family. Unite in faith, service, and devotion."}
           </p>
           <div className="flex items-center gap-2">
             <span className="h-px w-[60px] bg-primary/60" />
@@ -276,10 +167,10 @@ export default function RegisterPage() {
       <section className="flex flex-col items-center gap-12 bg-cream px-6 py-16 lg:px-20 lg:py-24">
         <div className="flex flex-col items-center gap-4 text-center">
           <p className="text-sm font-semibold uppercase tracking-[2px] text-primary">
-            Get Started
+            {"Get Started"}
           </p>
           <h2 className="max-w-[800px] font-serif text-3xl font-bold text-maroon sm:text-4xl lg:text-[44px]">
-            Choose Your Registration Category
+            {"Choose Your Registration Category"}
           </h2>
           <div className="h-[3px] w-[100px] bg-primary" />
         </div>
@@ -296,7 +187,7 @@ export default function RegisterPage() {
                     <category.icon className="h-7 w-7 text-primary" />
                   </span>
                   <span className="rounded-full bg-primary/[0.08] px-2.5 py-1 text-[11px] font-semibold text-primary">
-                    FREE
+                    {"FREE"}
                   </span>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -312,14 +203,14 @@ export default function RegisterPage() {
                   disabled
                   className="mt-6 flex cursor-not-allowed items-center justify-center gap-1.5 rounded-lg bg-[#e5e7eb] px-4 py-2.5 text-sm font-semibold text-[#9ca3af]"
                 >
-                  Coming Soon
+                  {"Coming Soon"}
                 </button>
               ) : (
                 <Link
                   href={category.href}
                   className="mt-6 flex items-center justify-center gap-1.5 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark"
                 >
-                  Register Now <ArrowRight className="h-3.5 w-3.5" />
+                  {"Register Now"} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               )}
             </div>
@@ -331,7 +222,7 @@ export default function RegisterPage() {
 
       {/* How It Works */}
       <section className="flex flex-col items-center gap-14 bg-white px-6 py-16 lg:px-20 lg:py-24">
-        <SectionHeader eyebrow="Simple Process" title="How It Works" />
+        <SectionHeader eyebrow={"Simple Process"} title={"How It Works"} />
         <div className="grid w-full max-w-[1280px] gap-6 lg:grid-cols-3">
           {steps.map((step) => (
             <div
@@ -359,7 +250,7 @@ export default function RegisterPage() {
 
       {/* Benefits */}
       <section className="flex flex-col items-center gap-14 bg-cream-light px-6 py-16 lg:px-20 lg:py-24">
-        <SectionHeader eyebrow="Advantages" title="Why Register with Shyam Jagat?" />
+        <SectionHeader eyebrow={"Advantages"} title={"Why Register with Shyam Jagat?"} />
         <div className="grid w-full max-w-[1280px] gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((benefit) => (
             <div
@@ -384,25 +275,25 @@ export default function RegisterPage() {
 
       {/* Testimonials */}
       <section className="flex flex-col items-center gap-14 bg-white px-6 py-16 lg:px-20 lg:py-24">
-        <SectionHeader eyebrow="Feedback" title="Voices from Our Sacred Family" />
+        <SectionHeader eyebrow={"Feedback"} title={"Voices from Our Sacred Family"} />
         <div className="grid w-full max-w-[1280px] gap-6 lg:grid-cols-3">
-          {testimonials.map((t) => (
+          {testimonials.map((item) => (
             <div
-              key={t.name}
+              key={item.name}
               className="flex flex-col gap-6 rounded-[20px] border border-[rgba(212,175,55,0.25)] bg-cream-light p-10"
             >
               <p className="font-serif text-6xl font-extrabold leading-[30px] text-primary/30">
                 &ldquo;
               </p>
-              <p className="text-[15px] italic leading-6 text-[#3d1010]">{t.quote}</p>
+              <p className="text-[15px] italic leading-6 text-[#3d1010]">{item.quote}</p>
               <div className="h-px w-full bg-border" />
               <div className="flex items-center gap-3">
                 <div className="relative size-12 shrink-0 overflow-hidden rounded-full">
-                  <Image src={t.avatar} alt={t.name} fill className="object-cover" sizes="48px" />
+                  <Image src={item.avatar} alt={item.name} fill className="object-cover" sizes="48px" />
                 </div>
                 <div>
-                  <p className="font-serif text-lg font-bold text-maroon">{t.name}</p>
-                  <p className="text-[13px] text-[#6b7280]">{t.role}</p>
+                  <p className="font-serif text-lg font-bold text-maroon">{item.name}</p>
+                  <p className="text-[13px] text-[#6b7280]">{item.role}</p>
                 </div>
               </div>
             </div>
@@ -414,7 +305,7 @@ export default function RegisterPage() {
 
       {/* FAQ */}
       <section className="flex flex-col items-center gap-14 bg-cream px-6 py-16 lg:px-20 lg:py-24">
-        <SectionHeader eyebrow="Questions" title="Frequently Asked Questions" />
+        <SectionHeader eyebrow={"Questions"} title={"Frequently Asked Questions"} />
         <div className="flex w-full max-w-[800px] flex-col gap-4">
           {faqs.map((faq, i) => {
             const isOpen = openFaq === i;
@@ -446,18 +337,17 @@ export default function RegisterPage() {
       <section className="flex flex-col items-center gap-8 bg-maroon px-6 py-20 text-center lg:px-20 lg:py-[120px]">
         <div className="flex max-w-[800px] flex-col gap-4">
           <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl lg:text-[48px]">
-            Ready to Join Our Family?
+            {"Ready to Join Our Family?"}
           </h2>
           <p className="text-base leading-relaxed text-cream opacity-80">
-            Take a leap of faith. Registering takes less than 5 minutes and is
-            100% free. Connect directly with millions of Baba Shyam devotees.
+            {"Take a leap of faith. Registering takes less than 5 minutes and is 100% free. Connect directly with millions of Baba Shyam devotees."}
           </p>
         </div>
         <Link
           href="#"
           className="flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-white transition hover:bg-primary-dark"
         >
-          Start Registration <ArrowRight className="h-4 w-4" />
+          {"Start Registration"} <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
     </>

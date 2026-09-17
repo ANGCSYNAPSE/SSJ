@@ -1,69 +1,72 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import AdSlot from "@/components/ui/AdSlot";
 
-const SECONDARY_NAV = [
-  { label: "Overview", href: "/team" },
-  { label: "Chairman", href: "/team/chairman" },
-  { label: "Mukhya Trustee", href: "/team/mukhya-trustee" },
-  { label: "Trustees", href: "/team/trustees" },
-  { label: "Management Team", href: "/team/management-team" },
-  { label: "Advisory Board", href: "/team/advisory-board", active: true },
-  { label: "State Team", href: "/team/state-team" },
-];
-
-const ADVISORY_BOARD = [
-  {
-    image: "/images/team/advisory/h-s-vashisht.png",
-    name: "Justice (Retd) H.S. Vashisht",
-    role: "Chief Legal Advisor",
-    dept: "Trust Laws & Dharma Code",
-    location: "New Delhi, DL",
-    desc: "Guides global spiritual operations to keep trust frameworks legally resilient and ethically pure.",
-  },
-  {
-    image: "/images/team/advisory/anand-swarup.png",
-    name: "Shri Anand Swarup",
-    role: "Strategic Finance Consultant",
-    dept: "Asset Management",
-    location: "Mumbai, MH",
-    desc: "Advises on building sustainable healthcare corpora and micro-finance sevas for artists.",
-  },
-  {
-    image: "/images/team/advisory/shrikant-shastri.png",
-    name: "Dr. Acharya Shrikant Shastri",
-    role: "Cultural & Ritual Advisor",
-    dept: "Vedic Philosophy & Sevas",
-    location: "Varanasi, UP",
-    desc: "Safeguards traditional decorum, festive calendar audits, and authentic bhajan metrics.",
-  },
-  {
-    image: "/images/team/advisory/sn-deshpande.png",
-    name: "Prof. S. N. Deshpande",
-    role: "Education Consultant",
-    dept: "Sanskrit & Philosophy",
-    location: "Pune, MH",
-    desc: "Heads curatorial updates for Sanskrit schools and free children education programs.",
-  },
-  {
-    image: "/images/team/advisory/shashi-kiran.png",
-    name: "Smt. Shashi Kiran",
-    role: "Technology Advisor",
-    dept: "Digital Platforms & Trust",
-    location: "Bengaluru, KA",
-    desc: "Assists in deploying scalable biometric crowd setups and high-speed live feed grids.",
-  },
-  {
-    image: "/images/team/advisory/arvind-jha.png",
-    name: "Dr. Arvind K. Jha",
-    role: "Healthcare Advisory Chair",
-    dept: "Rural Medical Camps",
-    location: "Jaipur, RJ",
-    desc: "Designs baseline health checkup setups and free generic medicine supply chains.",
-  },
-];
-
 export default function AdvisoryBoardPage() {
+
+  const SECONDARY_NAV = [
+    { label: "Overview", href: "/team" },
+    { label: "Chairman", href: "/team/chairman" },
+    { label: "Mukhya Trustee", href: "/team/mukhya-trustee" },
+    { label: "Trustees", href: "/team/trustees" },
+    { label: "Management Team", href: "/team/management-team" },
+    { label: "Advisory Board", href: "/team/advisory-board", active: true },
+    { label: "State Team", href: "/team/state-team" },
+  ];
+
+  const ADVISORY_BOARD = [
+    {
+      image: "/images/team/advisory/h-s-vashisht.png",
+      name: "Justice (Retd) H.S. Vashisht",
+      role: "Chief Legal Advisor",
+      dept: "Trust Laws & Dharma Code",
+      location: "New Delhi, DL",
+      desc: "Guides global spiritual operations to keep trust frameworks legally resilient and ethically pure.",
+    },
+    {
+      image: "/images/team/advisory/anand-swarup.png",
+      name: "Shri Anand Swarup",
+      role: "Strategic Finance Consultant",
+      dept: "Asset Management",
+      location: "Mumbai, MH",
+      desc: "Advises on building sustainable healthcare corpora and micro-finance sevas for artists.",
+    },
+    {
+      image: "/images/team/advisory/shrikant-shastri.png",
+      name: "Dr. Acharya Shrikant Shastri",
+      role: "Cultural & Ritual Advisor",
+      dept: "Vedic Philosophy & Sevas",
+      location: "Varanasi, UP",
+      desc: "Safeguards traditional decorum, festive calendar audits, and authentic bhajan metrics.",
+    },
+    {
+      image: "/images/team/advisory/sn-deshpande.png",
+      name: "Prof. S. N. Deshpande",
+      role: "Education Consultant",
+      dept: "Sanskrit & Philosophy",
+      location: "Pune, MH",
+      desc: "Heads curatorial updates for Sanskrit schools and free children education programs.",
+    },
+    {
+      image: "/images/team/advisory/shashi-kiran.png",
+      name: "Smt. Shashi Kiran",
+      role: "Technology Advisor",
+      dept: "Digital Platforms & Trust",
+      location: "Bengaluru, KA",
+      desc: "Assists in deploying scalable biometric crowd setups and high-speed live feed grids.",
+    },
+    {
+      image: "/images/team/advisory/arvind-jha.png",
+      name: "Dr. Arvind K. Jha",
+      role: "Healthcare Advisory Chair",
+      dept: "Rural Medical Camps",
+      location: "Jaipur, RJ",
+      desc: "Designs baseline health checkup setups and free generic medicine supply chains.",
+    },
+  ];
+
   return (
     <>
       {/* Secondary team nav */}
@@ -89,14 +92,14 @@ export default function AdvisoryBoardPage() {
       <div className="bg-white px-6 pb-2 pt-6 lg:px-20">
         <div className="mx-auto flex max-w-[1280px] items-center gap-2 text-[13px]">
           <Link href="/" className="text-[#8c8c8c]">
-            Home
+            {"Home"}
           </Link>
           <span className="text-[#9ca3af]">/</span>
           <Link href="/team" className="text-[#8c8c8c]">
-            Our Team
+            {"Our Team"}
           </Link>
           <span className="text-[#9ca3af]">/</span>
-          <span className="font-semibold text-primary">Advisory Board</span>
+          <span className="font-semibold text-primary">{"Advisory Board"}</span>
         </div>
       </div>
 
@@ -104,11 +107,10 @@ export default function AdvisoryBoardPage() {
       <section className="bg-maroon px-6 py-16 text-center lg:px-20 lg:py-20">
         <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-6">
           <h1 className="font-serif text-4xl font-bold text-[#f2c75c] sm:text-5xl lg:text-[56px]">
-            ADVISORY BOARD
+            {"ADVISORY BOARD"}
           </h1>
           <p className="max-w-[800px] text-base text-white/90 sm:text-lg">
-            Meet the seasoned veterans, sages, legal luminaries, and industry experts steering our
-            operations with strict commitment to statutory compliances and Sanatana values.
+            {"Meet the seasoned veterans, sages, legal luminaries, and industry experts steering our operations with strict commitment to statutory compliances and Sanatana values."}
           </p>
         </div>
       </section>
@@ -146,7 +148,7 @@ export default function AdvisoryBoardPage() {
                 href="#"
                 className="w-fit rounded-lg bg-[#fff3e0] px-5 py-3 text-sm font-semibold text-primary"
               >
-                View Profile →
+                {"View Profile →"}
               </Link>
             </div>
           ))}
