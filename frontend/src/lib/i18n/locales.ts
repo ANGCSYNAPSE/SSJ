@@ -7,6 +7,7 @@ export const LOCALES = [
   { code: "ml", nativeLabel: "മലയാളം" },
   { code: "gu", nativeLabel: "ગુજરાતી" },
   { code: "mr", nativeLabel: "मराठी" },
+  { code: "pa", nativeLabel: "ਪੰਜਾਬੀ" },
 ] as const;
 
 export type LocaleCode = (typeof LOCALES)[number]["code"];
