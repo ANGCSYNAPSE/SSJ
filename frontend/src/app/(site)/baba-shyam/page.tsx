@@ -176,22 +176,22 @@ export default function BabaShyamPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1a0505]/80 via-[#1a0505]/0 to-[#1a0505]/0" />
         <div className="relative w-full max-w-[1440px] mx-auto flex flex-col gap-8 px-6 py-16 lg:px-[100px]">
-          <h1 className="max-w-xl font-serif text-6xl font-bold leading-[1.05] text-white lg:text-[72px]">
+          <h1 className="max-w-xl font-serif text-4xl text-balance font-bold leading-[1.05] text-white lg:text-[72px]">
             {"The Divine Legacy of Baba Shyam"}
           </h1>
-          <p className="max-w-xl text-xl italic leading-relaxed text-white/90">
+          <p className="max-w-xl text-balance md:text-xl italic leading-relaxed text-white/90">
             {"“Sachche dil se jo yaad kare, Baba Shyam uski sunte hain.”"}
           </p>
           <div className="flex flex-wrap gap-5">
             <Link
               href="#journey"
-              className="rounded-lg bg-[#e87722] px-8 py-3.5 text-base font-semibold text-white transition-opacity hover:opacity-90"
+              className="rounded-lg bg-[#e87722] p-4 md:px-8 md:py-3.5 text-sm md:text-base font-semibold text-white transition-opacity hover:opacity-90"
             >
               {"Explore His Journey"}
             </Link>
             <Link
               href="/temple-directory"
-              className="rounded-lg border border-white px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
+              className="rounded-lg border border-white p-4 md:px-8 md:py-3.5 text-sm md:text-base font-semibold text-white transition-colors hover:bg-white/10"
             >
               {"Visit Khatu Temple"}
             </Link>

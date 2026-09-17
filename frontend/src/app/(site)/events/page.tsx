@@ -204,10 +204,10 @@ export default function EventsPage() {
 
         <div className="relative flex flex-col items-center gap-8">
           <p className="text-lg font-bold uppercase text-[#d4af37]">{"|| जय श्री श्याम ||"}</p>
-          <h1 className="text-center font-serif text-5xl font-bold leading-none text-white sm:text-6xl lg:text-[72px]">
+          <h1 className="text-center font-serif text-4xl font-bold leading-none text-white sm:text-6xl lg:text-[72px]">
             {"Sacred Events & Celebrations"}
           </h1>
-          <p className="max-w-[800px] text-center text-base leading-relaxed text-cream sm:text-lg lg:text-xl">
+          <p className="max-w-[800px] text-center text-sm leading-relaxed text-cream sm:text-lg lg:text-xl">
             {"Discover and participate in upcoming spiritual gatherings, grand festivals, temple ceremonies, and traditional cultural programs dedicated to Baba Shyam and the service of Dharma."}
           </p>
 

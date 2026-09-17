@@ -193,15 +193,15 @@ export default function InitiativesPage() {
         <div className="relative flex flex-col items-center gap-4 px-6 py-16 text-center">
           <p className="text-2xl text-[#fff8f0]/80">{"|| जय श्री श्याम ||"}</p>
           <div className="flex flex-col items-center gap-4">
-            <h1 className="font-serif text-6xl font-bold text-white sm:text-7xl lg:text-[90px]">
+            <h1 className="font-serif text-4xl font-bold text-white md:text-7xl lg:text-[90px]">
               {"Our Initiatives"}
             </h1>
             <div className="h-1 w-[120px] rounded-sm bg-[#e47105]" />
           </div>
-          <p className="text-xl font-semibold text-[#ffb266] sm:text-2xl">
+          <p className="text-base font-semibold text-[#ffb266] sm:text-2xl">
             {"Serving Society Through Compassion & Seva"}
           </p>
-          <p className="max-w-[800px] text-lg leading-8 text-[#fff8f0]/90">
+          <p className="max-w-[800px] text-sm md:text-lg leading-8 text-[#fff8f0]/90">
             {"At Shyam Jagat, every initiative is driven by the spirit of selfless service (Seva) and inspired by the teachings of Baba Shyam. Our programs are designed to uplift individuals, strengthen families, and create opportunities for a more compassionate and self-reliant society."}
           </p>
         </div>

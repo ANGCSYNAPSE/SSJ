@@ -51,11 +51,11 @@ export default function AboutPage() {
           <p className="text-xl uppercase tracking-wide text-white/90">
             {"|| जय श्री श्याम ||"}
           </p>
-          <h1 className="font-serif text-6xl font-bold text-white sm:text-7xl">
+          <h1 className="font-serif text-4xl text-balance font-bold text-white sm:text-7xl">
             {"About Shyam Jagat"}
           </h1>
           <div className="h-1 w-[120px] bg-[#e47105]" />
-          <p className="text-xl font-light text-white/90 sm:text-[22px]">
+          <p className="text-lg text-balance font-light text-white/90 sm:text-[22px]">
             {"Serving Humanity with Faith, Compassion, and Purpose"}
           </p>
         </div>
