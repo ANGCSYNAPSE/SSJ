@@ -6,7 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, UserPlus, ChevronDown, LogOut } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { LOCALES, DEFAULT_LOCALE, type LocaleCode, switchLanguage } from "@/lib/gtranslate";
 import { NAV_LINKS, MORE_LINKS, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -21,11 +20,6 @@ export default function Header() {
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
   const moreRef = useRef<HTMLDivElement>(null);
-  // Tracks which pill is highlighted only — content translation is handled
-  // entirely by GTranslate (see lib/gtranslate.ts), decoupled from this
-  // app's own locale/dictionary system so the two never fight over the
-  // same DOM text.
-  const [activeLang, setActiveLang] = useState<LocaleCode>(DEFAULT_LOCALE);
 
   const moreActive = MORE_LINKS.some((link) => link.href === pathname);
 
@@ -40,7 +34,7 @@ export default function Header() {
   }, [moreOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 h-[100px] border-b border-[#d4af37]/25 bg-white lg:top-10">
+    <header className="fixed inset-x-0 top-10 z-50 h-[100px] border-b border-[#d4af37]/25 bg-white">
       <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between px-6 lg:px-20">
         <Link href="/" className="relative block h-[100px] w-[100px] shrink-0">
           <Image
@@ -154,12 +148,12 @@ export default function Header() {
           onClick={() => setOpen((v) => !v)}
           className="inline-flex h-10 w-10 items-center justify-center rounded-md text-maroon hover:bg-maroon/5 lg:hidden"
         >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {open ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
         </button>
       </div>
 
       {open && (
-        <nav className="absolute inset-x-0 top-full max-h-[calc(100vh-100px)] overflow-y-auto border-t border-[#d4af37]/25 bg-white lg:hidden">
+        <nav className="absolute inset-x-0 top-full max-h-[calc(100vh-140px)] overflow-y-auto border-t border-[#d4af37]/25 bg-white lg:hidden">
           <div className="mx-auto flex w-full max-w-[1440px] flex-col px-6 py-2">
             {NAV_LINKS.map((link) => (
               <Link
@@ -177,9 +171,6 @@ export default function Header() {
               </Link>
             ))}
 
-            <p className="pt-3 text-xs font-semibold uppercase tracking-wide text-[#9e9e9e]">
-              {"More"}
-            </p>
             {MORE_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -195,30 +186,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-
-            <p className="pt-3 text-xs font-semibold uppercase tracking-wide text-[#9e9e9e]">
-              {"Select language"}
-            </p>
-            <div className="notranslate flex flex-wrap gap-x-4 gap-y-2 py-3">
-              {LOCALES.map((option) => (
-                <button
-                  key={option.code}
-                  type="button"
-                  onClick={() => {
-                    setActiveLang(option.code);
-                    switchLanguage(option.code);
-                  }}
-                  className={cn(
-                    "text-sm transition-colors",
-                    activeLang === option.code
-                      ? "font-semibold text-primary"
-                      : "text-[#595656] hover:text-primary",
-                  )}
-                >
-                  {option.nativeLabel}
-                </button>
-              ))}
-            </div>
 
             <div className="mt-2 flex flex-col gap-3 border-t border-[#d4af37]/25 py-4">
               {!loading &&

@@ -113,7 +113,7 @@ export default function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[100px] min-h-screen w-full overflow-hidden bg-[#1a1a1a] lg:-mt-[140px]">
+      <section className="relative -mt-[140px] min-h-screen w-full overflow-hidden bg-[#1a1a1a]">
         <Image
           src="/images/home/hero.png"
           alt="Devotees gathered at the Khatu Shyam temple at sunrise"

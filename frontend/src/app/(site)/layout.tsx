@@ -5,9 +5,10 @@ import TopBar from "@/components/layout/TopBar";
 /**
  * Marketing and content pages: full chrome.
  *
- * The header is fixed at 100px tall (140px from `lg` up, once the top bar's
- * 40px is added), so `main` reserves that height. Full-bleed hero sections
- * opt back out with a matching negative margin — keep both in sync.
+ * The header is fixed at 140px tall (100px header + the top bar's 40px,
+ * both visible at every screen size), so `main` reserves that height.
+ * Full-bleed hero sections opt back out with a matching negative margin —
+ * keep both in sync.
  */
 export default function SiteLayout({
   children,
@@ -18,7 +19,7 @@ export default function SiteLayout({
     <div className="flex min-h-screen flex-col">
       <TopBar />
       <Header />
-      <main className="flex-1 pt-[100px] lg:pt-[140px]">{children}</main>
+      <main className="flex-1 pt-[140px]">{children}</main>
       <Footer />
     </div>
   );

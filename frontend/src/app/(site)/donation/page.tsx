@@ -237,7 +237,7 @@ export default function DonationPage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative -mt-[100px] flex flex-col overflow-hidden pt-[100px] lg:-mt-[140px] lg:pt-[140px]">
+      <section className="relative -mt-[140px] flex flex-col overflow-hidden pt-[140px]">
         <div className="relative flex items-center overflow-hidden px-6 py-16 lg:px-[100px] lg:py-20">
           <Image src="/images/donation/hero.png" alt="Devotees serving the community" fill sizes="100vw" priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2a0b0b]/80 to-[#2a0b0b]/0" />

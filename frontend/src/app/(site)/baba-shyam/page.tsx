@@ -165,7 +165,7 @@ export default function BabaShyamPage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative -mt-[100px] flex min-h-[678px] w-full items-center overflow-hidden pt-[100px] lg:-mt-[140px] lg:pt-[140px]">
+      <section className="relative -mt-[140px] flex min-h-[678px] w-full items-center overflow-hidden pt-[140px]">
         <Image
           src="/images/baba-shyam/hero.png"
           alt="Khatu Shyam temple gate decorated for celebration"
@@ -285,7 +285,7 @@ export default function BabaShyamPage() {
       <AdSlot size="rectangle" />
 
       {/* THE DIVINE JOURNEY TIMELINE */}
-      <section id="journey" className="flex scroll-mt-[100px] flex-col items-center bg-[#fdf6ec] pt-20 lg:scroll-mt-[140px]">
+      <section id="journey" className="flex scroll-mt-[140px] flex-col items-center bg-[#fdf6ec] pt-20">
         <div className="flex flex-col items-center gap-3 px-6 pb-16 text-center lg:px-[100px]">
           <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[52px]">
             {"The Divine Journey of Barbarika"}
