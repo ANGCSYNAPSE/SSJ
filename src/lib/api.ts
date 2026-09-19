@@ -5,7 +5,12 @@
  * cannot exfiltrate a long-lived credential. Across reloads the session is
  * restored from the httpOnly refresh cookie via `authApi.refresh()`.
  */
-export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+// Trailing slash stripped defensively — if NEXT_PUBLIC_API_URL is ever set
+// with one (e.g. "https://api.example.com/"), the request path below would
+// otherwise end up as ".../api" + "/v1/..." with a double slash, which
+// Vercel 308-redirects and the browser's fetch() then fails on (cross-origin
+// redirects drop CORS headers), surfacing as "Could not reach the server."
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000").replace(/\/+$/, "");
 
 export class ApiError extends Error {
   constructor(
