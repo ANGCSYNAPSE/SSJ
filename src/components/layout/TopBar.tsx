@@ -45,7 +45,7 @@ export default function TopBar() {
   };
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[60] flex h-10 items-center border-b border-[#d4af37]/30 bg-maroon px-4 text-xs text-white/90 sm:px-6 lg:px-20">
+    <div className="fixed inset-x-0 top-0 z-[60] flex h-10 items-center border-b border-[#d4af37]/30 bg-maroon px-4 text-xs text-white/90 sm:px-6 xl:px-20">
       <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between gap-4">
         {/* Desktop: flat pill row */}
         <nav aria-label={"Select language"} className="notranslate hidden items-center gap-3 lg:flex">
