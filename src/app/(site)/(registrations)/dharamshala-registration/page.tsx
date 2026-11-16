@@ -4,6 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, ChevronDown, MapPin, Star, Upload, Users } from "lucide-react";
+import {
+  LoginDetailsCard,
+  RegistrationErrors,
+  SubmittedNotice,
+  compact,
+  firstNumber,
+  useRegistrationSubmit,
+} from "@/components/registration/RegistrationAccount";
 
 function AdPlaceholder() {
   return (
@@ -281,13 +289,37 @@ export default function DharamshalaRegistrationPage() {
   const [amenities, setAmenities] = useState<string[]>([]);
   const [consent, setConsent] = useState(false);
 
+  const reg = useRegistrationSubmit("dharamshala");
+
   function toggleAmenity(item: string) {
     setAmenities((prev) => (prev.includes(item) ? prev.filter((a) => a !== item) : [...prev, item]));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    await reg.submit({
+      fullName: managerName,
+      mobile,
+      acceptTerms: consent,
+      acceptMessage: "Please tick the declaration to continue.",
+      profile: compact({
+        name,
+        trustName,
+        licenseNumber,
+        distanceFromTemple: distance,
+        address,
+        state,
+        managerName,
+        totalRooms: firstNumber(totalRooms),
+        dormitoryBeds,
+        pricingMode,
+        suggestedPrice: firstNumber(suggestedPrice),
+        amenities,
+      }),
+    });
   }
+
+  if (reg.done) return <SubmittedNotice reg={reg} />;
 
   return (
     <>
@@ -467,6 +499,8 @@ export default function DharamshalaRegistrationPage() {
               </div>
             </FormSection>
 
+            <LoginDetailsCard reg={reg} fields={["email"]} />
+
             <div className="flex flex-col gap-8 border-t border-[rgba(212,175,55,0.25)] pt-8">
               <label className="flex cursor-pointer items-start gap-3">
                 <button
@@ -485,9 +519,11 @@ export default function DharamshalaRegistrationPage() {
                 </span>
               </label>
 
-              <div className="flex justify-center">
+              <div className="flex flex-col items-center gap-4">
+                <RegistrationErrors reg={reg} />
                 <button
                   type="submit"
+                  disabled={reg.pending}
                   className="rounded-lg bg-[#e47105] px-12 py-4 text-base font-bold text-white transition hover:bg-primary-dark"
                 >
                   Submit Registration Details

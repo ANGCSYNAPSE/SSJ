@@ -55,6 +55,16 @@ const config: Config = {
           "2xl": "1440px",
         },
       },
+      // A gentle zoom in and out that stays in place — used on the wizard's Next button.
+      keyframes: {
+        "soft-zoom": {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.06)" },
+        },
+      },
+      animation: {
+        "soft-zoom": "soft-zoom 1.8s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

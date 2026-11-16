@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -22,6 +23,8 @@ interface AuthContextValue {
   signup: (input: SignupInput) => Promise<AuthUser>;
   login: (input: LoginInput) => Promise<AuthUser>;
   logout: () => Promise<void>;
+  /** Re-reads the signed-in user (e.g. after finishing a profile, so its completeness is current). */
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -32,12 +35,31 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  // Session restore is disabled for now — there's no backend running, and the
-  // refresh call was just failing with a connection error on every page load.
-  // Set this back to `useState(true)` with a restore effect once the auth API
-  // is back; until then there's no async work, so start settled to avoid a
-  // loading-skeleton flash on every page load.
-  const [loading] = useState(false);
+  // Starts true: until the saved session has been checked, the app can't tell
+  // "signed out" from "not known yet", so it shows a loading state instead of
+  // flashing the signed-out header and bouncing people off guarded pages.
+  const [loading, setLoading] = useState(true);
+
+  // Bring back the session after a reload from the httpOnly refresh cookie.
+  useEffect(() => {
+    let cancelled = false;
+    authApi
+      .refresh()
+      .then((result) => {
+        if (cancelled) return;
+        tokenStore.set(result.accessToken);
+        setUser(result.user);
+      })
+      .catch(() => {
+        // No cookie, or it has expired: simply not signed in.
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const signup = useCallback(async (input: SignupInput) => {
     const result = await authApi.signup(input);
@@ -53,6 +75,15 @@ export default function AuthProvider({
     return result.user;
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    try {
+      const { user: fresh } = await authApi.me();
+      setUser(fresh);
+    } catch {
+      // Keep what we have; the next page load restores the session anyway.
+    }
+  }, []);
+
   const logout = useCallback(async () => {
     // Clear locally even if the network call fails — the user asked to leave.
     try {
@@ -64,8 +95,8 @@ export default function AuthProvider({
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, signup, login, logout }),
-    [user, loading, signup, login, logout],
+    () => ({ user, loading, signup, login, logout, refreshUser }),
+    [user, loading, signup, login, logout, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

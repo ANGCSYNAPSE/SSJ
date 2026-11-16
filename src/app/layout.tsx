@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AuthProvider from "@/components/auth/AuthProvider";
+import NotificationWatcher from "@/components/notifications/NotificationWatcher";
+import { ToastProvider } from "@/components/ui/Toast";
 import GTranslateWidget from "@/components/i18n/GTranslateWidget";
 
 export const metadata: Metadata = {
@@ -37,7 +39,12 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <GTranslateWidget />
-        <AuthProvider>{children}</AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <NotificationWatcher />
+            {children}
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

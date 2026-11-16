@@ -10,7 +10,7 @@ export default function SignupPage() {
         <>
           &ldquo;हारे का सहारा, बाबा श्याम हमारा&rdquo; —
           <br />
-          
+
         </>
       }
       quoteSub={"Join our community of faith, seva, and compassion"}

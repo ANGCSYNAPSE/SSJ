@@ -19,6 +19,13 @@ import {
   type ArtistRegistrationFormData,
 } from "@/lib/validations/artist-registration";
 import AdSlot from "@/components/ui/AdSlot";
+import {
+  LoginDetailsCard,
+  RegistrationErrors,
+  SubmittedNotice,
+  buildPerformerProfile,
+  useRegistrationSubmit,
+} from "@/components/registration/RegistrationAccount";
 
 function Card({
   title,
@@ -238,6 +245,8 @@ export default function MusicianRegistrationPage() {
   const [travelWillingness, setTravelWillingness] = useState("Across India");
   const [consentContact, setConsentContact] = useState(false);
 
+  const reg = useRegistrationSubmit("musician");
+
   const formik = useFormik<Partial<ArtistRegistrationFormData>>({
     initialValues: {
       fullName: "",
@@ -255,8 +264,30 @@ export default function MusicianRegistrationPage() {
     },
     validationSchema: artistRegistrationValidationSchema,
     onSubmit: async (values) => {
-      console.log("Form submitted:", values);
-      alert("Musician registration submitted successfully!");
+      await reg.submit({
+        fullName: values.fullName ?? "",
+        email: values.emailAddress,
+        mobile: values.phoneNumber,
+        acceptTerms: values.agreeToTerms ?? false,
+        profile: buildPerformerProfile({
+          dateOfBirth: values.dateOfBirth,
+          gender: values.gender,
+          city: values.city,
+          state: values.state,
+          primarySpecialty: values.artistType,
+          secondarySpecialty: secondaryInstrument,
+          experience: values.experience,
+          guruName,
+          bio: values.bio,
+          portfolioLink,
+          availableEvents,
+          regions,
+          honorarium,
+          travelWillingness,
+          consentContact,
+        }),
+        photo: { file: uploadedFile, key: "profilePhoto" },
+      });
     },
   });
 
@@ -276,6 +307,8 @@ export default function MusicianRegistrationPage() {
   function removeWorkFile(index: number) {
     setWorkFiles((files) => files.filter((_, i) => i !== index));
   }
+
+  if (reg.done) return <SubmittedNotice reg={reg} />;
 
   return (
     <>
@@ -614,6 +647,8 @@ export default function MusicianRegistrationPage() {
             </div>
           </Card>
 
+          <LoginDetailsCard reg={reg} />
+
           {/* Submission & Agreement */}
           <Card title={"Submission & Agreement"}>
             <div className="flex flex-col gap-6">
@@ -629,9 +664,10 @@ export default function MusicianRegistrationPage() {
                 </AgreementCheckbox>
               </div>
               <div className="flex flex-col items-center gap-4">
+                <RegistrationErrors reg={reg} />
                 <button
                   type="submit"
-                  disabled={formik.isSubmitting}
+                  disabled={formik.isSubmitting || reg.pending}
                   className="w-full rounded-lg bg-primary py-4 text-base font-bold text-white shadow-[0px_8px_8px_rgba(232,119,34,0.2)] transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {formik.isSubmitting ? "Submitting..." : "Submit Registration →"}

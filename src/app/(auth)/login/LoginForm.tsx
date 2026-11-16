@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Mail, Lock, Check } from "lucide-react";
+import { Mail, Lock, Check, Info } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import {
   AuthField,
@@ -23,7 +23,10 @@ export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading, login } = useAuth();
-  const [values, setValues] = useState(initial);
+  // The signup form sends people here with their email filled in (?email=)
+  // and the reason they were sent (?reason=exists|incomplete).
+  const [values, setValues] = useState({ ...initial, email: searchParams.get("email") ?? "" });
+  const reason = searchParams.get("reason");
   const [remember, setRemember] = useState(true);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
@@ -99,6 +102,18 @@ export default function LoginForm() {
           {"Sign in to continue your journey of seva."}
         </p>
       </div>
+
+      {(reason === "exists" || reason === "incomplete") && (
+        <p
+          role="status"
+          className="mt-4 flex items-start gap-2 rounded-xl border border-primary/30 bg-[#FFF4E8] px-3.5 py-2.5 text-[13px] text-maroon"
+        >
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+          {reason === "incomplete"
+            ? "You started registering with this email but didn't finish. Sign in and we'll take you straight back to complete your profile."
+            : "This email is already registered. Please sign in with your password."}
+        </p>
+      )}
 
       <form onSubmit={onSubmit} noValidate className="mt-5 flex flex-col gap-4">
         <div className="flex flex-col gap-3">

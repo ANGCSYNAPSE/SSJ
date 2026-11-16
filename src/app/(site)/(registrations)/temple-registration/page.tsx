@@ -5,6 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Camera, ChevronDown, UploadCloud, Check } from "lucide-react";
 import AdSlot from "@/components/ui/AdSlot";
+import {
+  LoginDetailsCard,
+  RegistrationErrors,
+  SubmittedNotice,
+  compact,
+  useRegistrationSubmit,
+} from "@/components/registration/RegistrationAccount";
 
 function FormSelect({
   options,
@@ -243,15 +250,44 @@ export default function TempleRegistrationPage() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [consentComms, setConsentComms] = useState(false);
 
+  const reg = useRegistrationSubmit("temple");
+
   function toggleService(index: number) {
     setSelectedServiceIndexes((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    await reg.submit({
+      fullName: contactName,
+      email: contactEmail,
+      mobile: contactPhone,
+      acceptTerms: agreeTerms && certifyAccurate,
+      acceptMessage: "Please tick both the accuracy certification and the Terms of Service.",
+      profile: compact({
+        templeName,
+        deity,
+        templeType,
+        yearEstablished,
+        trustName,
+        registrationNumber: regNumber,
+        address,
+        city,
+        state,
+        pinCode,
+        mapsLink,
+        openingTime,
+        closingTime,
+        aartiTimings,
+        services: selectedServiceIndexes.map((i) => services[i].title),
+        description,
+      }),
+    });
   }
+
+  if (reg.done) return <SubmittedNotice reg={reg} />;
 
   return (
     <>
@@ -487,6 +523,8 @@ export default function TempleRegistrationPage() {
             </button>
           </FormCard>
 
+          <LoginDetailsCard reg={reg} />
+
           {/* Terms & Submit */}
           <FormCard>
             <div className="flex flex-col gap-5">
@@ -501,8 +539,10 @@ export default function TempleRegistrationPage() {
               </Checkbox>
             </div>
             <div className="flex flex-col items-center gap-4">
+              <RegistrationErrors reg={reg} />
               <button
                 type="submit"
+                disabled={reg.pending}
                 className="w-full rounded-lg bg-[#e47105] py-4 text-base font-bold text-white shadow-[0px_8px_8px_rgba(228,113,5,0.15)] transition hover:bg-primary-dark"
               >
                 {"Submit Temple Registration"}

@@ -3,6 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Check, ChevronDown, FileText, Image as ImageIcon } from "lucide-react";
+import {
+  LoginDetailsCard,
+  RegistrationErrors,
+  SubmittedNotice,
+  compact,
+  useRegistrationSubmit,
+} from "@/components/registration/RegistrationAccount";
 
 function AdLeaderboard() {
   return (
@@ -327,12 +334,37 @@ export default function MandalRegistrationPage() {
 
   const [consent, setConsent] = useState(false);
 
+  const reg = useRegistrationSubmit("mandal");
+
   function toggleSeva(item: string) {
     setSevaTypes((prev) => (prev.includes(item) ? prev.filter((s) => s !== item) : [...prev, item]));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    await reg.submit({
+      fullName: presidentName,
+      email,
+      mobile: presidentPhone,
+      acceptTerms: consent,
+      acceptMessage: "Please tick the declaration to continue.",
+      profile: compact({
+        mandalName,
+        mandalType,
+        foundingYear,
+        registrationNumber,
+        state,
+        city,
+        address,
+        officialPhone: phone,
+        presidentName,
+        presidentPhone,
+        memberCountBand: memberCount,
+        spokespersonName,
+        sevaTypes,
+        recurringEvents,
+      }),
+    });
   }
 
   function handleReset() {
@@ -353,6 +385,8 @@ export default function MandalRegistrationPage() {
     setRecurringEvents("");
     setConsent(false);
   }
+
+  if (reg.done) return <SubmittedNotice reg={reg} />;
 
   return (
     <>
@@ -547,6 +581,8 @@ export default function MandalRegistrationPage() {
               </div>
             </div>
 
+            <LoginDetailsCard reg={reg} />
+
             <div className="flex flex-col gap-8 border-t border-[rgba(212,175,55,0.25)] pt-8">
               <label className="flex cursor-pointer items-start gap-3">
                 <button
@@ -565,9 +601,11 @@ export default function MandalRegistrationPage() {
                 </span>
               </label>
 
+              <RegistrationErrors reg={reg} />
               <div className="flex flex-col justify-center gap-4 sm:flex-row">
                 <button
                   type="submit"
+                  disabled={reg.pending}
                   className="rounded-lg bg-[#e47105] px-10 py-4 text-base font-bold text-white transition hover:bg-primary-dark"
                 >
                   Register &amp; Book Consultation
