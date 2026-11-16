@@ -261,7 +261,7 @@ export default function SignupForm() {
             tint
             icon={Users}
             title={"Register As"}
-            names={["Artist", "Dancer", "Musician", "Temple", "Dharamshala", "Mandal"]}
+            names={["Artist", "Musician", "Temple", "Dharamshala", "Mandal" , "Dancer"]}
             onClick={() => setStage("categories")}
           />
         </div>

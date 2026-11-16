@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { INITIATIVES, type Initiative } from "@/lib/data/initiatives";
 import AdSlot from "@/components/ui/AdSlot";
+import HeroGateway from "@/components/home/HeroGateway";
 
 /** Underline-arrow accent used next to hero and about-section CTAs. */
 function CtaArrow({ src, className = "" }: { src: string; className?: string }) {
@@ -113,27 +114,10 @@ export default function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[140px] min-h-screen w-full overflow-hidden bg-[#1a1a1a]">
-        <Image
-          src="/images/home/hero.png"
-          alt="Devotees gathered at the Khatu Shyam temple at sunrise"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent sm:via-black/50 sm:to-transparent" />
+      <section className="relative -mt-[140px] flex w-full flex-col overflow-hidden bg-[#000007] lg:block lg:min-h-screen">
+        <HeroGateway />
 
-        {/* location badge */}
-        <div className="absolute right-6 bottom-10 z-10 flex items-center gap-2 rounded-full bg-[#1a1a1a]/70 px-3.5 py-2.5 backdrop-blur-sm sm:bottom-20 lg:right-10">
-          <MapPin className="h-4 w-4 text-white" aria-hidden />
-          <div className="leading-tight">
-            <p className="text-[13px] font-semibold text-white">श्री खाटू श्याम मंदिर</p>
-            <p className="text-[11px] text-[#d9d9d9]">राजस्थान</p>
-          </div>
-        </div>
-
-        <div className="relative mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 px-6 pb-16 pt-[168px] lg:gap-10 lg:px-[94px] lg:pt-[200px]">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-6 pb-10 pt-[168px] lg:min-h-screen lg:gap-10 lg:px-[94px] lg:pb-16 lg:pt-[200px]">
           <div className="max-w-xl">
             <p className="text-2xl leading-[0.95] text-[#f2c75c]">|| जय श्री श्याम ||</p>
             <h1 className="mt-4 font-serif text-5xl font-bold leading-[0.95] sm:text-6xl lg:text-[64px]">

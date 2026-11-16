@@ -156,8 +156,9 @@ export default function Header() {
           ) : (
             <Link
               href="/signup"
-              className="rounded-md bg-[#e87722] px-5 py-2.5 text-xs xl:text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
+              className="flex items-center gap-2 rounded-md bg-[#e87722] px-4 py-2.5 text-xs font-semibold text-white transition-opacity hover:opacity-90 xl:px-5 xl:text-[15px]"
             >
+              <UserPlus className="h-3.5 w-3.5 xl:h-4 xl:w-4" aria-hidden />
               {"Sign Up"}
             </Link>
           )}
@@ -172,15 +173,28 @@ export default function Header() {
           */}
         </div>
 
-        <button
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-maroon hover:bg-maroon/5 lg:hidden"
-        >
-          {open ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          {/* Icon only on small phones, icon + label from tablet width up. */}
+          {!loading && !user && (
+            <Link
+              href="/signup"
+              aria-label="Sign Up"
+              className="flex h-10 items-center justify-center gap-1.5 rounded-md bg-[#e87722] px-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:px-4"
+            >
+              <UserPlus className="h-4 w-4" aria-hidden />
+              <span className="hidden sm:inline">{"Sign Up"}</span>
+            </Link>
+          )}
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-maroon hover:bg-maroon/5"
+          >
+            {open ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -236,8 +250,9 @@ export default function Header() {
                   <Link
                     href="/signup"
                     onClick={() => setOpen(false)}
-                    className="rounded-md bg-[#e87722] py-2.5 text-center text-[15px] font-semibold text-white"
+                    className="flex items-center justify-center gap-2 rounded-md bg-[#e87722] py-2.5 text-[15px] font-semibold text-white"
                   >
+                    <UserPlus className="h-4 w-4" aria-hidden />
                     {"Sign Up"}
                   </Link>
                 ))}

@@ -66,7 +66,6 @@ export function TypographyVortexCanvas({ className = "", ...props }: TypographyV
       data-dissolve-strength="0.00"
     >
       <canvas ref={canvasRef} aria-label="Interactive typography vortex" />
-      <span className="typography-vortex-component__hint">MOVE / DISSOLVE · CLICK / SUCTION</span>
     </div>
   );
 }

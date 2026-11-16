@@ -16,7 +16,7 @@ export const NAV_LINKS = [
 /** Overflow links tucked behind the header's "More" dropdown. */
 export const MORE_LINKS = [
   { href: "/blog", label: "Blog" },
-  { href: "/temples", label: "Temples" },
+  { href: "/temple-directory", label: "Temples" },
   { href: "/dharamshala", label: "Dharamshala" },
   { href: "/organisations", label: "Organisations" },
   // { href: "/temple-registration", label: "Temple Registration" },
