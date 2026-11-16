@@ -1,0 +1,9 @@
+SHYAM JAGAT — FORM WORKFLOW NOTES
+
+The PDF reproduces the current source form labels, placeholders, options and required markers in a low-fidelity layout. Long forms are split by section for A4 printing; these are not additional website steps. No page numbers, website navigation, footer or decorative images are included.
+
+Become a Member is the requested addition to normal signup, proposed unchecked by default. It is not implemented in the website code. Terms and Remember me retain their checked defaults from the code.
+
+The overview represents the requested account flow. Current implementation limits: category forms do not save registrations to a backend. Artist/Dancer/Musician submit handlers log values and display an alert; some supplementary controls are separate local state. Temple/Dharamshala/Mandal submit handlers only prevent default. Work sample and most property/document upload areas are visual placeholders; profile-photo file inputs are present for performers. Continue with Google is currently a button without an authentication handler. The Mandal progress tracker is static, with Office Bearers active. These diagrams do not imply those unfinished behaviors are implemented.
+
+Source: src/app/(auth)/login/LoginForm.tsx; src/app/(auth)/signup/SignupForm.tsx; src/app/(site)/(registrations)/{artist,dancer,musician,temple,dharamshala,mandal}-registration/page.tsx.

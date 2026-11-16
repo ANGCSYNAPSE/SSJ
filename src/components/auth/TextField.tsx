@@ -5,7 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const inputBox =
-  "flex h-11 w-full items-center gap-3 rounded-xl border-[1.5px] border-border bg-cream-light px-4 focus-within:border-primary";
+  "flex h-9 w-full items-center gap-3 rounded-xl border-[1.5px] border-border bg-cream-light px-4 focus-within:border-primary";
 
 export function TextField({
   id,
@@ -81,7 +81,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-[14px] bg-gradient-to-r from-primary to-primary-dark py-3 text-base font-semibold text-white transition-opacity hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+      className="w-full rounded-[14px] bg-gradient-to-r from-primary to-primary-dark py-2 text-base font-semibold text-white transition-opacity hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? "Please wait…" : children}
     </button>

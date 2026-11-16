@@ -156,7 +156,7 @@ export default function Header() {
           ) : (
             <Link
               href="/signup"
-              className="rounded-md bg-[#e87722] px-5 py-2.5 text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
+              className="rounded-md bg-[#e87722] px-5 py-2.5 text-xs xl:text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
             >
               {"Sign Up"}
             </Link>

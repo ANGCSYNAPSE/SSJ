@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck } from "lucide-react";
 import { SITE } from "@/lib/constants";
+import { TypographyVortexCanvas } from "@/shaders/typography-vortex/TypographyVortexCanvas";
+import "@/shaders/threeui.css";
 
 /**
  * Two-panel auth layout from the Figma auth screens: an image panel with the
@@ -29,30 +31,20 @@ export default function AuthShell({
         {"Back"}
       </Link>
 
-      {/* Left image panel — hidden on small screens where the form takes over */}
+      {/* Left panel — hidden on small screens where the form takes over */}
       <div className="relative hidden w-1/2 shrink-0 overflow-hidden lg:block">
-        <Image
-          src="/images/signup/left-panel.png"
-          alt=""
-          fill
-          priority
-          sizes="50vw"
-          className="object-cover"
+        <TypographyVortexCanvas
+          mode="dark"
+          speed={1.0}
+          ringGrowth={1.22}
+          opacity={1.0}
+          dissolveRadius={1.0}
+          particleAmount={1.0}
+          suctionDuration={920}
+          className="absolute inset-0 h-full w-full"
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(231deg, rgba(232,119,34,0) 50%, rgba(232,119,34,0.8) 75%)",
-          }}
-        />
-        <Image
-          src="/images/signup/pattern.png"
-          alt=""
-          fill
-          sizes="50vw"
-          className="object-cover opacity-[0.08]"
-        />
+
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
         <div className="absolute bottom-[60px] left-[60px] flex w-[600px] max-w-[calc(100%-120px)] flex-col gap-6">
           <div className="flex w-fit items-center gap-2.5 rounded-full border border-white/30 bg-white/15 px-4 py-2.5 backdrop-blur-md">
@@ -73,7 +65,7 @@ export default function AuthShell({
       </div>
 
       {/* Right form panel */}
-      <div className="relative flex w-full items-center justify-center overflow-hidden bg-cream-light px-4 py-6 sm:py-8 lg:w-1/2 lg:py-12">
+      <div className="relative flex w-full items-center justify-center overflow-hidden bg-cream-light px-4 py-4 sm:py-5 lg:w-1/2 lg:py-6">
         {/* Decorative line art. These are SVGs, so they bypass the image
             optimizer — it cannot rasterise them and yields a broken image. */}
         <Image
@@ -104,13 +96,13 @@ export default function AuthShell({
           className="pointer-events-none absolute bottom-6 left-6 hidden select-none sm:bottom-10 sm:left-10 lg:block"
         />
 
-        <div className="relative z-10 w-full max-w-[480px] rounded-2xl sm:rounded-[28px] bg-white/95 px-6 py-6 sm:px-8 sm:py-7 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
-          <div className="flex items-center justify-center gap-2">
+        <div className="relative z-10 max-h-[calc(100vh-32px)] w-full max-w-[480px] overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white/95 px-6 py-4 sm:px-8 sm:py-5 shadow-[0_20px_60px_0_rgba(107,31,31,0.12)] backdrop-blur-sm">
+          <div className="mb-1 flex items-center justify-center gap-2">
             <Image
               src="/images/brand/logo.svg"
               alt=""
-              width={80}
-              height={80}
+              width={120}
+              height={120}
               aria-hidden
             />
             {/* <span className="font-serif text-[22px] font-bold text-maroon">
@@ -137,7 +129,7 @@ export function AuthField({
   error?: string;
 }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       <label htmlFor={htmlFor} className="text-[13px] font-bold text-maroon">
         {label}
       </label>
@@ -163,7 +155,7 @@ export function GoogleButton({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="flex w-full items-center justify-center gap-3 rounded-xl border-[1.5px] border-border bg-white py-2.5 transition-colors hover:bg-cream"
+      className="flex w-full items-center justify-center gap-3 rounded-xl border-[1.5px] border-border bg-white py-2 transition-colors hover:bg-cream"
     >
       <Image
         src="/images/brand/google.svg"

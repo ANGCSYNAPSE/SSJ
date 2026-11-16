@@ -174,7 +174,7 @@ export default function LoginForm() {
           href="/signup"
           label={"Create an account"}
         />
-        <TrustBadges />
+        {/* <TrustBadges /> */}
       </div>
     </>
   );

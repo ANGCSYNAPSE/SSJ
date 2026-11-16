@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,8 +15,70 @@ import {
   XCircle,
   ArrowRight,
   ArrowDown,
+  BookOpen,
 } from "lucide-react";
 import AdSlot from "@/components/ui/AdSlot";
+import { API_URL } from "@/lib/api";
+
+type ApiBlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage?: string | null;
+  categoryId?: string | null;
+  author: string;
+  isPublished: boolean;
+  publishedAt?: string | null;
+  createdAt: string;
+};
+
+type ApiBlogCategory = {
+  id: string;
+  title: string;
+  slug: string;
+};
+
+function estimateReadTime(content: string): string {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min read`;
+}
+
+/** The backend's /uploads endpoint returns a path relative to itself (e.g. "/uploads/x.png"), not a full URL — resolve it against the backend's own origin, not the frontend's. */
+function resolveCoverImageUrl(coverImage: string): string {
+  return coverImage.startsWith("http") ? coverImage : `${API_URL}${coverImage}`;
+}
+
+function formatPostDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  });
+}
+
+/** First letter of the author's name — used in place of an avatar photo, since posts created via the API don't have one. */
+function AuthorInitial({ name, size = 44 }: { name: string; size?: number }) {
+  return (
+    <div
+      className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 font-serif font-bold text-primary"
+      style={{ width: size, height: size, fontSize: size * 0.4 }}
+    >
+      {name.trim().charAt(0).toUpperCase() || "?"}
+    </div>
+  );
+}
+
+/** Shown in place of a cover image for posts that don't have one yet. */
+function CoverPlaceholder({ className }: { className?: string }) {
+  return (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-cream to-[#f0e4d0] ${className ?? ""}`}>
+      <BookOpen className="h-10 w-10 text-primary/40" aria-hidden />
+    </div>
+  );
+}
 
 const categories = [
   {
@@ -61,83 +123,50 @@ const categories = [
   },
 ];
 
-const featuredPost = {
-  category: "Spiritual Journeys",
-  title: "My Journey to Khatu Shyam: Finding Miracles in Silence",
-  desc: "In the midst of life's deepest challenges, a sudden pilgrim walk to the Khatu temple transformed my heart. Read about the quiet moments before Baba Shyam that answered questions I hadn't even dared to vocalize.",
-  image: "/images/blog/featured-cover.png",
-  avatar: "/images/blog/avatar-aditya.png",
-  author: "Aditya Singhania",
-  authorMeta: "Devotee since 2012",
-  date: "Oct 14, 2026",
-  readTime: "6 min read",
-};
-
-const recentPosts = [
-  {
-    category: "Artist Spotlights",
-    readTime: "5 min read",
-    title: "Sustaining Faith: The Story behind Lakhbir Singh's Famous Shyam Bhajans",
-    desc: "An exclusive conversation with Lakhbir Singh on the timeless melodies of devotion, exploring how raw folk tunes translate the heart of a devotee directly to Baba Shyam.",
-    image: "/images/blog/post-lakhbir-cover.png",
-    avatar: "/images/blog/avatar-rajesh.png",
-    author: "Rajesh Vyas",
-    date: "Oct 20, 2026",
-  },
-  {
-    category: "Community Impact",
-    readTime: "8 min read",
-    title: "The True Spirit of Seva: Over 50,000 Served Daily in Annadan Project",
-    desc: "Inside our largest food security program operating daily in rural areas. Read how simple donations are helping fight hunger while restoring social hope.",
-    image: "/images/blog/post-annadan-cover.png",
-    avatar: "/images/blog/avatar-meera.png",
-    author: "Meera Deshmukh",
-    date: "Oct 18, 2026",
-  },
-  {
-    category: "Cultural Heritage",
-    readTime: "4 min read",
-    title: "Decoding the Sandhya Aarti: Rituals, Significance & Mantra Recitations",
-    desc: "Explore the profound meaning behind the evening sacred fire rituals, the specific Vedic hymns used, and how to create a similar spiritual center inside your home.",
-    image: "/images/blog/post-aarti-cover.png",
-    avatar: "/images/blog/avatar-ram-prasad.png",
-    author: "Pandit Ram Prasad",
-    date: "Oct 15, 2026",
-  },
-  {
-    category: "Sacred Places",
-    readTime: "7 min read",
-    title: "A Complete Pilgrim Guide to the Historic Ringas to Khatu Route",
-    desc: "An exhaustive travel manual covering transportation, traditional rests, historical sights, and health guidelines for the sacred Ringas walk.",
-    image: "/images/blog/post-pilgrim-cover.png",
-    avatar: "/images/blog/avatar-vikas.png",
-    author: "Vikas Gupta",
-    date: "Oct 11, 2026",
-  },
-  {
-    category: "Community Impact",
-    readTime: "6 min read",
-    title: "Shyam Shiksha: Brightening Futures of Underprivileged Children",
-    desc: "Read how the collective spiritual community of Shyam Jagat is funding quality education, providing free school supplies, and giving child mentors a pathway.",
-    image: "/images/blog/post-shiksha-cover.png",
-    avatar: "/images/blog/avatar-sunita.png",
-    author: "Sunita Devi",
-    date: "Oct 08, 2026",
-  },
-  {
-    category: "Meditation & Wellness",
-    readTime: "5 min read",
-    title: "Connecting to the Divine: 5 Morning Rituals for Daily Inner Peace",
-    desc: "Practical, non-intrusive tips that combine ancient meditation strategies with modern fast-paced morning routines for absolute mental balance.",
-    image: "/images/blog/post-meditation-cover.png",
-    avatar: "/images/blog/avatar-anjali.png",
-    author: "Anjali Singh",
-    date: "Oct 05, 2026",
-  },
-];
-
 export default function BlogPage() {
   const [search, setSearch] = useState("");
+  // null = still loading; [] = loaded, nothing published yet.
+  const [posts, setPosts] = useState<ApiBlogPost[] | null>(null);
+  const [categoryTitleById, setCategoryTitleById] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const [postsRes, categoriesRes] = await Promise.all([
+          fetch(`${API_URL}/api/v1/blog-posts`),
+          fetch(`${API_URL}/api/v1/blog-categories`),
+        ]);
+        const postsPayload = await postsRes.json().catch(() => null);
+        const categoriesPayload = await categoriesRes.json().catch(() => null);
+        if (cancelled) return;
+
+        setPosts(postsRes.ok ? (postsPayload?.data ?? []) : []);
+
+        const map: Record<string, string> = {};
+        if (categoriesRes.ok) {
+          for (const category of (categoriesPayload?.data ?? []) as ApiBlogCategory[]) {
+            map[category.id] = category.title;
+          }
+        }
+        setCategoryTitleById(map);
+      } catch (err) {
+        if (!cancelled) {
+          console.error("Failed to load blog posts", err);
+          setPosts([]);
+        }
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const featuredPost = posts?.[0];
+  const recentPosts = posts?.slice(1) ?? [];
 
   return (
     <>
@@ -229,47 +258,59 @@ export default function BlogPage() {
             </Link>
           </div>
 
-          <Link
-            href="#"
-            className="flex flex-col overflow-hidden rounded-[24px] border border-[rgba(212,175,55,0.25)] bg-white shadow-[0px_16px_40px_rgba(139,0,0,0.05)] lg:flex-row"
-          >
-            <div className="relative h-[280px] w-full lg:h-auto lg:min-h-[450px] lg:flex-1">
-              <Image
-                src={featuredPost.image}
-                alt={featuredPost.title}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 50vw, 100vw"
-              />
+          {posts === null ? (
+            <div className="flex h-[300px] items-center justify-center rounded-[24px] border border-[rgba(212,175,55,0.25)] bg-white text-[#8c8c8c]">
+              Loading stories…
             </div>
-            <div className="flex flex-1 flex-col justify-between gap-6 p-8 lg:p-12">
-              <div className="flex flex-col gap-4">
-                <span className="w-fit rounded-full bg-cream px-3 py-1.5 text-xs font-semibold uppercase text-primary">
-                  {featuredPost.category}
-                </span>
-                <h3 className="font-serif text-2xl font-bold leading-[1.15] text-maroon sm:text-[32px] sm:leading-[38px]">
-                  {featuredPost.title}
-                </h3>
-                <p className="text-[15px] leading-6 text-[#595656]">{featuredPost.desc}</p>
+          ) : !featuredPost ? (
+            <div className="flex h-[220px] flex-col items-center justify-center gap-2 rounded-[24px] border border-[rgba(212,175,55,0.25)] bg-white text-center">
+              <p className="font-serif text-xl font-bold text-maroon">No stories published yet</p>
+              <p className="text-sm text-[#8c8c8c]">Check back soon for the first devotional story.</p>
+            </div>
+          ) : (
+            <Link
+              href={`/blog/${featuredPost.slug}`}
+              className="flex flex-col overflow-hidden rounded-[24px] border border-[rgba(212,175,55,0.25)] bg-white shadow-[0px_16px_40px_rgba(139,0,0,0.05)] lg:flex-row"
+            >
+              <div className="relative h-[280px] w-full lg:h-auto lg:min-h-[450px] lg:flex-1">
+                {featuredPost.coverImage ? (
+                  <Image
+                    src={resolveCoverImageUrl(featuredPost.coverImage)}
+                    alt={featuredPost.title}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                  />
+                ) : (
+                  <CoverPlaceholder className="absolute inset-0" />
+                )}
               </div>
-              <div className="flex flex-col gap-4 border-t border-[#e5e7eb] pt-6 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="relative size-11 shrink-0 overflow-hidden rounded-full">
-                    <Image src={featuredPost.avatar} alt={featuredPost.author} fill className="object-cover" sizes="44px" />
+              <div className="flex flex-1 flex-col justify-between gap-6 p-8 lg:p-12">
+                <div className="flex flex-col gap-4">
+                  <span className="w-fit rounded-full bg-cream px-3 py-1.5 text-xs font-semibold uppercase text-primary">
+                    {categoryTitleById[featuredPost.categoryId ?? ""] ?? "Story"}
+                  </span>
+                  <h3 className="font-serif text-2xl font-bold leading-[1.15] text-maroon sm:text-[32px] sm:leading-[38px]">
+                    {featuredPost.title}
+                  </h3>
+                  <p className="text-[15px] leading-6 text-[#595656]">{featuredPost.excerpt}</p>
+                </div>
+                <div className="flex flex-col gap-4 border-t border-[#e5e7eb] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-3">
+                    <AuthorInitial name={featuredPost.author} />
+                    <div>
+                      <p className="text-lg font-semibold text-maroon">{featuredPost.author}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-maroon">{featuredPost.author}</p>
-                    <p className="text-xs text-[#8c8c8c]">{featuredPost.authorMeta}</p>
+                  <div className="flex items-center gap-4 text-[13px] text-[#595656]">
+                    <span>{formatPostDate(featuredPost.publishedAt ?? featuredPost.createdAt)}</span>
+                    <span className="size-1 rounded-full bg-[#8c8c8c]" />
+                    <span>{estimateReadTime(featuredPost.content)}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 text-[13px] text-[#595656]">
-                  <span>{featuredPost.date}</span>
-                  <span className="size-1 rounded-full bg-[#8c8c8c]" />
-                  <span>{featuredPost.readTime}</span>
-                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          )}
         </div>
       </section>
 
@@ -286,59 +327,67 @@ export default function BlogPage() {
           </p>
         </div>
 
-        <div className="grid w-full max-w-[1280px] gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {recentPosts.map((post) => (
-            <Link
-              key={post.title}
-              href="#"
-              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white shadow-[0px_12px_32px_rgba(139,0,0,0.05)]"
-            >
-              <div>
-                <div className="relative h-[220px] w-full">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  />
-                </div>
-                <div className="flex flex-col gap-4 p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="rounded-full bg-cream px-3 py-1.5 text-xs font-semibold uppercase text-primary">
-                      {post.category}
-                    </span>
-                    <span className="text-xs text-[#8c8c8c]">{post.readTime}</span>
+        {recentPosts.length > 0 && (
+          <div className="grid w-full max-w-[1280px] gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {recentPosts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white shadow-[0px_12px_32px_rgba(139,0,0,0.05)]"
+              >
+                <div>
+                  <div className="relative h-[220px] w-full">
+                    {post.coverImage ? (
+                      <Image
+                        src={resolveCoverImageUrl(post.coverImage)}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      />
+                    ) : (
+                      <CoverPlaceholder className="absolute inset-0" />
+                    )}
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="line-clamp-2 font-serif text-2xl font-bold leading-7 text-maroon">
-                      {post.title}
-                    </h3>
-                    <p className="line-clamp-2 text-sm leading-[22px] text-[#595656]">
-                      {post.desc}
-                    </p>
+                  <div className="flex flex-col gap-4 p-6">
+                    <div className="flex items-center justify-between">
+                      <span className="rounded-full bg-cream px-3 py-1.5 text-xs font-semibold uppercase text-primary">
+                        {categoryTitleById[post.categoryId ?? ""] ?? "Story"}
+                      </span>
+                      <span className="text-xs text-[#8c8c8c]">{estimateReadTime(post.content)}</span>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="line-clamp-2 font-serif text-2xl font-bold leading-7 text-maroon">
+                        {post.title}
+                      </h3>
+                      <p className="line-clamp-2 text-sm leading-[22px] text-[#595656]">
+                        {post.excerpt}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-between border-t border-[#e5e7eb] px-6 py-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="relative size-8 shrink-0 overflow-hidden rounded-full">
-                    <Image src={post.avatar} alt={post.author} fill className="object-cover" sizes="32px" />
+                <div className="flex items-center justify-between border-t border-[#e5e7eb] px-6 py-4">
+                  <div className="flex items-center gap-2.5">
+                    <AuthorInitial name={post.author} size={32} />
+                    <p className="text-sm font-semibold text-maroon">{post.author}</p>
                   </div>
-                  <p className="text-[13px] font-semibold text-maroon">{post.author}</p>
+                  <p className="text-xs text-[#8c8c8c]">
+                    {formatPostDate(post.publishedAt ?? post.createdAt)}
+                  </p>
                 </div>
-                <p className="text-xs text-[#8c8c8c]">{post.date}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
 
-        <button
-          type="button"
-          className="flex items-center gap-2 rounded-lg border border-[rgba(212,175,55,0.25)] bg-white px-9 py-3.5 text-base font-semibold text-maroon transition hover:bg-cream"
-        >
-          Load More Stories <ArrowDown className="h-4 w-4" />
-        </button>
+        {recentPosts.length > 0 && (
+          <button
+            type="button"
+            className="flex items-center gap-2 rounded-lg border border-[rgba(212,175,55,0.25)] bg-white px-9 py-3.5 text-base font-semibold text-maroon transition hover:bg-cream"
+          >
+            Load More Stories <ArrowDown className="h-4 w-4" />
+          </button>
+        )}
       </section>
 
       {/* Write a Blog CTA */}

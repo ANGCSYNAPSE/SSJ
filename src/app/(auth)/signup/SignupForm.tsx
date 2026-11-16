@@ -69,8 +69,21 @@ export default function SignupForm() {
   const update =
     (field: keyof typeof initial) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValues((v) => ({ ...v, [field]: e.target.value }));
-      setErrors((prev) => ({ ...prev, [field]: undefined, form: undefined }));
+      let next = e.target.value;
+      if (field === "mobile") {
+        // Pasted/autofilled values like "+91 98765 43210" must still fit the 10-digit field.
+        next = next.replace(/\D/g, "");
+        if (next.length > 10 && next.startsWith("91")) next = next.slice(2);
+        next = next.slice(0, 10);
+      }
+      setValues((v) => ({ ...v, [field]: next }));
+      setErrors((prev) => ({
+        ...prev,
+        [field]: undefined,
+        // A stale "do not match" error must not outlive an edit to either password field.
+        ...(field === "password" ? { confirmPassword: undefined } : {}),
+        form: undefined,
+      }));
     };
 
   async function onSubmit(e: React.FormEvent) {
@@ -108,17 +121,17 @@ export default function SignupForm() {
 
   return (
     <>
-      <div className="mt-3.5 flex flex-col items-center gap-1.5 text-center">
-        <h1 className="font-serif text-[34px] font-bold leading-tight text-maroon">
+      <div className="flex flex-col items-center gap-0.5 text-center">
+        <h1 className="font-serif text-2xl font-bold leading-tight text-maroon">
           {"Join Our Sacred Family"}
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           {"Create your account and begin your journey of seva."}
         </p>
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="mt-3.5 flex flex-col gap-3.5">
-        <div className="flex flex-col gap-3">
+      <form onSubmit={onSubmit} noValidate className="mt-3 flex flex-col gap-3">
+        <div className="flex flex-col gap-5">
           <AuthField label={"Full Name"} htmlFor="fullName" error={errors.fullName}>
             <TextField
               id="fullName"
@@ -137,7 +150,6 @@ export default function SignupForm() {
               prefix="+91"
               type="tel"
               inputMode="numeric"
-              maxLength={10}
               autoComplete="tel-national"
               placeholder={"Mobile number"}
               value={values.mobile}
@@ -227,7 +239,7 @@ export default function SignupForm() {
         <SubmitButton pending={pending}>{"Create My Account →"}</SubmitButton>
       </form>
 
-      <div className="mt-3.5 flex flex-col gap-3.5">
+      <div className="mt-2 flex flex-col gap-3">
         <AuthDivider label={"— or continue with —"} />
         <GoogleButton label={"Continue with Google"} />
         <AuthSwitchLink
@@ -235,7 +247,7 @@ export default function SignupForm() {
           href="/login"
           label={"Sign In"}
         />
-        <TrustBadges />
+        {/* <TrustBadges /> */}
       </div>
     </>
   );

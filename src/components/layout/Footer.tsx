@@ -103,7 +103,17 @@ export default function Footer() {
 
           <div className="mt-20 flex flex-col gap-3 border-t border-[#e47105] pt-10 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
             <p>&copy; {new Date().getFullYear()} {SITE.name} {"Organization. All Rights Reserved."}</p>
-            <p>Design by ANGC Synapse</p>
+            <p>
+              Design by{" "}
+              <a
+                href="https://angcsynapse.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#e47105] transition-colors hover:text-white"
+              >
+                ANGC Synapse
+              </a>
+            </p>
           </div>
         </Container>
       </footer>

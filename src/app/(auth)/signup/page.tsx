@@ -8,9 +8,9 @@ export default function SignupPage() {
     <AuthShell
       quote={
         <>
-          &ldquo;सेवा परमो धर्म&rdquo; —
+          &ldquo;हारे का सहारा, बाबा श्याम हमारा&rdquo; —
           <br />
-          {"Service is the Highest Duty"}
+          
         </>
       }
       quoteSub={"Join our community of faith, seva, and compassion"}

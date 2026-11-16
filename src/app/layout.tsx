@@ -23,6 +23,18 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Noto Serif Devanagari — loaded from the Google Fonts CDN itself
+            (not self-hosted via next/font) per explicit request, since the
+            self-hosted static-weight build rendered subtly differently from
+            the full variable-weight CDN version used in the reference. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="antialiased">
         <GTranslateWidget />
         <AuthProvider>{children}</AuthProvider>

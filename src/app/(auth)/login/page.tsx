@@ -11,7 +11,7 @@ export default function LoginPage() {
         <>
           &ldquo;जय श्री श्याम&rdquo; —
           <br />
-          {"Welcome Back, Devotee"}
+          {"Welcome Back, Devotee's"}
         </>
       }
       quoteSub={"Continue your journey of faith, seva, and compassion"}
