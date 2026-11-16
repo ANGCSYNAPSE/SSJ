@@ -12,6 +12,9 @@ node_modules/
 /.next
 /out
 
+# Generated PDF previews and workflow exports
+/tmp/pdfs/
+
 # Misc
 .DS_Store
 *.pem
