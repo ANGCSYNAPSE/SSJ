@@ -161,6 +161,7 @@ export default function Header() {
               {"Sign Up"}
             </Link>
           )}
+          {/* REGISTRATION button — hidden for now
           <Link
             href="/register"
             className="flex items-center gap-2 rounded-md bg-[#8b0000] px-5 py-2.5 text-xs xl:text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
@@ -168,6 +169,7 @@ export default function Header() {
             <UserPlus className="h-4 w-4" aria-hidden />
             {"REGISTRATION"}
           </Link>
+          */}
         </div>
 
         <button
@@ -239,6 +241,7 @@ export default function Header() {
                     {"Sign Up"}
                   </Link>
                 ))}
+              {/* REGISTRATION button (mobile menu) — hidden for now
               <Link
                 href="/register"
                 onClick={() => setOpen(false)}
@@ -247,6 +250,7 @@ export default function Header() {
                 <UserPlus className="h-4 w-4" aria-hidden />
                 {"REGISTRATION"}
               </Link>
+              */}
             </div>
           </div>
         </nav>
