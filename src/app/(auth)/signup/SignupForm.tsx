@@ -534,6 +534,7 @@ export default function SignupForm() {
           </AuthField>
 
           <div className="flex flex-col gap-2.5">
+            {/* "Become a Member of Shyam Jagat (optional)" checkbox: hidden for now
             <CheckRow
               checked={becomeMember}
               onToggle={() => setBecomeMember((v) => !v)}
@@ -541,6 +542,7 @@ export default function SignupForm() {
             >
               {"Become a Member of Shyam Jagat (optional)"}
             </CheckRow>
+            */}
             <CheckRow
               checked={acceptTerms}
               onToggle={() => {
