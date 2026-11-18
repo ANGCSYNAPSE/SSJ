@@ -243,19 +243,19 @@ export default function Header() {
                       <span
                         role="tooltip"
                         className={cn(
-                          "pointer-events-none absolute right-full top-1/2 mr-3 hidden w-[250px] -translate-y-1/2 rounded-lg bg-red-600 px-3 py-2 text-left text-xs text-white shadow-lg",
+                          "pointer-events-none absolute right-full top-1/2 mr-3 hidden w-[170px] -translate-y-1/2 rounded-lg bg-red-600 px-3 py-2 text-left text-xs text-white shadow-lg",
                           !welcome && "group-hover/item:block",
                         )}
                       >
-                        <span className="block font-bold">
-                          {pending.total} detail{pending.total === 1 ? "" : "s"} left to fill
-                        </span>
+                        <span className="block font-bold">{pending.total} pending</span>
                         {pending.groups.map((group) => (
-                          <span key={group.label} className="mt-1 block font-normal leading-snug">
-                            <span className="font-semibold">{group.label}:</span> {group.items.slice(0, 5).join(", ")}
-                            {group.items.length > 5 && ` +${group.items.length - 5} more`}
+                          <span key={group.label} className="mt-0.5 block font-normal leading-snug">
+                            {group.label === "Registration fee"
+                              ? "Fee balance due"
+                              : `${group.label}: ${group.items.length} detail${group.items.length === 1 ? "" : "s"}`}
                           </span>
                         ))}
+                        <span className="mt-1 block text-[10px] font-semibold uppercase tracking-wide text-white/80">Click to see the list</span>
                         <span className="absolute left-full top-1/2 -ml-1 h-2.5 w-2.5 -translate-y-1/2 rotate-45 bg-red-600" />
                       </span>
                     ) : (

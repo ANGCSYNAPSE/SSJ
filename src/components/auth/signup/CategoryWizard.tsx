@@ -8,6 +8,7 @@ import { AuthField } from "@/components/auth/AuthShell";
 import { PasswordField, TextField } from "@/components/auth/TextField";
 import { useToast } from "@/components/ui/Toast";
 import VerifyAndPay from "./VerifyAndPay";
+import PendingPreview from "./PendingPreview";
 import {
   ApiError,
   type SignupResume,
@@ -456,10 +457,7 @@ export default function CategoryWizard({
             : `Thank you! Your ${category.label.toLowerCase()} registration is with our seva team. They usually review it within 24–48 hours, and you can sign in any time with your email and password.`}
         </p>
         {stillMissing.length > 0 ? (
-          <p className="max-w-[340px] rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
-            {`Your profile is still marked incomplete — to add: ${stillMissing.join(", ")}.`}
-            {complete ? "" : " You can finish it any time from the notification on the site."}
-          </p>
+          <PendingPreview items={stillMissing} categoryKey={category.key} title={`${category.label} details still to add`} />
         ) : (
           complete && (
             <p className="max-w-[340px] rounded-lg bg-green-50 px-3 py-2 text-xs text-green-800">

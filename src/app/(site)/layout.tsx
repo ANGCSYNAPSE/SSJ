@@ -2,6 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import TopBar from "@/components/layout/TopBar";
 import FeeReminder from "@/components/payments/FeeReminder";
+import RegistrationGate from "@/components/payments/RegistrationGate";
 
 /**
  * Marketing and content pages: full chrome.
@@ -20,7 +21,9 @@ export default function SiteLayout({
     <div className="flex min-h-screen flex-col">
       <TopBar />
       <Header />
-      <main className="flex-1 pt-[112px]">{children}</main>
+      <main className="flex-1 pt-[112px]">
+        <RegistrationGate>{children}</RegistrationGate>
+      </main>
       <Footer />
       <FeeReminder />
     </div>

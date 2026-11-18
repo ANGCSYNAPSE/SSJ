@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, Loader2, MailCheck, ShieldCheck, Wallet } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Loader2, MailCheck, ShieldCheck, Wallet } from "lucide-react";
 import { ApiError, authApi, type AuthResult, type CodeChannel, type SignupFee, type SignupStart } from "@/lib/api";
 import { CheckoutDismissed, openRazorpayCheckout } from "@/lib/razorpay";
 import { cn } from "@/lib/utils";
+import { categoryByKey } from "./categories";
 
 const rupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 const errorText = (err: unknown, fallback: string) => (err instanceof ApiError ? err.message : fallback);
@@ -32,6 +33,21 @@ export default function VerifyAndPay({
   const [stage, setStage] = useState<"otp" | "pay">(start.emailVerified ? "pay" : "otp");
   const [fee, setFee] = useState<SignupFee>(start.fee);
   const [error, setError] = useState<string | null>(null);
+  // Right after the code is accepted: a confirmation that says what comes next, with a Next button.
+  const [verifiedAs, setVerifiedAs] = useState<SignupStart | null>(null);
+
+  if (verifiedAs) {
+    return (
+      <EmailVerified
+        start={verifiedAs}
+        onNext={() => {
+          if (mode === "otp") onVerified?.(verifiedAs);
+          else setStage("pay");
+          setVerifiedAs(null);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -53,13 +69,91 @@ export default function VerifyAndPay({
           onVerified={(next) => {
             setFee(next.fee);
             setError(null);
-            if (mode === "otp") onVerified?.(next);
-            else setStage("pay");
+            setVerifiedAs(next);
           }}
         />
       ) : (
         <PayStep start={start} fee={fee} setFee={setFee} error={error} setError={setError} onCreated={onCreated} />
       )}
+    </div>
+  );
+}
+
+/**
+ * Shown for a moment after the code is accepted: a tick, "email verified", and what happens next, so the
+ * person knows the form that follows is the rest of their registration, then the payment.
+ */
+function EmailVerified({ start, onNext }: { start: SignupStart; onNext: () => void }) {
+  const category = categoryByKey(start.category);
+  const fee = start.fee;
+
+  return (
+    <div className="flex flex-col items-center gap-4 text-center">
+      <style>{`
+        @keyframes ssj-pop { 0% { transform: scale(.4); opacity: 0 } 60% { transform: scale(1.12); opacity: 1 } 100% { transform: scale(1) } }
+        @keyframes ssj-draw { to { stroke-dashoffset: 0 } }
+        @media (prefers-reduced-motion: reduce) { .ssj-pop, .ssj-draw { animation: none !important } .ssj-draw { stroke-dashoffset: 0 !important } }
+      `}</style>
+      <span className="ssj-pop flex h-20 w-20 items-center justify-center rounded-full bg-green-100 ring-8 ring-green-50" style={{ animation: "ssj-pop .5s ease-out both" }}>
+        <svg viewBox="0 0 24 24" className="h-10 w-10 text-green-600" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <path className="ssj-draw" d="M5 12.5l4.5 4.5L19 7.5" style={{ strokeDasharray: 24, strokeDashoffset: 24, animation: "ssj-draw .45s .3s ease-out forwards" }} />
+        </svg>
+      </span>
+
+      <div>
+        <h1 className="font-serif text-2xl font-bold text-maroon">Email verified</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          <b className="text-maroon">{start.email}</b> is confirmed. Thank you!
+        </p>
+      </div>
+
+      <div className="w-full rounded-2xl border border-border bg-cream-light p-4 text-left">
+        <p className="text-xs font-bold uppercase tracking-wide text-primary">What happens next</p>
+        <ol className="mt-2.5 flex flex-col gap-2.5 text-sm text-[#3e1815]">
+          <li className="flex items-start gap-2.5">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white">1</span>
+            <span>
+              {category ? (
+                <>
+                  <b>Fill in your {category.label.toLowerCase()} details</b> in {category.steps.length} short {category.steps.length === 1 ? "step" : "steps"}:{" "}
+                  <span className="text-muted-foreground">{category.steps.map((step) => step.title).join(", ")}.</span>
+                </>
+              ) : (
+                <>
+                  <b>Tell us where you live</b> <span className="text-muted-foreground">(your city and state).</span>
+                </>
+              )}
+            </span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white">2</span>
+            <span>
+              <b>Pay the registration fee.</b>{" "}
+              <span className="text-muted-foreground">
+                It is {rupees(fee.total)}; you can pay as little as {rupees(fee.minimum)} now and the rest later.
+              </span>
+            </span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-600 text-white">
+              <Check className="h-3 w-3" aria-hidden />
+            </span>
+            <span>
+              <b>Your account is ready.</b> <span className="text-muted-foreground">It is created as soon as the payment succeeds.</span>
+            </span>
+          </li>
+        </ol>
+      </div>
+
+      <button
+        type="button"
+        onClick={onNext}
+        autoFocus
+        className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-gradient-to-r from-primary to-primary-dark py-2.5 text-base font-semibold text-white transition-transform hover:-translate-y-0.5"
+      >
+        Next <ArrowRight className="h-4 w-4" aria-hidden />
+      </button>
+      <p className="text-xs text-muted-foreground">Click Next to continue with your details.</p>
     </div>
   );
 }
