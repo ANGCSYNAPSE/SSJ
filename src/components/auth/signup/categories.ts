@@ -87,7 +87,7 @@ const DOCUMENTS_WORD = [
 ];
 const WORK_MEDIA = [...IMAGES, "video/mp4", "video/webm", "audio/mpeg", "audio/wav", "audio/mp4"];
 
-const STATES = [
+export const STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Delhi", "Goa", "Gujarat",
   "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra",
   "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
@@ -208,23 +208,6 @@ export const CATEGORIES: Category[] = [
       bioLabel: "Brief Bio / About Your Art",
       bioPlaceholder: "Tell us about your journey as an artist, your training and what inspires your devotional art (at least 20 characters)",
       craftTitle: "Your Art & Expertise",
-    }),
-  },
-  {
-    key: "dancer",
-    label: "Dancer",
-    blurb: "Share classical and devotional dance at festivals.",
-    icon: WandSparkles,
-    ...performer({
-      specialtyLabel: "Primary Dance Style",
-      specialties: [
-        "Kathak", "Bharatanatyam", "Odissi", "Kuchipudi", "Garba/Dandiya", "Folk Dance", "Contemporary Devotional", "Other",
-      ],
-      secondaryLabel: "Secondary Dance Style (Optional)",
-      guruLabel: "Guru / Dance Academy Name (Optional)",
-      bioLabel: "Brief Bio / About Your Dance",
-      bioPlaceholder: "Tell us about your journey as a dancer, your training and your devotional performances (at least 20 characters)",
-      craftTitle: "Your Dance & Expertise",
     }),
   },
   {
@@ -466,6 +449,23 @@ export const CATEGORIES: Category[] = [
         ],
       },
     ],
+  },
+  {
+    key: "dancer",
+    label: "Dancer",
+    blurb: "Share classical and devotional dance at festivals.",
+    icon: WandSparkles,
+    ...performer({
+      specialtyLabel: "Primary Dance Style",
+      specialties: [
+        "Kathak", "Bharatanatyam", "Odissi", "Kuchipudi", "Garba/Dandiya", "Folk Dance", "Contemporary Devotional", "Other",
+      ],
+      secondaryLabel: "Secondary Dance Style (Optional)",
+      guruLabel: "Guru / Dance Academy Name (Optional)",
+      bioLabel: "Brief Bio / About Your Dance",
+      bioPlaceholder: "Tell us about your journey as a dancer, your training and your devotional performances (at least 20 characters)",
+      craftTitle: "Your Dance & Expertise",
+    }),
   },
 ];
 

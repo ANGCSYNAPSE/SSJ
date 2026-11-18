@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Lock, Check, Info } from "lucide-react";
-import { useAuth } from "@/components/auth/AuthProvider";
+import { RESUME_KEY, SignupInProgress, useAuth } from "@/components/auth/AuthProvider";
 import {
   AuthField,
   AuthDivider,
@@ -42,10 +42,9 @@ export default function LoginForm() {
     return found;
   }
 
-  // Where to land after signing in — honours ?next= from a guarded route,
-  // but only for same-site paths so the param cannot be used as an open redirect.
-  const next = searchParams.get("next");
-  const destination = next?.startsWith("/") && !next.startsWith("//") ? next : "/";
+  // After signing in, people always land on the home page (the ?next= pointer that guarded
+  // pages add is deliberately ignored, so logging in never drops someone onto the dashboard).
+  const destination = "/";
 
   // Someone already signed in has no business on this page.
   useEffect(() => {
@@ -75,6 +74,16 @@ export default function LoginForm() {
       await login({ ...values, remember });
       router.replace(destination);
     } catch (err) {
+      if (err instanceof SignupInProgress) {
+        // Their registration is not finished (no account yet): carry on from the step they had reached.
+        try {
+          window.sessionStorage.setItem(RESUME_KEY, JSON.stringify(err.resume));
+        } catch {
+          /* storage blocked: the signup page will ask them to start again */
+        }
+        router.replace("/signup");
+        return;
+      }
       if (err instanceof ApiError && err.errors?.length) {
         setErrors(
           Object.fromEntries(err.errors.map((f) => [f.field, f.message])),

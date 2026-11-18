@@ -10,6 +10,16 @@
 // otherwise end up as ".../api" + "/v1/..." with a double slash, which
 // Vercel 308-redirects and the browser's fetch() then fails on (cross-origin
 // redirects drop CORS headers), surfacing as "Could not reach the server."
+/**
+ * Where API calls from the browser go. Empty means this site's own address: next.config.mjs
+ * forwards /api/v1/* to the backend, so the login cookie is first-party. Set
+ * NEXT_PUBLIC_API_DIRECT=1 to call the backend straight from the browser instead.
+ */
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_DIRECT === "1" ? (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "") : "";
+
+// Trailing slash stripped defensively: a double slash makes Vercel 308-redirect and fetch() then fails.
+/** The backend's own address, for things that are not API calls (uploaded image URLs, public reads). */
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000").replace(/\/+$/, "");
 
 export class ApiError extends Error {
@@ -41,6 +51,33 @@ interface RequestOptions {
   retryOnUnauthorized?: boolean;
 }
 
+/**
+ * Gets a new access token from the refresh cookie. Several requests can hit an
+ * expired token at once; they all share one refresh call. When the refresh
+ * cookie is gone too (7 days idle, or signed out elsewhere) the user is signed
+ * out in the UI by announcing it on window.
+ */
+let renewing: Promise<boolean> | null = null;
+function renewAccessToken(): Promise<boolean> {
+  renewing ??= authApi
+    .refresh()
+    .then((renewed) => {
+      accessToken = renewed.accessToken;
+      return true;
+    })
+    .catch(() => {
+      accessToken = null;
+      if (typeof window !== "undefined") window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
+      return false;
+    })
+    .finally(() => {
+      renewing = null;
+    });
+  return renewing;
+}
+
+export const SESSION_EXPIRED_EVENT = "ssj:session-expired";
+
 async function request<T>(
   path: string,
   { method = "POST", body, auth = false, retryOnUnauthorized = true }: RequestOptions = {},
@@ -52,7 +89,7 @@ async function request<T>(
 
   let res: Response;
   try {
-    res = await fetch(`${API_URL}/api/v1${path}`, {
+    res = await fetch(`${API_BASE}/api/v1${path}`, {
       method,
       headers,
       credentials: "include",
@@ -65,13 +102,8 @@ async function request<T>(
   // An expired access token is recoverable: mint a new one from the refresh
   // cookie and replay the original request once.
   if (res.status === 401 && auth && retryOnUnauthorized) {
-    try {
-      const renewed = await authApi.refresh();
-      accessToken = renewed.accessToken;
-      return request<T>(path, { method, body, auth, retryOnUnauthorized: false });
-    } catch {
-      accessToken = null;
-    }
+    const renewed = await renewAccessToken();
+    if (renewed) return request<T>(path, { method, body, auth, retryOnUnauthorized: false });
   }
 
   const payload = await res.json().catch(() => null);
@@ -111,6 +143,8 @@ export interface AuthUser {
   isMember?: boolean;
   /** Categories this account has registered for (empty for a plain member). */
   profiles?: UserProfileSummary[];
+  /** Whether the registration fee has been paid (admins never owe it). */
+  registrationFee?: "paid" | "partial" | "pending";
   createdAt: string;
 }
 
@@ -139,12 +173,83 @@ export interface LoginInput {
   remember?: boolean;
 }
 
+export type SignupStage = "otp" | "details" | "pay" | "complete";
+
+/** An unfinished signup found when someone signs in with its email and password: where to carry on, with what they entered. */
+export interface SignupResume extends SignupStart {
+  account: { fullName: string; email: string; mobile: string };
+  becomeMember: boolean;
+  details: Record<string, unknown> | null;
+}
+
+export type CodeChannel = "email" | "sms" | "both";
+
+/** Step 1 of signup: the code has been emailed; nothing is created yet. */
+export interface SignupStart {
+  pendingId: string;
+  /** The email with its middle hidden, e.g. gi****@gmail.com. */
+  email: string;
+  /** The mobile number with all but the last 4 digits hidden. */
+  mobile: string;
+  category: CategoryKey | null;
+  /** Ways a code can be sent; sms is false until an SMS provider is connected. */
+  channels: { email: boolean; sms: boolean };
+  emailVerified: boolean;
+  /** The screen this signup is on: verify the email, fill step 2, pay, or (already paid) create the account. */
+  stage: SignupStage;
+  otpMinutes: number;
+  resendAfterSeconds: number;
+  fee: SignupFee;
+}
+
+export interface SignupFee {
+  status: "pending" | "partial" | "paid";
+  total: number;
+  minimum: number;
+  paid: number;
+  balance: number;
+  nextMin: number;
+  nextMax: number;
+  canComplete: boolean;
+}
+
+export interface SignupOrder {
+  /** True in the development mock mode: the checkout is a dummy and moves no money. */
+  mock?: boolean;
+  orderId: string;
+  amount: number;
+  currency: string;
+  keyId: string;
+  kind: "part" | "full";
+  label: string;
+  prefill: { name: string; email: string; contact: string };
+}
+
 export const authApi = {
+  /** Registration, in steps: start (emails a code) -> verifyOtp -> payOrder/payVerify, which creates the account. */
+  signupStart: (input: SignupInput, channel: CodeChannel = "email") =>
+    request<SignupStart>("/auth/signup/start", { body: { ...input, channel } }),
+  signupResend: (pendingId: string, channel: CodeChannel = "email") =>
+    request<{ sent: boolean; resendAfterSeconds: number }>("/auth/signup/resend", { body: { pendingId, channel } }),
+  /** After the code is verified and the form is finished: saves the artist / temple / ... details. */
+  signupSetProfile: (pendingId: string, profile: Record<string, unknown>) =>
+    request<SignupStart>("/auth/signup/profile", { body: { pendingId, profile } }),
+  signupVerifyOtp: (pendingId: string, code: string) => request<SignupStart>("/auth/signup/verify-otp", { body: { pendingId, code } }),
+  signupPayOrder: (pendingId: string, amount: number) => request<SignupOrder>("/auth/signup/pay/order", { body: { pendingId, amount } }),
+  signupPayVerify: (
+    pendingId: string,
+    payload: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string },
+  ) => request<AuthResult>("/auth/signup/pay/verify", { body: { pendingId, ...payload } }),
+  /** For someone who already paid and came back: creates the account. */
+  signupComplete: (pendingId: string) => request<AuthResult>("/auth/signup/complete", { body: { pendingId } }),
+
   signup: (input: SignupInput) =>
     request<AuthResult>("/auth/signup", { body: input }),
 
+  /** Either a session, or (their registration is unfinished) where to resume it. */
   login: (input: LoginInput) =>
-    request<AuthResult>("/auth/login", { body: input }),
+    request<AuthResult | { resume: SignupResume }>("/auth/login", { body: input }),
+  signupResume: (pendingId: string) => request<SignupResume>("/auth/signup/resume", { body: { pendingId } }),
 
   /** Exchanges the refresh cookie for a fresh access token. */
   refresh: () =>
@@ -209,4 +314,78 @@ export const uploadsApi = {
     form.append("file", file);
     return request<{ url: string }>("/uploads", { body: form, auth: true });
   },
+};
+
+export type DashboardProfile = {
+  category: CategoryKey;
+  status: string;
+  isComplete: boolean;
+  missing: string[];
+  requiredCount: number;
+  completion: number;
+  data: Record<string, unknown> | null;
+};
+
+export type Dashboard = {
+  account: {
+    id: string;
+    fullName: string;
+    email: string;
+    mobile: string;
+    role: string;
+    isVerified: boolean;
+    isMember: boolean;
+    location: string | null;
+    avatarUrl: string | null;
+    createdAt: string;
+  };
+  completion: { percent: number; missingAccount: string[] };
+  profiles: DashboardProfile[];
+  notifications: { unread: number; recent: { id: string; title: string | null; message: string; link: string | null; createdAt: string }[] };
+  donations: { count: number; total: number; recent: { id: string; amount: number; cause: string; createdAt: string }[] };
+};
+
+export const meApi = {
+  /** Everything the signed-in user's dashboard shows, in one call. */
+  dashboard: () => request<Dashboard>("/me/dashboard", { method: "GET", auth: true }),
+  update: (patch: { fullName?: string; location?: string | null; avatarUrl?: string | null }) =>
+    request<unknown>("/me", { method: "PATCH", body: patch, auth: true }),
+};
+
+export interface FeeStatus {
+  /** pending = nothing paid, partial = part paid with a balance due, paid = all of it. */
+  status: "pending" | "partial" | "paid";
+  total: number;
+  minimum: number;
+  paid: number;
+  balance: number;
+  /** The smallest and largest amount the next payment may be. */
+  nextMin: number;
+  nextMax: number;
+  lastPaidAt: string | null;
+  receipt: string | null;
+}
+
+export interface PaymentOrder {
+  mock?: boolean;
+  orderId: string;
+  /** In paise, as Razorpay Checkout wants it. */
+  amount: number;
+  currency: string;
+  keyId: string;
+  kind: "part" | "full";
+  label: string;
+  prefill: { name: string; email: string; contact: string };
+}
+
+export const paymentsApi = {
+  me: () =>
+    request<{ fee: FeeStatus; history: { id: string; plan: string; amount: number; status: string; createdAt: string }[] }>(
+      "/payments/me",
+      { method: "GET", auth: true },
+    ),
+  /** `amount` is in whole rupees, between fee.nextMin and fee.nextMax. */
+  createOrder: (amount: number) => request<PaymentOrder>("/payments/registration/order", { body: { amount }, auth: true }),
+  verify: (payload: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
+    request<{ fee: FeeStatus }>("/payments/registration/verify", { body: payload, auth: true }),
 };

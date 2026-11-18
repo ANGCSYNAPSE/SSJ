@@ -1,159 +1,126 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapPin } from "lucide-react";
+import Image from "next/image";
 
 type Mode = "day" | "night";
 
-interface Art {
-  src: string;
-  alt: string;
-  /** Size of the picture file. */
-  width: number;
-  height: number;
-  /** The part worth showing: the gate, with a little sky above and road below. */
-  crop: { y: number; height: number };
-  /** How far (picture pixels) each edge dissolves into the background, so the gate never looks pasted on. */
-  fade: { left: number; right: number; top: number };
-  /** Empty space (picture pixels) added left of the picture on large screens, so the gate sits a little right of centre. */
-  shift: number;
-  /** The band of the picture that is only sky; stretched across the whole hero as its background. Null when the sky is plain black. */
-  sky: { y: number; height: number } | null;
-}
-
-const ART: Record<Mode, Art> = {
-  night: {
-    src: "/hero/night-gateway-hd-corrected.svg",
-    alt: "The Shri Shyam Sharanam gateway lit up at night",
-    width: 1119,
-    height: 1405,
-    crop: { y: 380, height: 1025 },
-    fade: { left: 70, right: 70, top: 110 },
-    shift: 300,
-    sky: null,
-  },
+/**
+ * ART settings: the only numbers to tweak when aligning the gate on large screens.
+ *  zoom   - how much wider than the screen the picture is drawn (1 = exactly screen width).
+ *           Raise it to push the side poles towards the screen edges (the top/bottom grow too).
+ *  openTop - where the gate's opening starts, as a share of the drawn picture's height; the hero
+ *           text starts there so it sits inside the gate, not over the sign board.
+ *  keep   - share of the picture's height kept (1 = all of it, 0.96 = trims the bottom 4%).
+ */
+const ART: Record<Mode, { src: string; alt: string; width: number; height: number; zoom: number; keep: number; openTop: number }> = {
   day: {
-    src: "/hero/daylight-gateway-jai-shri-shyam-hd.svg",
-    alt: "The Jai Shri Shyam gateway in daylight",
-    width: 1076,
-    height: 1461,
-    crop: { y: 170, height: 940 },
-    fade: { left: 110, right: 70, top: 80 },
-    shift: 280,
-    sky: { y: 0, height: 230 },
+    src: "/hero/final-day-gate.png", // public/hero/final-day-gate.png
+    alt: "The Shree Shyam gateway in bright daylight",
+    width: 1672,
+    height: 941,
+    zoom: 1.12,
+    keep: 0.97,
+    openTop: 0.43,
+  },
+  night: {
+    src: "/hero/final-night-gate.png", // public/hero/final-night-gate.png
+    alt: "The illuminated Shree Shyam gateway at night",
+    width: 1672,
+    height: 941,
+    zoom: 1.25,
+    keep: 0.97,
+    openTop: 0.43,
   },
 };
 
-/** Day from 6:00 am until 6:00 pm, night from 6:00 pm until 6:00 am (the visitor's own clock). */
+/** Day from 6:00 am until 6:00 pm; night from 6:00 pm until 6:00 am. */
 export function heroModeFor(date: Date): Mode {
   const hour = date.getHours();
   return hour >= 6 && hour < 18 ? "day" : "night";
 }
 
-/** The sharp gate, cropped to the useful part, fading into the background at its sides and top. */
-function Gate({ mode, art, shift, className }: { mode: Mode; art: Art; shift: number; className: string }) {
-  const { width, height, crop, fade } = art;
-  const id = `hero-${mode}-${shift}`;
-
-  return (
-    <svg
-      role="img"
-      aria-label={art.alt}
-      viewBox={`${-shift} ${crop.y} ${width + shift} ${crop.height}`}
-      preserveAspectRatio="xMaxYMax meet"
-      className={className}
-    >
-      <defs>
-        <linearGradient id={`${id}-x`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={width} y2="0">
-          <stop offset="0" stopColor="#fff" stopOpacity="0" />
-          <stop offset={fade.left / width} stopColor="#fff" />
-          <stop offset={1 - fade.right / width} stopColor="#fff" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={`${id}-y`} gradientUnits="userSpaceOnUse" x1="0" y1={crop.y} x2="0" y2={crop.y + crop.height}>
-          <stop offset="0" stopColor="#fff" stopOpacity="0" />
-          <stop offset={fade.top / crop.height} stopColor="#fff" />
-          <stop offset="1" stopColor="#fff" />
-        </linearGradient>
-        <mask id={`${id}-mx`} maskUnits="userSpaceOnUse" x="0" y={crop.y} width={width} height={crop.height}>
-          <rect x="0" y={crop.y} width={width} height={crop.height} fill={`url(#${id}-x)`} />
-        </mask>
-        <mask id={`${id}-my`} maskUnits="userSpaceOnUse" x="0" y={crop.y} width={width} height={crop.height}>
-          <rect x="0" y={crop.y} width={width} height={crop.height} fill={`url(#${id}-y)`} />
-        </mask>
-      </defs>
-      <g mask={`url(#${id}-mx)`}>
-        <image href={art.src} width={width} height={height} mask={`url(#${id}-my)`} />
-      </g>
-    </svg>
-  );
-}
-
-function useHeroMode() {
+/**
+ * Full-bleed gateway background. The ?hero=day and ?hero=night query params
+ * are retained for previewing both images; otherwise the visitor's local time
+ * selects the appropriate background.
+ */
+export default function HeroGateway() {
   const [mode, setMode] = useState<Mode | null>(null);
+
   useEffect(() => {
     const read = () => {
       const forced = new URLSearchParams(window.location.search).get("hero");
       setMode(forced === "day" || forced === "night" ? forced : heroModeFor(new Date()));
     };
+
     read();
     const timer = window.setInterval(read, 60_000);
     return () => window.clearInterval(timer);
   }, []);
-  return mode;
-}
 
-function Badge({ className }: { className: string }) {
-  return (
-    <div className={className}>
-      <MapPin className="h-4 w-4 text-white" aria-hidden />
-      <div className="leading-tight">
-        <p className="text-[13px] font-semibold text-white">श्री खाटू श्याम मंदिर</p>
-        <p className="text-[11px] text-[#d9d9d9]">राजस्थान</p>
-      </div>
-    </div>
-  );
-}
+  // Large screens: the hero is exactly as tall as the drawn picture (plus the 112px under the header),
+  // so the whole gate shows. page.tsx reads this as --hero-min.
+  useEffect(() => {
+    if (!mode) return;
+    const a = ART[mode];
+    document.documentElement.style.setProperty(
+      "--hero-min",
+      `calc(112px + 100vw * ${a.zoom * a.keep * (a.height / a.width)})`,
+    );
+    document.documentElement.style.setProperty(
+      "--open-top",
+      `calc(100vw * ${a.zoom * (a.height / a.width) * a.openTop})`,
+    );
+  }, [mode]);
 
-/**
- * The home hero artwork. On large screens the whole picture runs the full width of
- * the page, starting behind the headline in the hero; whatever does not fit in the
- * hero is the whole gate, scaled to fit, over its own blurred sky. On phones and tablets the whole gate sits under the text.
- *
- * Day 6 am to 6 pm, night 6 pm to 6 am (visitor clock); ?hero=day or ?hero=night previews.
- * Renders as direct children of the hero <section>.
- */
-export default function HeroGateway() {
-  const mode = useHeroMode();
   if (!mode) return null;
   const art = ART[mode];
 
   return (
     <>
-      <div aria-hidden className="absolute inset-0 hidden overflow-hidden lg:block">
-        {art.sky && (
-          <svg
-            viewBox={`0 ${art.sky.y} ${art.width} ${art.sky.height}`}
-            preserveAspectRatio="xMidYMid slice"
-            className="h-full w-full scale-110"
-            style={{ filter: "blur(14px)" }}
-          >
-            <image href={art.src} width={art.width} height={art.height} />
-          </svg>
-        )}
+      {/* Large screens: whole gate, centred, poles near the screen edges, starting below the header */}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 top-[112px] hidden overflow-hidden lg:block">
+        <Image
+          src={art.src}
+          alt=""
+          width={art.width}
+          height={art.height}
+          priority
+          sizes="120vw"
+          quality={90}
+          className="absolute left-1/2 top-0 h-auto max-w-none -translate-x-1/2"
+          style={{ width: `${art.zoom * 100}%` }}
+        />
       </div>
-      <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-black/70 via-black/25 to-transparent lg:block" />
-      {/* The whole gate, sized to fit the hero, so nothing is cut off */}
-      <div className="absolute inset-x-0 bottom-0 top-[140px] hidden lg:block">
-        <Gate mode={mode} art={art} shift={art.shift} className="h-full w-full" />
-      </div>
-      <Badge className="absolute bottom-20 right-10 z-10 hidden items-center gap-2 rounded-full bg-[#1a1a1a]/70 px-3.5 py-2.5 backdrop-blur-sm lg:flex" />
 
-      {/* Phones and tablets: the whole gate under the text */}
-      <div className="relative z-10 order-last mx-auto w-full max-w-[560px] lg:hidden">
-        <Gate mode={mode} art={art} shift={0} className="block h-auto w-full" />
-        <Badge className="absolute right-3 top-3 flex items-center gap-2 rounded-full bg-[#1a1a1a]/70 px-3.5 py-2.5 backdrop-blur-sm sm:right-6 sm:top-5" />
+      {/* Phones and tablets: the whole gate at the top of the hero, content below it */}
+      <div aria-hidden className="absolute inset-x-0 top-[112px] lg:hidden">
+        <Image
+          src={art.src}
+          alt=""
+          width={art.width}
+          height={art.height}
+          priority
+          sizes="100vw"
+          className="h-auto w-full"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#06183f] to-transparent" />
       </div>
+
+      {/* Keep the gate vivid while giving the centred hero copy enough contrast. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[#06183f]/20"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06183f]/25 via-[#06183f]/10 to-[#06183f]/35"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(3,17,43,0.08)_0%,rgba(3,17,43,0.22)_72%,rgba(3,17,43,0.38)_100%)]"
+      />
     </>
   );
 }

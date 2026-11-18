@@ -16,7 +16,11 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { useAuth } from "@/components/auth/AuthProvider";
+import { RESUME_KEY, useAuth } from "@/components/auth/AuthProvider";
+import { useToast } from "@/components/ui/Toast";
+import VerifyAndPay from "@/components/auth/signup/VerifyAndPay";
+import MemberDetails, { type MemberDetailsValue } from "@/components/auth/signup/MemberDetails";
+import { authApi, meApi, uploadsApi, type SignupResume, type SignupStart } from "@/lib/api";
 import {
   AuthField,
   AuthDivider,
@@ -160,15 +164,75 @@ function ChoiceCard({
 
 export default function SignupForm() {
   const router = useRouter();
-  const { user, loading, signup } = useAuth();
+  const { user, loading, adopt } = useAuth();
+  const toast = useToast();
+  const [verify, setVerify] = useState<SignupStart | null>(null);
+  // The code comes first; then step 2 (where they live); then the payment, which creates the account.
+  const [verifyMode, setVerifyMode] = useState<"otp" | "pay">("otp");
+  const [signup, setSignup] = useState<SignupStart | null>(null);
+  const [details, setDetails] = useState(false);
+  const [detailsError, setDetailsError] = useState<string | null>(null);
+  const [savingDetails, setSavingDetails] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
   const [stage, setStage] = useState<Stage>("choose");
   const [categoryKey, setCategoryKey] = useState<string | null>(null);
+  // An unfinished signup picked up from the login screen: the wizard continues from its stage.
+  const [resume, setResume] = useState<SignupResume | null>(null);
   const [values, setValues] = useState(initial);
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [becomeMember, setBecomeMember] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
+
+  // Signed in at the login screen with an unfinished signup: carry on from the step they had reached.
+  useEffect(() => {
+    let saved: string | null = null;
+    try {
+      saved = window.sessionStorage.getItem(RESUME_KEY);
+      window.sessionStorage.removeItem(RESUME_KEY);
+    } catch {
+      /* storage blocked */
+    }
+    if (!saved) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const stored = JSON.parse(saved!) as SignupResume;
+        // Re-read the state: it may have moved on (a payment made, a code expired) since the login.
+        const current = await authApi.signupResume(stored.pendingId);
+        if (cancelled) return;
+        toast.show({ tone: "info", title: "Welcome back", message: "Your registration is not finished yet. Let's carry on where you stopped." });
+        if (current.stage === "complete") {
+          // Already paid: only the account is left to create.
+          setVerifyMode("pay");
+          setVerify({ ...current, emailVerified: true });
+        } else if (current.category) {
+          setCategoryKey(current.category);
+          setResume(current);
+          setStage("wizard");
+        } else {
+          setStage("member");
+          setSignup(current);
+          if (current.stage === "otp") {
+            setVerifyMode("otp");
+            setVerify(current);
+          } else if (current.stage === "details") {
+            setDetails(true);
+          } else {
+            setVerifyMode("pay");
+            setVerify({ ...current, emailVerified: true });
+          }
+        }
+      } catch {
+        /* the signup expired or was finished meanwhile: the person starts again from the form */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Someone already signed in has no business on this page — except mid-registration:
   // the category wizard signs the person in, then uploads files and shows its own confirmation.
@@ -209,10 +273,30 @@ export default function SignupForm() {
     setErrors({});
 
     try {
-      await signup({ ...values, acceptTerms, becomeMember });
-      setDone(true);
+      // Nothing is created yet: a code is emailed, then the payment, then the account.
+      const started = await authApi.signupStart({ ...values, acceptTerms, becomeMember });
+      // They may have verified their email on an earlier visit: no new code, go to where they were.
+      if (started.stage === "details") {
+        setSignup(started);
+        setDetails(true);
+      } else if (started.stage === "pay" || started.stage === "complete") {
+        setSignup(started);
+        setVerifyMode("pay");
+        setVerify({ ...started, emailVerified: true });
+      } else {
+        setVerifyMode("otp");
+        setVerify(started);
+      }
     } catch (err) {
       if (err instanceof ApiError && err.errors?.length) {
+        if (err.status === 409 && err.errors.some((f) => f.field === "email" || f.field === "mobile")) {
+          toast.show({
+            tone: "warning",
+            title: "Already registered",
+            message: "This email or mobile number already has an account. Please sign in instead.",
+            action: { label: "Sign in", href: `/login?email=${encodeURIComponent(values.email.trim().toLowerCase())}` },
+          });
+        }
         setErrors(Object.fromEntries(err.errors.map((f) => [f.field, f.message])));
       } else {
         setErrors({
@@ -242,6 +326,65 @@ export default function SignupForm() {
     );
   }
 
+  if (verify) {
+    return (
+      <VerifyAndPay
+        start={verify}
+        mode={verifyMode === "otp" ? "otp" : "full"}
+        onBack={() => {
+          setVerify(null);
+          if (verifyMode === "pay") setDetails(true);
+        }}
+        onVerified={(next) => {
+          // Email verified: step 2 (their details) comes next, then the payment.
+          setSignup(next);
+          setVerify(null);
+          setDetails(true);
+        }}
+        onCreated={(result) => {
+          // done first, so the "already signed in" redirect does not fire before the welcome screen.
+          setDone(true);
+          setVerify(null);
+          adopt(result);
+          toast.show({ tone: "success", title: "Account created", message: "Welcome to Shyam Jagat. Jai Shri Shyam!" });
+          // The photo can only go up now that there is an account; a failure never undoes the registration.
+          if (photo) {
+            uploadsApi
+              .upload(photo)
+              .then(({ url }) => meApi.update({ avatarUrl: url }))
+              .catch(() => undefined);
+          }
+        }}
+      />
+    );
+  }
+
+  if (details && signup) {
+    return (
+      <MemberDetails
+        pending={savingDetails}
+        error={detailsError}
+        onBack={() => setDetails(false)}
+        onSubmit={async (value: MemberDetailsValue) => {
+          setSavingDetails(true);
+          setDetailsError(null);
+          try {
+            const saved = await authApi.signupSetProfile(signup.pendingId, { city: value.city, state: value.state });
+            setSignup(saved);
+            setPhoto(value.photo);
+            setDetails(false);
+            setVerifyMode("pay");
+            setVerify({ ...saved, emailVerified: true });
+          } catch (err) {
+            setDetailsError(err instanceof ApiError ? err.message : "Could not save your details. Please try again.");
+          } finally {
+            setSavingDetails(false);
+          }
+        }}
+      />
+    );
+  }
+
   if (stage === "choose") {
     return (
       <>
@@ -253,7 +396,7 @@ export default function SignupForm() {
         <div className="mt-4 flex flex-col gap-2.5">
           <ChoiceCard
             icon={Heart}
-            title={"Normal User"}
+            title={"As a User"}
             desc={"Create an account to join the devotee community."}
             onClick={() => setStage("member")}
           />
@@ -317,7 +460,7 @@ export default function SignupForm() {
 
   const chosen = categoryByKey(categoryKey);
   if (stage === "wizard" && chosen) {
-    return <CategoryWizard category={chosen} onBack={() => setStage("categories")} />;
+    return <CategoryWizard category={chosen} resume={resume ?? undefined} onBack={() => setStage("categories")} />;
   }
 
   return (

@@ -25,6 +25,8 @@ import {
   Clock,
   Lock,
   ChevronUp,
+  CalendarDays,
+  Landmark,
 } from "lucide-react";
 import { INITIATIVES, type Initiative } from "@/lib/data/initiatives";
 import AdSlot from "@/components/ui/AdSlot";
@@ -114,71 +116,96 @@ export default function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[140px] flex w-full flex-col overflow-hidden bg-[#000007] lg:block lg:min-h-screen">
+      <section className="relative -mt-[112px] flex min-h-[calc(100svh+112px)] w-full items-center justify-center overflow-hidden bg-[#06183f] lg:min-h-[var(--hero-min,calc(100svh+112px))]">
         <HeroGateway />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-6 pb-10 pt-[168px] lg:min-h-screen lg:gap-10 lg:px-[94px] lg:pb-16 lg:pt-[200px]">
-          <div className="max-w-xl">
-            <p className="text-2xl leading-[0.95] text-[#f2c75c]">|| जय श्री श्याम ||</p>
-            <h1 className="mt-4 font-serif text-5xl font-bold leading-[0.95] sm:text-6xl lg:text-[64px]">
-              <span className="block text-[#f29926]">सहयोग</span>
-              <span className="mt-2 block text-white">सेवा</span>
-              <span className="mt-2 block text-[#f2c75c]">समर्पण</span>
-            </h1>
-            <p className="mt-6 max-w-md text-base font-medium leading-[25px] text-[#d9d9d9]">
-              {"Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity"}
-            </p>
-            <div className="mt-8 flex flex-col items-start gap-3">
-              <Link
-                href="/signup"
-                className="group flex h-9 w-fit p-5 items-center justify-center gap-3 rounded-[13px] bg-[#e47105] text-base font-semibold text-white transition-opacity hover:opacity-90"
-              >
-                {"Become a Member"}
-                <CtaArrow src="/images/home/arrow-member.svg" className="h-3 w-6" />
-              </Link>
+        {/* Content sits in the open centre of the gateway, like the SS4 reference. */}
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh+112px)] w-full max-w-[1440px] flex-col items-center justify-start gap-6 lg:min-h-[var(--hero-min,calc(100svh+112px))] px-5 pb-8 pt-[calc(122px+56.3vw)] text-center sm:gap-7 sm:px-8 lg:gap-8 lg:px-16 lg:pb-10 lg:pt-[calc(112px+var(--open-top,40vw)+28px)]">
+          <div className="flex w-full max-w-[760px] flex-col items-center">
 
-            </div>
+            <h1 className="flex flex-wrap items-center justify-center gap-x-3 font-serif text-[clamp(2rem,4.2vw,4.25rem)] font-extrabold leading-[1.12] drop-shadow-[0_3px_8px_rgba(0,0,0,0.7)]">
+              <span className="text-[#ff9b19]">सहयोग</span>
+              <span className="text-white">सेवा</span>
+              <span className="text-[#ffd04f]">समर्पण</span>
+            </h1>
+
+            <p className="mt-3 max-w-[560px] text-sm font-semibold leading-6 text-white [text-shadow:0_2px_5px_rgba(0,0,0,0.9)] sm:text-base">
+              Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity
+            </p>
+
+            <Link
+              href="/signup"
+              className="group mt-5 inline-flex h-11 items-center justify-center gap-3 rounded-[13px] bg-gradient-to-r from-[#f47700] to-[#ff9417] px-7 text-sm font-bold text-white shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:brightness-105 sm:text-base"
+            >
+              Become a Member
+              <CtaArrow src="/images/home/arrow-member.svg" className="h-3 w-6" />
+            </Link>
           </div>
 
-          {/* stats row */}
-          <div className="flex flex-wrap gap-3.5">
+          {/* Stats row */}
+          <div className="grid w-full max-w-[820px] grid-cols-2 gap-3 lg:grid-cols-4">
             {[
-              { icon: Users, value: "50K+", label: ["Devotees", "Connected"] },
-              { icon: HeartHandshake, value: "250+", label: ["Seva", "Initiatives"] },
-              { icon: Building2, value: "1200+", label: ["Temples", "Associated"] },
-              { icon: Map, value: "15+", label: ["States", "Covered"] },
+              { icon: Users, value: "50K+", label: "Devotees Connected" },
+              { icon: HeartHandshake, value: "250+", label: "Seva Initiatives" },
+              { icon: Building2, value: "1200+", label: "Temples Associated" },
+              { icon: Map, value: "15+", label: "States Covered" },
             ].map((s) => (
               <div
                 key={s.value}
-                className="flex flex-col items-center gap-1.5 rounded-[14px] border border-white/15 bg-white/10 px-[18px] py-3.5 backdrop-blur-sm"
+                className="group flex cursor-default items-center gap-3 rounded-xl border border-white/30 bg-[#0b3970]/55 px-4 py-2.5 text-left text-white shadow-[0_5px_18px_rgba(0,0,0,0.16)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#ffd04f]/70 hover:bg-[#0b3970]/80 hover:shadow-[0_10px_26px_rgba(0,0,0,0.35)]"
               >
-                <s.icon className="h-[22px] w-[22px] text-white" aria-hidden />
-                <p className="text-xl font-bold text-white">{s.value}</p>
-                <div className="text-center text-[11px] leading-tight text-[#d9d9d9]">
-                  <p>{s.label[0]}</p>
-                  <p>{s.label[1]}</p>
-                </div>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 transition-colors duration-300 group-hover:bg-[#f47700]">
+                  <s.icon className="h-[18px] w-[18px] text-white" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-lg font-extrabold leading-tight sm:text-xl">{s.value}</span>
+                  <span className="block text-[11px] leading-tight text-white/90">{s.label}</span>
+                </span>
               </div>
             ))}
           </div>
 
-          {/* mission card */}
-          <div className="flex max-w-[380px] items-center gap-3.5 rounded-[18px] bg-gradient-to-r from-[#fdf0dc] to-[#fae3b8] p-5">
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <span className="h-7 w-1 shrink-0 rounded bg-[#e47105]" />
-                <p className="text-[15px] font-bold text-[#1a1a1a]">{"Our Mission"}</p>
-              </div>
-              <p className="mt-2 text-xs leading-5 text-[#4a3800]">
-                {"To create a global community of devotees united by faith, service and compassion."}
+          {/* Mission card */}
+          <div className="flex w-full max-w-[430px] items-center gap-4 rounded-[17px] border border-white/30 bg-gradient-to-r from-[#fff1d8] to-[#ffe2ad] px-4 py-3 text-left shadow-[0_10px_28px_rgba(0,0,0,0.25)] sm:px-5 sm:py-3.5">
+            <div className="h-9 w-1 shrink-0 rounded-full bg-[#e47105]" />
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-extrabold text-[#21170b]">Our Mission</p>
+              <p className="mt-1 text-[11px] leading-[17px] text-[#4a3800] sm:text-xs sm:leading-[18px]">
+                To create a global community of devotees united by faith, service and compassion.
               </p>
             </div>
-            <CtaArrow src="/images/home/feather.svg" className="h-16 w-12 shrink-0" />
+            <CtaArrow src="/images/home/feather.svg" className="h-12 w-9 shrink-0" />
+          </div>
+
+          {/* Quick links, over the road at the foot of the gateway */}
+          <div className="mt-auto grid w-full max-w-[860px] grid-cols-2 gap-2.5 pt-4 sm:gap-3 lg:grid-cols-4">
+            {[
+              { icon: Landmark, title: "Find a Temple", text: "Browse 1200+ temples", href: "/temple-directory" },
+              { icon: CalendarDays, title: "Upcoming Events", text: "Join a satsang near you", href: "/events" },
+              { icon: HeartHandshake, title: "Seva Initiatives", text: "Serve with devotion", href: "/initiatives" },
+              { icon: Heart, title: "Donate", text: "Support our mission", href: "/donation" },
+            ].map((q) => (
+              <Link
+                key={q.href}
+                href={q.href}
+                className="group flex items-center gap-3 rounded-[14px] border border-white/30 bg-[#06183f]/60 px-3.5 py-3 text-left text-white shadow-[0_6px_20px_rgba(0,0,0,0.25)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#ffd04f]/70 hover:bg-[#0b3970]/75"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f47700]">
+                  <q.icon className="h-[18px] w-[18px] text-white" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] font-bold leading-tight">{q.title}</span>
+                  <span className="block text-[11px] leading-tight text-white/85">{q.text}</span>
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
       {/* AD - LEADERBOARD */}
+
+
       <AdSlot size="leaderboard" />
 
       {/* ABOUT SHYAM JAGAT SECTION */}

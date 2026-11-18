@@ -11,7 +11,10 @@ import {
 import {
   authApi,
   tokenStore,
+  SESSION_EXPIRED_EVENT,
+  type AuthResult,
   type AuthUser,
+  type SignupResume,
   type LoginInput,
   type SignupInput,
 } from "@/lib/api";
@@ -21,13 +24,35 @@ interface AuthContextValue {
   /** True until the initial session restore settles. */
   loading: boolean;
   signup: (input: SignupInput) => Promise<AuthUser>;
+  /** Signs in with a result the signup steps already returned (the account was just created). */
+  adopt: (result: AuthResult) => void;
   login: (input: LoginInput) => Promise<AuthUser>;
   logout: () => Promise<void>;
   /** Re-reads the signed-in user (e.g. after finishing a profile, so its completeness is current). */
   refreshUser: () => Promise<void>;
 }
 
+/** Thrown by login() when the email and password belong to a signup that was never finished (no account yet). */
+export class SignupInProgress extends Error {
+  constructor(readonly resume: SignupResume) {
+    super("Your registration is not finished yet.");
+  }
+}
+
+/** Where the login page leaves an unfinished signup for the signup page to pick up. */
+export const RESUME_KEY = "ssj-resume-signup";
+
 const AuthContext = createContext<AuthContextValue | null>(null);
+
+/** Marks a fresh sign-in, so the header can point the new user to their profile (not on a plain reload). */
+export const WELCOME_KEY = "ssj-welcome";
+function flagWelcome() {
+  try {
+    window.sessionStorage.setItem(WELCOME_KEY, "1");
+  } catch {
+    /* storage blocked: skip the hint */
+  }
+}
 
 export default function AuthProvider({
   children,
@@ -63,6 +88,7 @@ export default function AuthProvider({
 
   const signup = useCallback(async (input: SignupInput) => {
     const result = await authApi.signup(input);
+    flagWelcome();
     tokenStore.set(result.accessToken);
     setUser(result.user);
     return result.user;
@@ -70,9 +96,17 @@ export default function AuthProvider({
 
   const login = useCallback(async (input: LoginInput) => {
     const result = await authApi.login(input);
+    if ("resume" in result) throw new SignupInProgress(result.resume);
+    flagWelcome();
     tokenStore.set(result.accessToken);
     setUser(result.user);
     return result.user;
+  }, []);
+
+  const adopt = useCallback((result: AuthResult) => {
+    flagWelcome();
+    tokenStore.set(result.accessToken);
+    setUser(result.user);
   }, []);
 
   const refreshUser = useCallback(async () => {
@@ -82,6 +116,16 @@ export default function AuthProvider({
     } catch {
       // Keep what we have; the next page load restores the session anyway.
     }
+  }, []);
+
+  // The refresh cookie ran out (or the account was signed out elsewhere): leave the signed-in state.
+  useEffect(() => {
+    const onExpired = () => {
+      tokenStore.set(null);
+      setUser(null);
+    };
+    window.addEventListener(SESSION_EXPIRED_EVENT, onExpired);
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, onExpired);
   }, []);
 
   const logout = useCallback(async () => {
@@ -95,8 +139,8 @@ export default function AuthProvider({
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, signup, login, logout, refreshUser }),
-    [user, loading, signup, login, logout, refreshUser],
+    () => ({ user, loading, signup, adopt, login, logout, refreshUser }),
+    [user, loading, signup, adopt, login, logout, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -37,7 +37,7 @@ export default function AboutPage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[140px] flex min-h-[674px] w-full items-center justify-center overflow-hidden pt-[140px]">
+      <section className="relative -mt-[112px] flex min-h-[674px] w-full items-center justify-center overflow-hidden pt-[112px]">
         <Image
           src="/images/about/Hero.png"
           alt="Shyam Jagat temple at dusk"

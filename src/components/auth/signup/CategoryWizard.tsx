@@ -7,14 +7,18 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { AuthField } from "@/components/auth/AuthShell";
 import { PasswordField, TextField } from "@/components/auth/TextField";
 import { useToast } from "@/components/ui/Toast";
+import VerifyAndPay from "./VerifyAndPay";
 import {
   ApiError,
+  type SignupResume,
   authApi,
   registrationsApi,
   uploadsApi,
+  type AuthResult,
   type Availability,
   type MyProfile,
   type SignupInput,
+  type SignupStart,
 } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import type { Category, Field, Step } from "./categories";
@@ -76,12 +80,15 @@ export default function CategoryWizard({
   category,
   onBack,
   existing,
+  resume,
 }: {
   category: Category;
   onBack: () => void;
   existing?: MyProfile;
+  /** An unfinished signup picked up after signing in: its saved account details and the step it had reached. */
+  resume?: SignupResume;
 }) {
-  const { signup, refreshUser } = useAuth();
+  const { adopt, refreshUser } = useAuth();
   const toast = useToast();
   const complete = Boolean(existing);
   const steps: (Step | "account")[] = complete ? [...category.steps] : ["account", ...category.steps];
@@ -89,8 +96,9 @@ export default function CategoryWizard({
   const profileFields = allFields(category);
   const uploaded = useMemo(() => (existing ? uploadedFromProfile(category, existing) : {}), [category, existing]);
 
-  const [index, setIndex] = useState(0);
-  const [account, setAccount] = useState(emptyAccount);
+  // Resuming after the email was verified: the first step is already done, so start at the next one.
+  const [index, setIndex] = useState(resume && resume.stage !== "otp" ? 1 : 0);
+  const [account, setAccount] = useState(resume ? { ...emptyAccount, ...resume.account } : emptyAccount);
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [accountErrors, setAccountErrors] = useState<AccountErrors>({});
   const [taken, setTaken] = useState<Availability | null>(null);
@@ -103,6 +111,14 @@ export default function CategoryWizard({
   const [formError, setFormError] = useState<string[]>([]);
   const [pending, setPending] = useState<string | null>(null);
   const [done, setDone] = useState<{ failedUploads: number } | null>(null);
+  // The code and payment screens show in place of the form.
+  const [verify, setVerify] = useState<SignupStart | null>(resume && (resume.stage === "otp" || resume.stage === "pay") ? resume : null);
+  // "otp" right after the first step, "pay" after the last one.
+  const [verifyMode, setVerifyMode] = useState<"otp" | "pay">(resume?.stage === "pay" ? "pay" : "otp");
+  // The verified signup, so the rest of the form can attach to it; and which account details it was verified for.
+  const [signup, setSignup] = useState<SignupStart | null>(resume ?? null);
+  const verifiedFor = useRef<string | null>(null);
+  const profileRef = useRef<Record<string, unknown>>({});
   const top = useRef<HTMLDivElement>(null);
 
   const last = index === steps.length - 1;
@@ -204,28 +220,8 @@ export default function CategoryWizard({
     });
   }
 
-  async function submit() {
-    setPending(complete ? "Saving…" : "Creating your account…");
-    setFormError([]);
-    try {
-      const profile = buildPayload(category, values);
-      if (!complete) {
-        for (const [key, source] of Object.entries(category.fromAccount)) {
-          profile[key] = account[source];
-        }
-        const body: SignupInput = {
-          fullName: account.fullName.trim(),
-          mobile: account.mobile.trim(),
-          email: account.email.trim().toLowerCase(),
-          password: account.password,
-          confirmPassword: account.confirmPassword,
-          acceptTerms: true,
-          category: category.key,
-          profile,
-        };
-        await signup(body);
-      }
-
+  /** Uploads the chosen files and saves them on the profile, then shows the confirmation. */
+  async function finish(profile: Record<string, unknown>) {
       // Files go up once the account exists; a failed upload never undoes the registration.
       let failedUploads = 0;
       const filePatch: Record<string, unknown> = {};
@@ -259,6 +255,44 @@ export default function CategoryWizard({
 
       setDone({ failedUploads });
       top.current?.scrollIntoView({ block: "start" });
+  }
+
+  /** The payment went through: the account exists and is signed in. Carry on with the files. */
+  async function afterCreated(result: AuthResult) {
+    adopt(result);
+    toast.show({ tone: "success", title: "Account created", message: "Welcome to Shyam Jagat. Jai Shri Shyam!" });
+    setVerify(null);
+    setPending("Saving your registration…");
+    try {
+      await finish(profileRef.current);
+    } catch {
+      setDone({ failedUploads: 0 });
+    } finally {
+      setPending(null);
+    }
+  }
+
+  async function submit() {
+    setPending("Saving…");
+    setFormError([]);
+    try {
+      const profile = buildPayload(category, values);
+      if (!complete) {
+        for (const [key, source] of Object.entries(category.fromAccount)) {
+          profile[key] = account[source];
+        }
+        // The email was verified after step 1. Save the finished form on that pending signup, then the
+        // payment (mandatory) creates the account.
+        if (!signup) throw new ApiError("Please verify your email first.", 400);
+        profileRef.current = profile;
+        const saved = await authApi.signupSetProfile(signup.pendingId, profile);
+        setSignup(saved);
+        setVerifyMode("pay");
+        setVerify({ ...saved, emailVerified: true });
+        return;
+      }
+
+      await finish(profile);
     } catch (err) {
       if (err instanceof ApiError && err.errors?.length) {
         const mapped: FieldErrors = {};
@@ -304,11 +338,60 @@ export default function CategoryWizard({
           return;
         }
       } catch {
-        // If the check itself can't run, carry on — creating the account checks again.
+        // If the check itself can't run, carry on — starting the signup checks again.
       } finally {
         setChecking(false);
       }
-      go(index + 1);
+
+      const email = account.email.trim().toLowerCase();
+      const snapshot = JSON.stringify([account.fullName.trim(), email, account.mobile.trim(), account.password]);
+      // Already verified for exactly these details (they went Back and forward): do not ask again.
+      const unchangedSinceResume = resume && signup?.emailVerified && email === resume.account.email && account.mobile.trim() === resume.account.mobile;
+      if (signup && (verifiedFor.current === snapshot || unchangedSinceResume)) {
+        go(index + 1);
+        return;
+      }
+
+      // Right after step 1: send the code. Nothing is created yet.
+      setChecking(true);
+      try {
+        const early: Record<string, unknown> = {};
+        for (const [key, source] of Object.entries(category.fromAccount)) early[key] = account[source];
+        const started = await authApi.signupStart({
+          fullName: account.fullName.trim(),
+          mobile: account.mobile.trim(),
+          email,
+          password: account.password,
+          confirmPassword: account.confirmPassword,
+          acceptTerms: true,
+          category: category.key,
+          profile: early,
+        });
+        verifiedFor.current = snapshot;
+        if (started.emailVerified) {
+          // Verified on an earlier visit: no new code, carry on with the form.
+          setSignup(started);
+          go(index + 1);
+        } else {
+          setVerifyMode("otp");
+          setVerify(started);
+        }
+      } catch (err) {
+        if (err instanceof ApiError && err.errors?.length) {
+          const mappedAccount: AccountErrors = {};
+          for (const { field, message } of err.errors) {
+            if (["fullName", "mobile", "email", "password", "confirmPassword"].includes(field)) {
+              (mappedAccount as Record<string, string>)[field] = message;
+            }
+          }
+          setAccountErrors(mappedAccount);
+          setFormError(err.errors.map((e) => e.message));
+        } else {
+          setFormError([err instanceof ApiError ? err.message : "Could not send the code. Please try again."]);
+        }
+      } finally {
+        setChecking(false);
+      }
       return;
     }
 
@@ -338,6 +421,25 @@ export default function CategoryWizard({
   async function submitEarly() {
     if (profileFormatProblems()) return;
     await submit();
+  }
+
+  if (verify) {
+    return (
+      <div ref={top}>
+        <VerifyAndPay
+          start={verify}
+          mode={verifyMode === "otp" ? "otp" : "full"}
+          onBack={() => setVerify(null)}
+          onVerified={(next) => {
+            // Email verified: carry on with the rest of the form.
+            setSignup(next);
+            setVerify(null);
+            go(index + 1);
+          }}
+          onCreated={afterCreated}
+        />
+      </div>
+    );
   }
 
   if (done) {

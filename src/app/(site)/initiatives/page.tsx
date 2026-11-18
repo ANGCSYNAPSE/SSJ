@@ -180,7 +180,7 @@ export default function InitiativesPage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative -mt-[140px] flex min-h-[674px] w-full items-center justify-center overflow-hidden pt-[140px]">
+      <section className="relative -mt-[112px] flex min-h-[674px] w-full items-center justify-center overflow-hidden pt-[112px]">
         <Image
           src="/images/initiatives-page/hero.png"
           alt="Volunteers serving the community at a Shyam Jagat seva event"

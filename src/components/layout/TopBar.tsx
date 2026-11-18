@@ -3,8 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Headphones, Instagram, Linkedin, Smartphone, Twitter } from "lucide-react";
-import { LOCALES, DEFAULT_LOCALE, type LocaleCode, switchLanguage } from "@/lib/gtranslate";
+import {
+  LOCALES,
+  DEFAULT_LOCALE,
+  type LocaleCode,
+  switchLanguage,
+  savedLocale,
+  saveLocale,
+  applyInitialLanguage,
+} from "@/lib/gtranslate";
 import { cn } from "@/lib/utils";
+import AppComingSoonDialog from "./AppComingSoonDialog";
 
 const SOCIAL_LINKS = [
   { href: "#", label: "Twitter", icon: Twitter },
@@ -26,8 +35,16 @@ export default function TopBar() {
   // locale/dictionary system, so the two never fight over the same DOM text.
   const [activeLang, setActiveLang] = useState<LocaleCode>(DEFAULT_LOCALE);
   const [langOpen, setLangOpen] = useState(false);
+  const [appOpen, setAppOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
   const activeOption = LOCALES.find((option) => option.code === activeLang) ?? LOCALES[0];
+
+  // First visit: Hindi. Afterwards: whatever the visitor chose last.
+  useEffect(() => {
+    const code = savedLocale();
+    setActiveLang(code);
+    return applyInitialLanguage(code);
+  }, []);
 
   useEffect(() => {
     if (!langOpen) return;
@@ -40,6 +57,7 @@ export default function TopBar() {
 
   const selectLang = (code: LocaleCode) => {
     setActiveLang(code);
+    saveLocale(code);
     switchLanguage(code);
     setLangOpen(false);
   };
@@ -108,16 +126,17 @@ export default function TopBar() {
         </div>
 
         <div className="flex items-center gap-3 sm:gap-5">
-          <Link
-            href="#"
+          <button
+            type="button"
+            onClick={() => setAppOpen(true)}
             className="hidden items-center gap-2 rounded-md bg-primary px-3 py-1.5 font-semibold text-white transition-opacity hover:opacity-90 sm:flex"
           >
             <Smartphone className="h-3.5 w-3.5" aria-hidden />
             {"Get the App"}
             <span className="rounded bg-white/15 px-1.5 py-0.5 text-[10px] font-bold">
-              {"Now"}
+              {"Soon"}
             </span>
-          </Link>
+          </button>
 
           <span className="hidden items-center gap-1.5 whitespace-nowrap xl:flex">
             <Headphones className="h-3.5 w-3.5" aria-hidden />
@@ -138,6 +157,7 @@ export default function TopBar() {
           </div>
         </div>
       </div>
+      {appOpen && <AppComingSoonDialog onClose={() => setAppOpen(false)} />}
     </div>
   );
 }

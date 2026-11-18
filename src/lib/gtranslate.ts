@@ -18,7 +18,53 @@ export const LOCALES = [
 ] as const;
 
 export type LocaleCode = (typeof LOCALES)[number]["code"];
-export const DEFAULT_LOCALE: LocaleCode = "en";
+/** The language visitors see first, until they pick another one (the site itself is written in English). */
+export const DEFAULT_LOCALE: LocaleCode = "hi";
+
+const STORAGE_KEY = "ssj-lang";
+
+/** The visitor's saved language choice, or the default when they have not chosen yet. */
+export function savedLocale(): LocaleCode {
+  try {
+    const code = window.localStorage.getItem(STORAGE_KEY);
+    if (LOCALES.some((l) => l.code === code)) return code as LocaleCode;
+  } catch {
+    /* storage blocked: fall back to the default */
+  }
+  return DEFAULT_LOCALE;
+}
+
+export function saveLocale(code: LocaleCode) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, code);
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Whether GTranslate has already translated this page into `code` (it keeps a googtrans cookie). */
+function isTranslatedTo(code: string) {
+  return document.cookie.split("; ").some((c) => c === `googtrans=/en/${code}`);
+}
+
+/**
+ * Applies the saved (or default) language once GTranslate has loaded. Does nothing
+ * when the page is already in that language, so it never reloads in a loop.
+ */
+export function applyInitialLanguage(code: LocaleCode) {
+  if (code === "en" || isTranslatedTo(code)) return () => {};
+  let tries = 0;
+  const timer = window.setInterval(() => {
+    tries += 1;
+    if (typeof window.doGTranslate === "function") {
+      window.clearInterval(timer);
+      switchLanguage(code);
+    } else if (tries > 50) {
+      window.clearInterval(timer);
+    }
+  }, 300);
+  return () => window.clearInterval(timer);
+}
 
 /**
  * Triggers a GTranslate language switch. GTranslate is loaded once, sitewide,
