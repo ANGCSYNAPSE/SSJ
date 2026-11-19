@@ -93,9 +93,9 @@ export default function Footer() {
               <div className="flex flex-col items-start gap-6">
                 <h3 className="font-serif text-[22px] font-bold text-[#e47105]">{"Contact"}</h3>
                 <ul className="flex flex-col items-start gap-3 text-sm text-white/90">
-                  <li className="w-[232px]">contact@shreeshyamjagat.org</li>
-                  <li className="w-[200px]">+91 1234 567 890</li>
-                  <li className="w-[200px]">123 Temple Road, Rajasthan, India</li>
+                  <li className="w-[232px]">shyamjagat@gmail.com</li>
+                  <li className="w-[200px]">+91 9990 053 600</li>
+                  {/* <li className="w-[200px]">123 Temple Road, Rajasthan, India</li> */}
                 </ul>
               </div>
             </div>

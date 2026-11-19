@@ -14,11 +14,11 @@ import {
   MapPin,
   Pencil,
   Phone,
-  ShieldCheck,
   Sparkles,
   UserRound,
 } from "lucide-react";
 import RequireAuth from "@/components/auth/RequireAuth";
+import VerificationStatus from "@/components/profile/VerificationStatus";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { CATEGORIES, categoryByKey, type Field } from "@/components/auth/signup/categories";
@@ -342,17 +342,7 @@ function DashboardView() {
                   <AccountRow icon={Mail} label="Email" value={account.email} />
                   <AccountRow icon={Phone} label="Mobile" value={`+91 ${account.mobile}`} />
                   <AccountRow icon={MapPin} label="Location" value={account.location} missing />
-                  <div className="flex items-center gap-3 py-3">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff1d8] text-primary">
-                      <ShieldCheck className="h-4 w-4" aria-hidden />
-                    </span>
-                    <div>
-                      <p className="text-xs text-[#8a8580]">Verification</p>
-                      <p className={cn("text-sm font-semibold", account.isVerified ? "text-green-700" : "text-amber-700")}>
-                        {account.isVerified ? "Verified" : "Not verified yet"}
-                      </p>
-                    </div>
-                  </div>
+                  <VerificationStatus account={account} />
                 </div>
               )}
             </section>

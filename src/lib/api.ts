@@ -139,7 +139,10 @@ export interface AuthUser {
   email: string;
   mobile: string;
   role: "member" | "artist" | "temple_admin" | "admin";
+  /** An admin has checked this account. */
   isVerified: boolean;
+  emailVerified?: boolean;
+  mobileVerified?: boolean;
   isMember?: boolean;
   /** Categories this account has registered for (empty for a plain member). */
   profiles?: UserProfileSummary[];
@@ -356,6 +359,9 @@ export type Dashboard = {
     mobile: string;
     role: string;
     isVerified: boolean;
+    adminVerifiedAt?: string | null;
+    emailVerified: boolean;
+    mobileVerified: boolean;
     isMember: boolean;
     location: string | null;
     avatarUrl: string | null;
