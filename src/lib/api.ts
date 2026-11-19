@@ -258,6 +258,17 @@ export const authApi = {
 
   logout: () => request<null>("/auth/logout"),
 
+  /** Forgot password, step 1: emails a 6-digit code. Always answers the same, whether or not the email has an account. */
+  forgotPassword: (email: string) => request<{ resendAfterSeconds: number }>("/auth/forgot-password", { body: { email } }),
+
+  /** Step 2: checks the emailed code and returns the one-time token that lets step 3 set the password. */
+  verifyResetCode: (email: string, code: string) =>
+    request<{ resetToken: string; minutes: number }>("/auth/forgot-password/verify", { body: { email, code } }),
+
+  /** Step 3: sets the new password with the token from step 2; every signed-in session is ended. */
+  resetPassword: (input: { token: string; password: string; confirmPassword: string }) =>
+    request<null>("/auth/reset-password", { body: input }),
+
   /**
    * Asked on the first signup step. `incomplete` is set when the email belongs
    * to someone who started a category registration and never finished it.

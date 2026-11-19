@@ -140,7 +140,7 @@ export default function TopBar() {
 
           <span className="hidden items-center gap-1.5 whitespace-nowrap xl:flex">
             <Headphones className="h-3.5 w-3.5" aria-hidden />
-            {"24x7 Support"} · +91-XXXXX-XXXXX
+            {"24x7 Support"} · +91 999 053 600
           </span>
 
           <div className="flex items-center gap-3">

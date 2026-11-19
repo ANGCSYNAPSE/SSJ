@@ -228,7 +228,7 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
                     <input
                       value={form.mobile}
                       onChange={(e) => setForm((f) => ({ ...f, mobile: e.target.value }))}
-                      placeholder="+91 XXXXX XXXXX"
+                      placeholder="+91 999 053 600"
                       className="h-11 rounded-lg border border-[#e5e7eb] bg-cream-light px-4 text-sm text-[#3e1815] placeholder:text-[#8c8c8c] focus:border-primary focus:outline-none"
                     />
                   </div>

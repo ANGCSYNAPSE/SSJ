@@ -488,7 +488,7 @@ export default function MandalRegistrationPage() {
                 <div className="flex flex-col gap-2">
                   <FieldLabel label="Official Contact Phone" required />
                   <TextInput
-                    placeholder="e.g. +91 98290 XXXXX"
+                    placeholder="e.g. +91 999 053 600"
                     value={phone}
                     onChange={setPhone}
                   />
@@ -518,7 +518,7 @@ export default function MandalRegistrationPage() {
                 <div className="flex flex-col gap-2">
                   <FieldLabel label="President Phone Number" required />
                   <TextInput
-                    placeholder="e.g. +91 94140 XXXXX"
+                    placeholder="e.g. +91 9990 053 600"
                     value={presidentPhone}
                     onChange={setPresidentPhone}
                   />
