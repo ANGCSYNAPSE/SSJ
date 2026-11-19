@@ -214,8 +214,6 @@ export interface SignupFee {
 }
 
 export interface SignupOrder {
-  /** True in the development mock mode: the checkout is a dummy and moves no money. */
-  mock?: boolean;
   orderId: string;
   amount: number;
   currency: string;
@@ -367,7 +365,6 @@ export interface FeeStatus {
 }
 
 export interface PaymentOrder {
-  mock?: boolean;
   orderId: string;
   /** In paise, as Razorpay Checkout wants it. */
   amount: number;
@@ -387,5 +384,6 @@ export const paymentsApi = {
   /** `amount` is in whole rupees, between fee.nextMin and fee.nextMax. */
   createOrder: (amount: number) => request<PaymentOrder>("/payments/registration/order", { body: { amount }, auth: true }),
   verify: (payload: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
-    request<{ fee: FeeStatus }>("/payments/registration/verify", { body: payload, auth: true }),
+    // confirming: Razorpay has not confirmed the money yet; it will show up on the profile shortly.
+    request<{ fee: FeeStatus; confirming?: boolean }>("/payments/registration/verify", { body: payload, auth: true }),
 };

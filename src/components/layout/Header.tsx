@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, UserPlus, LogIn, ChevronDown, LogOut, UserRound, Pointer } from "lucide-react";
+import { Menu, X, UserPlus, CircleUserRound, ChevronDown, LogOut, UserRound, Pointer } from "lucide-react";
 import { useAuth, WELCOME_KEY } from "@/components/auth/AuthProvider";
 import { NAV_LINKS, MORE_LINKS, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -298,14 +298,14 @@ export default function Header() {
                 href="/login"
                 className="flex items-center gap-2 rounded-md border border-[#e87722] px-4 py-2.5 text-xs font-semibold text-[#e87722] transition-colors hover:bg-[#fde9c8] xl:px-5 xl:text-[15px]"
               >
-                <LogIn className="h-3.5 w-3.5 xl:h-4 xl:w-4" aria-hidden />
+                <CircleUserRound className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
                 {"Login"}
               </Link>
               <Link
                 href="/signup"
                 className="flex items-center gap-2 rounded-md bg-[#e87722] px-4 py-2.5 text-xs font-semibold text-white transition-opacity hover:opacity-90 xl:px-5 xl:text-[15px]"
               >
-                <UserPlus className="h-3.5 w-3.5 xl:h-4 xl:w-4" aria-hidden />
+                <UserPlus className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
                 {"Sign Up"}
               </Link>
             </div>
@@ -315,7 +315,7 @@ export default function Header() {
             href="/register"
             className="flex items-center gap-2 rounded-md bg-[#8b0000] px-5 py-2.5 text-xs xl:text-[15px] font-semibold text-white transition-opacity hover:opacity-90"
           >
-            <UserPlus className="h-4 w-4" aria-hidden />
+            <UserPlus className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
             {"REGISTRATION"}
           </Link>
           */}
@@ -329,7 +329,7 @@ export default function Header() {
               aria-label="Login"
               className="flex h-10 items-center justify-center gap-1.5 rounded-md border border-[#e87722] px-3 text-sm font-semibold text-[#e87722] transition-colors hover:bg-[#fde9c8] sm:px-4"
             >
-              <LogIn className="h-4 w-4" aria-hidden />
+              <CircleUserRound className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
               <span className="hidden sm:inline">{"Login"}</span>
             </Link>
           )}
@@ -339,7 +339,7 @@ export default function Header() {
               aria-label="Sign Up"
               className="flex h-10 items-center justify-center gap-1.5 rounded-md bg-[#e87722] px-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:px-4"
             >
-              <UserPlus className="h-4 w-4" aria-hidden />
+              <UserPlus className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
               <span className="hidden sm:inline">{"Sign Up"}</span>
             </Link>
           )}
@@ -426,7 +426,7 @@ export default function Header() {
                     onClick={() => setOpen(false)}
                     className="flex items-center justify-center gap-2 rounded-md border border-[#e87722] py-2.5 text-[15px] font-semibold text-[#e87722]"
                   >
-                    <LogIn className="h-4 w-4" aria-hidden />
+                    <CircleUserRound className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
                     {"Login"}
                   </Link>
                   <Link
@@ -434,7 +434,7 @@ export default function Header() {
                     onClick={() => setOpen(false)}
                     className="flex items-center justify-center gap-2 rounded-md bg-[#e87722] py-2.5 text-[15px] font-semibold text-white"
                   >
-                    <UserPlus className="h-4 w-4" aria-hidden />
+                    <UserPlus className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
                     {"Sign Up"}
                   </Link>
                   </>

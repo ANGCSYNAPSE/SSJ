@@ -8,12 +8,12 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
-  Heart,
+  BadgeCheck,
   Lock,
   Mail,
   Phone,
   User,
-  Users,
+  UserRound,
   type LucideIcon,
 } from "lucide-react";
 import { RESUME_KEY, useAuth } from "@/components/auth/AuthProvider";
@@ -395,14 +395,14 @@ export default function SignupForm() {
 
         <div className="mt-4 flex flex-col gap-2.5">
           <ChoiceCard
-            icon={Heart}
+            icon={UserRound}
             title={"As a User"}
             desc={"Create an account to join the devotee community."}
             onClick={() => setStage("member")}
           />
           <ChoiceCard
             tint
-            icon={Users}
+            icon={BadgeCheck}
             title={"Register As"}
             names={["Artist", "Musician", "Temple", "Dharamshala", "Mandal" , "Dancer"]}
             onClick={() => setStage("categories")}

@@ -52,6 +52,11 @@ export default function RegistrationFeeCard({ onPaid }: { onPaid?: () => void })
       const response = await openRazorpayCheckout(order);
       const result = await paymentsApi.verify(response);
       apply(result.fee);
+      if (result.confirming) {
+        // Razorpay has not confirmed the money yet: it is not counted until it does, and nothing is charged twice.
+        setMessage({ kind: "info", text: "Your payment is being confirmed. It will appear here shortly. Please do not pay again." });
+        return;
+      }
       setMessage({ kind: "info", text: "Payment received. Thank you!" });
       onPaid?.();
     } catch (err) {
