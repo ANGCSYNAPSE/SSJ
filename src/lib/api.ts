@@ -271,19 +271,43 @@ export interface Availability {
   incomplete: { category: CategoryKey; missing: number } | null;
 }
 
-/** A message an admin sent to the signed-in user. */
+export type NotificationCategory = "announcement" | "event" | "update" | "seva" | "payment" | "registration" | "system";
+
+/** A message in the signed-in user's bell: from an admin, or sent automatically (payment, review...). */
 export interface SiteNotification {
   id: string;
   kind: "info" | "success" | "warning";
+  category: NotificationCategory;
   title: string | null;
   message: string;
   /** A path inside the site the message's button opens. */
   link: string | null;
   createdAt: string;
+  readAt: string | null;
+}
+
+export interface NotificationFeed {
+  items: SiteNotification[];
+  /** Pass as `before` to get the next page; null at the end. */
+  nextCursor: string | null;
+  unread: number;
 }
 
 export const notificationsApi = {
   unread: () => request<SiteNotification[]>("/notifications", { method: "GET", auth: true }),
+
+  /** How many are unread; cheap enough for the bell to poll. */
+  count: () => request<{ unread: number }>("/notifications/count", { method: "GET", auth: true }),
+
+  feed: (opts: { limit?: number; before?: string | null; unread?: boolean; category?: NotificationCategory | null } = {}) => {
+    const q = new URLSearchParams();
+    if (opts.limit) q.set("limit", String(opts.limit));
+    if (opts.before) q.set("before", opts.before);
+    if (opts.unread) q.set("unread", "true");
+    if (opts.category) q.set("category", opts.category);
+    const qs = q.toString();
+    return request<NotificationFeed>(`/notifications/feed${qs ? `?${qs}` : ""}`, { method: "GET", auth: true });
+  },
 
   /** Marks the given messages read (every unread one when no ids are given). */
   markRead: (ids?: string[]) =>

@@ -10,6 +10,7 @@ import { NAV_LINKS, MORE_LINKS, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { categoryByKey } from "@/components/auth/signup/categories";
 import type { UserProfileSummary } from "@/lib/api";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 /** First name only — the header has room for one word. */
 /** "primarySpecialty" -> "Primary specialty", for a detail the form has no label for. */
@@ -184,6 +185,7 @@ export default function Header() {
         </nav>
 
         <div className="hidden shrink-0 items-center gap-4 lg:flex">
+          {!loading && user && <NotificationBell />}
           {loading ? (
             <span className="h-[41px] w-[100px] animate-pulse rounded-md bg-maroon/10" />
           ) : user ? (
@@ -343,6 +345,7 @@ export default function Header() {
               <span className="hidden sm:inline">{"Sign Up"}</span>
             </Link>
           )}
+          {!loading && user && <NotificationBell />}
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}

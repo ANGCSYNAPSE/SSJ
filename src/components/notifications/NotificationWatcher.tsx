@@ -6,8 +6,13 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { categoryByKey } from "@/components/auth/signup/categories";
 import { useToast, type ToastTone } from "@/components/ui/Toast";
 import { notificationsApi, type SiteNotification } from "@/lib/api";
+import { NOTIFICATIONS_CHANGED } from "./NotificationBell";
 
 const POLL_MS = 60_000;
+/** Only something sent in the last day pops up; older unread ones wait quietly in the bell. */
+const FRESH_MS = 24 * 60 * 60 * 1000;
+/** A pile of unread messages never becomes a wall of toasts. */
+const MAX_TOASTS = 3;
 
 const TONE: Record<SiteNotification["kind"], ToastTone> = {
   info: "info",
@@ -19,6 +24,11 @@ const TONE: Record<SiteNotification["kind"], ToastTone> = {
 function actionLabel(href: string): string {
   if (href === "/complete-profile") return "Complete my profile";
   if (href === "/") return "Go to home";
+  if (href.startsWith("/events")) return "View event";
+  if (href.startsWith("/initiatives")) return "See initiative";
+  if (href.startsWith("/blog")) return "Read more";
+  if (href.startsWith("/donation")) return "Donate";
+  if (href.startsWith("/profile")) return "Open my profile";
   return "Open";
 }
 
@@ -26,7 +36,7 @@ function actionLabel(href: string): string {
  * Shows the messages an admin has sent as toasts while the person is signed
  * in: once when the page loads, then every minute. A message stays on screen
  * until it is dismissed or its button is used, and only then is it marked
- * read — so one that was never acknowledged comes back on the next visit.
+ * read. Only recent ones (up to three) pop up; everything else is in the bell.
  */
 export default function NotificationWatcher() {
   const { user } = useAuth();
@@ -75,9 +85,10 @@ export default function NotificationWatcher() {
       }
       if (cancelled) return;
 
-      for (const item of unread) {
-        if (shown.current.has(item.id)) continue;
-        shown.current.add(item.id);
+      const fresh = unread.filter((n) => !shown.current.has(n.id) && Date.now() - new Date(n.createdAt).getTime() < FRESH_MS);
+      // The rest are still in the bell; remember them so they never pop up later.
+      for (const n of unread) shown.current.add(n.id);
+      for (const item of fresh.slice(0, MAX_TOASTS)) {
         toast.show({
           tone: TONE[item.kind] ?? "info",
           title: item.title ?? undefined,
@@ -85,7 +96,9 @@ export default function NotificationWatcher() {
           action: item.link ? { label: actionLabel(item.link), href: item.link } : undefined,
           duration: 0,
           onClose: (reason) => {
-            if (reason !== "timeout") void notificationsApi.markRead([item.id]).catch(() => {});
+            if (reason !== "timeout") {
+              void notificationsApi.markRead([item.id]).then(() => window.dispatchEvent(new Event(NOTIFICATIONS_CHANGED))).catch(() => {});
+            }
           },
         });
       }
