@@ -378,6 +378,16 @@ export const meApi = {
   dashboard: () => request<Dashboard>("/me/dashboard", { method: "GET", auth: true }),
   update: (patch: { fullName?: string; location?: string | null; avatarUrl?: string | null }) =>
     request<unknown>("/me", { method: "PATCH", body: patch, auth: true }),
+
+  /** Texts a 6-digit code to the account's mobile number. */
+  sendMobileOtp: () =>
+    request<{ sent?: boolean; alreadyVerified?: boolean; mobile?: string; minutes?: number; resendAfterSeconds?: number }>("/me/mobile/send-otp", {
+      body: {},
+      auth: true,
+    }),
+
+  /** Confirms the code; the phone is then marked verified. */
+  verifyMobileOtp: (code: string) => request<{ verified: boolean }>("/me/mobile/verify-otp", { body: { code }, auth: true }),
 };
 
 export interface FeeStatus {

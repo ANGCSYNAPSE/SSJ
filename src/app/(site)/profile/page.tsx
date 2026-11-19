@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import RequireAuth from "@/components/auth/RequireAuth";
 import VerificationStatus from "@/components/profile/VerificationStatus";
+import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { CATEGORIES, categoryByKey, type Field } from "@/components/auth/signup/categories";
@@ -202,6 +203,7 @@ function DashboardView() {
   const [location, setLocation] = useState("");
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [verifyingPhone, setVerifyingPhone] = useState(false);
 
   const load = () =>
     meApi
@@ -241,6 +243,15 @@ function DashboardView() {
 
   return (
     <div className="bg-[#fffaf1]">
+      {verifyingPhone && (
+        <VerifyPhoneDialog
+          onClose={() => setVerifyingPhone(false)}
+          onVerified={() => {
+            setVerifyingPhone(false);
+            void Promise.all([load(), refreshUser()]);
+          }}
+        />
+      )}
       {/* Banner */}
       <section className="bg-gradient-to-br from-[#4a1414] via-[#6b1f1f] to-[#8b3a12] px-6 py-10 text-white lg:px-[88px]">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-6 md:flex-row md:items-center">
@@ -342,7 +353,7 @@ function DashboardView() {
                   <AccountRow icon={Mail} label="Email" value={account.email} />
                   <AccountRow icon={Phone} label="Mobile" value={`+91 ${account.mobile}`} />
                   <AccountRow icon={MapPin} label="Location" value={account.location} missing />
-                  <VerificationStatus account={account} />
+                  <VerificationStatus account={account} onVerifyPhone={() => setVerifyingPhone(true)} />
                 </div>
               )}
             </section>
