@@ -5,10 +5,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Lock, Check, Info } from "lucide-react";
 import { RESUME_KEY, SignupInProgress, useAuth } from "@/components/auth/AuthProvider";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
+import { GOOGLE_NEW_KEY } from "@/components/auth/signup/GoogleMobileStep";
 import {
   AuthField,
   AuthDivider,
-  GoogleButton,
   TrustBadges,
   AuthSwitchLink,
 } from "@/components/auth/AuthShell";
@@ -22,7 +23,7 @@ const initial = { email: "", password: "" };
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, loading, login } = useAuth();
+  const { user, loading, login, loginWithGoogle } = useAuth();
   // The signup form sends people here with their email filled in (?email=)
   // and the reason they were sent (?reason=exists|incomplete).
   const [values, setValues] = useState({ ...initial, email: searchParams.get("email") ?? "" });
@@ -57,6 +58,32 @@ export default function LoginForm() {
       setValues((v) => ({ ...v, [field]: e.target.value }));
       setErrors((prev) => ({ ...prev, [field]: undefined, form: undefined }));
     };
+
+  async function onGoogle(credential: string) {
+    setPending(true);
+    setErrors({});
+    try {
+      const outcome = await loginWithGoogle(credential, remember);
+      if (outcome.kind === "signedIn") {
+        router.replace(destination);
+        return;
+      }
+      // Not signed in yet: carry on at the signup page, which picks up where Google left off.
+      try {
+        window.sessionStorage.setItem(
+          outcome.kind === "resume" ? RESUME_KEY : GOOGLE_NEW_KEY,
+          JSON.stringify(outcome.kind === "resume" ? outcome.resume : outcome.account),
+        );
+      } catch {
+        /* storage blocked: the signup page will ask them to start again */
+      }
+      router.replace("/signup");
+    } catch (err) {
+      setErrors({ form: err instanceof ApiError ? err.message : "Something went wrong. Please try again." });
+    } finally {
+      setPending(false);
+    }
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -192,7 +219,7 @@ export default function LoginForm() {
 
       <div className="mt-4 flex flex-col gap-4">
         <AuthDivider label={"— or continue with —"} />
-        <GoogleButton label={"Continue with Google"} />
+        <GoogleSignInButton onCredential={(c) => void onGoogle(c)} disabled={pending} />
         <AuthSwitchLink
           prompt={"New to Shyam Jagat?"}
           href="/signup"

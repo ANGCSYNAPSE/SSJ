@@ -185,6 +185,8 @@ export interface SignupResume extends SignupStart {
   details: Record<string, unknown> | null;
 }
 
+export type GoogleResult = AuthResult | { resume: SignupResume } | { newAccount: { fullName: string; email: string } };
+
 export type CodeChannel = "email" | "sms" | "both";
 
 /** Step 1 of signup: the code has been emailed; nothing is created yet. */
@@ -251,6 +253,12 @@ export const authApi = {
   login: (input: LoginInput) =>
     request<AuthResult | { resume: SignupResume }>("/auth/login", { body: input }),
   signupResume: (pendingId: string) => request<SignupResume>("/auth/signup/resume", { body: { pendingId } }),
+
+  /** Sign in with Google's ID token: a session, an unfinished registration to resume, or a new person who still needs a mobile number. */
+  google: (credential: string, remember = true) => request<GoogleResult>("/auth/google", { body: { credential, remember } }),
+
+  /** A new Google person adds their mobile number: starts the registration at its details step (no password, no code). */
+  googleStart: (credential: string, mobile: string) => request<SignupResume>("/auth/google/start", { body: { credential, mobile, acceptTerms: true } }),
 
   /** Exchanges the refresh cookie for a fresh access token. */
   refresh: () =>

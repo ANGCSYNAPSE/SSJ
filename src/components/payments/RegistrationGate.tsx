@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
 
 /** Pages an unpaid member may still read. Everything else sends them to finish registering. */
-const OPEN_PATHS = ["/complete-registration", "/terms", "/privacy"];
+const OPEN_PATHS = ["/complete-registration", "/terms", "/privacy", "/privacy-policy", "/refund-policy"];
 
 /**
  * A registration is not finished until at least the minimum fee is paid. Someone signed in who has paid

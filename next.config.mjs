@@ -8,6 +8,10 @@ const BACKEND = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000").rep
 
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    // Older links and the signup form used /privacy; the page lives at /privacy-policy.
+    return [{ source: "/privacy", destination: "/privacy-policy", permanent: true }];
+  },
   async rewrites() {
     return [{ source: "/api/v1/:path*", destination: `${BACKEND}/api/v1/:path*` }];
   },

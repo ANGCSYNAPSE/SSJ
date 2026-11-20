@@ -17,6 +17,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { RESUME_KEY, useAuth } from "@/components/auth/AuthProvider";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
+import GoogleMobileStep, { GOOGLE_NEW_KEY, type GoogleNewAccount } from "@/components/auth/signup/GoogleMobileStep";
 import { useToast } from "@/components/ui/Toast";
 import VerifyAndPay from "@/components/auth/signup/VerifyAndPay";
 import MemberDetails, { type MemberDetailsValue } from "@/components/auth/signup/MemberDetails";
@@ -24,7 +26,6 @@ import { authApi, meApi, uploadsApi, type SignupResume, type SignupStart } from 
 import {
   AuthField,
   AuthDivider,
-  GoogleButton,
   AuthSwitchLink,
 } from "@/components/auth/AuthShell";
 import { TextField, PasswordField, SubmitButton } from "@/components/auth/TextField";
@@ -164,7 +165,7 @@ function ChoiceCard({
 
 export default function SignupForm() {
   const router = useRouter();
-  const { user, loading, adopt } = useAuth();
+  const { user, loading, adopt, loginWithGoogle } = useAuth();
   const toast = useToast();
   const [verify, setVerify] = useState<SignupStart | null>(null);
   // The code comes first; then step 2 (where they live); then the payment, which creates the account.
@@ -178,6 +179,8 @@ export default function SignupForm() {
   const [categoryKey, setCategoryKey] = useState<string | null>(null);
   // An unfinished signup picked up from the login screen: the wizard continues from its stage.
   const [resume, setResume] = useState<SignupResume | null>(null);
+  // A new person who signed in with Google and still has to add a mobile number.
+  const [googleNew, setGoogleNew] = useState<GoogleNewAccount | null>(null);
   const [values, setValues] = useState(initial);
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [becomeMember, setBecomeMember] = useState(false);
@@ -185,54 +188,74 @@ export default function SignupForm() {
   const [pending, setPending] = useState(false);
   const [done, setDone] = useState(false);
 
-  // Signed in at the login screen with an unfinished signup: carry on from the step they had reached.
+  // Carries a registration on from the step it had reached: after the login screen, or after Google proved the email.
+  async function carryOn(stored: SignupResume, title = "Welcome back", message = "Your registration is not finished yet. Let's carry on where you stopped.") {
+    // Re-read the state: it may have moved on (a payment made, a code expired) since the person left.
+    const current = await authApi.signupResume(stored.pendingId);
+    toast.show({ tone: "info", title, message });
+    if (current.stage === "complete") {
+      // Already paid: only the account is left to create.
+      setVerifyMode("pay");
+      setVerify({ ...current, emailVerified: true });
+    } else if (current.category) {
+      setCategoryKey(current.category);
+      setResume(current);
+      setStage("wizard");
+    } else {
+      setStage("member");
+      setSignup(current);
+      if (current.stage === "otp") {
+        setVerifyMode("otp");
+        setVerify(current);
+      } else if (current.stage === "details") {
+        setDetails(true);
+      } else {
+        setVerifyMode("pay");
+        setVerify({ ...current, emailVerified: true });
+      }
+    }
+  }
+
+  // The login screen leaves an unfinished registration (or a new Google person) here to be picked up.
   useEffect(() => {
     let saved: string | null = null;
+    let google: string | null = null;
     try {
       saved = window.sessionStorage.getItem(RESUME_KEY);
       window.sessionStorage.removeItem(RESUME_KEY);
+      google = window.sessionStorage.getItem(GOOGLE_NEW_KEY);
+      window.sessionStorage.removeItem(GOOGLE_NEW_KEY);
     } catch {
       /* storage blocked */
     }
+    if (google) {
+      try {
+        setGoogleNew(JSON.parse(google) as GoogleNewAccount);
+      } catch {
+        /* unreadable: they simply start again */
+      }
+    }
     if (!saved) return;
-    let cancelled = false;
     (async () => {
       try {
-        const stored = JSON.parse(saved!) as SignupResume;
-        // Re-read the state: it may have moved on (a payment made, a code expired) since the login.
-        const current = await authApi.signupResume(stored.pendingId);
-        if (cancelled) return;
-        toast.show({ tone: "info", title: "Welcome back", message: "Your registration is not finished yet. Let's carry on where you stopped." });
-        if (current.stage === "complete") {
-          // Already paid: only the account is left to create.
-          setVerifyMode("pay");
-          setVerify({ ...current, emailVerified: true });
-        } else if (current.category) {
-          setCategoryKey(current.category);
-          setResume(current);
-          setStage("wizard");
-        } else {
-          setStage("member");
-          setSignup(current);
-          if (current.stage === "otp") {
-            setVerifyMode("otp");
-            setVerify(current);
-          } else if (current.stage === "details") {
-            setDetails(true);
-          } else {
-            setVerifyMode("pay");
-            setVerify({ ...current, emailVerified: true });
-          }
-        }
+        await carryOn(JSON.parse(saved!) as SignupResume);
       } catch {
         /* the signup expired or was finished meanwhile: the person starts again from the form */
       }
     })();
-    return () => {
-      cancelled = true;
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function onGoogle(credential: string) {
+    try {
+      const outcome = await loginWithGoogle(credential);
+      if (outcome.kind === "new") setGoogleNew(outcome.account);
+      else if (outcome.kind === "resume") await carryOn(outcome.resume, "Email verified", "Google confirmed your email. Let's finish your registration.");
+      // "signedIn": the redirect below takes them home.
+    } catch (err) {
+      toast.show({ tone: "error", title: "Google sign-in did not work", message: err instanceof ApiError ? err.message : "Please try again, or use your email and password." });
+    }
+  }
 
   // Someone already signed in has no business on this page — except mid-registration:
   // the category wizard signs the person in, then uploads files and shows its own confirmation.
@@ -306,6 +329,21 @@ export default function SignupForm() {
     } finally {
       setPending(false);
     }
+  }
+
+  if (googleNew) {
+    return (
+      <GoogleMobileStep
+        account={googleNew}
+        onCancel={() => setGoogleNew(null)}
+        onStarted={(started) => {
+          setGoogleNew(null);
+          carryOn(started, "Email verified", "Google confirmed your email. Let's finish your registration.").catch(() =>
+            toast.show({ tone: "error", message: "Something went wrong. Please try again." }),
+          );
+        }}
+      />
+    );
   }
 
   if (done) {
@@ -411,7 +449,7 @@ export default function SignupForm() {
 
         <div className="mt-4 flex flex-col gap-3">
           <AuthDivider label={"— or continue with —"} />
-          <GoogleButton label={"Continue with Google"} />
+          <GoogleSignInButton onCredential={(c) => void onGoogle(c)} disabled={pending} />
           <AuthSwitchLink prompt={"Already have an account?"} href="/login" label={"Sign In"} />
         </div>
       </>
@@ -556,7 +594,7 @@ export default function SignupForm() {
                 {"Terms of Service"}
               </Link>{" "}
               {"and"}{" "}
-              <Link href="/privacy" className="text-primary underline">
+              <Link href="/privacy-policy" className="text-primary underline">
                 {"Privacy Policy"}
               </Link>
             </CheckRow>
@@ -575,7 +613,7 @@ export default function SignupForm() {
 
       <div className="mt-2 flex flex-col gap-3">
         <AuthDivider label={"— or continue with —"} />
-        <GoogleButton label={"Continue with Google"} />
+        <GoogleSignInButton onCredential={(c) => void onGoogle(c)} disabled={pending} />
         <AuthSwitchLink prompt={"Already have an account?"} href="/login" label={"Sign In"} />
       </div>
     </>

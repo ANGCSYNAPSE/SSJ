@@ -151,25 +151,6 @@ export function AuthDivider({ label }: { label: string }) {
   );
 }
 
-export function GoogleButton({ label }: { label: string }) {
-  return (
-    <button
-      type="button"
-      className="flex w-full items-center justify-center gap-3 rounded-xl border-[1.5px] border-border bg-white py-2 transition-colors hover:bg-cream"
-    >
-      <Image
-        src="/images/brand/google.svg"
-        alt=""
-        width={20}
-        height={20}
-        unoptimized
-        aria-hidden
-      />
-      <span className="text-[15px] font-semibold text-maroon">{label}</span>
-    </button>
-  );
-}
-
 export function TrustBadges() {
   const badges = ["🔒 100% Secure", "✅ 80G Tax Benefits", "🙏 Free to Join"];
   return (

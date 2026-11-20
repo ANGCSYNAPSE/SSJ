@@ -27,10 +27,18 @@ interface AuthContextValue {
   /** Signs in with a result the signup steps already returned (the account was just created). */
   adopt: (result: AuthResult) => void;
   login: (input: LoginInput) => Promise<AuthUser>;
+  /** Signs in with a Google ID token; see GoogleOutcome for the other things that can happen. */
+  loginWithGoogle: (credential: string, remember?: boolean) => Promise<GoogleOutcome>;
   logout: () => Promise<void>;
   /** Re-reads the signed-in user (e.g. after finishing a profile, so its completeness is current). */
   refreshUser: () => Promise<void>;
 }
+
+/** What signing in with Google led to. */
+export type GoogleOutcome =
+  | { kind: "signedIn" }
+  | { kind: "resume"; resume: SignupResume }
+  | { kind: "new"; account: { credential: string; fullName: string; email: string } };
 
 /** Thrown by login() when the email and password belong to a signup that was never finished (no account yet). */
 export class SignupInProgress extends Error {
@@ -103,6 +111,16 @@ export default function AuthProvider({
     return result.user;
   }, []);
 
+  const loginWithGoogle = useCallback(async (credential: string, remember = true): Promise<GoogleOutcome> => {
+    const result = await authApi.google(credential, remember);
+    if ("resume" in result) return { kind: "resume", resume: result.resume };
+    if ("newAccount" in result) return { kind: "new", account: { ...result.newAccount, credential } };
+    flagWelcome();
+    tokenStore.set(result.accessToken);
+    setUser(result.user);
+    return { kind: "signedIn" };
+  }, []);
+
   const adopt = useCallback((result: AuthResult) => {
     flagWelcome();
     tokenStore.set(result.accessToken);
@@ -139,8 +157,8 @@ export default function AuthProvider({
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, signup, adopt, login, logout, refreshUser }),
-    [user, loading, signup, adopt, login, logout, refreshUser],
+    () => ({ user, loading, signup, adopt, login, loginWithGoogle, logout, refreshUser }),
+    [user, loading, signup, adopt, login, loginWithGoogle, logout, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

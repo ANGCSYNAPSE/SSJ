@@ -621,7 +621,7 @@ export default function CategoryWizard({
                     {"Terms of Service"}
                   </Link>{" "}
                   {"and"}{" "}
-                  <Link href="/privacy" className="text-primary underline">
+                  <Link href="/privacy-policy" className="text-primary underline">
                     {"Privacy Policy"}
                   </Link>
                 </p>

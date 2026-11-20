@@ -26,7 +26,9 @@ export default function Footer() {
 
   const supportLinks = [
     { href: "/contact", label: "Contact Us" },
-    { href: "#", label: "Privacy Policy" },
+    { href: "/privacy-policy", label: "Privacy Policy" },
+    { href: "/terms", label: "Terms of Service" },
+    { href: "/refund-policy", label: "Refund Policy" },
     { href: "#", label: "Donation FAQ" },
     { href: "#", label: "Volunteer" },
     { href: "#", label: "Live Help" },

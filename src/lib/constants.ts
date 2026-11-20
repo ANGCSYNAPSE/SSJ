@@ -4,6 +4,11 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 
+/** Where people reach the team. Shown on the policy pages. */
+export const CONTACT = {
+  email: "contact@shreeshyamjagat.org",
+} as const;
+
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/baba-shyam", label: "Baba Shyam" },
