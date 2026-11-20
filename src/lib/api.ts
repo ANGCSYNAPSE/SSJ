@@ -228,6 +228,8 @@ export interface SignupOrder {
   prefill: { name: string; email: string; contact: string };
 }
 
+let refreshing: Promise<AuthResult> | null = null;
+
 export const authApi = {
   /** Registration, in steps: start (emails a code) -> verifyOtp -> payOrder/payVerify, which creates the account. */
   signupStart: (input: SignupInput, channel: CodeChannel = "email") =>
@@ -261,8 +263,17 @@ export const authApi = {
   googleStart: (credential: string, mobile: string) => request<SignupResume>("/auth/google/start", { body: { credential, mobile, acceptTerms: true } }),
 
   /** Exchanges the refresh cookie for a fresh access token. */
-  refresh: () =>
-    request<AuthResult>("/auth/refresh", { retryOnUnauthorized: false }),
+  /**
+   * Restores the session from the refresh cookie. Overlapping calls share ONE request: the server swaps the cookie on every
+   * refresh, so two at the same moment (React's double render in development, a page and a retried request) would look
+   * like a replayed token.
+   */
+  refresh: () => {
+    refreshing ??= request<AuthResult>("/auth/refresh", { retryOnUnauthorized: false }).finally(() => {
+      refreshing = null;
+    });
+    return refreshing;
+  },
 
   logout: () => request<null>("/auth/logout"),
 
