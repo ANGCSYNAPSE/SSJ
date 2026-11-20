@@ -89,8 +89,9 @@ export default function NotificationWatcher() {
       const fresh = unread.filter((n) => !shown.current.has(n.id) && Date.now() - new Date(n.createdAt).getTime() < FRESH_MS);
       // The rest are still in the bell; remember them so they never pop up later.
       for (const n of unread) shown.current.add(n.id);
-      // A payment, refund or registration decision changes numbers on the page: refresh them without a reload.
-      if (fresh.some((n) => n.category === "payment" || n.category === "registration")) {
+      // Anything new may have changed numbers on the page (a payment, a refund, a review, a verification): refresh them
+      // without a reload. Any new message counts, whatever its category, so an older backend that sends none still works.
+      if (fresh.length > 0) {
         void refreshUser();
         window.dispatchEvent(new Event(ACCOUNT_CHANGED));
       }
