@@ -434,12 +434,36 @@ export interface PaymentOrder {
   prefill: { name: string; email: string; contact: string };
 }
 
+export interface PaymentHistoryItem {
+  id: string;
+  plan: string;
+  amount: number;
+  /** How much of it has gone back to the payer. */
+  refunded: number;
+  status: string;
+  receipt: string;
+  paidAt: string | null;
+  createdAt: string;
+}
+
+/** A file (a PDF) from the backend, fetched with the person's sign-in. */
+async function fetchFile(path: string, retry = true): Promise<Blob> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/api/v1${path}`, { credentials: "include", headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {} });
+  } catch {
+    throw new ApiError("Could not reach the server. Please try again.", 0);
+  }
+  if (res.status === 401 && retry && (await renewAccessToken())) return fetchFile(path, false);
+  if (!res.ok) throw new ApiError("Could not open this document.", res.status);
+  return res.blob();
+}
+
 export const paymentsApi = {
-  me: () =>
-    request<{ fee: FeeStatus; history: { id: string; plan: string; amount: number; status: string; createdAt: string }[] }>(
-      "/payments/me",
-      { method: "GET", auth: true },
-    ),
+  me: () => request<{ fee: FeeStatus; history: PaymentHistoryItem[] }>("/payments/me", { method: "GET", auth: true }),
+
+  /** The receipt for a paid payment, or the registration-fee invoice, as a PDF. */
+  document: (paymentId: string, kind: "receipt" | "invoice" = "receipt") => fetchFile(`/payments/documents/${paymentId}?kind=${kind}`),
   /** `amount` is in whole rupees, between fee.nextMin and fee.nextMax. */
   createOrder: (amount: number) => request<PaymentOrder>("/payments/registration/order", { body: { amount }, auth: true }),
   verify: (payload: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>

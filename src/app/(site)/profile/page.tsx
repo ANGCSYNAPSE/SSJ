@@ -22,6 +22,7 @@ import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
 import VerificationStatus from "@/components/profile/VerificationStatus";
 import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
+import PaymentDocuments from "@/components/payments/PaymentDocuments";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { CATEGORIES, categoryByKey, type Field } from "@/components/auth/signup/categories";
 import { ApiError, meApi, type Dashboard, type DashboardProfile } from "@/lib/api";
@@ -288,6 +289,7 @@ function DashboardView() {
       <div className="mx-auto flex max-w-[1240px] flex-col gap-8 px-6 py-8 lg:px-[88px] lg:py-10">
         {/* Registration fee: pending with the two plans, or paid */}
         <RegistrationFeeCard />
+        <PaymentDocuments />
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
