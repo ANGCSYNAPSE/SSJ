@@ -9,11 +9,14 @@ import { notificationsApi, type SiteNotification } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { CATEGORY_META, timeAgo } from "./meta";
 
-const POLL_MS = 60_000;
+const POLL_MS = 20_000;
 const PREVIEW = 6;
 
 /** Fired by anything that changes what is read, so the bell and the notifications page stay in step. */
 export const NOTIFICATIONS_CHANGED = "ssj:notifications-changed";
+
+/** Fired when a message says the person's payments or registrations changed, so open pages refresh their numbers. */
+export const ACCOUNT_CHANGED = "ssj:account-changed";
 
 /**
  * The bell in the header: a badge with how many are unread, and a short list of the latest with a link

@@ -18,6 +18,7 @@ import {
   UserRound,
 } from "lucide-react";
 import RequireAuth from "@/components/auth/RequireAuth";
+import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
 import VerificationStatus from "@/components/profile/VerificationStatus";
 import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
@@ -217,6 +218,10 @@ function DashboardView() {
 
   useEffect(() => {
     load();
+    // A payment, refund or review message arrived: the numbers on this page refresh without a reload.
+    window.addEventListener(ACCOUNT_CHANGED, load);
+    return () => window.removeEventListener(ACCOUNT_CHANGED, load);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function save() {

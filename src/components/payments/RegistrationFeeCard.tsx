@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import PolicyLink from "@/components/legal/PolicyDialog";
+import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
 import { BadgeCheck, CircleAlert, Loader2, ShieldCheck } from "lucide-react";
 import { ApiError, paymentsApi, type FeeStatus } from "@/lib/api";
 import { CheckoutDismissed, openRazorpayCheckout } from "@/lib/razorpay";
@@ -29,14 +30,20 @@ export default function RegistrationFeeCard({ onPaid }: { onPaid?: () => void })
   };
 
   useEffect(() => {
-    paymentsApi
-      .me()
-      .then((d) => {
-        // An older backend answers with a different shape; show nothing rather than break the page.
-        if (typeof d.fee?.total !== "number" || typeof d.fee?.paid !== "number") return;
-        apply(d.fee);
-      })
-      .catch(() => setMessage({ kind: "error", text: "Could not load your payment status." }));
+    const load = () =>
+      paymentsApi
+        .me()
+        .then((d) => {
+          // An older backend answers with a different shape; show nothing rather than break the page.
+          if (typeof d.fee?.total !== "number" || typeof d.fee?.paid !== "number") return;
+          apply(d.fee);
+        })
+        .catch(() => setMessage({ kind: "error", text: "Could not load your payment status." }));
+    void load();
+    // A payment or refund message arrived: the amounts change on screen without a reload.
+    window.addEventListener(ACCOUNT_CHANGED, load);
+    return () => window.removeEventListener(ACCOUNT_CHANGED, load);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!fee) return null;

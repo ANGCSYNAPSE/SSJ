@@ -6,9 +6,10 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { categoryByKey } from "@/components/auth/signup/categories";
 import { useToast, type ToastTone } from "@/components/ui/Toast";
 import { notificationsApi, type SiteNotification } from "@/lib/api";
-import { NOTIFICATIONS_CHANGED } from "./NotificationBell";
+import { ACCOUNT_CHANGED, NOTIFICATIONS_CHANGED } from "./NotificationBell";
 
-const POLL_MS = 60_000;
+// A refund or payment message should show up within seconds, not minutes; the check is one small request.
+const POLL_MS = 15_000;
 /** Only something sent in the last day pops up; older unread ones wait quietly in the bell. */
 const FRESH_MS = 24 * 60 * 60 * 1000;
 /** A pile of unread messages never becomes a wall of toasts. */
@@ -39,7 +40,7 @@ function actionLabel(href: string): string {
  * read. Only recent ones (up to three) pop up; everything else is in the bell.
  */
 export default function NotificationWatcher() {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const toast = useToast();
   const pathname = usePathname();
   const shown = useRef(new Set<string>());
@@ -88,6 +89,11 @@ export default function NotificationWatcher() {
       const fresh = unread.filter((n) => !shown.current.has(n.id) && Date.now() - new Date(n.createdAt).getTime() < FRESH_MS);
       // The rest are still in the bell; remember them so they never pop up later.
       for (const n of unread) shown.current.add(n.id);
+      // A payment, refund or registration decision changes numbers on the page: refresh them without a reload.
+      if (fresh.some((n) => n.category === "payment" || n.category === "registration")) {
+        void refreshUser();
+        window.dispatchEvent(new Event(ACCOUNT_CHANGED));
+      }
       for (const item of fresh.slice(0, MAX_TOASTS)) {
         toast.show({
           tone: TONE[item.kind] ?? "info",
