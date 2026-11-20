@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import Image from "next/image";
 import Link from "next/link";
 import { Camera, ChevronDown, UploadCloud, Check } from "lucide-react";
@@ -532,7 +533,11 @@ export default function TempleRegistrationPage() {
                 {"I certify that the information provided is accurate and I am authorized to register this temple on behalf of the temple trust."}
               </Checkbox>
               <Checkbox checked={agreeTerms} onChange={setAgreeTerms}>
-                {"I agree to the Terms of Service and Privacy Policy of Shyam Jagat spiritual platform."}
+                {"I agree to the "}
+                  <PolicyLink doc="terms" with={["privacy"]}>{"Terms of Service"}</PolicyLink>
+                  {" and "}
+                  <PolicyLink doc="privacy" with={["terms"]}>{"Privacy Policy"}</PolicyLink>
+                  {" of Shyam Jagat spiritual platform."}
               </Checkbox>
               <Checkbox checked={consentComms} onChange={setConsentComms}>
                 {"I consent to receiving communications about platform updates and devotee inquiries."}

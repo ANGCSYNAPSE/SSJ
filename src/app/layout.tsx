@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import AuthProvider from "@/components/auth/AuthProvider";
 import NotificationWatcher from "@/components/notifications/NotificationWatcher";
+import { PolicyHost } from "@/components/legal/PolicyDialog";
 import { ToastProvider } from "@/components/ui/Toast";
 import GTranslateWidget from "@/components/i18n/GTranslateWidget";
 
@@ -42,6 +43,7 @@ export default function RootLayout({
         <ToastProvider>
           <AuthProvider>
             <NotificationWatcher />
+            <PolicyHost />
             {children}
           </AuthProvider>
         </ToastProvider>

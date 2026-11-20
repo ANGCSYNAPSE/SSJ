@@ -684,7 +684,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col gap-4">
                 {[
-                  { icon: Mail, text: "contact@shyamjagat.org" },
+                  { icon: Mail, text: "shyamjagat@gmail.com" },
                   { icon: Phone, text: "+91 12345 67890" },
                   { icon: MapPin, text: "Jaipur, Rajasthan, India" },
                   { icon: Clock, text: "Mon-Sat : 9 AM - 6 PM" },

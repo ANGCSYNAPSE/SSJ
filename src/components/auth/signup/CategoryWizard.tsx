@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import Link from "next/link";
 import { ArrowLeft, Check, CheckCircle2, Info, Lock, Mail, Phone, TriangleAlert, User } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -617,13 +618,13 @@ export default function CategoryWizard({
                 </button>
                 <p className="text-[13px] text-muted-foreground">
                   {"I agree to the"}{" "}
-                  <Link href="/terms" className="text-primary underline">
+                  <PolicyLink doc="terms" with={["privacy"]}>
                     {"Terms of Service"}
-                  </Link>{" "}
+                  </PolicyLink>{" "}
                   {"and"}{" "}
-                  <Link href="/privacy-policy" className="text-primary underline">
+                  <PolicyLink doc="privacy" with={["terms"]}>
                     {"Privacy Policy"}
-                  </Link>
+                  </PolicyLink>
                 </p>
               </div>
               {accountErrors.acceptTerms && <p className="text-xs text-red-600">{accountErrors.acceptTerms}</p>}

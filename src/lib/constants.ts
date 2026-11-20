@@ -6,7 +6,8 @@ export const SITE = {
 
 /** Where people reach the team. Shown on the policy pages. */
 export const CONTACT = {
-  email: "contact@shreeshyamjagat.org",
+  email: "shyamjagat@gmail.com",
+  phone: "+91 9990 053 600",
 } as const;
 
 export const NAV_LINKS = [

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -568,6 +569,15 @@ export default function DonationPage() {
                 <Lock className="h-3.5 w-3.5 text-[#8c8c8c]" aria-hidden />
                 <p className="text-xs text-[#8c8c8c]">256-bit SSL Encrypted Payment</p>
               </div>
+              <p className="text-center text-xs text-[#8c8c8c]">
+                {"By donating you agree to our "}
+                <PolicyLink doc="terms" with={["privacy", "refund"]}>{"Terms of Service"}</PolicyLink>
+                {", "}
+                <PolicyLink doc="privacy" with={["terms", "refund"]}>{"Privacy Policy"}</PolicyLink>
+                {" and "}
+                <PolicyLink doc="refund" with={["terms", "privacy"]}>{"Refund Policy"}</PolicyLink>
+                {"."}
+              </p>
             </div>
           </form>
 
@@ -884,9 +894,9 @@ export default function DonationPage() {
             <p className="text-sm text-[#666]">+91 12345 67890</p>
           </div>
           <span className="hidden h-[18px] w-px bg-[#bbb] sm:block" />
-          <a href="mailto:contact@shyamjagat.org" className="flex items-center gap-2">
+          <a href="mailto:shyamjagat@gmail.com" className="flex items-center gap-2">
             <Mail className="h-4 w-4 text-[#666]" aria-hidden />
-            <p className="text-sm text-[#666]">contact@shyamjagat.org</p>
+            <p className="text-sm text-[#666]">shyamjagat@gmail.com</p>
           </a>
         </div>
       </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import { ArrowLeft, ArrowRight, Check, Loader2, MailCheck, ShieldCheck, Wallet } from "lucide-react";
 import { ApiError, authApi, type AuthResult, type CodeChannel, type SignupFee, type SignupStart } from "@/lib/api";
 import { CheckoutDismissed, openRazorpayCheckout } from "@/lib/razorpay";
@@ -468,6 +469,13 @@ function PayStep({
       </button>
       <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <ShieldCheck className="h-4 w-4" aria-hidden /> Payments are processed securely by Razorpay.
+      </p>
+      <p className="text-xs text-muted-foreground">
+        {"By paying you agree to our "}
+        <PolicyLink doc="terms" with={["refund"]}>{"Terms of Service"}</PolicyLink>
+        {" and "}
+        <PolicyLink doc="refund" with={["terms"]}>{"Refund Policy"}</PolicyLink>
+        {"."}
       </p>
     </div>
   );

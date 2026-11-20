@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { ArrowLeft, Check, Phone } from "lucide-react";
 import { AuthField } from "@/components/auth/AuthShell";
 import { SubmitButton, TextField } from "@/components/auth/TextField";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import { useToast } from "@/components/ui/Toast";
 import { ApiError, authApi, type SignupResume } from "@/lib/api";
 
@@ -23,15 +23,18 @@ export const GOOGLE_NEW_KEY = "ssj-google-new";
  */
 export default function GoogleMobileStep({
   account,
+  initialMobile = "",
   onStarted,
   onCancel,
 }: {
   account: GoogleNewAccount;
+  /** Filled in when the person comes back to this step from a later one. */
+  initialMobile?: string;
   onStarted: (resume: SignupResume) => void;
   onCancel: () => void;
 }) {
   const toast = useToast();
-  const [mobile, setMobile] = useState("");
+  const [mobile, setMobile] = useState(initialMobile);
   const [accept, setAccept] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -123,13 +126,13 @@ export default function GoogleMobileStep({
           </button>
           <p className="text-[13px] text-muted-foreground">
             {"I agree to the "}
-            <Link href="/terms" target="_blank" className="text-primary underline">
+            <PolicyLink doc="terms" with={["privacy"]}>
               {"Terms of Service"}
-            </Link>
+            </PolicyLink>
             {" and "}
-            <Link href="/privacy-policy" target="_blank" className="text-primary underline">
+            <PolicyLink doc="privacy" with={["terms"]}>
               {"Privacy Policy"}
-            </Link>
+            </PolicyLink>
           </p>
         </div>
 

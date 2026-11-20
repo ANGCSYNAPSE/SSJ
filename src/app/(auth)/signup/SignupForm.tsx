@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { RESUME_KEY, useAuth } from "@/components/auth/AuthProvider";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import GoogleMobileStep, { GOOGLE_NEW_KEY, type GoogleNewAccount } from "@/components/auth/signup/GoogleMobileStep";
 import { useToast } from "@/components/ui/Toast";
 import VerifyAndPay from "@/components/auth/signup/VerifyAndPay";
@@ -181,6 +182,10 @@ export default function SignupForm() {
   const [resume, setResume] = useState<SignupResume | null>(null);
   // A new person who signed in with Google and still has to add a mobile number.
   const [googleNew, setGoogleNew] = useState<GoogleNewAccount | null>(null);
+  // The Google person once their registration has started, so Back from the details returns to the mobile step.
+  const [googleAccount, setGoogleAccount] = useState<(GoogleNewAccount & { mobile: string }) | null>(null);
+  // Set when this page was opened already part-way (from the login screen), so that first step replaces the entry.
+  const arrivedMidway = useRef(false);
   const [values, setValues] = useState(initial);
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [becomeMember, setBecomeMember] = useState(false);
@@ -228,6 +233,7 @@ export default function SignupForm() {
     } catch {
       /* storage blocked */
     }
+    if (google || saved) arrivedMidway.current = true;
     if (google) {
       try {
         setGoogleNew(JSON.parse(google) as GoogleNewAccount);
@@ -256,6 +262,76 @@ export default function SignupForm() {
       toast.show({ tone: "error", title: "Google sign-in did not work", message: err instanceof ApiError ? err.message : "Please try again, or use your email and password." });
     }
   }
+
+  // ───── The browser's Back button walks back through the steps just taken, not off the page ─────
+  const stepKey: string = done ? "done" : googleNew ? "google" : verify ? (verifyMode === "otp" ? "otp" : "pay") : details && signup ? "details" : stage;
+  const stepRef = useRef(stepKey);
+  const popping = useRef(false);
+
+  /** One step back, wherever the person is. The Back buttons and the browser's Back both end up here. */
+  function previousStep() {
+    switch (stepKey) {
+      case "google":
+        setGoogleNew(null);
+        break;
+      case "otp":
+        setVerify(null);
+        break;
+      case "pay":
+        setVerify(null);
+        setDetails(true);
+        break;
+      case "details":
+        setDetails(false);
+        if (googleAccount) setGoogleNew(googleAccount);
+        break;
+      case "wizard":
+        setStage("categories");
+        break;
+      case "member":
+      case "categories":
+        setStage("choose");
+        break;
+      case "done":
+        router.replace("/");
+        break;
+    }
+  }
+  const previousRef = useRef(previousStep);
+  previousRef.current = previousStep;
+
+  // Mark where the page started, so going back to its first screen is recognised as ours.
+  useEffect(() => {
+    window.history.replaceState({ ...window.history.state, ssjSignupStep: stepRef.current }, "");
+    const onPop = () => {
+      // Only entries this page made are ours; anything else is the person leaving, which the browser does as usual.
+      if (!window.history.state?.ssjSignupStep || stepRef.current === "choose") return;
+      popping.current = true;
+      window.setTimeout(() => (popping.current = false), 200);
+      previousRef.current();
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // Each new step gets its own history entry, so Back has something to return to.
+  useEffect(() => {
+    const before = stepRef.current;
+    stepRef.current = stepKey;
+    if (before === stepKey) return;
+    if (popping.current) {
+      popping.current = false;
+      return;
+    }
+    const marked = { ...window.history.state, ssjSignupStep: stepKey };
+    if (arrivedMidway.current) {
+      // Came from the login screen: that screen is the entry before this one, so this step takes the page's place.
+      arrivedMidway.current = false;
+      window.history.replaceState(marked, "");
+    } else {
+      window.history.pushState(marked, "");
+    }
+  }, [stepKey]);
 
   // Someone already signed in has no business on this page — except mid-registration:
   // the category wizard signs the person in, then uploads files and shows its own confirmation.
@@ -335,8 +411,10 @@ export default function SignupForm() {
     return (
       <GoogleMobileStep
         account={googleNew}
-        onCancel={() => setGoogleNew(null)}
+        initialMobile={googleAccount?.mobile}
+        onCancel={() => window.history.back()}
         onStarted={(started) => {
+          setGoogleAccount({ ...googleNew, mobile: started.account.mobile });
           setGoogleNew(null);
           carryOn(started, "Email verified", "Google confirmed your email. Let's finish your registration.").catch(() =>
             toast.show({ tone: "error", message: "Something went wrong. Please try again." }),
@@ -369,10 +447,7 @@ export default function SignupForm() {
       <VerifyAndPay
         start={verify}
         mode={verifyMode === "otp" ? "otp" : "full"}
-        onBack={() => {
-          setVerify(null);
-          if (verifyMode === "pay") setDetails(true);
-        }}
+        onBack={() => window.history.back()}
         onVerified={(next) => {
           // Email verified: step 2 (their details) comes next, then the payment.
           setSignup(next);
@@ -402,7 +477,7 @@ export default function SignupForm() {
       <MemberDetails
         pending={savingDetails}
         error={detailsError}
-        onBack={() => setDetails(false)}
+        onBack={() => window.history.back()}
         onSubmit={async (value: MemberDetailsValue) => {
           setSavingDetails(true);
           setDetailsError(null);
@@ -467,7 +542,7 @@ export default function SignupForm() {
         </div>
 
         <div className="mt-3 flex flex-col gap-3">
-          <BackButton onClick={() => setStage("choose")} />
+          <BackButton onClick={() => window.history.back()} />
           <div className="flex flex-col gap-2">
             {CATEGORIES.map(({ key, label, blurb, icon: Icon }) => (
               <button
@@ -498,7 +573,7 @@ export default function SignupForm() {
 
   const chosen = categoryByKey(categoryKey);
   if (stage === "wizard" && chosen) {
-    return <CategoryWizard category={chosen} resume={resume ?? undefined} onBack={() => setStage("categories")} />;
+    return <CategoryWizard category={chosen} resume={resume ?? undefined} onBack={() => window.history.back()} />;
   }
 
   return (
@@ -509,7 +584,7 @@ export default function SignupForm() {
       </div>
 
       <form onSubmit={onSubmit} noValidate className="mt-3 flex flex-col gap-3">
-        <BackButton onClick={() => setStage("choose")} />
+        <BackButton onClick={() => window.history.back()} />
 
         <div className="flex flex-col gap-5">
           <AuthField label={"Full Name"} htmlFor="fullName" error={errors.fullName}>
@@ -590,13 +665,13 @@ export default function SignupForm() {
               label="I agree to the Terms of Service and Privacy Policy"
             >
               {"I agree to the"}{" "}
-              <Link href="/terms" className="text-primary underline">
+              <PolicyLink doc="terms" with={["privacy"]}>
                 {"Terms of Service"}
-              </Link>{" "}
+              </PolicyLink>{" "}
               {"and"}{" "}
-              <Link href="/privacy-policy" className="text-primary underline">
+              <PolicyLink doc="privacy" with={["terms"]}>
                 {"Privacy Policy"}
-              </Link>
+              </PolicyLink>
             </CheckRow>
             {errors.acceptTerms && <p className="text-xs text-red-600">{errors.acceptTerms}</p>}
           </div>

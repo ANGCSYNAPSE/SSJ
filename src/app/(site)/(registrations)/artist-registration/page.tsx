@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import Image from "next/image";
 import Link from "next/link";
 import { useFormik } from "formik";
@@ -657,7 +658,11 @@ export default function ArtistRegistrationPage() {
                   checked={formik.values.agreeToTerms ?? false}
                   onChange={(v) => formik.setFieldValue("agreeToTerms", v)}
                 >
-                  {"I agree to the Terms of Service and Privacy Policy of Shyam Jagat."}
+                  {"I agree to the "}
+                  <PolicyLink doc="terms" with={["privacy"]}>{"Terms of Service"}</PolicyLink>
+                  {" and "}
+                  <PolicyLink doc="privacy" with={["terms"]}>{"Privacy Policy"}</PolicyLink>
+                  {" of Shyam Jagat."}
                 </AgreementCheckbox>
                 <AgreementCheckbox checked={consentContact} onChange={setConsentContact}>
                   {"I consent to being contacted for event opportunities via email and phone."}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import { BadgeCheck, CircleAlert, Loader2, ShieldCheck } from "lucide-react";
 import { ApiError, paymentsApi, type FeeStatus } from "@/lib/api";
 import { CheckoutDismissed, openRazorpayCheckout } from "@/lib/razorpay";
@@ -175,6 +176,13 @@ export default function RegistrationFeeCard({ onPaid }: { onPaid?: () => void })
           <ShieldCheck className="h-4 w-4" aria-hidden /> Payments are processed securely by Razorpay.
         </span>
       </div>
+      <p className="mt-3 text-xs text-[#8a8580]">
+        {"By paying you agree to our "}
+        <PolicyLink doc="terms" with={["refund"]}>{"Terms of Service"}</PolicyLink>
+        {" and "}
+        <PolicyLink doc="refund" with={["terms"]}>{"Refund Policy"}</PolicyLink>
+        {"."}
+      </p>
     </section>
   );
 }

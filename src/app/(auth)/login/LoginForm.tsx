@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Lock, Check, Info } from "lucide-react";
 import { RESUME_KEY, SignupInProgress, useAuth } from "@/components/auth/AuthProvider";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
+import PolicyLink from "@/components/legal/PolicyDialog";
 import { GOOGLE_NEW_KEY } from "@/components/auth/signup/GoogleMobileStep";
 import {
   AuthField,
@@ -225,6 +226,13 @@ export default function LoginForm() {
           href="/signup"
           label={"Create an account"}
         />
+        <p className="text-center text-xs text-muted-foreground">
+          {"By continuing you agree to our "}
+          <PolicyLink doc="terms" with={["privacy"]}>{"Terms of Service"}</PolicyLink>
+          {" and "}
+          <PolicyLink doc="privacy" with={["terms"]}>{"Privacy Policy"}</PolicyLink>
+          {"."}
+        </p>
         {/* <TrustBadges /> */}
       </div>
     </>

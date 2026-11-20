@@ -1,16 +1,12 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { CONTACT, SITE } from "@/lib/constants";
+import LegalSections from "@/components/legal/LegalSections";
+import { LEGAL_UPDATED } from "@/lib/legal";
+import type { LegalSection } from "@/lib/legal/types";
 
-export interface LegalSection {
-  id: string;
-  title: string;
-  /** Paragraphs and bullet lists, in order. A string is a paragraph; an array is a bullet list. */
-  body: (string | string[])[];
-}
+export type { LegalSection };
 
-/** Dates are written out in full so they can never be misread. */
-export const LEGAL_UPDATED = "20 November 2026";
 
 /** The shared layout of the Privacy Policy, Terms of Service and Refund Policy pages. */
 export default function LegalPage({
@@ -50,24 +46,7 @@ export default function LegalPage({
         </nav>
 
         <article className="min-w-0 rounded-2xl border border-[#d4af37]/30 bg-white p-6 shadow-sm sm:p-10">
-          {sections.map((s, i) => (
-            <section key={s.id} id={s.id} className="scroll-mt-[132px] [&:not(:first-child)]:mt-9">
-              <h2 className="font-serif text-2xl font-bold text-maroon">{`${i + 1}. ${s.title}`}</h2>
-              <div className="mt-3 flex flex-col gap-3 text-[15px] leading-relaxed text-[#444]">
-                {s.body.map((block, j) =>
-                  Array.isArray(block) ? (
-                    <ul key={j} className="list-disc space-y-1.5 pl-6 marker:text-[#e47105]">
-                      {block.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p key={j}>{block}</p>
-                  ),
-                )}
-              </div>
-            </section>
-          ))}
+          <LegalSections sections={sections} />
 
           <div className="mt-10 rounded-xl bg-[#fff4e8] p-5 text-[15px] text-maroon">
             <p className="font-semibold">{"Questions about this page?"}</p>
