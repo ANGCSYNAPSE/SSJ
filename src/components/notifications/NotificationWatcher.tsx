@@ -45,6 +45,15 @@ export default function NotificationWatcher() {
   const pathname = usePathname();
   const shown = useRef(new Set<string>());
   const reminded = useRef<string | null>(null);
+  // Every toast this watcher put on screen, so signing out can take them away: a reminder about someone's profile
+  // must not stay on the login screen.
+  const mine = useRef(new Set<number>());
+
+  useEffect(() => {
+    if (user) return;
+    toast.clear(mine.current);
+    mine.current.clear();
+  }, [user, toast]);
 
   // Someone who registered but left details blank is reminded once per visit,
   // even if no admin has written to them. Not while they're already on the
@@ -60,13 +69,14 @@ export default function NotificationWatcher() {
     reminded.current = user.id;
     const label = categoryByKey(unfinished.category)?.label ?? unfinished.category;
     const left = unfinished.missing?.length ?? 0;
-    toast.show({
+    const reminderId = toast.show({
       tone: "warning",
       title: "Finish your profile",
       message: `Your ${label.toLowerCase()} registration still needs ${left} detail${left === 1 ? "" : "s"}. It only takes a minute.`,
       action: { label: "Complete my profile", href: "/complete-profile" },
       duration: 10000,
     });
+    mine.current.add(reminderId);
   }, [user, pathname, toast]);
 
   useEffect(() => {
@@ -96,7 +106,7 @@ export default function NotificationWatcher() {
         window.dispatchEvent(new Event(ACCOUNT_CHANGED));
       }
       for (const item of fresh.slice(0, MAX_TOASTS)) {
-        toast.show({
+        const id = toast.show({
           tone: TONE[item.kind] ?? "info",
           title: item.title ?? undefined,
           message: item.message,
@@ -108,6 +118,7 @@ export default function NotificationWatcher() {
             }
           },
         });
+        mine.current.add(id);
       }
     }
 

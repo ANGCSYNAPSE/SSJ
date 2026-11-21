@@ -36,6 +36,8 @@ interface ToastItem extends ToastOptions {
 interface ToastApi {
   show: (options: ToastOptions) => number;
   dismiss: (id: number) => void;
+  /** Removes these toasts without running their onClose (for example when the person signs out). */
+  clear: (ids: Iterable<number>) => void;
 }
 
 const ToastContext = createContext<ToastApi | null>(null);
@@ -120,12 +122,18 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const dismiss = useCallback((id: number) => close(id, "dismissed"), [close]);
-  const api = useMemo<ToastApi>(() => ({ show, dismiss }), [show, dismiss]);
+  const clear = useCallback((ids: Iterable<number>) => {
+    const gone = new Set(ids);
+    for (const id of gone) closed.current.add(id);
+    setToasts((prev) => prev.filter((t) => !gone.has(t.id)));
+  }, []);
+  const api = useMemo<ToastApi>(() => ({ show, dismiss, clear }), [show, dismiss, clear]);
 
   return (
     <ToastContext.Provider value={api}>
       {children}
-      <div className="pointer-events-none fixed right-4 top-4 z-[100] flex w-[380px] max-w-[calc(100vw-2rem)] flex-col gap-2.5">
+      {/* Bottom corner, clear of the header: the account menu, bell and welcome hint all open at the top right. */}
+      <div className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-[380px] max-w-[calc(100vw-2rem)] flex-col gap-2.5 sm:bottom-6 sm:right-6">
         {toasts.map((toast) => (
           <ToastCard key={toast.id} toast={toast} onClose={(reason) => close(toast.id, reason)} />
         ))}
