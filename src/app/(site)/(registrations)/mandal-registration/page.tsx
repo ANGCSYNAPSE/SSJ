@@ -488,7 +488,7 @@ export default function MandalRegistrationPage() {
                 <div className="flex flex-col gap-2">
                   <FieldLabel label="Official Contact Phone" required />
                   <TextInput
-                    placeholder="e.g. +91 999 053 600"
+                    placeholder="e.g. +91 99905 3600"
                     value={phone}
                     onChange={setPhone}
                   />

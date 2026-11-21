@@ -7,8 +7,15 @@ export const SITE = {
 /** Where people reach the team. Shown on the policy pages. */
 export const CONTACT = {
   email: "shyamjagat@gmail.com",
-  phone: "+91 9990 053 600",
+  phone: "+91 99900 53600",
 } as const;
+
+/** A phone number as a dialable link: digits only, with the country code, e.g. tel:+919990053600. */
+export const telHref = (phone: string) => {
+  const digits = phone.replace(/\D/g, "").replace(/^0+/, "");
+  // A bare 10-digit Indian number gets the country code.
+  return `tel:+${digits.length === 10 ? `91${digits}` : digits}`;
+};
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },

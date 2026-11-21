@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { API_URL } from "@/lib/api";
 
@@ -28,6 +28,14 @@ const pageRoutes: Record<string, string[]> = {
   "Blog Listing": ["/blog"],
   "Events Page": ["/events"],
   "Temple Directory": ["/temple-directory"],
+  "Donation Page": ["/donation"],
+  "Initiatives Page": ["/initiatives"],
+  "About Page": ["/about"],
+  "Dharamshala Page": ["/dharamshala"],
+  "Artists Page": ["/artists"],
+  "Organisations Page": ["/organisations"],
+  "Baba Shyam Page": ["/baba-shyam"],
+  "Registration Pages": ["/artist-registration", "/dancer-registration", "/musician-registration", "/temple-registration"],
 };
 
 const priorityRank = { high: 0, medium: 1, low: 2 } as const;
@@ -43,6 +51,12 @@ function matchesPage(ad: Ad, pathname: string): boolean {
 function resolveImage(url: string): string {
   return url.startsWith("http") ? url : `${API_URL}${url}`;
 }
+
+/**
+ * A page can have several slots of the same size (the homepage has two leaderboards). Each slot claims a place in
+ * line when it appears, so several running ads are shared out between them instead of the first one repeating.
+ */
+const claims = new Map<string, Map<string, number>>();
 
 // One request shared by every slot on the page (and across navigations).
 let adsRequest: Promise<Ad[]> | null = null;
@@ -69,6 +83,22 @@ export default function AdSlot({
 }) {
   const pathname = usePathname() ?? "/";
   const [ads, setAds] = useState<Ad[]>([]);
+  const slotId = useId();
+  const [place, setPlace] = useState(0);
+
+  useEffect(() => {
+    const key = `${pathname}|${size}`;
+    let line = claims.get(key);
+    if (!line) {
+      line = new Map();
+      claims.set(key, line);
+    }
+    if (!line.has(slotId)) line.set(slotId, line.size);
+    setPlace(line.get(slotId) ?? 0);
+    return () => {
+      line.delete(slotId);
+    };
+  }, [pathname, size, slotId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -80,9 +110,10 @@ export default function AdSlot({
     };
   }, []);
 
-  const ad = ads
+  const running = ads
     .filter((a) => a.placement === size && matchesPage(a, pathname))
-    .sort((a, b) => priorityRank[a.priority ?? "medium"] - priorityRank[b.priority ?? "medium"])[0];
+    .sort((a, b) => priorityRank[a.priority ?? "medium"] - priorityRank[b.priority ?? "medium"] || a.id.localeCompare(b.id));
+  const ad = running.length ? running[place % running.length] : undefined;
 
   const dims =
     size === "leaderboard"

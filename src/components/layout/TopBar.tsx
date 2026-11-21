@@ -13,6 +13,7 @@ import {
   applyInitialLanguage,
 } from "@/lib/gtranslate";
 import { cn } from "@/lib/utils";
+import { CONTACT, telHref } from "@/lib/constants";
 import AppComingSoonDialog from "./AppComingSoonDialog";
 
 const SOCIAL_LINKS = [
@@ -138,10 +139,18 @@ export default function TopBar() {
             </span>
           </button>
 
-          <span className="hidden items-center gap-1.5 whitespace-nowrap xl:flex">
+          {/* Tap or click to call: opens the phone app on a mobile, or the default calling app on a computer. */}
+          <a
+            href={telHref(CONTACT.phone)}
+            className="hidden items-center gap-1.5 whitespace-nowrap transition-colors hover:text-white xl:flex"
+            aria-label={`Call 24x7 support on ${CONTACT.phone}`}
+          >
             <Headphones className="h-3.5 w-3.5" aria-hidden />
-            {"24x7 Support"} · +91 999 053 600
-          </span>
+            {"24x7 Support"} · {CONTACT.phone}
+          </a>
+          <a href={telHref(CONTACT.phone)} aria-label={`Call support on ${CONTACT.phone}`} className="text-white/80 transition-colors hover:text-white xl:hidden">
+            <Headphones className="h-4 w-4" aria-hidden />
+          </a>
 
           <div className="flex items-center gap-3">
             {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (

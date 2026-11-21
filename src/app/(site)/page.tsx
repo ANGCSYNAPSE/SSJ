@@ -212,10 +212,11 @@ export default function HomePage() {
       <section className="bg-white py-16 lg:py-20">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[88px]">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
-            <div className="relative order-2 h-96 overflow-hidden rounded-[35px] shadow-[-16px_18px_50px_rgba(0,0,0,0.25)] lg:order-1 lg:h-[543px]">
+            {/* The picture keeps its own proportions (1024 x 880), so nothing is cropped at any screen width. */}
+            <div className="relative order-2 aspect-[1024/880] w-full overflow-hidden rounded-[35px] shadow-[-16px_18px_50px_rgba(0,0,0,0.25)] lg:order-1">
               <Image
-                src="/images/home/about-shyam.png"
-                alt="Volunteers serving food at a Shyam Jagat seva event"
+                src="/images/home/about-shyam.jpg"
+                alt="Shyam Jagat volunteers teaching village children and running a free health camp in a temple courtyard"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
@@ -309,17 +310,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex w-full flex-col items-center justify-center gap-8 rounded-2xl bg-white p-8 text-center text-[#3e1815] lg:w-[480px] lg:p-12">
-            <div className="flex h-[120px] w-[120px] items-center justify-center rounded-full bg-[#e47105]">
-              <Video className="h-[60px] w-[60px] text-white" aria-hidden />
+          {/* The live stream is not switched on yet: the card is shown blurred, with a small "Coming Soon" label. */}
+          <div className="relative w-full overflow-hidden rounded-2xl bg-white text-center text-[#3e1815] lg:w-[480px]">
+            <div aria-hidden className="pointer-events-none flex select-none flex-col items-center justify-center gap-8 p-8 opacity-90 blur-[7px] lg:p-12">
+              <div className="flex h-[120px] w-[120px] items-center justify-center rounded-full bg-[#e47105]">
+                <Video className="h-[60px] w-[60px] text-white" aria-hidden />
+              </div>
+              <h3 className="font-serif text-[28px] font-extrabold">{"Currently Streaming"}</h3>
+              <p className="text-base text-[#6b4f4f]">
+                {"Join thousands of devotees in our continuous live stream of the temple sanctum."}
+              </p>
+              <span className="rounded bg-[#e47105] px-8 py-4 text-sm font-bold uppercase text-white shadow-lg">{"Watch Live"}</span>
             </div>
-            <h3 className="font-serif text-[28px] font-extrabold">{"Currently Streaming"}</h3>
-            <p className="text-base text-[#6b4f4f]">
-              {"Join thousands of devotees in our continuous live stream of the temple sanctum."}
-            </p>
-            <button className="rounded bg-[#e47105] px-8 py-4 text-sm font-bold uppercase text-white shadow-lg transition-opacity hover:opacity-90">
-              {"Watch Live"}
-            </button>
+            <div className="absolute inset-0 flex items-center justify-center bg-white/30">
+              <span className="rounded-full bg-maroon px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white shadow-lg">{"Coming Soon"}</span>
+            </div>
+            <p className="sr-only">{"Live streaming of the aarti is coming soon."}</p>
           </div>
         </div>
       </section>
