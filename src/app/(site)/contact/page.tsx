@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { telHref } from "@/lib/constants";
+import { CONTACT, telHref } from "@/lib/constants";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -111,9 +111,7 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs font-semibold text-[#E07C2D] uppercase tracking-wide">Phone Support</p>
                     <p className="text-[#583939] font-semibold">
-                      <a href={telHref("+91 141 2345 678")} className="hover:text-[#E07C2D] hover:underline">+91 141 2345 678</a>
-                      {", "}
-                      <a href={telHref("+91 98765 43210")} className="hover:text-[#E07C2D] hover:underline">+91 98765 43210</a>
+                      <a href={telHref(CONTACT.phone)} className="hover:text-[#E07C2D] hover:underline">{CONTACT.phone}</a>
                     </p>
                   </div>
                 </div>
