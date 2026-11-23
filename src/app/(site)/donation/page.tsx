@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CONTACT, telHref } from "@/lib/constants";
 import PolicyLink from "@/components/legal/PolicyDialog";
 import Image from "next/image";
 import Link from "next/link";
@@ -891,12 +892,12 @@ export default function DonationPage() {
         <div className="flex flex-wrap items-center justify-center gap-5">
           <div className="flex items-center gap-2">
             <Phone className="h-4 w-4 text-[#666]" aria-hidden />
-            <p className="text-sm text-[#666]">+91 12345 67890</p>
+            <a href={telHref(CONTACT.phone)} className="text-sm text-[#666] hover:text-[#e47105] hover:underline">{CONTACT.phone}</a>
           </div>
           <span className="hidden h-[18px] w-px bg-[#bbb] sm:block" />
-          <a href="mailto:shyamjagat@gmail.com" className="flex items-center gap-2">
+          <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2">
             <Mail className="h-4 w-4 text-[#666]" aria-hidden />
-            <p className="text-sm text-[#666]">shyamjagat@gmail.com</p>
+            <p className="text-sm text-[#666]">{CONTACT.email}</p>
           </a>
         </div>
       </section>

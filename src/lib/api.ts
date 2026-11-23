@@ -62,6 +62,8 @@ function renewAccessToken(): Promise<boolean> {
   renewing ??= authApi
     .refresh()
     .then((renewed) => {
+      // null: the cookie is gone, so the session is over.
+      if (!renewed) throw new Error("No active session.");
       accessToken = renewed.accessToken;
       return true;
     })
@@ -228,7 +230,7 @@ export interface SignupOrder {
   prefill: { name: string; email: string; contact: string };
 }
 
-let refreshing: Promise<AuthResult> | null = null;
+let refreshing: Promise<AuthResult | null> | null = null;
 
 export const authApi = {
   /** Registration, in steps: start (emails a code) -> verifyOtp -> payOrder/payVerify, which creates the account. */
@@ -262,14 +264,13 @@ export const authApi = {
   /** A new Google person adds their mobile number: starts the registration at its details step (no password, no code). */
   googleStart: (credential: string, mobile: string) => request<SignupResume>("/auth/google/start", { body: { credential, mobile, acceptTerms: true } }),
 
-  /** Exchanges the refresh cookie for a fresh access token. */
   /**
-   * Restores the session from the refresh cookie. Overlapping calls share ONE request: the server swaps the cookie on every
+   * Restores the session from the refresh cookie; null when nobody is signed in on this browser. Overlapping calls share ONE request: the server swaps the cookie on every
    * refresh, so two at the same moment (React's double render in development, a page and a retried request) would look
    * like a replayed token.
    */
   refresh: () => {
-    refreshing ??= request<AuthResult>("/auth/refresh", { retryOnUnauthorized: false }).finally(() => {
+    refreshing ??= request<AuthResult | null>("/auth/refresh", { retryOnUnauthorized: false }).finally(() => {
       refreshing = null;
     });
     return refreshing;
@@ -401,6 +402,12 @@ export type Dashboard = {
   profiles: DashboardProfile[];
   notifications: { unread: number; recent: { id: string; title: string | null; message: string; link: string | null; createdAt: string }[] };
   donations: { count: number; total: number; recent: { id: string; amount: number; cause: string; createdAt: string }[] };
+};
+
+/** The Contact page's form: saved for the team and emailed to them. */
+export const contactApi = {
+  send: (input: { name: string; email: string; phone?: string; subject?: string; message: string }) =>
+    request<{ id: string }>("/contact", { body: input }),
 };
 
 export const meApi = {

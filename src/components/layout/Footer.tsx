@@ -57,7 +57,7 @@ const linkClass = "text-sm text-white/80 transition-colors hover:text-white";
 export default function Footer() {
   return (
     <>
-      <AdSlot size="leaderboard" />
+      <AdSlot size="leaderboard" area="footer" />
       <footer className="bg-maroon text-white">
         <Container className="pb-8 pt-16 lg:pt-20">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,2.6fr)]">

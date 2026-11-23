@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { ArrowLeft, Camera, MapPin } from "lucide-react";
 import { AuthField } from "@/components/auth/AuthShell";
-import { TextField, SubmitButton } from "@/components/auth/TextField";
+import { SubmitButton } from "@/components/auth/TextField";
 import { STATES } from "./categories";
+import CityField, { selectClass } from "./CityField";
 
 export interface MemberDetailsValue {
   city: string;
@@ -35,8 +36,8 @@ export default function MemberDetails({
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const found: typeof errors = {};
-    if (!city.trim()) found.city = "Please enter your city.";
     if (!state) found.state = "Please choose your state.";
+    if (state && !city.trim()) found.city = "Please choose your city.";
     if (photo && !["image/jpeg", "image/png", "image/webp"].includes(photo.type)) found.photo = "Please choose a JPG, PNG or WebP image.";
     if (photo && photo.size > 4 * 1024 * 1024) found.photo = "The photo must be under 4 MB.";
     setErrors(found);
@@ -56,16 +57,16 @@ export default function MemberDetails({
         <p className="max-w-[320px] text-sm text-muted-foreground">One more step, then the registration fee, and your account is ready.</p>
       </div>
 
-      <AuthField label="City *" htmlFor="city" error={errors.city}>
-        <TextField id="city" icon={MapPin} placeholder="Your city" value={city} onChange={(e) => setCity(e.target.value)} autoComplete="address-level2" />
-      </AuthField>
-
       <AuthField label="State *" htmlFor="state" error={errors.state}>
         <select
           id="state"
           value={state}
-          onChange={(e) => setState(e.target.value)}
-          className="h-9 w-full rounded-xl border-[1.5px] border-border bg-cream-light px-3 text-sm text-foreground outline-none focus:border-primary"
+          onChange={(e) => {
+            // A different state has different cities, so the city is chosen again.
+            setState(e.target.value);
+            setCity("");
+          }}
+          className={selectClass}
         >
           <option value="">Select your state</option>
           {STATES.map((s) => (
@@ -74,6 +75,10 @@ export default function MemberDetails({
             </option>
           ))}
         </select>
+      </AuthField>
+
+      <AuthField label="City *" htmlFor="city" error={errors.city}>
+        <CityField id="city" state={state} value={city} onChange={setCity} />
       </AuthField>
 
       <AuthField label="Profile photo (optional)" htmlFor="photo" error={errors.photo}>

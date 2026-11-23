@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import CityField from "./CityField";
 import { Camera, Check, ChevronDown, FileText, Paperclip, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AuthField } from "@/components/auth/AuthShell";
@@ -325,9 +326,27 @@ export default function FieldGrid({
   onChange: (key: string, value: FieldValue) => void;
   onFiles: (field: Field, files: File[]) => void;
 }) {
+  // State first, then the city of that state, wherever the form lists them.
+  const hasState = fields.some((f) => f.key === "state" && f.type === "select");
+  const ordered = [...fields];
+  const cityAt = ordered.findIndex((f) => f.key === "city" && f.type === "text");
+  const stateAt = ordered.findIndex((f) => f.key === "state");
+  if (hasState && cityAt >= 0 && stateAt > cityAt) ordered.splice(cityAt, 0, ...ordered.splice(stateAt, 1));
+  const chosenState = typeof values.state === "string" ? values.state : "";
+
   return (
     <div className="grid grid-cols-2 gap-x-3 gap-y-3.5">
-      {fields.map((field) => {
+      {ordered.map((field) => {
+        if (hasState && field.key === "city" && field.type === "text") {
+          return (
+            <div key={field.key} className={field.half ? "col-span-2 sm:col-span-1" : "col-span-2"}>
+              <AuthField label={field.required ? `${field.label} *` : field.label} htmlFor="field-city" error={errors.city}>
+                <CityField id="field-city" state={chosenState} value={typeof values.city === "string" ? values.city : ""} onChange={(v) => onChange("city", v)} placeholder={field.placeholder} />
+              </AuthField>
+            </div>
+          );
+        }
+
         if (field.type === "checkbox") {
           const checked = values[field.key] === true;
           return (
@@ -374,7 +393,15 @@ export default function FieldGrid({
               htmlFor={`field-${field.key}`}
               error={errors[field.key]}
             >
-              <Control field={field} value={values[field.key]} onChange={(v) => onChange(field.key, v)} />
+              <Control
+                field={field}
+                value={values[field.key]}
+                onChange={(v) => {
+                  onChange(field.key, v);
+                  // A different state has different cities.
+                  if (field.key === "state" && hasState && cityAt >= 0) onChange("city", "");
+                }}
+              />
             </AuthField>
           </div>
         );

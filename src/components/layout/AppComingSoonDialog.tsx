@@ -101,7 +101,7 @@ export default function AppComingSoonDialog({ onClose }: { onClose: () => void }
                 Become a Member
               </span>
               <div className="mt-1 grid w-full grid-cols-2 gap-1.5">
-                {["50K+ Devotees", "250+ Seva", "1200+ Temples", "15+ States"].map((s) => (
+                {["Devotees", "Seva", "Temples", "States"].map((s) => (
                   <span key={s} className="rounded-md border border-white/25 bg-[#0b3970]/60 py-1.5 text-[8px] font-bold text-white">
                     {s}
                   </span>

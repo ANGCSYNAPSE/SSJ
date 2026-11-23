@@ -79,7 +79,8 @@ export default function AuthProvider({
     authApi
       .refresh()
       .then((result) => {
-        if (cancelled) return;
+        // null: nobody is signed in on this browser.
+        if (cancelled || !result) return;
         tokenStore.set(result.accessToken);
         setUser(result.user);
       })

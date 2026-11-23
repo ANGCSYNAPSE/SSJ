@@ -6,7 +6,7 @@ export const SITE = {
 
 /** Where people reach the team. Shown on the policy pages. */
 export const CONTACT = {
-  email: "shyamjagat@gmail.com",
+  email: "shyamjagatindia@gmail.com",
   phone: "+91 99900 53600",
 } as const;
 

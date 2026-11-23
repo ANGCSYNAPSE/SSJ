@@ -52,7 +52,7 @@ export default function AuthShell({
               <BadgeCheck className="h-3.5 w-3.5 text-white" aria-hidden />
             </span>
             <span className="text-[13px] font-semibold text-white">
-              {"Trusted by 5,000+ Devotees"}
+              {"Trusted by Devotees"}
             </span>
           </div>
 

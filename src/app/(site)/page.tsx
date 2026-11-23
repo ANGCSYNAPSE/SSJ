@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { INITIATIVES, type Initiative } from "@/lib/data/initiatives";
 import AdSlot from "@/components/ui/AdSlot";
+import { CONTACT, telHref } from "@/lib/constants";
 import HeroGateway from "@/components/home/HeroGateway";
 
 /** Underline-arrow accent used next to hero and about-section CTAs. */
@@ -75,7 +76,7 @@ export default function HomePage() {
   const stats = [
     { icon: Clock, title: "Requests within 24 hours", sub: "Fast response" },
     { icon: Headphones, title: "Dedicated Support", sub: "Human help" },
-    { icon: Users, title: "Community 1000+", sub: "Strong network" },
+    { icon: Users, title: "Community", sub: "Strong network" },
     { icon: Lock, title: "100% Confidential", sub: "Secure" },
   ];
 
@@ -145,22 +146,19 @@ export default function HomePage() {
           {/* Stats row */}
           <div className="grid w-full max-w-[820px] grid-cols-2 gap-3 lg:grid-cols-4">
             {[
-              { icon: Users, value: "50K+", label: "Devotees Connected" },
-              { icon: HeartHandshake, value: "250+", label: "Seva Initiatives" },
-              { icon: Building2, value: "1200+", label: "Temples Associated" },
-              { icon: Map, value: "15+", label: "States Covered" },
+              { icon: Users, label: "Devotees Connected" },
+              { icon: HeartHandshake, label: "Seva Initiatives" },
+              { icon: Building2, label: "Temples Associated" },
+              { icon: Map, label: "States Covered" },
             ].map((s) => (
               <div
-                key={s.value}
+                key={s.label}
                 className="group flex cursor-default items-center gap-3 rounded-xl border border-white/30 bg-[#0b3970]/55 px-4 py-2.5 text-left text-white shadow-[0_5px_18px_rgba(0,0,0,0.16)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#ffd04f]/70 hover:bg-[#0b3970]/80 hover:shadow-[0_10px_26px_rgba(0,0,0,0.35)]"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 transition-colors duration-300 group-hover:bg-[#f47700]">
                   <s.icon className="h-[18px] w-[18px] text-white" aria-hidden />
                 </span>
-                <span className="min-w-0">
-                  <span className="block text-lg font-extrabold leading-tight sm:text-xl">{s.value}</span>
-                  <span className="block text-[11px] leading-tight text-white/90">{s.label}</span>
-                </span>
+                <span className="min-w-0 text-sm font-bold leading-tight sm:text-[15px]">{s.label}</span>
               </div>
             ))}
           </div>
@@ -180,7 +178,7 @@ export default function HomePage() {
           {/* Quick links, over the road at the foot of the gateway */}
           <div className="mt-auto grid w-full max-w-[860px] grid-cols-2 gap-2.5 pt-4 sm:gap-3 lg:grid-cols-4">
             {[
-              { icon: Landmark, title: "Find a Temple", text: "Browse 1200+ temples", href: "/temple-directory" },
+              { icon: Landmark, title: "Find a Temple", text: "Browse temples", href: "/temple-directory" },
               { icon: CalendarDays, title: "Upcoming Events", text: "Join a satsang near you", href: "/events" },
               { icon: HeartHandshake, title: "Seva Initiatives", text: "Serve with devotion", href: "/initiatives" },
               { icon: Heart, title: "Donate", text: "Support our mission", href: "/donation" },
@@ -499,9 +497,10 @@ export default function HomePage() {
       <AdSlot size="rectangle" />
 
       {/* TEMPLE REGISTRATION CTA */}
-      <section className="bg-white">
-        <div className="grid lg:grid-cols-2">
-          <div className="relative order-2 h-[360px] lg:order-1 lg:h-[520px]">
+      <section className="bg-white px-6 py-6 lg:px-[108px] lg:py-8">
+        <div className="mx-auto max-w-[1440px] overflow-hidden rounded-2xl border border-[#d4af37]/25 shadow-[0_12px_30px_rgba(139,0,0,0.07)]">
+          <div className="grid lg:grid-cols-2">
+          <div className="relative order-2 min-h-[360px] lg:order-1 lg:min-h-[520px]">
             <Image
               src="/images/home/temple-cta.png"
               alt="A temple at sunset"
@@ -538,12 +537,14 @@ export default function HomePage() {
               {"Register as Temple →"}
             </Link>
           </div>
+          </div>
         </div>
       </section>
 
       {/* ARTIST REGISTRATION CTA */}
-      <section className="bg-white">
-        <div className="grid lg:grid-cols-2">
+      <section className="bg-white px-6 py-6 lg:px-[108px] lg:py-8">
+        <div className="mx-auto max-w-[1440px] overflow-hidden rounded-2xl border border-[#d4af37]/25 shadow-[0_12px_30px_rgba(139,0,0,0.07)]">
+          <div className="grid lg:grid-cols-2">
           <div className="flex flex-col gap-6 bg-[#fdf6ec] px-6 py-14 lg:justify-center lg:px-20 lg:py-20">
             <div className="flex flex-col gap-4">
               <p className="text-xs font-bold uppercase tracking-[0.96px] text-[#e87722]">
@@ -571,7 +572,7 @@ export default function HomePage() {
               {"Register as Artist →"}
             </Link>
           </div>
-          <div className="relative h-[360px] lg:h-[520px]">
+          <div className="relative min-h-[360px] lg:min-h-[520px]">
             <Image
               src="/images/home/artist-cta.png"
               alt="Devotional dancers performing at an evening event"
@@ -580,6 +581,7 @@ export default function HomePage() {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-black/10" />
+          </div>
           </div>
         </div>
       </section>
@@ -667,8 +669,9 @@ export default function HomePage() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section className="bg-white">
-        <div className="grid lg:grid-cols-2">
+      <section className="bg-white px-6 py-6 lg:px-[108px] lg:py-8">
+        <div className="mx-auto max-w-[1440px] overflow-hidden rounded-2xl border border-[#d4af37]/25 shadow-[0_12px_30px_rgba(139,0,0,0.07)]">
+          <div className="grid lg:grid-cols-2">
           <div className="relative flex flex-col gap-8 overflow-hidden bg-[#fdf6ec] px-6 py-14 lg:px-24 lg:py-24">
             <div className="absolute inset-0 opacity-20">
               <Image
@@ -690,16 +693,22 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col gap-4">
                 {[
-                  { icon: Mail, text: "shyamjagat@gmail.com" },
-                  { icon: Phone, text: "+91 12345 67890" },
-                  { icon: MapPin, text: "Jaipur, Rajasthan, India" },
-                  { icon: Clock, text: "Mon-Sat : 9 AM - 6 PM" },
+                  { icon: Mail, text: CONTACT.email, href: `mailto:${CONTACT.email}` },
+                  { icon: Phone, text: CONTACT.phone, href: telHref(CONTACT.phone) },
+                  { icon: MapPin, text: "Jaipur, Rajasthan, India", href: undefined },
+                  { icon: Clock, text: "Mon-Sat : 9 AM - 6 PM", href: undefined },
                 ].map((row) => (
                   <div key={row.text} className="flex items-center gap-3">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e87722]">
                       <row.icon className="h-[18px] w-[18px] text-white" aria-hidden />
                     </div>
-                    <p className="text-base text-[#4b5563]">{row.text}</p>
+                    {row.href ? (
+                      <a href={row.href} className="text-base text-[#4b5563] transition-colors hover:text-[#e47105] hover:underline">
+                        {row.text}
+                      </a>
+                    ) : (
+                      <p className="text-base text-[#4b5563]">{row.text}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -791,6 +800,7 @@ export default function HomePage() {
                 {"Send Message →"}
               </button>
             </form>
+          </div>
           </div>
         </div>
       </section>

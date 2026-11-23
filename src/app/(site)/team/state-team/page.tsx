@@ -111,7 +111,7 @@ export default function StateTeamPage() {
                 />
               </div>
               <p className="text-[13px] leading-5 text-white/80">
-                {"Bridging devotion across 15+ states with active local committees managing darshan operations, pilgrim food kitchens, and state chapter support."}
+                {"Bridging devotion across states with active local committees managing darshan operations, pilgrim food kitchens, and state chapter support."}
               </p>
             </div>
 

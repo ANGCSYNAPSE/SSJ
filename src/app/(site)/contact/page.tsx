@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import SuccessDialog from "@/components/ui/SuccessDialog";
+import { ApiError, contactApi } from "@/lib/api";
 import { CONTACT, telHref } from "@/lib/constants";
 
 export default function ContactPage() {
@@ -20,24 +22,60 @@ export default function ContactPage() {
       ...prev,
       [name]: value,
     }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [sent, setSent] = useState<{ name: string; email: string } | null>(null);
+  const closeSent = useCallback(() => setSent(null), []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message! We will get back to you soon.");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      mobile: "",
-      subject: "",
-      message: "",
-    });
+    const found: Record<string, string> = {};
+    if (formData.firstName.trim().length < 1) found.firstName = "Please enter your first name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) found.email = "Enter a valid email address.";
+    const digits = formData.mobile.replace(/\D/g, "");
+    if (formData.mobile.trim() && !/^(91)?[6-9]\d{9}$/.test(digits)) found.mobile = "Enter a valid 10-digit mobile number, or leave it blank.";
+    if (formData.message.trim().length < 5) found.message = "Please write your message.";
+    setErrors(found);
+    setFormError(null);
+    if (Object.keys(found).length > 0) return;
+
+    setSending(true);
+    try {
+      const name = `${formData.firstName} ${formData.lastName}`.trim();
+      await contactApi.send({
+        name: name.length >= 2 ? name : `${name} .`,
+        email: formData.email.trim(),
+        phone: formData.mobile.trim() || undefined,
+        subject: formData.subject.trim() || undefined,
+        message: formData.message.trim(),
+      });
+      setSent({ name: formData.firstName.trim(), email: formData.email.trim() });
+      setFormData({ firstName: "", lastName: "", email: "", mobile: "", subject: "", message: "" });
+    } catch (err) {
+      if (err instanceof ApiError && err.errors?.length) {
+        setErrors(Object.fromEntries(err.errors.map((f) => [f.field === "name" ? "firstName" : f.field === "phone" ? "mobile" : f.field, f.message])));
+      } else if (err instanceof ApiError && err.status === 429) {
+        setFormError("You have sent a few messages already. Please wait a little while and try again.");
+      } else {
+        setFormError("We could not send your message just now. Please try again, or write to us at " + CONTACT.email + ".");
+      }
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <>
+      <SuccessDialog
+        open={sent !== null}
+        onClose={closeSent}
+        title="Message sent"
+        message={sent ? `Thank you${sent.name ? `, ${sent.name}` : ""}! We have received your message and will reply to ${sent.email} soon.` : ""}
+      />
       {/* Hero Section */}
       <section className="relative h-[500px] sm:h-[600px] lg:h-[700px] w-full overflow-hidden">
         {/* Background Image */}
@@ -95,7 +133,9 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-[#E07C2D] uppercase tracking-wide">Email Helpline</p>
-                    <p className="text-[#583939] font-semibold">contact@shreeshyamjagat.org</p>
+                    <p className="text-[#583939] font-semibold">
+                      <a href={`mailto:${CONTACT.email}`} className="hover:text-[#E07C2D] hover:underline">{CONTACT.email}</a>
+                    </p>
                   </div>
                 </div>
 
@@ -180,6 +220,7 @@ export default function ContactPage() {
                       placeholder="Enter your first name"
                       className="w-full px-4 py-3 rounded-lg border border-[#D0D0D0] bg-[#F9F9F9] text-[#583939] placeholder-[#AAAAAA] focus:outline-none focus:border-[#E07C2D] focus:bg-white"
                     />
+                    {errors.firstName && <p className="mt-1.5 text-xs text-red-600">{errors.firstName}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-[#583939] mb-2">Last Name</label>
@@ -206,6 +247,7 @@ export default function ContactPage() {
                       placeholder="example@email.com"
                       className="w-full px-4 py-3 rounded-lg border border-[#D0D0D0] bg-[#F9F9F9] text-[#583939] placeholder-[#AAAAAA] focus:outline-none focus:border-[#E07C2D] focus:bg-white"
                     />
+                    {errors.email && <p className="mt-1.5 text-xs text-red-600">{errors.email}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-[#583939] mb-2">Mobile Number</label>
@@ -214,9 +256,10 @@ export default function ContactPage() {
                       name="mobile"
                       value={formData.mobile}
                       onChange={handleInputChange}
-                      placeholder="+91 12345 67890"
+                      placeholder="Your mobile number (optional)"
                       className="w-full px-4 py-3 rounded-lg border border-[#D0D0D0] bg-[#F9F9F9] text-[#583939] placeholder-[#AAAAAA] focus:outline-none focus:border-[#E07C2D] focus:bg-white"
                     />
+                    {errors.mobile && <p className="mt-1.5 text-xs text-red-600">{errors.mobile}</p>}
                   </div>
                 </div>
 
@@ -244,14 +287,21 @@ export default function ContactPage() {
                     rows={5}
                     className="w-full px-4 py-3 rounded-lg border border-[#D0D0D0] bg-[#F9F9F9] text-[#583939] placeholder-[#AAAAAA] focus:outline-none focus:border-[#E07C2D] focus:bg-white resize-none"
                   />
+                  {errors.message && <p className="mt-1.5 text-xs text-red-600">{errors.message}</p>}
                 </div>
 
                 {/* Submit Button */}
+                {formError && (
+                  <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {formError}
+                  </p>
+                )}
                 <button
                   type="submit"
-                  className="w-full bg-[#E07C2D] text-white py-4 rounded-lg font-semibold hover:bg-[#D46B1B] transition-all flex items-center justify-center gap-2"
+                  disabled={sending}
+                  className="w-full bg-[#E07C2D] text-white py-4 rounded-lg font-semibold hover:bg-[#D46B1B] transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                 >
-                  Send Message →
+                  {sending ? "Sending…" : "Send Message →"}
                 </button>
               </form>
             </div>

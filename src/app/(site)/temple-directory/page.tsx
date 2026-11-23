@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ComponentType } from "react";
+import { CONTACT, telHref } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -638,7 +639,10 @@ export default function TempleDirectoryPage() {
             </Link>
           </div>
           <p className="text-[13px] text-[#8c8c8c]">
-            Questions? Call +91 12345 67890 &nbsp;•&nbsp; temples@shyamjagat.org
+            {"Questions? Call "}
+            <a href={telHref(CONTACT.phone)} className="hover:text-[#e47105] hover:underline">{CONTACT.phone}</a>
+            {" • "}
+            <a href={`mailto:${CONTACT.email}`} className="hover:text-[#e47105] hover:underline">{CONTACT.email}</a>
           </p>
         </div>
       </section>

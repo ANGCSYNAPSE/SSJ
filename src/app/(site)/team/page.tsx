@@ -179,7 +179,7 @@ export default function TeamPage() {
           <div className="flex flex-col items-start gap-5 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white p-7">
             <h3 className="font-serif text-[26px] font-bold text-maroon">{"State Committee Teams"}</h3>
             <p className="text-sm leading-[22px] text-[#595656]">
-              {"Regional teams managing local chapters, temple registries, bhajan sandhya bookings, and social support grids across 15+ Indian states."}
+              {"Regional teams managing local chapters, temple registries, bhajan sandhya bookings, and social support grids across Indian states."}
             </p>
             <Link
               href="/team/state-team"

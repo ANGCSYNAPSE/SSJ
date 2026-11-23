@@ -5,6 +5,7 @@ import NotificationWatcher from "@/components/notifications/NotificationWatcher"
 import { PolicyHost } from "@/components/legal/PolicyDialog";
 import { ToastProvider } from "@/components/ui/Toast";
 import GTranslateWidget from "@/components/i18n/GTranslateWidget";
+import HindiPolish from "@/components/i18n/HindiPolish";
 
 export const metadata: Metadata = {
   title: {
@@ -40,6 +41,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <GTranslateWidget />
+        <HindiPolish />
         <ToastProvider>
           <AuthProvider>
             <NotificationWatcher />
