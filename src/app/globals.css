@@ -31,3 +31,8 @@ body {
 .gtranslate_wrapper {
   display: none !important;
 }
+
+/* A Hindi name shown beside its English one is hidden once the whole page is in Hindi, where it would only repeat the line above it. */
+html[lang="hi"] .hindi-sub {
+  display: none;
+}

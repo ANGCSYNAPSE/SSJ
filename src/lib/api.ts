@@ -121,8 +121,21 @@ async function request<T>(
   return payload.data as T;
 }
 
-/** The six things a person can register as, each stored in its own table on the backend. */
-export type CategoryKey = "artist" | "dancer" | "musician" | "temple" | "dharamshala" | "mandal";
+/** The things a person can register as. The first six each have their own table on the backend; a volunteer is free and kept separately. */
+export type CategoryKey = "artist" | "dancer" | "musician" | "temple" | "dharamshala" | "mandal" | "volunteer";
+
+/** A volunteer's own record: the seva they would like to help with, and the admin's review of it. */
+export interface VolunteerRecord {
+  id: string;
+  status: "pending" | "approved" | "rejected" | "blocked";
+  interests: string[];
+  skills: string[];
+  availability: string | null;
+  city: string;
+  state: string;
+  about: string | null;
+  createdAt: string;
+}
 
 export interface UserProfileSummary {
   id: string;
@@ -148,8 +161,10 @@ export interface AuthUser {
   isMember?: boolean;
   /** Categories this account has registered for (empty for a plain member). */
   profiles?: UserProfileSummary[];
-  /** Whether the registration fee has been paid (admins never owe it). */
-  registrationFee?: "paid" | "partial" | "pending";
+  /** Whether the registration fee has been paid (admins never owe it). "free" is a volunteer who has not paid, and owes nothing. */
+  registrationFee?: "paid" | "partial" | "pending" | "free";
+  /** Present when this account is a volunteer. */
+  volunteer?: VolunteerRecord;
   createdAt: string;
 }
 
@@ -210,7 +225,9 @@ export interface SignupStart {
 }
 
 export interface SignupFee {
-  status: "pending" | "partial" | "paid";
+  status: "pending" | "partial" | "paid" | "free";
+  /** True for a free registration (a volunteer): there is no payment step. */
+  free?: boolean;
   total: number;
   minimum: number;
   paid: number;
@@ -400,6 +417,7 @@ export type Dashboard = {
   };
   completion: { percent: number; missingAccount: string[] };
   profiles: DashboardProfile[];
+  volunteer?: VolunteerRecord;
   notifications: { unread: number; recent: { id: string; title: string | null; message: string; link: string | null; createdAt: string }[] };
   donations: { count: number; total: number; recent: { id: string; amount: number; cause: string; createdAt: string }[] };
 };
@@ -423,13 +441,17 @@ export const meApi = {
       auth: true,
     }),
 
+  /** A volunteer changes their own seva, skills, availability or note. */
+  updateVolunteer: (patch: Partial<Pick<VolunteerRecord, "interests" | "skills" | "availability" | "city" | "state" | "about">>) =>
+    request<VolunteerRecord>("/me/volunteer", { method: "PATCH", body: patch, auth: true }),
+
   /** Confirms the code; the phone is then marked verified. */
   verifyMobileOtp: (code: string) => request<{ verified: boolean }>("/me/mobile/verify-otp", { body: { code }, auth: true }),
 };
 
 export interface FeeStatus {
-  /** pending = nothing paid, partial = part paid with a balance due, paid = all of it. */
-  status: "pending" | "partial" | "paid";
+  /** pending = nothing paid, partial = part paid with a balance due, paid = all of it, free = a volunteer who has paid nothing and owes nothing. */
+  status: "pending" | "partial" | "paid" | "free";
   total: number;
   minimum: number;
   paid: number;

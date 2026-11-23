@@ -97,26 +97,31 @@ export default function RegistrationFeeCard({ onPaid }: { onPaid?: () => void })
   }
 
   const partial = fee.status === "partial";
+  // A volunteer who has paid nothing: nothing is owed. This is only an offer to become a member, in a calm, optional tone.
+  const free = fee.status === "free";
 
   return (
-    <section className={cn("rounded-2xl border bg-white p-5 shadow-sm", partial ? "border-amber-300" : "border-red-200")}>
+    <section className={cn("rounded-2xl border bg-white p-5 shadow-sm", free ? "border-[#d4af37]/40" : partial ? "border-amber-300" : "border-red-200")}>
       <div className="flex items-start gap-3">
-        <span className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full", partial ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600")}>
+        <span className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full", free ? "bg-[#fff1d8] text-[#e47105]" : partial ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600")}>
           <CircleAlert className="h-5 w-5" aria-hidden />
         </span>
         <div className="min-w-0 flex-1">
           <h2 className="font-serif text-lg font-bold text-maroon">
-            {partial ? `Balance of ${rupees(fee.balance)} pending` : "Registration fee pending"}
+            {free ? "Become a member (optional)" : partial ? `Balance of ${rupees(fee.balance)} pending` : "Registration fee pending"}
           </h2>
           <p className="text-sm text-[#595656]">
-            {partial
+            {free
+              ? `Your volunteer account is free, and nothing is due. If you would also like to become a member, the registration fee is ${rupees(fee.total)}. You can start with ${rupees(fee.minimum)} and pay the rest later.`
+              : partial
               ? "Thank you for your payment. You can pay the rest whenever you like."
               : `The registration fee is ${rupees(fee.total)}. You can start with just ${rupees(fee.minimum)} and pay the rest later.`}
           </p>
         </div>
       </div>
 
-      {/* paid / pending bar */}
+      {/* paid / pending bar (not for a volunteer: there is nothing pending) */}
+      {!free && (
       <div className="mt-4">
         <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#f3e3c3]">
           <div className="h-full rounded-full bg-gradient-to-r from-[#f47700] to-[#ffb347] transition-all duration-700" style={{ width: `${Math.round((fee.paid / fee.total) * 100)}%` }} />
@@ -126,6 +131,7 @@ export default function RegistrationFeeCard({ onPaid }: { onPaid?: () => void })
           <span className="text-red-600">Pending {rupees(fee.balance)}</span>
         </div>
       </div>
+      )}
 
       {/* what to pay now */}
       <div className="mt-4 flex flex-wrap items-center gap-2">

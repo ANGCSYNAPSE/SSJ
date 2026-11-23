@@ -474,7 +474,7 @@ export default function TempleDirectoryPage() {
           </div>
 
           <Link
-            href="/temple-registration"
+            href="/signup?register=temple"
             className="flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-white shadow-[0px_10px_10px_rgba(232,119,34,0.2)] transition hover:bg-primary-dark"
           >
             Register Your Temple Now <ArrowRight className="h-[18px] w-[18px]" />
@@ -626,7 +626,7 @@ export default function TempleDirectoryPage() {
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Link
-              href="/temple-registration"
+              href="/signup?register=temple"
               className="rounded-lg bg-primary px-7 py-3.5 text-base font-semibold text-white transition hover:bg-primary-dark"
             >
               Register Your Temple

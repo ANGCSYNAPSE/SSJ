@@ -22,6 +22,7 @@ import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
 import VerificationStatus from "@/components/profile/VerificationStatus";
 import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
+import VolunteerCard from "@/components/profile/VolunteerCard";
 import PaymentDocuments from "@/components/payments/PaymentDocuments";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { CATEGORIES, categoryByKey, type Field } from "@/components/auth/signup/categories";
@@ -287,7 +288,8 @@ function DashboardView() {
       </section>
 
       <div className="mx-auto flex max-w-[1240px] flex-col gap-8 px-6 py-8 lg:px-[88px] lg:py-10">
-        {/* Registration fee: pending with the two plans, or paid */}
+        {data.volunteer && <VolunteerCard volunteer={data.volunteer} />}
+        {/* Registration fee: pending with the two plans, or paid. A volunteer sees an optional "become a member" version. */}
         <RegistrationFeeCard />
         <PaymentDocuments />
 

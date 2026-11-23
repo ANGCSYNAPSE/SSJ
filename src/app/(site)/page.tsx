@@ -11,7 +11,6 @@ import {
   Building2,
   Map,
   MapPin,
-  Video,
   Star,
   ChevronLeft,
   ChevronRight,
@@ -28,10 +27,13 @@ import {
   CalendarDays,
   Landmark,
 } from "lucide-react";
-import { INITIATIVES, type Initiative } from "@/lib/data/initiatives";
+import { INITIATIVES } from "@/lib/data/initiatives";
+import InitiativeShowcase from "@/components/initiatives/InitiativeShowcase";
 import AdSlot from "@/components/ui/AdSlot";
 import { CONTACT, telHref } from "@/lib/constants";
 import HeroGateway from "@/components/home/HeroGateway";
+import DarshanSchedule from "@/components/darshan/DarshanSchedule";
+import LiveDarshanCard from "@/components/darshan/LiveDarshanCard";
 
 /** Underline-arrow accent used next to hero and about-section CTAs. */
 function CtaArrow({ src, className = "" }: { src: string; className?: string }) {
@@ -42,7 +44,6 @@ function CtaArrow({ src, className = "" }: { src: string; className?: string }) 
 }
 
 export default function HomePage() {
-  const initiatives = INITIATIVES;
   const [openFaqLeft, setOpenFaqLeft] = useState(0);
   const [openFaqRight, setOpenFaqRight] = useState(0);
   const [formData, setFormData] = useState({
@@ -211,13 +212,13 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[88px]">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
             {/* The picture keeps its own proportions (1024 x 880), so nothing is cropped at any screen width. */}
-            <div className="relative order-2 aspect-[1024/880] w-full overflow-hidden rounded-[35px] shadow-[-16px_18px_50px_rgba(0,0,0,0.25)] lg:order-1">
+            <div className="relative order-2 aspect-[4/3] w-full overflow-hidden rounded-[35px] shadow-[-16px_18px_50px_rgba(0,0,0,0.25)] lg:order-1">
               <Image
-                src="/images/home/about-shyam.jpg"
-                alt="Shyam Jagat volunteers teaching village children and running a free health camp in a temple courtyard"
+                src="/images/home/about-seva.jpg"
+                alt="Volunteers in a temple courtyard teaching children, checking an elder's health, serving food and practising crafts"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                className="object-cover object-[38%_50%]"
               />
             </div>
             <div className="order-1 lg:order-2">
@@ -271,7 +272,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* LIVE AARTI & DARSHAN SECTION */}
+      {/* DAILY DARSHAN: the aarti timetable (winter and summer) and the live darshan button */}
       <section className="bg-maroon py-16 text-white lg:py-20">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 lg:flex-row lg:gap-16 lg:px-[80px]">
           <div className="flex flex-1 flex-col gap-10">
@@ -279,52 +280,27 @@ export default function HomePage() {
               <div className="flex items-center gap-3">
                 <span className="h-px w-6 bg-[#d4af37]" />
                 <p className="text-xs font-bold uppercase tracking-widest text-[#d4af37]">
-                  {"Darshan"}
+                  {"Shri Shyam Mandir, Khatushyamji"}
                 </p>
                 <span className="h-px w-6 bg-[#d4af37]" />
               </div>
               <h2 className="font-serif text-4xl font-semibold leading-[1.1] lg:text-[48px]">
-                {"Live Aarti & Darshan"}
+                {"Daily Darshan"}
               </h2>
+              <p className="max-w-[560px] text-base leading-relaxed text-white/85">
+                {"The daily aarti timings, with the winter and summer times side by side, and the live darshan from the temple."}
+              </p>
             </div>
-            <div className="rounded-xl bg-white p-6 text-[#3e1815] lg:p-8">
-              {[
-                { time: "05:00 AM", aarti: "Mangala Aarti" },
-                { time: "08:30 AM", aarti: "Shringaar Aarti" },
-                { time: "12:00 PM", aarti: "Rajbhog Aarti" },
-                { time: "06:30 PM", aarti: "Sandhya Aarti" },
-                { time: "09:00 PM", aarti: "Shayan Aarti" },
-              ].map((item, i, arr) => (
-                <div
-                  key={item.time}
-                  className={`flex items-center justify-between py-4 ${
-                    i < arr.length - 1 ? "border-b border-[#3e1815]/20" : ""
-                  }`}
-                >
-                  <span className="font-bold">{item.time}</span>
-                  <span>{item.aarti}</span>
-                </div>
-              ))}
-            </div>
+            <DarshanSchedule />
+            {/* Hidden for now, along with "All Aarti" in the More menu:
+            <Link href="/aarti" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#ffd04f] hover:underline">
+              {"All Aarti, Chalisa, Bhajan and Yatra"}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+            */}
           </div>
 
-          {/* The live stream is not switched on yet: the card is shown blurred, with a small "Coming Soon" label. */}
-          <div className="relative w-full overflow-hidden rounded-2xl bg-white text-center text-[#3e1815] lg:w-[480px]">
-            <div aria-hidden className="pointer-events-none flex select-none flex-col items-center justify-center gap-8 p-8 opacity-90 blur-[7px] lg:p-12">
-              <div className="flex h-[120px] w-[120px] items-center justify-center rounded-full bg-[#e47105]">
-                <Video className="h-[60px] w-[60px] text-white" aria-hidden />
-              </div>
-              <h3 className="font-serif text-[28px] font-extrabold">{"Currently Streaming"}</h3>
-              <p className="text-base text-[#6b4f4f]">
-                {"Join thousands of devotees in our continuous live stream of the temple sanctum."}
-              </p>
-              <span className="rounded bg-[#e47105] px-8 py-4 text-sm font-bold uppercase text-white shadow-lg">{"Watch Live"}</span>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center bg-white/30">
-              <span className="rounded-full bg-maroon px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white shadow-lg">{"Coming Soon"}</span>
-            </div>
-            <p className="sr-only">{"Live streaming of the aarti is coming soon."}</p>
-          </div>
+          <LiveDarshanCard className="lg:w-[480px] lg:self-start" />
         </div>
       </section>
 
@@ -340,47 +316,12 @@ export default function HomePage() {
             </h2>
             <div className="h-0.5 w-[120px] bg-[#e87722] opacity-60" />
             <p className="text-base leading-relaxed text-[#6b4a4a] opacity-85">
-              {"Driven by faith, sustained by compassion - serving lives across every dimension of society."}
+              {"Simple acts of seva, guided by faith and compassion. Choose any card to see what we aim to do."}
             </p>
           </div>
 
-          <div className="mx-auto mt-16 flex max-w-[1300px] flex-col gap-5">
-            <div className="grid gap-5 lg:grid-cols-[1.78fr_1fr]">
-              {initiatives.slice(0, 2).map((it) => (
-                <InitiativeCard key={it.id} item={it} height="h-[380px]" />
-              ))}
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {initiatives.slice(2, 5).map((it) => (
-                <InitiativeCard key={it.id} item={it} height="h-[300px]" />
-              ))}
-            </div>
-            <div className="grid">
-              {initiatives.slice(5).map((it) => (
-                <div
-                  key={it.id}
-                  className="group relative h-[240px] overflow-hidden rounded-[20px] shadow-[0_10px_24px_-8px_rgba(0,0,0,0.08)]"
-                >
-                  <Image
-                    src={it.image}
-                    alt={it.title}
-                    fill
-                    sizes="100vw"
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-maroon/0 to-maroon/80" />
-                  <span className="absolute left-5 top-5 rounded-full border border-[#e5e7eb] bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-maroon shadow">
-                    {it.tag}
-                  </span>
-                  <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-7 py-5 text-white sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="font-serif text-3xl font-semibold">{it.title}</p>
-                      <p className="mt-1 text-sm opacity-90">{it.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="mx-auto mt-16 max-w-[1300px]">
+            <InitiativeShowcase items={INITIATIVES} layout="bento" />
           </div>
 
           <div className="mt-14 text-center">
@@ -388,7 +329,7 @@ export default function HomePage() {
               href="/initiatives"
               className="inline-flex items-center gap-2 rounded-full bg-[#e87722] px-3.5 py-2.5 text-sm font-bold text-white shadow-lg transition-opacity hover:opacity-90"
             >
-              {"Learn More"}
+              {"See all our initiatives"}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
@@ -531,7 +472,7 @@ export default function HomePage() {
               ))}
             </div>
             <Link
-              href="/temple-registration"
+              href="/signup?register=temple"
               className="inline-flex h-14 w-fit min-w-[196px] items-center justify-center whitespace-nowrap rounded-lg bg-[#e87722] px-6 text-base font-bold text-white transition-opacity hover:opacity-90"
             >
               {"Register as Temple →"}
@@ -566,7 +507,7 @@ export default function HomePage() {
               ))}
             </div>
             <Link
-              href="/artist-registration"
+              href="/signup?register=artist"
               className="inline-flex h-14 w-fit min-w-[196px] items-center justify-center whitespace-nowrap rounded-lg bg-[#e87722] px-6 text-base font-bold text-white transition-opacity hover:opacity-90"
             >
               {"Register as Artist →"}
@@ -805,39 +746,6 @@ export default function HomePage() {
         </div>
       </section>
     </>
-  );
-}
-
-function InitiativeCard({
-  item,
-  height,
-}: {
-  item: Initiative;
-  height: string;
-}) {
-  return (
-    <div
-      className={`group relative ${height} overflow-hidden rounded-[20px] shadow-[0_10px_24px_-8px_rgba(0,0,0,0.08)]`}
-    >
-      <Image
-        src={item.image}
-        alt={item.title}
-        fill
-        sizes="(min-width: 1024px) 33vw, 100vw"
-        className="object-cover transition-transform group-hover:scale-105"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-maroon/0 to-maroon/80" />
-      <span className="absolute left-5 top-5 rounded-full border border-[#e5e7eb] bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-maroon shadow">
-        {item.tag}
-      </span>
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2.5 px-5 pb-[22px] pt-[18px] text-white">
-        <p className="font-serif text-[28px] font-semibold leading-[1.2] lg:text-[32px]">
-          {item.title}
-        </p>
-        <p className="text-sm opacity-90">{item.desc}</p>
-        <p className="text-sm font-semibold">{"Explore →"}</p>
-      </div>
-    </div>
   );
 }
 

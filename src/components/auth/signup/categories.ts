@@ -1,5 +1,6 @@
 import {
   Bed,
+  HandHeart,
   Home,
   Music,
   Palette,
@@ -70,6 +71,8 @@ export interface Category {
   label: string;
   blurb: string;
   icon: LucideIcon;
+  /** A free registration (a volunteer): no payment step, the account is made right after the details. */
+  free?: boolean;
   accountLabels: AccountLabels;
   /** Profile keys filled from the account step instead of asked again. */
   fromAccount: Record<string, "fullName" | "mobile" | "email">;
@@ -195,7 +198,78 @@ function performer(o: {
   };
 }
 
+/**
+ * What a volunteer can help with, their skills and when they are free. The words are stored as written, so they match the
+ * backend (SSJ_Backend/src/validators/volunteer.validator.js): change one, change both.
+ */
+export const VOLUNTEER_INTERESTS = [
+  "Food seva (Annadan)",
+  "Night shelter (Rain Basera)",
+  "Drinking water (Pani Ki Pyau)",
+  "Ambulance help",
+  "Gaushala seva",
+  "Education support",
+  "Health camps and care",
+  "Dharamshala help",
+  "Elders' care (Vriddhashram)",
+  "Footwear seva (Juta Seva)",
+  "Clean toilets (Swachh Shauchalay)",
+  "Cleanliness drives (Swachh Vahini)",
+];
+export const VOLUNTEER_SKILLS = [
+  "Teaching",
+  "Cooking and serving",
+  "Medical or first aid",
+  "Driving",
+  "Cleaning and maintenance",
+  "Counselling and elder care",
+  "Photography and video",
+  "Computer and social media",
+  "Organising events",
+  "Fundraising",
+  "Other",
+];
+export const VOLUNTEER_AVAILABILITY = ["Weekends", "Weekday evenings", "Weekdays", "Any day", "Only for special events"];
+
 export const CATEGORIES: Category[] = [
+  {
+    key: "volunteer",
+    label: "Volunteer",
+    blurb: "Give your time to seva. It is free to join.",
+    icon: HandHeart,
+    free: true,
+    accountLabels: { name: "Full Name", namePlaceholder: "Enter your full name", mobile: "Phone Number", email: "Email Address" },
+    fromAccount: {},
+    steps: [
+      {
+        title: "Where you live",
+        blurb: "So we know which seva could be near you.",
+        fields: [
+          { key: "city", label: "City", type: "text", required: true, placeholder: "Your city", half: true },
+          state(),
+        ],
+      },
+      {
+        title: "How you would like to help",
+        blurb: "Choose the seva that calls you. You can change this later from your profile.",
+        fields: [
+          {
+            key: "interests", label: "Seva you would like to help with", type: "multi", required: true,
+            options: VOLUNTEER_INTERESTS, requiredMessage: "Choose at least one seva.",
+          },
+          { key: "skills", label: "Your skills (optional)", type: "multi", options: VOLUNTEER_SKILLS },
+          {
+            key: "availability", label: "When can you help?", type: "select", required: true,
+            options: VOLUNTEER_AVAILABILITY, requiredMessage: "Please choose when you can help.",
+          },
+          {
+            key: "about", label: "Anything you would like us to know (optional)", type: "textarea",
+            placeholder: "For example, where you can help, or why you want to volunteer",
+          },
+        ],
+      },
+    ],
+  },
   {
     key: "artist",
     label: "Artist",

@@ -30,6 +30,7 @@ export const NAV_LINKS = [
 export const MORE_LINKS = [
   { href: "/blog", label: "Blog" },
   { href: "/temple-directory", label: "Temples" },
+  // { href: "/aarti", label: "All Aarti" }, // hidden for now; the pages are built (src/app/(site)/aarti) and come back with this line
   { href: "/dharamshala", label: "Dharamshala" },
   { href: "/organisations", label: "Organisations" },
   // { href: "/temple-registration", label: "Temple Registration" },

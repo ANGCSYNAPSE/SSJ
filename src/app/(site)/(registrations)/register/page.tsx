@@ -81,7 +81,7 @@ export default function RegisterPage() {
     { icon: Scroll, title: "Pandit / Purohit", desc: "Offer local or virtual puja, havan, and holy ceremonial services.", href: "#" },
     { icon: BookOpen, title: "Kathavachak", desc: "Share divine stories, host discourses, and spread devotional knowledge.", href: "#" },
     { icon: Calendar, title: "Event Organiser", desc: "Host, promote, and coordinate spiritual events, yatras, and celebrations.", href: "#" },
-    { icon: Heart, title: "Volunteer", desc: "Contribute your time, skills, and energy to serve the holy community.", href: "#" },
+    { icon: Heart, title: "Volunteer", desc: "Contribute your time, skills, and energy to serve the holy community. Free to join.", href: "/signup?register=volunteer" },
     { icon: ShoppingBag, title: "Products", desc: "Sell spiritual goods — authentic puja items, books, clothing, and crafts.", href: "#" },
   ];
 

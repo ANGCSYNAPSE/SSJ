@@ -26,6 +26,7 @@ const CATEGORY_LABEL: Record<CategoryKey, string> = {
   temple: "temple",
   dharamshala: "dharamshala",
   mandal: "mandal",
+  volunteer: "volunteer",
 };
 
 /** "+91 98765-43210", "098765 43210" and "9876543210" all become "9876543210". */

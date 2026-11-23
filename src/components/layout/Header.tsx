@@ -18,7 +18,7 @@ const humanize = (key: string) =>
   key.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase()).trim();
 
 /** What is still blank in the user's registrations: a total, and the detail names per category. */
-function pendingDetails(profiles: UserProfileSummary[] | undefined, fee?: "paid" | "partial" | "pending") {
+function pendingDetails(profiles: UserProfileSummary[] | undefined, fee?: "paid" | "partial" | "pending" | "free") {
   const groups = (profiles ?? [])
     .filter((p) => p.missing && p.missing.length > 0)
     .map((p) => {
@@ -91,7 +91,7 @@ export default function Header() {
     closeTimer.current = setTimeout(() => setUserMenuOpen(false), 180);
   };
 
-  const moreActive = MORE_LINKS.some((link) => link.href === pathname);
+  const moreActive = MORE_LINKS.some((link) => pathname === link.href || pathname.startsWith(`${link.href}/`));
 
   // Close the "More" dropdown on outside click.
   useEffect(() => {

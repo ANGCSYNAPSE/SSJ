@@ -83,6 +83,7 @@ export const HINDI_FIXES: readonly HindiFix[] = [
   { from: ["कन्हिया"], to: "कन्हैया" },
 
   { english: "Seva Appeal (ad label)", from: ["सेवा अपील"], to: "सेवा आह्वान" },
+  { english: "Rain Basera (night shelter)", from: ["वर्षा आश्रय", "रेन बसेरा", "बारिश आश्रय", "वर्षा बसेरा"], to: "रैन बसेरा" },
   { english: "Old Age Home", from: ["वृद्धावस्था गृह", "ओल्ड एज होम", "वृद्ध आयु घर", "वृद्धाश्रम घर"], to: "वृद्धाश्रम" },
   // "Invoice" is translated as "चालान", which also means a traffic fine or a police case.
   { english: "Invoice", from: ["चालान"], to: "इनवॉइस" },

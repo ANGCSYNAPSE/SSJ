@@ -262,7 +262,11 @@ export default function CategoryWizard({
   /** The payment went through: the account exists and is signed in. Carry on with the files. */
   async function afterCreated(result: AuthResult) {
     adopt(result);
-    toast.show({ tone: "success", title: "Account created", message: "Welcome to Shyam Jagat. Jai Shri Shyam!" });
+    toast.show({
+      tone: "success",
+      title: category.free ? "Welcome, volunteer" : "Account created",
+      message: category.free ? "Your free volunteer account is ready. Jai Shri Shyam!" : "Welcome to Shyam Jagat. Jai Shri Shyam!",
+    });
     setVerify(null);
     setPending("Saving your registration…");
     try {
@@ -289,6 +293,12 @@ export default function CategoryWizard({
         profileRef.current = profile;
         const saved = await authApi.signupSetProfile(signup.pendingId, profile);
         setSignup(saved);
+        if (category.free || saved.fee.free) {
+          // A free registration (a volunteer): nothing to pay, so the account is made right now.
+          setPending("Creating your account…");
+          await afterCreated(await authApi.signupComplete(saved.pendingId));
+          return;
+        }
         setVerifyMode("pay");
         setVerify({ ...saved, emailVerified: true });
         return;
@@ -450,12 +460,14 @@ export default function CategoryWizard({
       <div ref={top} className="flex flex-col items-center gap-3 py-6 text-center">
         <CheckCircle2 className="h-12 w-12 text-primary" aria-hidden />
         <h1 className="font-serif text-2xl font-bold text-maroon">
-          {complete ? "Profile Saved" : "Registration Submitted"}
+          {complete ? "Profile Saved" : category.free ? "You are a Volunteer" : "Registration Submitted"}
         </h1>
         <p className="max-w-[340px] text-sm text-muted-foreground">
           {complete
             ? "Thank you! Your changes are saved and our seva team will see the updated details."
-            : `Thank you! Your ${category.label.toLowerCase()} registration is with our seva team. They usually review it within 24–48 hours, and you can sign in any time with your email and password.`}
+            : category.free
+              ? "Thank you for offering your time! Your volunteer account is ready, and it is free. Our team will get in touch when seva begins in your area. You can sign in any time with your email and password."
+              : `Thank you! Your ${category.label.toLowerCase()} registration is with our seva team. They usually review it within 24–48 hours, and you can sign in any time with your email and password.`}
         </p>
         {stillMissing.length > 0 ? (
           <PendingPreview items={stillMissing} categoryKey={category.key} title={`${category.label} details still to add`} />

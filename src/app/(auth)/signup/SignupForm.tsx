@@ -234,6 +234,13 @@ export default function SignupForm() {
       /* storage blocked */
     }
     if (google || saved) arrivedMidway.current = true;
+    // A link such as /signup?register=artist opens straight on that category's form, as if it had been chosen from "Register As".
+    const asked = !saved && !google ? categoryByKey(new URLSearchParams(window.location.search).get("register")) : undefined;
+    if (asked) {
+      arrivedMidway.current = true; // the page that sent them here is the entry before this one
+      setCategoryKey(asked.key);
+      setStage("wizard");
+    }
     if (google) {
       try {
         setGoogleNew(JSON.parse(google) as GoogleNewAccount);
@@ -517,7 +524,7 @@ export default function SignupForm() {
             tint
             icon={BadgeCheck}
             title={"Register As"}
-            names={["Artist", "Musician", "Temple", "Dharamshala", "Mandal" , "Dancer"]}
+            names={["Volunteer", "Artist", "Musician", "Temple", "Dharamshala", "Mandal", "Dancer"]}
             onClick={() => setStage("categories")}
           />
         </div>

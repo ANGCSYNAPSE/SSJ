@@ -479,7 +479,7 @@ export default function ArtistsPage() {
         </div>
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <Link
-            href="/artist-registration"
+            href="/signup?register=artist"
             className="rounded-lg bg-primary px-7 py-3.5 text-base font-semibold text-white transition hover:bg-primary-dark"
           >
             Register as Artist
