@@ -426,7 +426,7 @@ export type Dashboard = {
   profiles: DashboardProfile[];
   volunteer?: VolunteerRecord;
   notifications: { unread: number; recent: { id: string; title: string | null; message: string; link: string | null; createdAt: string }[] };
-  donations: { count: number; total: number; recent: { id: string; amount: number; cause: string; createdAt: string }[] };
+  donations: { count: number; total: number; /** What they gave in each of the last six months, oldest first. */ monthly?: { month: string; total: number }[]; recent: { id: string; amount: number; cause: string; createdAt: string }[] };
 };
 
 /** The Contact page's form: saved for the team and emailed to them. */

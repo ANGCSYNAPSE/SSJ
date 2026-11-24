@@ -153,3 +153,6 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 }
 .hung:hover { animation-play-state: running, paused; }
 @media (prefers-reduced-motion: reduce) { .hung { animation: none !important; } }
+@keyframes gs-spin-slow-rev { to { transform: rotate(-360deg); } }
+.gs-spin-slow-rev { animation: gs-spin-slow-rev 120s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .gs-spin-slow-rev { animation: none; } }

@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
  *
  * The link is built from the address of the site the person is on, so the QR and the link always open this site's own card page.
  */
-export default function DigitalCardSection() {
+export default function DigitalCardSection({ syncKey }: { syncKey?: string }) {
   const [data, setData] = useState<{ enabled: boolean; url: string; card: MemberCardData } | null>(null);
   const [origin, setOrigin] = useState("");
   const [busy, setBusy] = useState(false);
@@ -31,6 +31,19 @@ export default function DigitalCardSection() {
       .then(setData)
       .catch(() => setMessage({ kind: "error", text: "Could not load your card." }));
   }, []);
+
+  // The page says something on the card changed (name, photo, links...): fetch the card again so it matches at once.
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    cardApi
+      .me()
+      .then(setData)
+      .catch(() => undefined);
+  }, [syncKey]);
 
   async function setSharing(enabled: boolean) {
     setBusy(true);

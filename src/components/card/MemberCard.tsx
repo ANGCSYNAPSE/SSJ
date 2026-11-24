@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toPng } from "html-to-image";
 import QRCode from "qrcode";
 import { BadgeCheck } from "lucide-react";
+import NaamRings from "@/components/profile/NaamRings";
 import { filledLinks } from "@/components/profile/socialLinks";
 import type { MemberCardData } from "@/lib/api";
 
@@ -133,17 +134,23 @@ export function CardFront({ card }: { card: MemberCardData }) {
       {/* The picture fades up into the card's colour, so the text above it stays clear. */}
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 230, background: "linear-gradient(to bottom, #4a0e0e 0%, rgba(74,14,14,.78) 24%, rgba(74,14,14,0) 62%, rgba(43,7,7,.62) 100%)" }} />
 
-      <div style={{ position: "relative", padding: "36px 20px 0", textAlign: "center" }}>
+      <div style={{ position: "relative", zIndex: 0, padding: "36px 20px 0", textAlign: "center" }}>
         <p style={{ margin: 0, fontFamily: "Georgia, serif", fontSize: 22, fontWeight: 700, letterSpacing: 3, color: GOLD }}>SHYAM JAGAT</p>
         <p style={{ margin: "1px 0 0", fontSize: 10, letterSpacing: 2, color: "#f5d9a0" }}>|| जय श्री श्याम ||</p>
 
-        <div style={{ margin: "12px auto 0", width: 108, height: 108, borderRadius: "50%", padding: 4, background: `linear-gradient(135deg,${GOLD},#b8860b)`, boxShadow: "0 8px 22px rgba(0,0,0,.45)" }}>
-          {card.photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={card.photoUrl} alt={card.name} crossOrigin="anonymous" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }} />
-          ) : (
-            <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: "#fdf0d5", color: "#7a1f1f", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Georgia, serif", fontSize: 38, fontWeight: 700 }}>{initials(card.name)}</div>
-          )}
+        <div style={{ position: "relative", margin: "12px auto 0", width: 108, height: 108 }}>
+          {/* the name, in rings that grow fainter as they go out */}
+          <div style={{ position: "absolute", left: -78, top: -78, width: 264, height: 264, zIndex: -1, opacity: 0.42, pointerEvents: "none" }}>
+            <NaamRings animate={false} rings={3} color={GOLD} id="card-naam" className="block h-full w-full" />
+          </div>
+          <div style={{ position: "relative", width: 108, height: 108, borderRadius: "50%", padding: 4, background: `linear-gradient(135deg,${GOLD},#b8860b)`, boxShadow: "0 8px 22px rgba(0,0,0,.45)" }}>
+            {card.photoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={card.photoUrl} alt={card.name} crossOrigin="anonymous" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }} />
+            ) : (
+              <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: "#fdf0d5", color: "#7a1f1f", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Georgia, serif", fontSize: 38, fontWeight: 700 }}>{initials(card.name)}</div>
+            )}
+          </div>
         </div>
 
         <p className="notranslate" translate="no" style={{ margin: "10px 0 0", fontFamily: "Georgia, serif", fontSize: 23, fontWeight: 700, lineHeight: 1.15, textShadow: "0 2px 8px rgba(0,0,0,.4)" }}>

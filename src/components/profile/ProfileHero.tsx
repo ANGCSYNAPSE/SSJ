@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { BadgeCheck, Calendar, Camera, HandHeart, Loader2, MapPin, Pencil, QrCode, ShieldCheck } from "lucide-react";
-import { Mandala } from "@/components/seva/DharmaIcons";
+import NaamRings from "@/components/profile/NaamRings";
 import SevaPetals from "@/components/seva/SevaPetals";
 import { SocialIcons } from "@/components/profile/socialLinks";
 import type { Dashboard } from "@/lib/api";
@@ -15,38 +16,17 @@ const initialsOf = (name: string) =>
     .map((w) => w[0]?.toUpperCase())
     .join("");
 
-/** A circular progress ring with the percentage in the middle. */
-function Ring({ percent }: { percent: number }) {
-  const r = 38;
-  const c = 2 * Math.PI * r;
-  return (
-    <div className="relative h-[96px] w-[96px] shrink-0">
-      <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90" aria-hidden>
-        <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="9" />
-        <circle cx="50" cy="50" r={r} fill="none" stroke="url(#ring-g)" strokeWidth="9" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c - (percent / 100) * c} style={{ transition: "stroke-dashoffset 1s ease" }} />
-        <defs>
-          <linearGradient id="ring-g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#ffd04f" />
-            <stop offset="1" stopColor="#ff8c1a" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-serif text-2xl font-bold leading-none">{percent}%</span>
-      </div>
-    </div>
-  );
-}
-
 /**
- * The top of the profile: a deep maroon-and-saffron banner with a slowly turning mandala, the person's photo in a gold ring (with
- * a camera button to change it), their name, what they are on Shyam Jagat, a line about them, their links, and how complete
- * their profile is.
+ * The top of the profile, in the style of a phone app's profile: a photograph of the temple at dusk as the banner, two round
+ * buttons in the corner (edit, my card), the person's photo in the middle with the name "श्री श्याम" going out from it in rings,
+ * then their name, city, what they are on Shyam Jagat, a line about them and their links. The card of numbers that overlaps the
+ * banner's foot is drawn by the page, just below.
  */
 export default function ProfileHero({
   data,
   kinds,
   onEdit,
+  onCard,
   onPhoto,
   uploading,
   photoError,
@@ -54,48 +34,54 @@ export default function ProfileHero({
   data: Dashboard;
   kinds: string[];
   onEdit: () => void;
+  onCard: () => void;
   onPhoto: (file: File) => void;
   uploading: boolean;
   photoError: string | null;
 }) {
-  const { account, completion } = data;
+  const { account } = data;
   const input = useRef<HTMLInputElement>(null);
   const joined = new Date(account.createdAt).toLocaleDateString("en-IN", { month: "long", year: "numeric" });
-  const todo = completion.missingAccount.map((k) => (k === "avatarUrl" ? "Add a profile photo" : k === "location" ? "Add your city" : k));
-  if (!account.bio) todo.push("Write a line about yourself");
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#2e0a0a] via-[#6b1f1f] to-[#c2570c] px-6 pb-28 pt-12 text-white lg:px-[88px] lg:pb-32 lg:pt-14">
-      <Mandala className="gs-spin-slow pointer-events-none absolute -right-28 -top-36 -z-10 h-[560px] w-[560px] text-[#ffe9a8]/25" />
-      <Mandala petals={12} className="hl-spin-rev pointer-events-none absolute -bottom-40 -left-32 -z-10 h-[440px] w-[440px] text-white/15" />
-      <SevaPetals count={9} />
+    <section className="relative isolate overflow-hidden px-4 pb-28 pt-6 text-white sm:px-6 lg:pb-32 lg:pt-8">
+      {/* the banner: the temple at dusk, under a deep wash so the words stay clear */}
+      <Image src="/images/baba-shyam/abode/evening.png" alt="" fill priority sizes="100vw" className="-z-20 object-cover object-[50%_28%]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-[#1b0707]/55 via-[#3a0f0f]/70 to-[#2a0a0a]/95" />
+      <SevaPetals count={8} />
 
-      <div className="mx-auto grid max-w-[1240px] items-center gap-8 lg:grid-cols-[auto_1fr_auto]">
-        {/* the photo */}
-        <div className="relative mx-auto h-[168px] w-[168px] shrink-0 lg:mx-0">
-          <span aria-hidden className="absolute -inset-2.5 rounded-full border border-dashed border-[#ffe08a]/50" />
-          <div className="h-full w-full rounded-full bg-gradient-to-br from-[#ffe08a] via-[#e0b94f] to-[#b8860b] p-[5px] shadow-[0_18px_44px_rgba(0,0,0,0.45)]">
-            {account.avatarUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={account.avatarUrl} alt={account.fullName} className="h-full w-full rounded-full object-cover" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-[#fdf0d5] font-serif text-6xl font-bold text-[#7a1f1f]">{initialsOf(account.fullName)}</div>
-            )}
+      {/* the two round buttons in the corner */}
+      <div className="mx-auto flex max-w-[1240px] justify-end gap-2.5">
+        <button type="button" onClick={onCard} aria-label="My digital card" title="My digital card" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white/25">
+          <QrCode className="h-5 w-5" aria-hidden />
+        </button>
+        <button type="button" onClick={onEdit} aria-label="Edit profile" title="Edit profile" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white/25">
+          <Pencil className="h-5 w-5" aria-hidden />
+        </button>
+      </div>
+
+      <div className="mx-auto flex max-w-[760px] flex-col items-center text-center">
+        {/* the photo, with the name "श्री श्याम" going out from it in rings */}
+        <div className="relative -mt-3 h-[260px] w-[260px] shrink-0 sm:h-[310px] sm:w-[310px]">
+          <NaamRings className="pointer-events-none absolute inset-0 h-full w-full" id="hero-naam" />
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[40%] -translate-x-1/2 -translate-y-1/2">
+            <div className="h-full w-full rounded-full bg-gradient-to-br from-[#ffe08a] via-[#e0b94f] to-[#b8860b] p-[4px] shadow-[0_18px_44px_rgba(0,0,0,0.5)]">
+              {account.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={account.avatarUrl} alt={account.fullName} className="h-full w-full rounded-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-[#fdf0d5] font-serif text-4xl font-bold text-[#7a1f1f] sm:text-5xl">{initialsOf(account.fullName)}</div>
+              )}
+            </div>
             {uploading && (
-              <div className="absolute inset-[5px] flex items-center justify-center rounded-full bg-black/55">
+              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/55">
                 <Loader2 className="h-8 w-8 animate-spin" aria-hidden />
               </div>
             )}
+            <button type="button" onClick={() => input.current?.click()} disabled={uploading} aria-label="Change profile photo" className="absolute -bottom-1 -right-1 flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-[#3a0f0f] bg-[#f47700] text-white shadow-lg transition-transform hover:scale-110 disabled:opacity-60">
+              <Camera className="h-[18px] w-[18px]" aria-hidden />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => input.current?.click()}
-            disabled={uploading}
-            aria-label="Change profile photo"
-            className="absolute bottom-1 right-1 flex h-11 w-11 items-center justify-center rounded-full border-[3px] border-[#6b1f1f] bg-[#f47700] text-white shadow-lg transition-transform hover:scale-110 disabled:opacity-60"
-          >
-            <Camera className="h-5 w-5" aria-hidden />
-          </button>
           <input
             ref={input}
             type="file"
@@ -109,92 +95,56 @@ export default function ProfileHero({
           />
         </div>
 
-        {/* who they are */}
-        <div className="min-w-0 text-center lg:text-left">
-          <p className="text-sm font-semibold tracking-wide text-[#ffd66b]">{"|| Jai Shri Shyam ||"}</p>
-          <h1 className="notranslate mt-1 break-words font-serif text-4xl font-bold leading-[1.1] sm:text-5xl" translate="no">
-            {account.fullName}
-          </h1>
-
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-bold lg:justify-start">
-            {account.isMember && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ffd66b] px-3.5 py-1.5 text-[#4a1414]">
-                <BadgeCheck className="h-4 w-4" aria-hidden /> Member
-              </span>
-            )}
-            {account.isVerified && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-green-500/90 px-3.5 py-1.5 text-white">
-                <ShieldCheck className="h-4 w-4" aria-hidden /> Verified
-              </span>
-            )}
-            {data.volunteer && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ffd66b]/60 bg-white/10 px-3.5 py-1.5 text-[#ffe9b0]">
-                <HandHeart className="h-4 w-4" aria-hidden /> Volunteer
-              </span>
-            )}
-            {kinds.map((k) => (
-              <span key={k} className="rounded-full border border-white/30 bg-white/10 px-3.5 py-1.5 text-white">
-                {k}
-              </span>
-            ))}
-          </div>
-
-          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-white/85 lg:justify-start">
-            {account.location && (
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="h-4 w-4 text-[#ffd66b]" aria-hidden />
-                <span className="notranslate" translate="no">{account.location}</span>
-              </span>
-            )}
+        <p className="-mt-4 text-sm font-semibold tracking-wide text-[#ffd66b]">{"|| Jai Shri Shyam ||"}</p>
+        <h1 className="notranslate mt-1 break-words font-serif text-4xl font-bold leading-[1.1] sm:text-5xl" translate="no">
+          {account.fullName}
+        </h1>
+        <p className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-white/85">
+          {account.location && (
             <span className="inline-flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-[#ffd66b]" aria-hidden />
-              {"With Shyam Jagat since "}{joined}
+              <MapPin className="h-4 w-4 text-[#ffd66b]" aria-hidden />
+              <span className="notranslate" translate="no">{account.location}</span>
             </span>
-          </p>
-
-          {account.bio ? (
-            <p className="mx-auto mt-4 max-w-[620px] border-l-2 border-[#ffd66b]/70 pl-4 text-left font-serif text-lg italic leading-relaxed text-white/95 lg:mx-0">{account.bio}</p>
-          ) : (
-            <button type="button" onClick={onEdit} className="mt-4 text-sm font-semibold text-[#ffd66b] underline-offset-4 hover:underline">
-              {"+ Write a line about yourself"}
-            </button>
           )}
+          <span className="inline-flex items-center gap-1.5">
+            <Calendar className="h-4 w-4 text-[#ffd66b]" aria-hidden />
+            {"Since "}{joined}
+          </span>
+        </p>
 
-          <SocialIcons links={account.socialLinks} className="mt-5 justify-center lg:justify-start" />
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-            <button type="button" onClick={onEdit} className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f47700] to-[#ff9417] px-6 py-3 text-sm font-bold text-white shadow-[0_10px_26px_rgba(244,119,0,0.45)] transition-transform hover:-translate-y-0.5">
-              <Pencil className="h-4 w-4" aria-hidden />
-              {"Edit profile"}
-            </button>
-            <a href="#my-card" className="inline-flex items-center gap-2 rounded-full border-2 border-[#ffd66b]/80 bg-white/10 px-6 py-[10px] text-sm font-bold text-[#ffe9b0] backdrop-blur transition-colors hover:bg-[#ffd66b] hover:text-[#4a1414]">
-              <QrCode className="h-4 w-4" aria-hidden />
-              {"My digital card"}
-            </a>
-          </div>
-          {photoError && <p className="mt-3 rounded-lg bg-red-500/25 px-3 py-2 text-sm text-white">{photoError}</p>}
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-bold">
+          {account.isMember && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ffd66b] px-3.5 py-1.5 text-[#4a1414]">
+              <BadgeCheck className="h-4 w-4" aria-hidden /> Member
+            </span>
+          )}
+          {account.isVerified && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-500/90 px-3.5 py-1.5 text-white">
+              <ShieldCheck className="h-4 w-4" aria-hidden /> Verified
+            </span>
+          )}
+          {data.volunteer && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ffd66b]/60 bg-white/10 px-3.5 py-1.5 text-[#ffe9b0]">
+              <HandHeart className="h-4 w-4" aria-hidden /> Volunteer
+            </span>
+          )}
+          {kinds.map((k) => (
+            <span key={k} className="rounded-full border border-white/30 bg-white/10 px-3.5 py-1.5 text-white">
+              {k}
+            </span>
+          ))}
         </div>
 
-        {/* how complete it is */}
-        <div className="mx-auto w-full max-w-[300px] rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur-md lg:mx-0">
-          <div className="flex items-center gap-4">
-            <Ring percent={completion.percent} />
-            <div>
-              <p className="text-sm font-bold">{"Profile completion"}</p>
-              <p className="mt-0.5 text-xs text-white/80">{completion.percent >= 100 ? "Everything is filled in. Thank you." : "A complete profile helps people trust your card."}</p>
-            </div>
-          </div>
-          {todo.length > 0 && (
-            <ul className="mt-4 flex flex-col gap-1.5 border-t border-white/15 pt-3 text-xs text-white/90">
-              {todo.slice(0, 3).map((t) => (
-                <li key={t} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#ffd04f]" aria-hidden />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {account.bio ? (
+          <p className="mt-4 max-w-[560px] font-serif text-lg italic leading-relaxed text-white/95">&ldquo;{account.bio}&rdquo;</p>
+        ) : (
+          <button type="button" onClick={onEdit} className="mt-4 text-sm font-semibold text-[#ffd66b] underline-offset-4 hover:underline">
+            {"+ Write a line about yourself"}
+          </button>
+        )}
+
+        <SocialIcons links={account.socialLinks} className="mt-5 justify-center" />
+        {photoError && <p className="mt-3 rounded-lg bg-red-500/25 px-3 py-2 text-sm text-white">{photoError}</p>}
       </div>
     </section>
   );
