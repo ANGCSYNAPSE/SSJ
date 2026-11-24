@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A · Through the Gateway · Shyam Jagat hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700;800&family=Noto+Sans+Devanagari:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<style>
+  /*
+    A. Through the Gateway. It begins as the real hero: the carved "जय श्री श्याम" gateway in daylight. Then the archway fills with
+    golden light, Baba Shyam's darshan appears inside it, and the camera moves slowly through the gateway until the darshan
+    fills the screen. The words rise in last.
+  */
+  .hero { background: #8fc1ff; --H: max(calc(100vh - 72px), 700px); --W: max(100vw, calc(var(--H) * 1.7767)); --GH: calc(var(--W) / 1.7767); height: var(--H); }
+
+  /* the gateway picture, drawn to cover the hero, with the camera moving on it */
+  .gate-wrap { position: absolute; left: 50%; top: 50%; width: var(--W); aspect-ratio: 1672 / 941; transform: translate(-50%, -50%); }
+  .gate { position: absolute; inset: 0; transform-origin: 50% 66.8%; }
+  .gate > img.day { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* the opening of the archway, as a shape (percent of the picture) */
+  .portal, .flash { position: absolute; inset: 0; clip-path: polygon(23.6% 91%, 23.6% 58%, 24.6% 53%, 26.4% 49%, 29% 45.8%, 32% 43.8%, 35.2% 42.6%, 66% 42.6%, 69% 43.8%, 72% 45.8%, 74.6% 49%, 76% 53%, 76.5% 58%, 76.5% 91%); }
+  .portal { opacity: 0; background: radial-gradient(70% 90% at 55% 55%, #4a1a0a, #1b0707 75%); }
+  .portal img { position: absolute; left: 20.9%; top: 41.5%; width: 62%; height: auto; display: block; }
+  .portal::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 70% at 60% 60%, rgba(255,200,90,.28), transparent 70%); }
+  .flash { opacity: 0; mix-blend-mode: screen; background: radial-gradient(55% 75% at 52% 62%, #fff6cf 0%, #ffbd5a 38%, rgba(255,150,40,0) 72%); }
+
+  /* the sequence */
+  .run .portal { animation: portal-in 2.4s ease 1.2s both; }
+  .run .flash { animation: flash 2.6s ease 1s both; }
+  .run .gate { animation: dolly 4.8s cubic-bezier(.62,0,.25,1) 1.9s both, breathe 24s ease-in-out 6.9s infinite alternate; }
+  @keyframes portal-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes flash { 0% { opacity: 0; } 38% { opacity: .95; } 100% { opacity: 0; } }
+  @keyframes dolly {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(calc(var(--GH) * -0.168)) scale(2.1); }
+  }
+  @keyframes breathe {
+    from { transform: translateY(calc(var(--GH) * -0.168)) scale(2.1); }
+    to { transform: translateY(calc(var(--GH) * -0.168)) scale(2.18); }
+  }
+
+  /* light and shade that arrive with the darshan */
+  .late { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+  .run .late { animation: late-in 1.8s ease 5s both; }
+  @keyframes late-in { to { opacity: 1; } }
+  .shade-l { background: linear-gradient(90deg, rgba(20,5,5,.94) 0%, rgba(20,5,5,.78) 30%, rgba(20,5,5,0) 62%); }
+  .shade-v { background: linear-gradient(0deg, rgba(20,5,5,.75), transparent 38%, rgba(20,5,5,.35)); }
+  .aura { background: radial-gradient(40% 55% at 72% 46%, rgba(255,200,90,.28), transparent 70%); }
+  .shimmer { position: absolute; inset: 0 0 0 30%; overflow: hidden; mix-blend-mode: soft-light; opacity: 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 35%); mask-image: linear-gradient(90deg, transparent, #000 35%); }
+  .run .shimmer { animation: late-in 1.8s ease 6s both; }
+  .shimmer i { position: absolute; top: 0; bottom: 0; width: 22%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation: hl-sweep 8s ease-in-out 7s infinite; }
+  .petals { opacity: 0; }
+  .run .petals { animation: late-in 2s ease 5.4s both; }
+
+  .copy { position: relative; z-index: 10; display: flex; height: 100%; max-width: 1440px; align-items: center; margin: 0 auto; padding: 0 clamp(24px, 5vw, 72px); pointer-events: none; }
+  .copy > div { display: flex; max-width: 660px; flex-direction: column; gap: 26px; padding-bottom: 40px; pointer-events: auto; }
+  .copy .headline { font-size: clamp(3.2rem, 6.4vw, 6.4rem); filter: drop-shadow(0 4px 14px rgba(0,0,0,.55)); }
+  .copy > div > * { opacity: 0; }
+  .run .copy > div > * { animation: hl-in .95s cubic-bezier(.22,1,.36,1) both; }
+  .run .copy > div > *:nth-child(1) { animation-delay: 5.4s; }
+  .run .copy > div > *:nth-child(2) { animation-delay: 5.6s; }
+  .run .copy > div > *:nth-child(3) { animation-delay: 5.85s; }
+  .run .copy > div > *:nth-child(4) { animation-delay: 6.1s; }
+
+  /* before the show begins, a small invitation over the gateway */
+  .cue { position: absolute; left: 50%; bottom: 96px; z-index: 12; transform: translateX(-50%); border-radius: 999px; background: rgba(15,5,5,.55); padding: 9px 18px; font: 600 12px Poppins, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #fff; backdrop-filter: blur(8px); opacity: 0; }
+  .run .cue { animation: cue 3.4s ease 0.2s both; }
+  @keyframes cue { 0%, 100% { opacity: 0; } 25%, 70% { opacity: 1; } }
+
+  #replay { position: absolute; right: 20px; bottom: 20px; z-index: 40; display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; background: rgba(0,0,0,.7); padding: 10px 16px; font: 700 12px Poppins, sans-serif; color: #fff; cursor: pointer; backdrop-filter: blur(10px); }
+  #replay:hover { background: #000; }
+  #replay .i { width: 14px; height: 14px; }
+  @media (max-width: 820px) { .shade-l { background: linear-gradient(0deg, rgba(20,5,5,.92), rgba(20,5,5,.35) 70%, rgba(20,5,5,.2)); } .copy { align-items: flex-end; padding-bottom: 80px; } }
+</style>
+</head>
+<body>
+<div data-header></div>
+
+<section class="hero run" id="hero">
+  <div class="gate-wrap">
+    <div class="gate">
+      <img class="day" src="assets/gate-day.png" alt="The Shree Shyam gateway" fetchpriority="high">
+      <div class="portal"><img src="assets/baba.png" alt="Baba Shyam"></div>
+      <div class="flash"></div>
+    </div>
+  </div>
+
+  <div class="late shade-l"></div>
+  <div class="late shade-v"></div>
+  <div class="late aura"></div>
+  <div class="shimmer"><i></i></div>
+  <div class="petals" id="petals"></div>
+  <div class="cue">Jai Shree Shyam</div>
+
+  <div class="copy">
+    <div>
+      <span class="eyebrow">Jai Shree Shyam</span>
+      <h1 class="headline"><span class="w1">सहयोग</span><span class="w2">सेवा</span><span class="w3">समर्पण</span></h1>
+      <p class="sub">Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity</p>
+      <div data-ctas></div>
+    </div>
+  </div>
+  <button id="replay" type="button"><svg class="i"><use href="#i-replay"/></svg>Replay the journey</button>
+</section>
+
+<div data-switch="a"></div>
+<script src="assets/hero.js"></script>
+<script>
+  HL.petals(document.getElementById('petals'), 14);
+  var hero = document.getElementById('hero');
+  document.getElementById('replay').addEventListener('click', function () {
+    hero.classList.remove('run');
+    void hero.offsetWidth;
+    hero.classList.add('run');
+  });
+</script>
+</body>
+</html>

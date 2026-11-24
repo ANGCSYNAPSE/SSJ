@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -336,7 +337,7 @@ export default function BlogDetailPage() {
         <section className="flex flex-col items-center gap-10 bg-cream px-6 py-20 lg:px-[108px]">
           <div className="flex flex-col items-center gap-3 text-center">
             <h2 className="font-serif text-4xl font-bold text-maroon">Related Divine Wisdom</h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
+            <Ornament />
             <p className="max-w-[600px] text-base text-[#595656]">
               Continue your spiritual journey with these curated recommendations
             </p>

@@ -36,3 +36,103 @@ body {
 html[lang="hi"] .hindi-sub {
   display: none;
 }
+
+/* ---- Give Seva: soft, devotional motion (petals, glowing flame, step slides, confetti). All of it stops for people who ask for less motion. ---- */
+@keyframes gs-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes gs-slide {
+  from { opacity: 0; transform: translateX(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes gs-fall {
+  0% { transform: translate3d(0, -12vh, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translate3d(var(--sway, 40px), 55vh, 0) rotate(180deg); }
+  100% { transform: translate3d(calc(var(--sway, 40px) * -1), 115vh, 0) rotate(360deg); opacity: 0; }
+}
+@keyframes gs-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+@keyframes gs-flame {
+  0%, 100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+  35% { transform: scale(1.08, 1.16) rotate(2deg); opacity: 0.92; }
+  70% { transform: scale(0.94, 1.04) rotate(-1deg); opacity: 1; }
+}
+@keyframes gs-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes gs-burst {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0.4); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1); opacity: 0; }
+}
+@keyframes gs-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+@keyframes gs-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes gs-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 119, 34, 0.45); }
+  50% { box-shadow: 0 0 0 14px rgba(232, 119, 34, 0); }
+}
+.gs-rise { animation: gs-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.gs-slide { animation: gs-slide 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.gs-pop { animation: gs-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.gs-float { animation: gs-float 5s ease-in-out infinite; }
+.gs-flame { transform-origin: 50% 90%; animation: gs-flame 1.6s ease-in-out infinite; }
+.gs-glow { animation: gs-glow 2.2s ease-out infinite; }
+.gs-shimmer {
+  background-image: linear-gradient(110deg, #e87722 30%, #ffb45a 48%, #e87722 66%);
+  background-size: 250% 100%;
+  animation: gs-shimmer 3.4s linear infinite;
+}
+.gs-draw { stroke-dasharray: 40; stroke-dashoffset: 40; animation: gs-draw 0.6s 0.2s ease-out forwards; }
+.gs-petal {
+  position: absolute;
+  top: 0;
+  border-radius: 80% 0 80% 0;
+  animation: gs-fall var(--dur, 12s) linear var(--delay, 0s) infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gs-rise, .gs-slide, .gs-pop, .gs-float, .gs-flame, .gs-glow, .gs-shimmer, .gs-petal { animation: none !important; }
+  .gs-petal { display: none; }
+  .gs-draw { animation: none !important; stroke-dashoffset: 0; }
+}
+
+/* ---- Scroll reveal and the ticker ribbon ---- */
+.rv {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--rv-d, 0s);
+}
+.rv.rv-in {
+  opacity: 1;
+  transform: none;
+}
+@keyframes gs-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-25%); }
+}
+.gs-marquee { animation: gs-marquee 36s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1; transform: none; transition: none; }
+  .gs-marquee { animation: none; }
+}
+
+/* A finishing touch for the whole site: our own text-selection colour, and smoother type. */
+::selection { background: #e87722; color: #fff; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+@keyframes gs-spin { to { transform: rotate(360deg); } }
+.gs-spin { animation: gs-spin 22s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .gs-spin { animation: none; } }
+@keyframes gs-spin-slow { to { transform: rotate(360deg); } }
+.gs-spin-slow { animation: gs-spin-slow 90s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .gs-spin-slow { animation: none; } }

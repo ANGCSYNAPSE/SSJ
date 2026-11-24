@@ -66,7 +66,8 @@ export const INITIATIVES: Initiative[] = [
       "Keep them clean and looked after with the help of volunteers.",
       "Begin with a few places and add more as support grows.",
     ],
-    images: img("pani-ki-pyau", 2),
+    // Only the first picture; the drinking-water tower (pani-ki-pyau-2.jpg) is left out on purpose.
+    images: img("pani-ki-pyau"),
   },
   {
     slug: "ambulance",
@@ -164,7 +165,8 @@ export const INITIATIVES: Initiative[] = [
       "Offer simple repair and care for footwear near temples and busy places.",
       "Work with volunteers and donors, and keep the seva simple and dignified.",
     ],
-    images: ["/images/initiatives/seva/juta-seva-1.jpg", "/images/initiatives/seva/juta-seva-2.jpg", "/images/initiatives/seva/juta-seva-3.jpg"],
+    // The temple-counter picture (juta-seva-1.jpg) is left out on purpose.
+    images: ["/images/initiatives/seva/juta-seva-2.jpg", "/images/initiatives/seva/juta-seva-3.jpg"],
   },
   {
     slug: "shauchalay",

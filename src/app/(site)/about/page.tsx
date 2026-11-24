@@ -1,15 +1,25 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Users,
+  BarChart3,
+  BookOpen,
   Building2,
-  Music,
   Calendar,
+  CalendarCheck,
+  HandHeart,
+  LayoutDashboard,
+  Music,
+  Radio,
   Settings,
+  Sunrise,
+  Target,
+  Users,
 } from "lucide-react";
+import { ArchCollage, FramedCard, NumberTile } from "@/components/ui/ArtCard";
 import AdSlot from "@/components/ui/AdSlot";
 
 export default function AboutPage() {
@@ -23,15 +33,15 @@ export default function AboutPage() {
   ];
 
   const features = [
-    { title: "Temple Registration & Management", desc: "Register temples, manage profiles, update schedules, and showcase offerings to thousands of devotees online." },
-    { title: "Artist Registration & Slot Booking", desc: "Bhajan singers, katha speakers, and performers can register, set availability, and get booked for events seamlessly." },
-    { title: "Live Darshan & Aarti Feed", desc: "Stream live aarti and darshan in real time, allowing devotees worldwide to participate in sacred rituals from anywhere." },
-    { title: "Puja / Seva / Darshan Booking", desc: "Devotees can book personalized pujas, sevas, and darshan slots at their preferred temple with ease." },
-    { title: "Center Dashboard", desc: "A unified control center for managing all platform activity - content, users, bookings, and operations - in one place." },
-    { title: "Events & Activities", desc: "Discover, create, and manage spiritual events, satsangs, bhajan programs, and community gatherings." },
-    { title: "Donations & Fundraising", desc: "Enable transparent, secure donations to temples, causes, and relief initiatives with campaign tracking." },
-    { title: "Spiritual Content", desc: "Access a rich library of bhajans, kathas, articles, and devotional videos curated for every seeker." },
-    { title: "Analytics & Reports", desc: "Real-time dashboards and detailed reports for administrators and organizers to track impact and engagement." },
+    { icon: Building2, title: "Temple Registration & Management", desc: "Register temples, manage profiles, update schedules, and showcase offerings to thousands of devotees online." },
+    { icon: Music, title: "Artist Registration & Slot Booking", desc: "Bhajan singers, katha speakers, and performers can register, set availability, and get booked for events seamlessly." },
+    { icon: Radio, title: "Live Darshan & Aarti Feed", desc: "Stream live aarti and darshan in real time, allowing devotees worldwide to participate in sacred rituals from anywhere." },
+    { icon: CalendarCheck, title: "Puja / Seva / Darshan Booking", desc: "Devotees can book personalized pujas, sevas, and darshan slots at their preferred temple with ease." },
+    { icon: LayoutDashboard, title: "Center Dashboard", desc: "A unified control center for managing all platform activity - content, users, bookings, and operations - in one place." },
+    { icon: Calendar, title: "Events & Activities", desc: "Discover, create, and manage spiritual events, satsangs, bhajan programs, and community gatherings." },
+    { icon: HandHeart, title: "Donations & Fundraising", desc: "Enable transparent, secure donations to temples, causes, and relief initiatives with campaign tracking." },
+    { icon: BookOpen, title: "Spiritual Content", desc: "Access a rich library of bhajans, kathas, articles, and devotional videos curated for every seeker." },
+    { icon: BarChart3, title: "Analytics & Reports", desc: "Real-time dashboards and detailed reports for administrators and organizers to track impact and engagement." },
   ];
 
   return (
@@ -54,7 +64,7 @@ export default function AboutPage() {
           <h1 className="font-serif text-4xl text-balance font-bold text-white sm:text-7xl">
             {"About Shyam Jagat"}
           </h1>
-          <div className="h-1 w-[120px] bg-[#e47105]" />
+          <Ornament />
           <p className="text-lg text-balance font-light text-white/90 sm:text-[22px]">
             {"Serving Humanity with Faith, Compassion, and Purpose"}
           </p>
@@ -78,15 +88,14 @@ export default function AboutPage() {
                 <p>{"We believe that true devotion is expressed through selfless service. Every initiative we undertake is driven by the values of kindness, equality, and humanity, helping individuals and families build a brighter future."}</p>
               </div>
             </div>
-            <div className="relative mx-auto aspect-square w-full max-w-[540px] overflow-hidden rounded-[32px] shadow-[0_20px_40px_rgba(0,0,0,0.13)]">
-              <Image
-                src="/images/about/Rectangle.png"
-                alt="Shyam Jagat volunteers gathered together"
-                fill
-                sizes="(min-width: 1024px) 540px, 100vw"
-                className="object-cover"
-              />
-            </div>
+            <ArchCollage
+              className="mx-auto w-full max-w-[560px]"
+              images={[
+                { src: "/images/initiatives/seva/annadan-1.jpg", alt: "Volunteers serving a meal" },
+                { src: "/images/initiatives/seva/education-1.jpg", alt: "Children learning" },
+                { src: "/images/initiatives/seva/gaushala-1.jpg", alt: "Caring for cows" },
+              ]}
+            />
           </div>
         </div>
       </section>
@@ -95,22 +104,12 @@ export default function AboutPage() {
       <section className="bg-[#fdf6ec] py-16 lg:py-24">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[100px]">
           <div className="grid gap-8 lg:grid-cols-2">
-            <div className="rounded-2xl border border-[#e8ddd0] border-t-[6px] border-t-[#e47105] bg-white p-8 lg:p-12">
-              <h3 className="font-serif text-[32px] font-bold text-[#3e1815]">
-                {"Our Vision"}
-              </h3>
-              <p className="mt-6 text-base leading-[1.8] text-[#444]">
-                {"To build a compassionate, empowered, and self-reliant society where every individual has access to education, healthcare, food, shelter, employment opportunities, and a life of dignity under the blessings of Baba Shyam."}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-[#e8ddd0] border-t-[6px] border-t-[#e47105] bg-white p-8 lg:p-12">
-              <h3 className="font-serif text-[32px] font-bold text-[#3e1815]">
-                {"Our Mission"}
-              </h3>
-              <p className="mt-6 text-base leading-[1.8] text-[#444]">
-                {"Our mission is to serve society through sustainable initiatives that uplift lives, strengthen communities, and inspire people to contribute towards a better tomorrow. We strive to create lasting social impact by empowering individuals with the resources, support, and opportunities they need to thrive."}
-              </p>
-            </div>
+            <FramedCard tone="light" icon={Sunrise} eyebrow="Vision" title="Our Vision">
+              <p>{"To build a compassionate, empowered, and self-reliant society where every individual has access to education, healthcare, food, shelter, employment opportunities, and a life of dignity under the blessings of Baba Shyam."}</p>
+            </FramedCard>
+            <FramedCard tone="dark" icon={Target} eyebrow="Mission" title="Our Mission">
+              <p>{"Our mission is to serve society through sustainable initiatives that uplift lives, strengthen communities, and inspire people to contribute towards a better tomorrow. We strive to create lasting social impact by empowering individuals with the resources, support, and opportunities they need to thrive."}</p>
+            </FramedCard>
           </div>
         </div>
       </section>
@@ -174,19 +173,10 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="flex gap-3.5 rounded-2xl border border-[#d4af37]/25 bg-[#fff8f0] p-6 shadow-[0_4px_10px_rgba(0,0,0,0.03)]"
-              >
-                <span className="mt-1 h-10 w-1 shrink-0 rounded-sm bg-[#e47105]" />
-                <div>
-                  <h3 className="font-semibold text-[#3e1815]">{feature.title}</h3>
-                  <p className="mt-3.5 text-sm leading-[1.6] text-[#8c8c8c]">
-                    {feature.desc}
-                  </p>
-                </div>
-              </div>
+            {features.map((feature, i) => (
+              <NumberTile key={feature.title} n={i + 1} icon={feature.icon} title={feature.title}>
+                {feature.desc}
+              </NumberTile>
             ))}
           </div>
 

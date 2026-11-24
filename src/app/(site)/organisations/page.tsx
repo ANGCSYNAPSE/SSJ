@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useEffect, useRef, useState, type ComponentType } from "react";
 import Image from "next/image";
@@ -193,7 +194,7 @@ export default function OrganisationDirectoryPage() {
             <p className="font-serif text-2xl font-semibold text-white sm:text-[32px]">
               Unite in Devotion &amp; Seva
             </p>
-            <div className="h-1 w-[120px] bg-primary" />
+            <Ornament />
           </div>
           <p className="max-w-[800px] text-base leading-[1.6] text-cream">
             Connect with verified bhajan mandals, charity trusts, and community groups

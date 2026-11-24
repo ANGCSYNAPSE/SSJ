@@ -23,6 +23,7 @@ import VerificationStatus from "@/components/profile/VerificationStatus";
 import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
 import VolunteerCard from "@/components/profile/VolunteerCard";
+import DigitalCardSection from "@/components/profile/DigitalCardSection";
 import PaymentDocuments from "@/components/payments/PaymentDocuments";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { CATEGORIES, categoryByKey, type Field } from "@/components/auth/signup/categories";
@@ -292,6 +293,7 @@ function DashboardView() {
         {/* Registration fee: pending with the two plans, or paid. A volunteer sees an optional "become a member" version. */}
         <RegistrationFeeCard />
         <PaymentDocuments />
+        <DigitalCardSection />
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

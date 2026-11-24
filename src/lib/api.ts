@@ -449,6 +449,26 @@ export const meApi = {
   verifyMobileOtp: (code: string) => request<{ verified: boolean }>("/me/mobile/verify-otp", { body: { code }, auth: true }),
 };
 
+/** What a shared digital card shows. Never an email, a phone number or an address. */
+export interface MemberCardData {
+  code: string;
+  name: string;
+  photoUrl: string | null;
+  location: string | null;
+  verified: boolean;
+  memberSince: string;
+  /** What the team has approved, or they have paid for: Member, Volunteer, Artist... ("Devotee" if none yet). */
+  kinds: string[];
+}
+
+export const cardApi = {
+  /** The signed-in person's own card (made on first use), its share link, and whether sharing is on. */
+  me: () => request<{ enabled: boolean; url: string; card: MemberCardData }>("/me/card", { method: "GET", auth: true }),
+  setEnabled: (enabled: boolean) => request<{ enabled: boolean; url: string; card: MemberCardData }>("/me/card", { method: "PATCH", body: { enabled }, auth: true }),
+  /** A shared card, for anyone with its link. */
+  get: (code: string) => request<MemberCardData>(`/cards/${encodeURIComponent(code)}`, { method: "GET" }),
+};
+
 export interface FeeStatus {
   /** pending = nothing paid, partial = part paid with a balance due, paid = all of it, free = a volunteer who has paid nothing and owes nothing. */
   status: "pending" | "partial" | "paid" | "free";

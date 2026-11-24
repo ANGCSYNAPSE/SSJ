@@ -22,6 +22,7 @@ export const NAV_LINKS = [
   { href: "/baba-shyam", label: "Baba Shyam" },
   { href: "/about", label: "About Us" },
   { href: "/initiatives", label: "Our Initiatives" },
+  { href: "/#give-seva", label: "Seva" },
   { href: "/events", label: "Events" },
   { href: "/team", label: "Team" },
 ] as const;

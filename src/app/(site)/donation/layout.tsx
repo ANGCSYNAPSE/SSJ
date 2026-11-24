@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Donate - Shyam Jagat" };
+export const metadata: Metadata = { title: "Donate" };
 
 export default function DonationLayout({
   children,

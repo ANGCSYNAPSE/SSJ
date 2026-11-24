@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -12,8 +13,8 @@ import {
   Clock,
   Car,
   Building2,
-  Target,
-} from "lucide-react";
+  Target, Flame, Flower2, HeartHandshake, HandHeart, Sun, Scale, HandHelping } from "lucide-react";
+import { NumberTile } from "@/components/ui/ArtCard";
 import AdSlot from "@/components/ui/AdSlot";
 
 const wisdomQuotes = [
@@ -85,13 +86,13 @@ export default function BabaShyamPage() {
   ];
 
   const teachings = [
-    { emoji: "🙏", title: "Faith", desc: "Unwavering belief in the divine, even in the darkest of times." },
-    { emoji: "🌸", title: "Humility", desc: "True greatness lies in surrender and humbleness before the divine." },
-    { emoji: "💛", title: "Sacrifice", desc: "The highest form of devotion is selfless sacrifice for a greater good." },
-    { emoji: "🤲", title: "Compassion", desc: "Baba Shyam teaches us to show kindness to all beings, regardless of status." },
-    { emoji: "✨", title: "Truth", desc: "Standing for what is right, even when it is the harder path to take." },
-    { emoji: "🌍", title: "Equality", desc: "He blesses the poor and rich alike, seeing no difference among true devotees." },
-    { emoji: "🕉️", title: "Seva", desc: "Selfless service to others is the truest form of worship." },
+    { icon: Flame, tone: "#c2570c", title: "Faith", desc: "Unwavering belief in the divine, even in the darkest of times." },
+    { icon: Flower2, tone: "#9b2335", title: "Humility", desc: "True greatness lies in surrender and humbleness before the divine." },
+    { icon: HeartHandshake, tone: "#a16207", title: "Sacrifice", desc: "The highest form of devotion is selfless sacrifice for a greater good." },
+    { icon: HandHeart, tone: "#0f766e", title: "Compassion", desc: "Baba Shyam teaches us to show kindness to all beings, regardless of status." },
+    { icon: Sun, tone: "#3b4a9e", title: "Truth", desc: "Standing for what is right, even when it is the harder path to take." },
+    { icon: Scale, tone: "#2f6b3a", title: "Equality", desc: "He blesses the poor and rich alike, seeing no difference among true devotees." },
+    { icon: HandHelping, tone: "#8b1d2c", title: "Seva", desc: "Selfless service to others is the truest form of worship." },
   ];
 
   const testimonials = [
@@ -222,7 +223,7 @@ export default function BabaShyamPage() {
               <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
                 {"The Divine Story of Khatu Shyam Ji"}
               </h2>
-              <div className="h-[3px] w-[100px] bg-[#e87722]" />
+              <Ornament />
             </div>
             <div className="flex flex-col gap-5 text-base leading-[1.8] text-[#6b4f4f]">
               <p>{"Khatu Shyam Ji, revered as Baba Shyam, is worshipped as an incarnation of Lord Krishna's blessing to Barbarika, the grandson of the mighty Bhima. Known as the “King of Kalyug,” he is the deity of the poor, the wronged, and the hopeless."}</p>
@@ -252,7 +253,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
               {"The Sacred History"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
           </div>
           <div className="flex flex-col items-center gap-16 lg:flex-row">
             <div className="relative h-[500px] w-full max-w-[580px] shrink-0 overflow-hidden rounded-3xl">
@@ -343,23 +344,16 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               {"Teachings of Baba Shyam"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="max-w-[600px] text-lg text-[#6b4f4f]">
               {"Timeless wisdom for a devoted life"}
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-8">
-            {teachings.map((item) => (
-              <div
-                key={item.title}
-                className="flex w-full max-w-[380px] flex-col gap-5 rounded-2xl bg-white p-10 shadow-[0_12px_12px_rgba(212,160,23,0.13)]"
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#fdf6ec] text-3xl">
-                  {item.emoji}
-                </div>
-                <p className="font-serif text-[28px] font-bold text-[#6b1f1f]">{item.title}</p>
-                <p className="text-[15px] leading-relaxed text-[#6b4f4f]">{item.desc}</p>
-              </div>
+          <div className="flex flex-wrap justify-center gap-6">
+            {teachings.map((item, i) => (
+              <NumberTile key={item.title} n={i + 1} icon={item.icon} tone={item.tone} title={item.title} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]">
+                {item.desc}
+              </NumberTile>
             ))}
           </div>
         </div>
@@ -407,7 +401,7 @@ export default function BabaShyamPage() {
               <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
                 {"The Divine Abode of Khatu Shyam Ji"}
               </h2>
-              <div className="h-[3px] w-[100px] bg-[#e87722]" />
+              <Ornament />
             </div>
             <div className="flex flex-col gap-5 text-base leading-[1.8] text-[#6b4f4f]">
               <p>{"The Khatu Shyam Ji temple, located in the small town of Khatu in Sikar district, Rajasthan, stands as one of the most revered pilgrimage sites in India, drawing devotees from every corner of the country and beyond."}</p>
@@ -435,7 +429,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
               {"Miracles & Divine Blessings"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="text-lg italic text-[#f5f1e8]">{"Stories of faith from devotees whose prayers were answered"}</p>
           </div>
           <div className="grid gap-8 lg:grid-cols-3">
@@ -471,7 +465,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               {"Festivals & Celebrations"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {festivals.map((f) => (
@@ -506,7 +500,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               {"Daily Temple Rituals"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="max-w-[600px] text-lg text-[#6b4f4f]">
               {"The sacred rhythm of devotion at Khatu Shyam Ji temple"}
             </p>
@@ -545,7 +539,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
               {"Bhajans & Spiritual Wisdom"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
             {bhajans.map((b, i) => (
@@ -581,7 +575,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               {"Divine Moments Gallery"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
             {galleryFilters.map((filter) => (
@@ -622,7 +616,7 @@ export default function BabaShyamPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               {"Plan Your Visit"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
           </div>
           <div className="flex flex-col items-center gap-16 lg:flex-row">
             <div className="flex w-full max-w-[483px] flex-col gap-4 shrink-0">

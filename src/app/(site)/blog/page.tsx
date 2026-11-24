@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -212,7 +213,7 @@ export default function BlogPage() {
           <h2 className="font-serif text-3xl font-bold text-maroon sm:text-4xl lg:text-[44px]">
             Explore Sacred Knowledge
           </h2>
-          <div className="h-[3px] w-[100px] bg-[#e47105]" />
+          <Ornament />
           <p className="max-w-[700px] text-base text-[#595656]">
             Select a category to discover tailored content written by devotees,
             priests, and social volunteers.
@@ -320,7 +321,7 @@ export default function BlogPage() {
           <h2 className="font-serif text-3xl font-bold text-maroon sm:text-4xl lg:text-[44px]">
             Recent Devotional Wisdom
           </h2>
-          <div className="h-[3px] w-[100px] bg-[#e47105]" />
+          <Ornament />
           <p className="max-w-[700px] text-base text-[#595656]">
             Fresh spiritual content updated daily by members of the Shyam family
             worldwide.

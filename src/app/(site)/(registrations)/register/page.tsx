@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -62,7 +63,7 @@ function SectionHeader({
       <h2 className="font-serif text-3xl font-bold text-maroon sm:text-4xl lg:text-[44px]">
         {title}
       </h2>
-      <div className="h-[3px] w-[100px] bg-primary" />
+      <Ornament />
     </div>
   );
 }
@@ -172,7 +173,7 @@ export default function RegisterPage() {
           <h2 className="max-w-[800px] font-serif text-3xl font-bold text-maroon sm:text-4xl lg:text-[44px]">
             {"Choose Your Registration Category"}
           </h2>
-          <div className="h-[3px] w-[100px] bg-primary" />
+          <Ornament />
         </div>
 
         <div className="grid w-full max-w-[1280px] gap-6 sm:grid-cols-2 lg:grid-cols-3">

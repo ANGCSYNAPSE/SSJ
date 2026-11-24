@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -30,6 +31,10 @@ import {
 import { INITIATIVES } from "@/lib/data/initiatives";
 import InitiativeShowcase from "@/components/initiatives/InitiativeShowcase";
 import AdSlot from "@/components/ui/AdSlot";
+import SevaHomeSection from "@/components/seva/SevaHomeSection";
+import TickerBand from "@/components/ui/TickerBand";
+import { Mandala, SEVA_ICONS } from "@/components/seva/DharmaIcons";
+import { Eyebrow, HighlightWord, PhotoFrame } from "@/components/ui/Flourish";
 import { CONTACT, telHref } from "@/lib/constants";
 import HeroGateway from "@/components/home/HeroGateway";
 import DarshanSchedule from "@/components/darshan/DarshanSchedule";
@@ -44,8 +49,7 @@ function CtaArrow({ src, className = "" }: { src: string; className?: string }) 
 }
 
 export default function HomePage() {
-  const [openFaqLeft, setOpenFaqLeft] = useState(0);
-  const [openFaqRight, setOpenFaqRight] = useState(0);
+  const [openFaq, setOpenFaq] = useState(0);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -62,16 +66,12 @@ export default function HomePage() {
   ];
 
   const whyChoose = [
-    {
-      icon: <Image src="/images/home/namaste.png" alt="" width={36} height={36} className="object-contain" />,
-      title: "Faith Driven",
-      desc: "Every initiative is rooted in the divine teachings of Baba Shyam - service as devotion.",
-    },
-    { icon: <Eye className="h-7 w-7 text-white" aria-hidden />, title: "Transparent", desc: "We maintain full financial transparency and accountability across all our programs and donations." },
-    { icon: <Users className="h-7 w-7 text-white" aria-hidden />, title: "Community Focused", desc: "Our work is guided by the community, for the community - built on trust and collective participation." },
-    { icon: <BadgeCheck className="h-7 w-7 text-white" aria-hidden />, title: "Verified Volunteers", desc: "All our volunteers are verified, trained, and committed to the highest standards of service." },
-    { icon: <Headphones className="h-7 w-7 text-white" aria-hidden />, title: "Dedicated Support", desc: "24/7 support for our members, beneficiaries, and partners - we are always here when you need us." },
-    { icon: <Leaf className="h-7 w-7 text-white" aria-hidden />, title: "Long-term Impact", desc: "We focus on sustainable change - not just short-term relief but building lasting opportunities." },
+    { icon: SEVA_ICONS.diya, title: "Faith Driven", desc: "Our seva is rooted in the teachings of Baba Shyam: service as devotion.", colour: "#c2570c" },
+    { icon: Eye, title: "Transparent", desc: "We aim to share openly how donations are used, and to keep honest records of our seva.", colour: "#0f766e" },
+    { icon: Users, title: "Community Focused", desc: "Guided by the community, for the community, built on trust and everyone taking part.", colour: "#9b2335" },
+    { icon: BadgeCheck, title: "Volunteer Powered", desc: "Seva is carried by volunteers and members who give their time with sincerity.", colour: "#2f6b3a" },
+    { icon: Headphones, title: "Here to Help", desc: "Write to us or call us any time. We reply as soon as we can.", colour: "#3b4a9e" },
+    { icon: Leaf, title: "Lasting Change", desc: "We focus on steady change that lasts, not only short-term relief.", colour: "#a16207" },
   ];
 
   const stats = [
@@ -81,18 +81,32 @@ export default function HomePage() {
     { icon: Lock, title: "100% Confidential", sub: "Secure" },
   ];
 
-  const faqsLeft = [
-    { q: "How can I donate to Shyam Jagat?", a: "You can donate online through our website, via UPI, bank transfer, or in person at our offices. All donations are receipted and 80G tax exempt." },
-    { q: "How do I become a member of Shyam Jagat?" },
-    { q: "How can I volunteer with Shyam Jagat?" },
-    { q: "Is the Marriage Bureau service free?" },
-  ];
-
-  const faqsRight = [
-    { q: "How does the Employment Portal work?", a: "Register on our portal, upload your profile and skills, and our team will connect you with verified employers and job opportunities." },
-    { q: "Who qualifies for education scholarships?" },
-    { q: "How can a senior citizen apply for the Old Age Home?" },
-    { q: "Is Shyam Jagat a registered organization?" },
+  // Four short answers, each ending in a step the visitor can take.
+  const faqs = [
+    {
+      q: "What is Shyam Jagat?",
+      a: "A faith-based seva family devoted to Baba Shyam. We aim to serve through food, water, care for cows, children's learning and more, as one community.",
+      href: "/initiatives",
+      cta: "See our seva",
+    },
+    {
+      q: "How do I join Shyam Jagat?",
+      a: "Create your account in a few minutes and choose how you wish to take part: as a volunteer, devotee, artist, temple or more.",
+      href: "/signup",
+      cta: "Join us",
+    },
+    {
+      q: "How can I volunteer?",
+      a: "Volunteering is free. Pick \"Volunteer\" while signing up, tell us your city and what you can help with, and our team will reach out.",
+      href: "/signup?register=volunteer",
+      cta: "Become a volunteer",
+    },
+    {
+      q: "How can I give seva?",
+      a: "Choose a seva you love, give any amount, and add a name or a prayer if you wish. It takes about two minutes, and you get a receipt by email.",
+      href: "/#give-seva",
+      cta: "Give seva",
+    },
   ];
 
   const handleInputChange = (
@@ -202,6 +216,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* A ribbon of our seva, strung across the foot of the hero */}
+      <TickerBand />
+
       {/* AD - LEADERBOARD */}
 
 
@@ -212,7 +229,8 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[88px]">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
             {/* The picture keeps its own proportions (1024 x 880), so nothing is cropped at any screen width. */}
-            <div className="relative order-2 aspect-[4/3] w-full overflow-hidden rounded-[35px] shadow-[-16px_18px_50px_rgba(0,0,0,0.25)] lg:order-1">
+            <PhotoFrame className="order-2 lg:order-1" side="left">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[35px] shadow-[-16px_18px_50px_rgba(0,0,0,0.25)]">
               <Image
                 src="/images/home/about-seva.jpg"
                 alt="Volunteers in a temple courtyard teaching children, checking an elder's health, serving food and practising crafts"
@@ -221,9 +239,11 @@ export default function HomePage() {
                 className="object-cover object-[38%_50%]"
               />
             </div>
+            </PhotoFrame>
             <div className="order-1 lg:order-2">
-              <h2 className="font-serif text-4xl font-semibold text-[#583939] lg:text-[42px]">
-                {"About"} <span className="text-[#e47105]">Shyam Jagat</span>
+              <Eyebrow className="mb-5">{"Who we are"}</Eyebrow>
+              <h2 className="font-serif text-4xl font-semibold text-[#583939] lg:text-[52px] lg:leading-[1.1]">
+                {"About"} <HighlightWord>Shyam Jagat</HighlightWord>
               </h2>
               <p className="mt-6 text-lg leading-[37px] text-[#8c8c8c]">
                 {"Shyam Jagat is a spiritual and social organization inspired by Baba Shyam, dedicated to serving humanity through faith and action. We uplift communities across areas: quality education for children, skill training for employment, free meals for food security, safe shelter for the homeless, free healthcare camps, and women empowerment programs. Together, we aim to build a compassionate and self-reliant society where everyone can thrive with dignity."}
@@ -245,8 +265,9 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[87px]">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
-              <h2 className="font-serif text-4xl font-semibold text-black lg:text-[42px]">
-                {"About"} <span className="text-[#e47105]">Baba Shyam</span>
+              <Eyebrow className="mb-5">{"Our inspiration"}</Eyebrow>
+              <h2 className="font-serif text-4xl font-semibold text-black lg:text-[52px] lg:leading-[1.1]">
+                {"About"} <HighlightWord>Baba Shyam</HighlightWord>
               </h2>
               <p className="mt-6 max-w-[504px] text-lg leading-[37px] text-[#8c8c8c]">
                 {"\"Born as Barbarik, the legendary grandson of Bhima, he possessed unparalleled warrior strength. Yet, his greatest act was the supreme sacrifice of his own head for the victory of Dharma (truth). Pleased by his selfless devotion, Lord Krishna blessed him with his own name—Shyam—decreeing that he would be revered in Kalyug as the ultimate savior of the defeated.\""}
@@ -259,7 +280,8 @@ export default function HomePage() {
                 <CtaArrow src="/images/home/arrow-about.svg" className="h-3 w-6" />
               </Link>
             </div>
-            <div className="relative h-96 overflow-hidden rounded-2xl lg:h-[550px] shadow-[16px_18px_50px_rgba(0,0,0,0.25)] ">
+            <PhotoFrame side="right">
+            <div className="relative h-96 overflow-hidden rounded-[35px] lg:h-[550px] shadow-[16px_18px_50px_rgba(0,0,0,0.25)] ">
               <Image
                 src="/images/home/about-baba.png"
                 alt="Baba Shyam"
@@ -268,11 +290,12 @@ export default function HomePage() {
                 className="object-cover"
               />
             </div>
+            </PhotoFrame>
           </div>
         </div>
       </section>
 
-      {/* DAILY DARSHAN: the aarti timetable (winter and summer) and the live darshan button */}
+      {/* SHYAM BABA DARSHAN: the aarti timetable (winter and summer) and the latest aarti from the temple */}
       <section className="bg-maroon py-16 text-white lg:py-20">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 lg:flex-row lg:gap-16 lg:px-[80px]">
           <div className="flex flex-1 flex-col gap-10">
@@ -285,10 +308,10 @@ export default function HomePage() {
                 <span className="h-px w-6 bg-[#d4af37]" />
               </div>
               <h2 className="font-serif text-4xl font-semibold leading-[1.1] lg:text-[48px]">
-                {"Daily Darshan"}
+                {"Shyam Baba Darshan"}
               </h2>
               <p className="max-w-[560px] text-base leading-relaxed text-white/85">
-                {"The daily aarti timings, with the winter and summer times side by side, and the live darshan from the temple."}
+                {"The daily aarti timings, with the winter and summer times side by side, and the darshan aarti from the temple."}
               </p>
             </div>
             <DarshanSchedule />
@@ -336,6 +359,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* GIVE SEVA */}
+      <SevaHomeSection />
+
       {/* AD - LARGE BANNER */}
       <AdSlot size="banner" cta={"Explore"} />
 
@@ -346,7 +372,7 @@ export default function HomePage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">
               {"Success Stories"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
+            <Ornament />
             <p className="text-lg leading-7 text-[#595656]">
               {"Real lives, real impact — stories of hope and transformation."}
             </p>
@@ -356,25 +382,24 @@ export default function HomePage() {
             {testimonials.map((item) => (
               <div
                 key={item.name}
-                className="flex gap-6 rounded-2xl border border-[#d4af37]/25 bg-[#fffbf3] p-6 shadow-[0_12px_16px_rgba(139,0,0,0.05)]"
+                className="group relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-[#d4af37]/25 bg-[#fffbf3] p-7 shadow-[0_12px_16px_rgba(139,0,0,0.05)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_40px_rgba(194,87,12,0.18)]"
               >
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full">
-                  <Image src={item.photo} alt={item.name} fill sizes="96px" className="object-cover" />
-                </div>
-                <div className="flex flex-1 flex-col gap-3.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="rounded-full bg-[#7b2d2d] px-2.5 py-1.5 text-xs font-semibold text-white">
-                      {item.program}
-                    </span>
-                    <div className="flex shrink-0 gap-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} className="h-3.5 w-3.5 fill-[#e47105] text-[#e47105]" aria-hidden />
-                      ))}
-                    </div>
+                <span aria-hidden className="pointer-events-none absolute -right-2 -top-6 select-none font-serif text-[120px] font-bold leading-none text-[#e47105]/15">&rdquo;</span>
+                <div className="flex items-center gap-4">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-4 ring-[#e47105]/20 transition-transform duration-300 group-hover:scale-105">
+                    <Image src={item.photo} alt={item.name} fill sizes="64px" className="object-cover" />
                   </div>
-                  <p className="italic leading-[26px] text-[#3e1815]">&ldquo;{item.text}&rdquo;</p>
-                  <p className="font-serif text-xl font-bold text-[#3e1815]">{item.name}</p>
+                  <div className="flex min-w-0 flex-col gap-1.5">
+                    <p className="font-serif text-xl font-bold leading-tight text-[#3e1815]">{item.name}</p>
+                    <span className="w-fit rounded-full bg-[#7b2d2d] px-2.5 py-1 text-xs font-semibold text-white">{item.program}</span>
+                  </div>
                 </div>
+                <div className="flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-[#e47105] text-[#e47105]" aria-hidden />
+                  ))}
+                </div>
+                <p className="relative italic leading-[27px] text-[#3e1815]">&ldquo;{item.text}&rdquo;</p>
               </div>
             ))}
           </div>
@@ -404,32 +429,53 @@ export default function HomePage() {
       </section>
 
       {/* WHY CHOOSE SHYAM JAGAT */}
-      <section className="bg-[#faf7f2] px-6 py-16 lg:px-[108px] lg:py-24">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-12">
+      <section className="relative overflow-hidden px-6 py-16 lg:px-[108px] lg:py-24">
+        {/* The temple behind everything, under a deep maroon wash so the cards and the heading stand out. */}
+        <Image src="/images/home/hero.png" alt="" fill sizes="100vw" className="object-cover object-center" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2b0707]/95 via-[#4a0e0e]/90 to-[#2b0707]/95" />
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#e87722] via-[#ffd04f] to-[#e87722]" />
+
+        <div className="relative mx-auto flex max-w-[1440px] flex-col gap-12">
           <div className="mx-auto flex max-w-[760px] flex-col items-center gap-4 text-center">
-            <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffd04f]">{"OUR PROMISE TO TRY"}</p>
+            <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
               {"Why Choose Shyam Jagat"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
-            <p className="text-lg leading-7 text-[#595656]">
-              {"Built on faith, driven by purpose, and committed to lasting change."}
+            <div className="h-[3px] w-[100px] rounded bg-gradient-to-r from-[#e87722] to-[#ffd04f]" />
+            <p className="text-lg leading-7 text-[#f5d9a0]">
+              {"Built on faith, driven by purpose, and working towards lasting change."}
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {whyChoose.map((f) => (
-              <div
-                key={f.title}
-                className="flex flex-col gap-4 rounded-2xl border border-[#d4af37]/25 bg-white p-6 shadow-[0_12px_16px_rgba(139,0,0,0.05)]"
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e87722] shadow-[0_10px_12px_rgba(232,119,34,0.2)]">
-                  {f.icon}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {whyChoose.map((f, i) => {
+              const Icon = f.icon as React.ComponentType<{ className?: string; strokeWidth?: number }>;
+              const wide = i === 5;
+              return (
+                <div
+                  key={f.title}
+                  className={`group relative isolate overflow-hidden rounded-[28px] border border-[#f6dc8c]/25 p-7 text-white shadow-[0_18px_40px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[#f6dc8c]/60 hover:shadow-[0_26px_50px_rgba(0,0,0,0.45)] sm:p-8 ${i === 0 ? "lg:col-span-2" : ""} ${wide ? "sm:col-span-2 lg:col-span-3" : ""}`}
+                  style={{ background: `radial-gradient(120% 120% at 0% 0%, ${f.colour}, color-mix(in srgb, ${f.colour} 45%, #1a0505))` }}
+                >
+                  {/* a mandala turning slowly behind, and a big faded number */}
+                  <Mandala className="gs-spin-slow pointer-events-none absolute -right-20 -top-20 -z-10 h-72 w-72 text-[#f6dc8c]/25" />
+                  <span aria-hidden className="pointer-events-none absolute -bottom-6 right-5 -z-10 select-none font-serif text-[130px] font-bold leading-none text-white/[0.08]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className={`flex h-full flex-col gap-6 ${wide ? "lg:flex-row lg:items-center lg:gap-10" : ""}`}>
+                    {/* the symbol, inside a small temple arch */}
+                    <span className="flex h-[88px] w-[68px] shrink-0 items-center justify-center rounded-t-[34px] rounded-b-md border border-[#f6dc8c]/60 bg-white/10 shadow-[inset_0_0_18px_rgba(246,220,140,0.15)] transition-transform duration-300 group-hover:scale-105">
+                      <Icon className="h-9 w-9 text-[#f6dc8c] drop-shadow-[0_0_6px_rgba(255,214,120,0.5)]" strokeWidth={1.4} />
+                    </span>
+                    <div className="flex flex-col gap-3">
+                      <p className="font-serif text-[28px] font-bold leading-tight">{f.title}</p>
+                      <Ornament className="text-[#f6dc8c]" />
+                      <p className="max-w-[460px] text-[15px] leading-[24px] text-white/90">{f.desc}</p>
+                    </div>
+                  </div>
                 </div>
-                <p className="font-serif text-[22px] font-bold text-[#3e1815]">{f.title}</p>
-                <p className="text-sm leading-[22px] text-[#595656]">{f.desc}</p>
-                <div className="h-0.5 w-full rounded-full bg-[#e47105]" />
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -528,13 +574,17 @@ export default function HomePage() {
       </section>
 
       {/* STATS BAR */}
-      <section className="bg-white py-8">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-y-8 px-6 lg:grid-cols-4 lg:gap-y-0 lg:divide-x lg:divide-[#e5e7eb]">
+      <section className="bg-white px-6 py-10">
+        <div className="mx-auto grid max-w-[1224px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.title} className="flex flex-col items-center gap-1.5 px-4 text-center">
-              <s.icon className="h-5 w-5 text-[#4a0e0e]" aria-hidden />
-              <p className="text-sm font-bold text-[#4a0e0e]">{s.title}</p>
-              <p className="text-xs text-[#6b7280]">{s.sub}</p>
+            <div key={s.title} className="group flex items-center gap-4 rounded-2xl border border-[#e0b94f]/50 bg-gradient-to-br from-[#fffdf8] to-[#fdf3dc] px-5 py-4 shadow-[0_6px_16px_rgba(107,31,31,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-[#e0b94f] hover:shadow-[0_14px_28px_rgba(194,87,12,0.15)]">
+              <span className="flex h-[58px] w-[44px] shrink-0 items-center justify-center rounded-t-[22px] rounded-b-md border border-[#e0b94f] bg-[#fff4d6] text-[#b45309] transition-colors group-hover:bg-[#e47105] group-hover:text-white">
+                <s.icon className="h-5 w-5" aria-hidden />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-bold leading-snug text-[#4a0e0e]">{s.title}</span>
+                <span className="mt-0.5 block text-xs text-[#8a6a4a]">{s.sub}</span>
+              </span>
             </div>
           ))}
         </div>
@@ -542,7 +592,9 @@ export default function HomePage() {
 
       {/* JOIN THE SHYAM FAMILY */}
       <section className="bg-white px-6 py-8 lg:px-[90px]">
-        <div className="mx-auto flex max-w-[1224px] flex-col items-center justify-between gap-6 rounded-2xl bg-gradient-to-r from-[#ef851f] via-[#e58330] to-[#db791a] px-8 py-9 text-white sm:flex-row sm:gap-8">
+        <div className="relative isolate mx-auto flex max-w-[1224px] flex-col items-center justify-between gap-6 overflow-hidden rounded-3xl bg-gradient-to-r from-[#ef851f] via-[#e58330] to-[#c2570c] px-8 py-9 text-white shadow-[0_20px_44px_rgba(194,87,12,0.3)] sm:flex-row sm:gap-8">
+          <Mandala className="gs-spin-slow pointer-events-none absolute -right-16 -top-24 -z-10 h-[360px] w-[360px] text-white/20" />
+          <span aria-hidden className="pointer-events-none absolute inset-2.5 -z-10 rounded-[20px] border border-white/35" />
           <div className="flex items-center gap-6">
             <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-white">
               <CtaArrow src="/images/home/family-icon.svg" className="h-12 w-12" />
@@ -576,35 +628,24 @@ export default function HomePage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">
               {"Frequently Asked Questions"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
+            <Ornament />
             <p className="text-lg leading-7 text-[#595656]">
               {"Have questions? We have answers."}
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="flex flex-col gap-3">
-              {faqsLeft.map((item, i) => (
-                <FaqItem
-                  key={item.q}
-                  q={item.q}
-                  a={item.a}
-                  open={openFaqLeft === i}
-                  onToggle={() => setOpenFaqLeft(openFaqLeft === i ? -1 : i)}
-                />
-              ))}
-            </div>
-            <div className="flex flex-col gap-3">
-              {faqsRight.map((item, i) => (
-                <FaqItem
-                  key={item.q}
-                  q={item.q}
-                  a={item.a}
-                  open={openFaqRight === i}
-                  onToggle={() => setOpenFaqRight(openFaqRight === i ? -1 : i)}
-                />
-              ))}
-            </div>
+          <div className="mx-auto flex w-full max-w-[860px] flex-col gap-3">
+            {faqs.map((item, i) => (
+              <FaqItem
+                key={item.q}
+                q={item.q}
+                a={item.a}
+                href={item.href}
+                cta={item.cta}
+                open={openFaq === i}
+                onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -752,11 +793,15 @@ export default function HomePage() {
 function FaqItem({
   q,
   a,
+  href,
+  cta,
   open,
   onToggle,
 }: {
   q: string;
   a?: string;
+  href?: string;
+  cta?: string;
   open: boolean;
   onToggle: () => void;
 }) {
@@ -775,7 +820,15 @@ function FaqItem({
         )}
       </button>
       {open && a && (
-        <p className="mt-3 text-sm leading-[22px] text-[#595656]">{a}</p>
+        <div className="mt-3 flex flex-col gap-3">
+          <p className="text-sm leading-[22px] text-[#595656]">{a}</p>
+          {href && cta && (
+            <Link href={href} className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[#e47105] px-4 py-2 text-[13px] font-bold text-white transition-opacity hover:opacity-90">
+              {cta}
+              <span aria-hidden>→</span>
+            </Link>
+          )}
+        </div>
       )}
     </div>
   );

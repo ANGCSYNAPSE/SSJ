@@ -6,8 +6,8 @@ import { DARSHAN_ITEM } from "@/lib/data/devotion";
 import { SEASONS, TEMPLE } from "@/lib/data/darshan";
 
 export const metadata: Metadata = {
-  title: "Daily Darshan - Aarti timings and live darshan",
-  description: "The daily aarti timings of Shri Shyam Mandir, Khatushyamji, for winter and summer, and the live darshan.",
+  title: "Shyam Baba Darshan - Aarti timings and darshan aarti",
+  description: "The daily aarti timings of Shri Shyam Mandir, Khatushyamji, for winter and summer, and the darshan aarti.",
 };
 
 export default function DarshanPage() {
@@ -16,7 +16,7 @@ export default function DarshanPage() {
       <DevotionHero
         title={DARSHAN_ITEM.title}
         hindi={DARSHAN_ITEM.hindi}
-        intro="The daily aarti timings of Shri Shyam Mandir, with the winter and summer times side by side, and the live darshan."
+        intro="The daily aarti timings of Shri Shyam Mandir, with the winter and summer times side by side, and the darshan aarti."
         crumbs={[{ href: "/aarti", label: "All Aarti" }, { label: DARSHAN_ITEM.title }]}
       />
 

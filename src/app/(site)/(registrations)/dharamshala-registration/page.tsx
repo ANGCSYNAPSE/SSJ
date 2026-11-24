@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -267,7 +268,7 @@ function SectionHeader({ eyebrow, title, desc }: { eyebrow: string; title: strin
       <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-maroon sm:text-[48px]">
         {title}
       </h2>
-      <div className="h-[3px] w-[100px] bg-primary" />
+      <Ornament />
       {desc && <p className="max-w-[760px] text-base leading-relaxed text-[#595656]">{desc}</p>}
     </div>
   );
@@ -363,7 +364,7 @@ export default function DharamshalaRegistrationPage() {
             <h1 className="max-w-[850px] font-serif text-4xl font-bold text-maroon sm:text-[40px]">
               Accommodation Details &amp; Application
             </h1>
-            <div className="h-[3px] w-[100px] bg-primary" />
+            <Ornament />
           </div>
 
           <form

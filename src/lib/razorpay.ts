@@ -29,6 +29,8 @@ function loadScript(): Promise<RazorpayCtor> {
   });
 }
 
+const PAY_BLOCK_NAME = { upi: "Pay with UPI", card: "Pay with a card", netbanking: "Pay with net banking", wallet: "Pay with a wallet" } as const;
+
 export class CheckoutDismissed extends Error {
   constructor() {
     super("Payment window closed.");
@@ -47,6 +49,8 @@ export async function openRazorpayCheckout(order: {
   currency: string;
   label: string;
   prefill: { name: string; email: string; contact: string };
+  /** Show only this way of paying (the donor chose it on our page). Left out, Razorpay shows every way. */
+  method?: "upi" | "card" | "netbanking" | "wallet";
 }): Promise<CheckoutResponse> {
   const Razorpay = await loadScript();
   return new Promise((resolve, reject) => {
@@ -61,6 +65,17 @@ export async function openRazorpayCheckout(order: {
       image: `${window.location.origin}/images/brand/logo.svg`,
       prefill: order.prefill,
       theme: { color: "#e87722" },
+      ...(order.method
+        ? {
+            config: {
+              display: {
+                blocks: { chosen: { name: PAY_BLOCK_NAME[order.method], instruments: [{ method: order.method }] } },
+                sequence: ["block.chosen"],
+                preferences: { show_default_blocks: false },
+              },
+            },
+          }
+        : {}),
       handler: (response: CheckoutResponse) => resolve(response),
       // Closing the window by accident asks first, so a payment in progress is not lost.
       modal: { confirm_close: true, ondismiss: () => reject(new CheckoutDismissed()) },

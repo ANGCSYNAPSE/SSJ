@@ -133,11 +133,15 @@ export default function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                "whitespace-nowrap text-sm xl:text-base font-medium transition-colors hover:text-primary",
+                "relative whitespace-nowrap text-sm xl:text-base font-medium transition-colors hover:text-primary",
                 pathname === link.href ? "text-primary" : "text-[#595656]",
               )}
             >
               {link.label}
+              {/* A small dot marks the page you are on. */}
+              {pathname === link.href && (
+                <span aria-hidden className="absolute -bottom-2.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-primary shadow-[0_0_0_3px_rgba(232,119,34,0.18)]" />
+              )}
             </Link>
           ))}
 

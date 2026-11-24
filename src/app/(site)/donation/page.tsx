@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useState } from "react";
 import { CONTACT, telHref } from "@/lib/constants";
@@ -355,16 +356,16 @@ export default function DonationPage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative -mt-[112px] flex flex-col overflow-hidden pt-[112px]">
-        <div className="relative flex items-center overflow-hidden px-6 py-16 lg:px-[100px] lg:py-20">
-          <Image src="/images/donation/hero.png" alt="Devotees serving the community" fill sizes="100vw" priority className="object-cover" />
+      <section className="relative -mt-[112px] flex flex-col overflow-hidden">
+        <div className="relative flex min-h-[560px] items-center overflow-hidden px-6 pb-16 pt-[calc(112px+56px)] lg:min-h-[700px] lg:px-[100px] lg:pb-24 lg:pt-[calc(112px+64px)]">
+          <Image src="/images/donation/hero.png" alt="Devotees serving the community" fill sizes="100vw" priority className="origin-top scale-[1.12] object-cover object-[50%_10%]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2a0b0b]/80 to-[#2a0b0b]/0" />
           <div className="relative flex w-full max-w-[1440px] mx-auto flex-col gap-8">
             <div className="flex flex-col gap-4">
               <h1 className="font-serif text-5xl font-bold leading-[1.1] text-white lg:text-[64px]">
                 Support a Noble Cause
               </h1>
-              <div className="h-1 w-[120px] bg-[#e87722]" />
+              <Ornament />
             </div>
             <p className="text-lg leading-relaxed w-[700px] text-balance text-[#fdf6ec]">
               Every contribution helps us serve society through education, healthcare, women empowerment, old age care, annadan, and spiritual initiatives.
@@ -405,7 +406,7 @@ export default function DonationPage() {
 
       {/* DONATION SECTION */}
       <section id="donate" className="bg-white px-6 py-16 lg:p-[100px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-16 lg:flex-row">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-16 xl:flex-row">
           <form
             onSubmit={handleSubmit}
             className="flex flex-1 flex-col gap-10 rounded-[28px] bg-white p-6 shadow-[0_20px_30px_rgba(107,31,31,0.1)] lg:p-12"
@@ -456,14 +457,17 @@ export default function DonationPage() {
                     key={c.label}
                     type="button"
                     onClick={() => setCause(c.label)}
+                    aria-pressed={cause === c.label}
                     className={
                       cause === c.label
-                        ? "flex w-[112px] flex-col items-center gap-2 rounded-2xl border-2 border-[#e87722] bg-[#fff3e0] p-4"
-                        : "flex w-[112px] flex-col items-center gap-2 rounded-2xl border-2 border-transparent bg-[#fdf6ec] p-4"
+                        ? "flex w-[116px] flex-col items-center gap-2.5 rounded-t-[58px] rounded-b-2xl border-2 border-[#e87722] bg-gradient-to-b from-[#ffd9a0] to-[#fff3e0] px-3 pb-3.5 pt-5 shadow-[0_10px_22px_rgba(232,119,34,0.25)] transition-all"
+                        : "flex w-[116px] flex-col items-center gap-2.5 rounded-t-[58px] rounded-b-2xl border-2 border-[#e8ddd0] bg-[#fffaf3] px-3 pb-3.5 pt-5 transition-all hover:-translate-y-1 hover:border-[#e0b94f]"
                     }
                   >
-                    <c.icon className="h-6 w-6 text-[#6b1f1f]" aria-hidden />
-                    <span className="text-center text-[11px] font-bold text-[#6b1f1f]">{c.label}</span>
+                    <span className={cause === c.label ? "flex h-11 w-11 items-center justify-center rounded-full bg-[#e87722] text-white shadow-md" : "flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#9b5a12] shadow-sm"}>
+                      <c.icon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <span className="text-center text-[11px] font-bold leading-tight text-[#6b1f1f]">{c.label}</span>
                   </button>
                 ))}
               </div>
@@ -582,7 +586,7 @@ export default function DonationPage() {
             </div>
           </form>
 
-          <div className="flex w-full flex-col gap-12 lg:w-[520px] lg:shrink-0">
+          <div className="flex w-full flex-col gap-12 xl:w-[520px] xl:shrink-0">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-3">
                 <p className="text-[13px] font-bold uppercase text-[#e87722]">Payment Options</p>
@@ -640,7 +644,7 @@ export default function DonationPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               Community Contributions
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="text-lg leading-relaxed text-[#8c8c8c]">
               Join thousands who are making a difference every day.
             </p>
@@ -677,7 +681,7 @@ export default function DonationPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               Stories of Faith &amp; Service
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="text-lg leading-relaxed text-[#8c8c8c]">
               Join thousands who are making a difference every day.
             </p>
@@ -709,7 +713,7 @@ export default function DonationPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-white lg:text-[48px]">
               Where Your Donation Goes
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="text-lg leading-relaxed text-[#fdf6ec]">
               Complete transparency in how every rupee is utilized.
             </p>
@@ -742,12 +746,12 @@ export default function DonationPage() {
           <h2 className="font-serif text-4xl font-extrabold leading-[1.1] text-[#3d1010] lg:text-[52px]">
             Choose Your Path of Devotion
           </h2>
-          <div className="h-0.5 w-[120px] bg-[#e87722]" />
+          <Ornament />
           <p className="max-w-[600px] text-base leading-relaxed text-[#6b1f1f] opacity-75">
             Join the Shyam Jagat family and be a part of something truly meaningful.
           </p>
         </div>
-        <div className="grid w-full gap-6 lg:grid-cols-4">
+        <div className="grid w-full gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {plans.map((plan) => {
             const dark = plan.variant === "dark";
             return (
@@ -836,7 +840,7 @@ export default function DonationPage() {
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#6b1f1f] lg:text-[48px]">
               Frequently Asked Questions
             </h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
           </div>
           <div className="grid gap-x-16 lg:grid-cols-2">
             <div className="flex flex-col">

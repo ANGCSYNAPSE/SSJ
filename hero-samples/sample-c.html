@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C · Editorial · Shyam Jagat hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700;800&family=Noto+Sans+Devanagari:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<style>
+  /* C. Editorial: a light, bold, poster-like hero with a collage of temple arches and a festival ribbon. */
+  body { background: #fdf6ec; color: #3e1815; }
+  .hero { background: #fdf6ec; min-height: 760px; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); }
+  .dots { position: absolute; inset: 0; opacity: .5; background-image: radial-gradient(rgba(224,185,79,.55) 1.2px, transparent 1.5px); background-size: 26px 26px; }
+  .grid { position: relative; z-index: 10; display: grid; height: 100%; max-width: 1440px; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 24px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 72px) 120px; }
+  .eyebrow { border-color: rgba(228,113,5,.3); background: rgba(228,113,5,.1); color: #c2570c; }
+  .eyebrow::before { background: #e47105; box-shadow: none; animation: glow 2.2s ease-out infinite; }
+  @keyframes glow { 0%,100% { box-shadow: 0 0 0 0 rgba(232,119,34,.45); } 50% { box-shadow: 0 0 0 10px rgba(232,119,34,0); } }
+  .txt { display: flex; flex-direction: column; gap: 24px; padding-top: 20px; }
+  .big { font-family: "Noto Sans Devanagari", "EB Garamond", serif; font-weight: 800; line-height: .92; font-size: clamp(4.4rem, 9.2vw, 9.4rem); }
+  .big span { display: block; width: fit-content; }
+  .big .a { color: #e47105; }
+  .big .b { color: transparent; -webkit-text-stroke: 3px #6b1f1f; }
+  .big .c { position: relative; color: #6b1f1f; }
+  .big .c::after { content: ""; position: absolute; left: 0; bottom: 2px; z-index: -1; width: 100%; height: .2em; background: #ffd04f; transform: rotate(-1deg); }
+  .sub { color: #5a3a3a; }
+
+  .collage { position: relative; width: min(480px, 36vw); aspect-ratio: 480 / 560; margin: 0 auto; }
+  .collage .arch1 { position: absolute; left: 14%; top: 0; width: 62%; height: 84%; overflow: hidden; border: 6px solid #e0b94f; border-radius: 999px 999px 28px 28px; background: #3a0c0c; box-shadow: 0 30px 60px rgba(107,31,31,.3); }
+  .collage .arch1 img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 28%; display: block; }
+  .collage .circ { position: absolute; left: -4%; bottom: 7%; width: 44%; aspect-ratio: 1; overflow: hidden; border: 6px solid #fff; border-radius: 50%; box-shadow: 0 20px 40px rgba(107,31,31,.28); }
+  .collage .circ img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; transform: scale(1.5); display: block; }
+  .collage .arch2 { position: absolute; right: -3%; top: 12%; width: 27%; aspect-ratio: 130 / 190; overflow: hidden; border: 5px solid #6b1f1f; border-radius: 999px 999px 16px 16px; box-shadow: 0 20px 40px rgba(107,31,31,.28); }
+  .collage .arch2 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .collage .dotsq { position: absolute; right: 0; top: -20px; width: 130px; height: 90px; opacity: .6; background-image: radial-gradient(#e47105 2px, transparent 2.4px); background-size: 14px 14px; }
+  .sticker { position: absolute; right: 6%; bottom: -2%; display: flex; width: 112px; height: 112px; align-items: center; justify-content: center; border-radius: 50%; background: #e47105; box-shadow: 0 12px 30px rgba(194,87,12,.45); outline: 4px solid #fff; }
+
+  .stats-wrap { position: absolute; left: 0; right: 0; bottom: 96px; z-index: 10; max-width: 920px; margin: 0 auto; padding: 0 24px; }
+  .stats-wrap .stat { border-color: rgba(224,185,79,.6); background: rgba(255,255,255,.72); color: #4a0e0e; }
+
+  .ribbon { position: absolute; left: 0; right: 0; bottom: 0; z-index: 12; overflow: hidden; padding: 20px 0; }
+  .ribbon .tape { margin: 0 -16px; transform: rotate(-1.2deg); background: linear-gradient(90deg, #c2570c, #e87722, #c2570c); padding: 14px 0; box-shadow: 0 10px 30px rgba(194,87,12,.35); }
+  .ribbon .run { display: flex; width: max-content; animation: hl-marquee 36s linear infinite; }
+  .ribbon .run:hover { animation-play-state: paused; }
+  .ribbon ul { display: flex; align-items: center; }
+  .ribbon li { display: flex; align-items: center; gap: 24px; padding-right: 24px; font: 700 clamp(18px, 2vw, 24px) "EB Garamond", Georgia, serif; letter-spacing: .03em; color: #fff; white-space: nowrap; }
+  .ribbon li svg { width: 16px; height: 16px; color: #ffe08a; }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } .collage { display: none; } .stats-wrap { display: none; } }
+</style>
+</head>
+<body>
+<div data-header></div>
+
+<section class="hero">
+  <span class="blob" style="left:-160px;top:40px;width:460px;height:460px;background:rgba(255,179,71,.3)"></span>
+  <span class="blob" style="right:-130px;bottom:0;width:420px;height:420px;background:rgba(255,138,101,.25)"></span>
+  <div class="dots"></div>
+
+  <div class="grid">
+    <div class="txt">
+      <span class="eyebrow">Jai Shree Shyam</span>
+      <h1 class="big"><span class="a">सहयोग</span><span class="b">सेवा</span><span class="c">समर्पण</span></h1>
+      <p class="sub">Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity</p>
+      <div data-ctas="light"></div>
+    </div>
+    <div class="collage">
+      <span class="dotsq"></span>
+      <div class="arch1"><img src="assets/baba.png" alt="Baba Shyam" fetchpriority="high"></div>
+      <div class="circ"><img src="assets/gate-day.png" alt="The Shree Shyam gateway"></div>
+      <div class="arch2"><img src="assets/annadan.jpg" alt=""></div>
+      <div class="sticker" id="sticker"></div>
+    </div>
+  </div>
+
+  <div class="stats-wrap"><div data-stats></div></div>
+
+  <div class="ribbon" aria-hidden="true">
+    <div class="tape"><div class="run" id="run"></div></div>
+  </div>
+</section>
+
+<div data-switch="c"></div>
+<script src="assets/hero.js"></script>
+<script>
+  HL.sticker(document.getElementById('sticker'));
+  var words = ['Jai Shree Shyam','Annadan','Gau Seva','Jal Seva','Bal Vidya','Juta Seva','Health Care','Haare Ka Sahara'];
+  var star = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5l3 7.5 7.5 3-7.5 3-3 7.5-3-7.5-7.5-3 7.5-3z"/></svg>';
+  var row = '<ul>' + words.map(function (w) { return '<li>' + w + star + '</li>'; }).join('') + '</ul>';
+  document.getElementById('run').innerHTML = row + row + row + row;
+</script>
+</body>
+</html>

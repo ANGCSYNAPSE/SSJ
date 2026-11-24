@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import TopBar from "@/components/layout/TopBar";
 import FeeReminder from "@/components/payments/FeeReminder";
 import RegistrationGate from "@/components/payments/RegistrationGate";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 /**
  * Marketing and content pages: full chrome.
@@ -26,6 +27,7 @@ export default function SiteLayout({
       </main>
       <Footer />
       <FeeReminder />
+      <ScrollReveal />
     </div>
   );
 }

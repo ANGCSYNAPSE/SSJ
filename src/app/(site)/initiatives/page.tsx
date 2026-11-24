@@ -1,3 +1,4 @@
+import Ornament from "@/components/ui/Ornament";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -91,7 +92,7 @@ export default function InitiativesPage() {
           <div className="mx-auto flex max-w-[760px] flex-col items-center gap-4 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.96px] text-[#e87722]">{"WHAT WE AIM TO DO"}</p>
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">{"Our Seva"}</h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
+            <Ornament />
             <p className="text-lg leading-7 text-[#595656]">
               {"Choose any card to read, in a few words, what we aim to do. Each service begins place by place, as support allows."}
             </p>
@@ -109,7 +110,7 @@ export default function InitiativesPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-12">
           <div className="mx-auto flex max-w-[760px] flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[44px]">{"Coming Soon"}</h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
+            <Ornament />
             <p className="text-lg leading-7 text-[#595656]">{"Seva we hope to start in time. We will share it here when it begins."}</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -134,7 +135,7 @@ export default function InitiativesPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10">
           <div className="flex flex-col items-center gap-4">
             <h2 className="font-serif text-4xl font-bold text-[#3e1815] sm:text-[56px]">{"Our Approach"}</h2>
-            <div className="h-[3px] w-[100px] bg-[#e47105]" />
+            <Ornament />
           </div>
           <p className="max-w-[900px] text-center text-lg leading-8 text-[#595656]">
             {"We believe seva grows best when it grows slowly and honestly. We begin with what we can do well, with the help of volunteers, members and supporters, and we share openly where and when each service is available. Thank you for being part of it."}
@@ -198,7 +199,7 @@ export default function InitiativesPage() {
         <div className="relative mx-auto flex max-w-[1440px] flex-col gap-12">
           <div className="mx-auto flex max-w-[760px] flex-col items-center gap-4 text-center">
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3d1010] lg:text-[48px]">{"How You Can Contribute"}</h2>
-            <div className="h-[3px] w-[100px] bg-[#e87722]" />
+            <Ornament />
             <p className="text-lg leading-7 text-[#666]">{"Every act of giving, big or small, helps."}</p>
           </div>
 

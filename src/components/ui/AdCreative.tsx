@@ -3,11 +3,15 @@ import type { CSSProperties } from "react";
 export type AdSize = "leaderboard" | "banner" | "rectangle";
 export type AdTemplate = "image" | "split";
 
-/** The pixel size each slot is designed at. The slot scales this down on small screens. */
+/**
+ * Every ad slot is the same compact wide strip, so no ad takes up a tall block of the page. The names (leaderboard, banner,
+ * rectangle) are only where the admin placed it; they all draw at 728 × 90 and the slot scales that down on small screens.
+ */
+const STRIP = { w: 728, h: 90, label: "728 × 90" };
 export const SLOT_DIMS: Record<AdSize, { w: number; h: number; label: string }> = {
-  leaderboard: { w: 728, h: 90, label: "728 × 90" },
-  banner: { w: 970, h: 250, label: "970 × 250" },
-  rectangle: { w: 300, h: 250, label: "300 × 250" },
+  leaderboard: STRIP,
+  banner: STRIP,
+  rectangle: STRIP,
 };
 
 /** Named colour schemes an ad can use; "custom" takes the two colours the admin picked. */
@@ -81,9 +85,9 @@ export default function AdCreative({ ad, size, src }: { ad: AdCreativeData; size
     );
   }
 
-  const look = LOOK[size];
+  const look = LOOK.leaderboard;
   const [from, to] = themeColours(ad);
-  const stacked = size === "rectangle";
+  const stacked = false;
   const cta = ad.ctaLabel?.trim() || (ad.linkUrl ? "Learn more" : "");
   const tone = buttonColours(ad);
 

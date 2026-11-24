@@ -75,8 +75,6 @@ export function buildPerformerProfile(v: {
   portfolioLink?: string;
   availableEvents: string[];
   regions: string[];
-  honorarium?: string;
-  travelWillingness?: string;
   consentContact: boolean;
 }) {
   const unset = (value?: string) => (!value || value.startsWith("Select") ? undefined : value);

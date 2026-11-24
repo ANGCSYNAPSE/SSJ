@@ -26,10 +26,10 @@ export interface DevotionItem {
 
 export const DARSHAN_ITEM = {
   slug: "darshan",
-  title: "Daily Darshan",
-  hindi: "दैनिक दर्शन",
+  title: "Shyam Baba Darshan",
+  hindi: "श्याम बाबा दर्शन",
   icon: "darshan" as const,
-  blurb: "Aarti timings for winter and summer, and the live darshan from the temple.",
+  blurb: "Aarti timings for winter and summer, and the darshan aarti from the temple.",
 };
 
 export const DEVOTION_ITEMS: readonly DevotionItem[] = [
@@ -68,12 +68,12 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
         heading: "About the Aarti",
         body: [
           "The aarti is sung with a lit lamp at the end of a puja. It is the moment when everyone present joins in, and it is sung at the temple several times a day.",
-          "At Shri Shyam Mandir, Khatushyamji, five aartis are held every day: Mangala, Shringar, Bhog, Sandhya and Shayan. See the timings on the Daily Darshan page.",
+          "At Shri Shyam Mandir, Khatushyamji, five aartis are held every day: Mangala, Shringar, Bhog, Sandhya and Shayan. See the timings on the Shyam Baba Darshan page.",
         ],
       },
     ],
     verses: [],
-    links: [{ href: "/aarti/darshan", label: "Aarti timings and live darshan" }],
+    links: [{ href: "/aarti/darshan", label: "Aarti timings and darshan aarti" }],
   },
   {
     slug: "bhajan",
@@ -179,7 +179,7 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
       {
         heading: "Planning your visit",
         body: [
-          "Aarti timings change between winter and summer. Check the Daily Darshan page before you plan your day.",
+          "Aarti timings change between winter and summer. Check the Shyam Baba Darshan page before you plan your day.",
           "On Ekadashi and during the Falgun Mela the crowds are very large. Start early and keep your plans flexible.",
           "Book your stay in advance. Our directory lists dharamshalas near the temple.",
         ],

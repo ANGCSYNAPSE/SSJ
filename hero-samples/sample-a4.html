@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A4 · Deepotsav · Shyam Jagat hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700;800&family=Noto+Sans+Devanagari:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/reveal.css">
+<style>
+  /*
+    A4. Deepotsav. Darkness, and a single lamp. Its flame wakes, and then ring after ring of lamps light up around it, each one a
+    little later, until the whole stage glows. The light opens outward from the centre and becomes Baba Shyam's darshan.
+  */
+  .rv.a4 { --tw: 5.2s; --cx: 50%; --cy: 62%; }
+  .night { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(ellipse at 50% 64%, #261348 0%, #120a2a 46%, #03020a 100%); }
+  .stars { position: absolute; inset: 0 0 40% 0; }
+  .floor { position: absolute; left: 50%; top: 62%; width: 130%; aspect-ratio: 3.4; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(ellipse, rgba(255,170,60,.0), rgba(255,170,60,0) 70%); }
+  .run .floor { animation: floor-glow 5s ease 1.2s both; }
+  @keyframes floor-glow { to { background: radial-gradient(ellipse, rgba(255,170,60,.42), rgba(255,170,60,.14) 45%, rgba(255,170,60,0) 70%); } }
+
+  .lampfield { position: absolute; inset: 0; }
+  .lp { position: absolute; width: var(--s); transform: translate(-50%, -50%); }
+  .lp svg { display: block; width: 100%; height: auto; }
+  .lp .fl { transform-origin: 50% 90%; transform: scale(0); opacity: 0; }
+  .run .lp .fl { animation: ignite .9s cubic-bezier(.2, 1.4, .4, 1) var(--d) both, hl-flame 1.6s ease-in-out calc(var(--d) + .9s) infinite; }
+  .lp::before { content: ""; position: absolute; left: 50%; top: -30%; width: 260%; aspect-ratio: 1; transform: translateX(-50%) scale(0); border-radius: 50%; background: radial-gradient(circle, rgba(255,190,80,.55), transparent 66%); opacity: 0; }
+  .run .lp::before { animation: glow-on 1.2s ease var(--d) both; }
+  @keyframes ignite { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes glow-on { to { transform: translateX(-50%) scale(1); opacity: 1; } }
+  .run .lampfield { animation: field-out 2.6s ease calc(var(--tw) + .8s) both; }
+  @keyframes field-out { to { opacity: 0; } }
+
+  .motes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .lamps { position: absolute; left: 0; right: 0; bottom: 0; z-index: 12; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 clamp(12px, 3vw, 48px) 12px; opacity: 0; pointer-events: none; }
+  .lamps::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 112px; background: linear-gradient(0deg, rgba(255,155,25,.25), transparent); }
+  .run .lamps { animation: rv-late 2s ease calc(var(--tw) + 2s) both; }
+  .lamps .lm { position: relative; width: clamp(40px, 4vw, 56px); filter: drop-shadow(0 0 14px rgba(255,170,60,.9)); }
+</style>
+</head>
+<body>
+<div data-header></div>
+
+<section class="hero rv a4 run" id="hero" style="height:max(calc(100vh - 72px),700px)">
+  <div class="night">
+    <div class="stars" id="stars"></div>
+    <div class="floor"></div>
+    <div class="lampfield" id="field"></div>
+    <div class="motes" id="motes"></div>
+  </div>
+
+  <div class="stage-dar"><div class="darshan hl-kb"><img src="assets/baba.png" alt="Baba Shyam"></div></div>
+  <div class="late shade-l"></div><div class="late shade-v"></div><div class="late aura"></div>
+  <div class="shimmer"><i></i></div>
+  <div class="petals" id="petals"></div>
+  <div class="lamps" id="lamps" aria-hidden="true"></div>
+
+  <div class="copy">
+    <div>
+      <span class="eyebrow">Jai Shree Shyam</span>
+      <h1 class="headline"><span class="w1">सहयोग</span><span class="w2">सेवा</span><span class="w3">समर्पण</span></h1>
+      <p class="sub">Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity</p>
+      <div data-ctas></div>
+    </div>
+  </div>
+  <button id="replay" type="button"><svg class="i"><use href="#i-replay"/></svg>Replay</button>
+</section>
+
+<div data-switch="a4"></div>
+<script src="assets/hero.js"></script>
+<script>
+  HL.stars(document.getElementById('stars'), 70);
+  HL.embers(document.getElementById('motes'), 18);
+  HL.petals(document.getElementById('petals'), 14);
+
+  // the lamps: one in the middle, then rings of lamps around it (a flattened circle, so they seem to lie on the ground)
+  var uid = 0;
+  function lamp(x, y, size, delay) {
+    var id = 'lf' + (uid++);
+    var svg = HL.diya().replace('id="ff"', 'id="' + id + '"').replace('url(#ff)', 'url(#' + id + ')').replace('<g class="flame">', '<g class="fl">');
+    return '<div class="lp" style="left:' + x + '%;top:' + y + '%;--s:' + size + 'px;--d:' + delay.toFixed(2) + 's">' + svg + '</div>';
+  }
+  var rings = [[.10, 6, 30], [.19, 12, 36], [.29, 18, 42], [.40, 26, 48], [.52, 34, 54]];
+  var html = lamp(50, 62, 66, .6);
+  rings.forEach(function (r, ri) {
+    for (var i = 0; i < r[1]; i++) {
+      var a = (i / r[1]) * Math.PI * 2 + ri * .4;
+      var x = 50 + Math.cos(a) * r[0] * 100;
+      var y = 62 + Math.sin(a) * r[0] * 100 * .3;
+      var depth = .72 + .28 * ((Math.sin(a) + 1) / 2);   // nearer lamps are a little larger
+      html += lamp(x, y, r[2] * depth, 1.4 + ri * .62 + (i / r[1]) * .55);
+    }
+  });
+  document.getElementById('field').innerHTML = html;
+
+  // the row of lamps that stays along the foot once the darshan is revealed
+  var row = '';
+  for (var k = 0; k < 11; k++) {
+    var id2 = 'lm' + k;
+    row += '<span class="lm" style="margin-bottom:' + (k % 3) * 6 + 'px">' + HL.diya().replace('id="ff"', 'id="' + id2 + '"').replace('url(#ff)', 'url(#' + id2 + ')') + '</span>';
+  }
+  document.getElementById('lamps').innerHTML = row;
+
+  var hero = document.getElementById('hero');
+  document.getElementById('replay').addEventListener('click', function () {
+    hero.classList.remove('run'); void hero.offsetWidth; hero.classList.add('run');
+  });
+</script>
+</body>
+</html>

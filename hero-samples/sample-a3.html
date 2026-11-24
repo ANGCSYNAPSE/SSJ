@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A3 · Temple Parda · Shyam Jagat hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700;800&family=Noto+Sans+Devanagari:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/reveal.css">
+<style>
+  /*
+    A3. Temple Parda. In a temple, the darshan begins when the curtain is drawn. Velvet curtains with a gold border hang closed under a
+    scalloped valance, with marigold garlands swaying and two lamps flickering. The curtains gather to the sides and the darshan is
+    revealed, from darkness into full light.
+  */
+  .rv.a3 { --tw: 2.4s; }
+  /* the darshan is already there, behind the curtains, in the dark */
+  .rv.a3 .stage-dar { clip-path: none; filter: brightness(.1) saturate(.8); }
+  .rv.a3.run .stage-dar { animation: lit 3.6s ease 1.9s both; }
+  @keyframes lit { to { filter: brightness(1) saturate(1); } }
+
+  .curt { position: absolute; top: 0; bottom: 0; z-index: 20; width: 50.4%; will-change: transform; box-shadow: 0 0 60px rgba(0,0,0,.6);
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.45), transparent 7%, transparent 93%, rgba(0,0,0,.45)),
+      linear-gradient(180deg, rgba(0,0,0,.45), transparent 22%, transparent 66%, rgba(0,0,0,.55)),
+      repeating-linear-gradient(90deg, #6e1219 0 30px, #92202a 30px 58px, #5a0e14 58px 90px, #7d1820 90px 120px); }
+  .curt.l { left: 0; transform-origin: 0 50%; }
+  .curt.r { right: 0; transform-origin: 100% 50%; }
+  .curt .gold { position: absolute; top: 0; bottom: 0; width: 30px; background: linear-gradient(90deg, #8a5a12, #f6dc8c 45%, #b8860b); box-shadow: 0 0 14px rgba(246,220,140,.5); }
+  .curt.l .gold { right: 0; } .curt.r .gold { left: 0; }
+  .curt .gold::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(110,18,25,.55) 3px, transparent 4px); background-size: 30px 30px; }
+  .curt .fringe { position: absolute; left: 0; right: 0; bottom: 0; height: 56px; background: repeating-linear-gradient(90deg, #f6dc8c 0 3px, transparent 3px 8px); -webkit-mask-image: linear-gradient(180deg, transparent, #000 40%); mask-image: linear-gradient(180deg, transparent, #000 40%); filter: drop-shadow(0 0 6px rgba(246,220,140,.5)); }
+  .run .curt { animation: gather 3.4s cubic-bezier(.7, 0, .2, 1) 1.6s both; }
+  @keyframes gather { 0% { transform: scaleX(1); } 100% { transform: scaleX(.1); } }
+
+  .valance { position: absolute; left: 0; right: 0; top: 0; z-index: 24; height: 96px; filter: drop-shadow(0 10px 18px rgba(0,0,0,.6));
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='96' viewBox='0 0 140 96'><defs><linearGradient id='v' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%234a0b10'/><stop offset='1' stop-color='%23952029'/></linearGradient></defs><path d='M0 0H140V40Q105 96 70 40Q35 96 0 40Z' fill='url(%23v)'/><path d='M0 40Q35 96 70 40Q105 96 140 40' fill='none' stroke='%23f6dc8c' stroke-width='4'/><circle cx='70' cy='54' r='4' fill='%23f6dc8c'/></svg>") repeat-x top / 140px 96px; }
+  .valance::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 12px; background: linear-gradient(180deg, #8a5a12, #f6dc8c, #b8860b); }
+
+  .garlands { position: absolute; left: 0; right: 0; top: 70px; z-index: 26; height: 0; }
+  .strand { position: absolute; top: 0; width: 16px; transform-origin: 50% 0; animation: sway var(--sw, 5s) ease-in-out var(--sd, 0s) infinite alternate; filter: drop-shadow(0 4px 5px rgba(0,0,0,.4));
+    background: radial-gradient(circle at 50% 50%, #ff9b19 0 5px, #ffb54a 5px 7px, transparent 7.5px) 0 0 / 16px 15px repeat-y; }
+  .strand::after { content: ""; position: absolute; left: 50%; bottom: -10px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: radial-gradient(circle, #ffe08a, #ff8c1a 60%, #c2570c); }
+  .run .strand.mid { animation: sway var(--sw, 5s) ease-in-out var(--sd, 0s) infinite alternate, mid-out 1.6s ease 4.4s both; }
+  @keyframes mid-out { to { opacity: 0; } }
+  @keyframes sway { from { transform: rotate(-3.5deg); } to { transform: rotate(3.5deg); } }
+
+  .lamp { position: absolute; bottom: 4%; z-index: 28; width: clamp(64px, 7vw, 104px); filter: drop-shadow(0 0 22px rgba(255,170,60,.95)); }
+  .lamp.l { left: 3%; } .lamp.r { right: 3%; }
+  .lamp::before { content: ""; position: absolute; left: 50%; top: -30%; width: 190%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(255,190,80,.5), transparent 65%); animation: hl-pulse 3s ease-in-out infinite; }
+  .lamp svg { position: relative; display: block; }
+
+  .cue { position: absolute; left: 50%; top: 50%; z-index: 27; transform: translate(-50%, -50%); font: 800 clamp(2rem, 4vw, 3.4rem) "EB Garamond", serif; letter-spacing: .08em; color: rgba(246,220,140,.9); text-shadow: 0 0 30px rgba(255,190,80,.7); opacity: 0; }
+  .run .cue { animation: cue-a 2.6s ease .1s both; }
+  @keyframes cue-a { 0%, 100% { opacity: 0; } 30%, 65% { opacity: 1; } }
+</style>
+</head>
+<body>
+<div data-header></div>
+
+<section class="hero rv a3 run" id="hero" style="height:max(calc(100vh - 72px),700px)">
+  <div class="stage-dar"><div class="darshan hl-kb"><img src="assets/baba.png" alt="Baba Shyam"></div></div>
+  <div class="late shade-l"></div><div class="late shade-v"></div><div class="late aura"></div>
+  <div class="shimmer"><i></i></div>
+  <div class="petals" id="petals"></div>
+
+  <div class="curt l"><span class="gold"></span><span class="fringe"></span></div>
+  <div class="curt r"><span class="gold"></span><span class="fringe"></span></div>
+  <div class="cue">॥ जय श्री श्याम ॥</div>
+  <div class="valance"></div>
+  <div class="garlands" id="garlands"></div>
+  <div class="lamp l" id="lampL"></div>
+  <div class="lamp r" id="lampR"></div>
+
+  <div class="copy">
+    <div>
+      <span class="eyebrow">Jai Shree Shyam</span>
+      <h1 class="headline"><span class="w1">सहयोग</span><span class="w2">सेवा</span><span class="w3">समर्पण</span></h1>
+      <p class="sub">Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity</p>
+      <div data-ctas></div>
+    </div>
+  </div>
+  <button id="replay" type="button"><svg class="i"><use href="#i-replay"/></svg>Replay</button>
+</section>
+
+<div data-switch="a3"></div>
+<script src="assets/hero.js"></script>
+<script>
+  HL.petals(document.getElementById('petals'), 14);
+  document.getElementById('lampL').innerHTML = HL.diya().replace('id="ff"', 'id="ffL"').replace('url(#ff)', 'url(#ffL)');
+  document.getElementById('lampR').innerHTML = HL.diya().replace('id="ff"', 'id="ffR"').replace('url(#ff)', 'url(#ffR)');
+
+  // marigold garlands hanging from the valance, each swaying on its own time
+  var gl = document.getElementById('garlands'), html = '';
+  for (var i = 0; i < 17; i++) {
+    var h = 50 + ((i * 53) % 7) * 22 + (i % 3 === 0 ? 40 : 0);
+    var x = 2.5 + i * 5.7;
+    html += '<span class="strand' + (x > 14 && x < 86 ? ' mid' : '') + '" style="left:' + x + '%;height:' + h + 'px;--sw:' + (4 + (i % 4)) + 's;--sd:-' + ((i * 0.7) % 4) + 's"></span>';
+  }
+  gl.innerHTML = html;
+
+  var hero = document.getElementById('hero');
+  document.getElementById('replay').addEventListener('click', function () {
+    hero.classList.remove('run'); void hero.offsetWidth; hero.classList.add('run');
+  });
+</script>
+</body>
+</html>

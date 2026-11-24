@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B · Sunrise Mandala · Shyam Jagat hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700;800&family=Noto+Sans+Devanagari:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<style>
+  /* B. Sunrise Mandala: a great gold mandala turns behind Baba Shyam, who stands in a temple arch. */
+  .hero { background: radial-gradient(60% 85% at 72% 46%, #f7b32b 0%, #d9660f 30%, #6b1616 64%, #1c0505 100%); }
+  .m1, .m2 { position: absolute; top: 50%; aspect-ratio: 1; margin-top: calc(var(--s) / -2); }
+  .m1 { --s: min(1020px, 105vh); width: var(--s); right: -6%; color: rgba(255,233,168,.42); }
+  .m2 { --s: min(820px, 84vh); width: var(--s); right: -1%; color: rgba(255,255,255,.3); }
+  .grid { position: relative; z-index: 10; display: grid; height: 100%; max-width: 1440px; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 32px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 72px); }
+  .txt { display: flex; flex-direction: column; gap: 26px; padding-bottom: 90px; }
+  .txt .headline { font-size: clamp(3.2rem, 6.2vw, 6rem); filter: drop-shadow(0 4px 14px rgba(0,0,0,.45)); }
+  .txt .eyebrow { background: rgba(0,0,0,.2); }
+
+  .arch { position: relative; width: min(410px, 32vw); aspect-ratio: 410 / 580; margin: 0 auto 70px; }
+  .arch .f1, .arch .f2 { position: absolute; border-style: solid; border-color: rgba(246,220,140,.7); }
+  .arch .f1 { inset: -24px; border-width: 2px; border-radius: 999px 999px 48px 48px; }
+  .arch .f2 { inset: -12px; border-width: 1px; border-color: rgba(246,220,140,.4); border-radius: 999px 999px 42px 42px; }
+  .arch .pic { position: absolute; inset: 0; overflow: hidden; border-radius: 999px 999px 36px 36px; background: #3a0c0c; box-shadow: 0 40px 90px rgba(0,0,0,.55); }
+  .arch .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 28%; display: block; }
+  .arch .pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(58,12,12,.6), transparent 50%); }
+  .arch .gem { position: absolute; left: 50%; top: -38px; width: 16px; height: 16px; background: #f6dc8c; transform: translateX(-50%) rotate(45deg); }
+  .arch .base { position: absolute; left: 7%; right: 7%; bottom: -38px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, transparent, #f6dc8c, transparent); }
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; max-width: 1100px; margin: 0 auto; padding: 0 24px 76px; }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } .arch { display: none; } }
+</style>
+</head>
+<body>
+<div data-header></div>
+
+<section class="hero">
+  <div class="m1 hl-spin-slow" id="m1"></div>
+  <div class="m2 hl-spin-rev" id="m2"></div>
+  <div class="petals" id="petals"></div>
+
+  <div class="grid">
+    <div class="txt">
+      <span class="eyebrow">Jai Shree Shyam</span>
+      <h1 class="headline"><span class="w1">सहयोग</span><span class="w2">सेवा</span><span class="w3">समर्पण</span></h1>
+      <p class="sub">Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity</p>
+      <div data-ctas></div>
+    </div>
+    <div class="arch">
+      <span class="f1"></span><span class="f2"></span>
+      <div class="pic"><img src="assets/baba.png" alt="Baba Shyam" fetchpriority="high"></div>
+      <span class="gem"></span><span class="base"></span>
+    </div>
+  </div>
+  <div class="foot"><div data-stats></div></div>
+</section>
+
+<div data-switch="b"></div>
+<script src="assets/hero.js"></script>
+<script>
+  HL.mandala(document.getElementById('m1'), 16);
+  HL.mandala(document.getElementById('m2'), 12);
+  HL.petals(document.getElementById('petals'), 16);
+</script>
+</body>
+</html>

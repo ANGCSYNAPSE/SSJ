@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useEffect, useRef, useState } from "react";
 import PolicyLink from "@/components/legal/PolicyDialog";
@@ -217,7 +218,6 @@ export default function MusicianRegistrationPage() {
     "Delhi", "Karnataka", "Tamil Nadu", "West Bengal",
     "Punjab", "Haryana", "Madhya Pradesh", "Andhra Pradesh",
   ];
-  const honorariumOptions = ["₹15,000-50,000", "₹50,000-100,000", "₹100,000-250,000", "₹250,000-500,000", "₹500,000+"];
   const eventOptions = [
     "Bhajan Sandhya", "Temple Festivals", "Cultural Programs",
     "Private Events", "Weddings & Celebrations", "Online Events",
@@ -226,7 +226,6 @@ export default function MusicianRegistrationPage() {
     "Rajasthan", "Delhi NCR", "Uttar Pradesh",
     "Madhya Pradesh", "Gujarat", "Maharashtra", "Pan India",
   ];
-  const travelOptions = ["Within City", "Within State", "Across India"];
 
   const whyFeatures = [
     { emoji: "🌐", title: "Reach Thousands", desc: "Get discovered by temple boards and premier event organizers across India." },
@@ -242,8 +241,6 @@ export default function MusicianRegistrationPage() {
   const [workFiles, setWorkFiles] = useState<{ name: string; size: string; type: keyof typeof workFileIcons }[]>([]);
   const [availableEvents, setAvailableEvents] = useState<string[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
-  const [honorarium, setHonorarium] = useState(honorariumOptions[0]);
-  const [travelWillingness, setTravelWillingness] = useState("Across India");
   const [consentContact, setConsentContact] = useState(false);
 
   const reg = useRegistrationSubmit("musician");
@@ -283,8 +280,6 @@ export default function MusicianRegistrationPage() {
           portfolioLink,
           availableEvents,
           regions,
-          honorarium,
-          travelWillingness,
           consentContact,
         }),
         photo: { file: uploadedFile, key: "profilePhoto" },
@@ -626,25 +621,6 @@ export default function MusicianRegistrationPage() {
                   ))}
                 </div>
               </div>
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="flex flex-col gap-2">
-                  <FieldLabel label={"Expected Honorarium Range"} required />
-                  <Select options={honorariumOptions} value={honorarium} onChange={setHonorarium} />
-                </div>
-                <div className="flex flex-col gap-4">
-                  <FieldLabel label={"Travel Willingness"} required />
-                  <div className="flex h-12 items-center gap-6">
-                    {travelOptions.map((option) => (
-                      <Radio
-                        key={option}
-                        label={option}
-                        checked={travelWillingness === option}
-                        onChange={() => setTravelWillingness(option)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
           </Card>
 
@@ -698,7 +674,7 @@ export default function MusicianRegistrationPage() {
             <h2 className="font-serif text-3xl font-bold leading-[1.1] text-maroon sm:text-[48px]">
               {"Why Join Shyam Jagat as a Musician?"}
             </h2>
-            <div className="h-[3px] w-[100px] bg-primary" />
+            <Ornament />
             <p className="max-w-[760px] text-base leading-7 text-[#595656] sm:text-lg">
               {"Devotion meets showcase. Step onto a platform built to honor your sacred craft and connect you with global devotees."}
             </p>

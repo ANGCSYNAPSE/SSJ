@@ -55,6 +55,12 @@ function Card({ item, height, onOpen, large = false }: { item: Initiative; heigh
     >
       <Pictures item={item} sizes={large ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"} />
       <div className="absolute inset-0 bg-gradient-to-b from-maroon/0 via-maroon/10 to-maroon/85" />
+      {/* A soft haze behind the text: the picture blurs a little towards the bottom, so the words stay easy to read. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[62%] bg-maroon/35 backdrop-blur-[5px]"
+        style={{ WebkitMaskImage: "linear-gradient(to top, #000 45%, transparent)", maskImage: "linear-gradient(to top, #000 45%, transparent)" }}
+      />
       <span className="absolute left-5 top-5 rounded-full border border-[#e5e7eb] bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-maroon shadow">{item.tag}</span>
       <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-5 pb-5 pt-4 text-white">
         <div className={`font-serif font-semibold leading-[1.2] ${large ? "text-[28px] lg:text-[32px]" : "text-[24px]"}`}>{item.title}</div>

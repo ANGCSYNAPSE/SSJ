@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A2 · Lotus Bloom · Shyam Jagat hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700;800&family=Noto+Sans+Devanagari:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/reveal.css">
+<style>
+  /*
+    A2. Lotus Bloom. Before sunrise, a golden lotus bud rests on still water. The sun rises behind it, rays spread, and the lotus
+    opens petal by petal. From its heart a circle of light grows until it becomes Baba Shyam's darshan, and the words rise in.
+  */
+  .scene { position: absolute; inset: 0; overflow: hidden; }
+  .sky { position: absolute; inset: 0; background: linear-gradient(180deg, #0b0420 0%, #2a0f3f 28%, #7a2a3a 56%, #e0702a 84%, #ffb347 100%); }
+  .stars { position: absolute; inset: 0 0 40% 0; opacity: .9; }
+  .run .stars { animation: stars-out 5s ease 1s both; }
+  @keyframes stars-out { to { opacity: 0; } }
+
+  .sun { position: absolute; left: 50%; bottom: -22vmin; width: 100vmin; aspect-ratio: 1; margin-left: -50vmin; border-radius: 50%; background: radial-gradient(circle, #fff3b8 0%, #ffbf5a 34%, rgba(255,120,40,0) 68%); opacity: .3; transform: translateY(40%); }
+  .run .sun { animation: sun-up 4.4s ease-out both; }
+  @keyframes sun-up { to { opacity: 1; transform: translateY(0); } }
+
+  .rays { position: absolute; left: 50%; top: 62%; width: 240vmax; height: 240vmax; margin: -120vmax 0 0 -120vmax; opacity: 0; background: repeating-conic-gradient(from 0deg, rgba(255,214,130,.30) 0deg 3deg, transparent 3deg 12deg); -webkit-mask-image: radial-gradient(circle, #000 4%, transparent 38%); mask-image: radial-gradient(circle, #000 4%, transparent 38%); }
+  .run .rays { animation: rays-in 3s ease .8s both, hl-spin 160s linear infinite; }
+  @keyframes rays-in { to { opacity: 1; } }
+
+  .water i { position: absolute; left: 50%; bottom: 3%; width: 44vmin; height: 9vmin; margin-left: -22vmin; border: 2px solid rgba(255,224,160,.55); border-radius: 50%; opacity: 0; }
+  .run .water i { animation: ripple 5.4s ease-out calc(var(--k) * 1.8s) infinite; }
+  @keyframes ripple { 0% { transform: scale(.35); opacity: .85; } 100% { transform: scale(3); opacity: 0; } }
+
+  .lotus-wrap { position: absolute; left: 50%; bottom: 3%; width: min(1000px, 112vw); aspect-ratio: 4 / 3; transform: translateX(-50%); transform-origin: 50% 62%; }
+  .lotus-wrap svg { width: 100%; height: 100%; overflow: visible; display: block; filter: drop-shadow(0 20px 40px rgba(60,0,30,.45)); }
+  .petal { transform-origin: 0 0; transform: rotate(0deg) scale(.5); }
+  .run .petal { animation: bloom 3s cubic-bezier(.22, 1, .36, 1) var(--bd) both; }
+  @keyframes bloom { 0% { transform: rotate(0deg) scale(.5); } 100% { transform: rotate(var(--a)) scale(1); } }
+  .heart { transform-origin: 0 0; }
+  .run .heart { animation: heart 3.4s ease 1s both; }
+  @keyframes heart { 0% { opacity: .2; transform: scale(.3); } 60% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(1.15); } }
+  .run .lotus-wrap { animation: lotus-pass 2.8s cubic-bezier(.6, 0, .2, 1) calc(var(--tw) - .2s) both; }
+  @keyframes lotus-pass { from { transform: translateX(-50%) scale(1); opacity: 1; } to { transform: translateX(-50%) scale(4.4); opacity: 0; } }
+
+  .flash { position: absolute; inset: 0; opacity: 0; mix-blend-mode: screen; background: radial-gradient(40% 50% at var(--cx) var(--cy), #fff8d8 0%, #ffc46a 40%, rgba(255,150,40,0) 75%); }
+  .run .flash { animation: flash 2.2s ease calc(var(--tw) - .8s) both; }
+  @keyframes flash { 0% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
+  .motes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+</style>
+</head>
+<body>
+<div data-header></div>
+
+<section class="hero rv run" id="hero" style="--tw:4.2s;--cx:50%;--cy:60%;height:max(calc(100vh - 72px),700px)">
+  <div class="scene">
+    <div class="sky"></div>
+    <div class="stars" id="stars"></div>
+    <div class="sun"></div>
+    <div class="rays"></div>
+    <div class="water"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i></div>
+    <div class="lotus-wrap">
+      <svg viewBox="0 0 800 600" aria-hidden="true">
+        <defs>
+          <linearGradient id="pgBack" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-290"><stop offset="0" stop-color="#ffd36b"/><stop offset=".4" stop-color="#ff8fb1"/><stop offset="1" stop-color="#e8236f"/></linearGradient>
+          <linearGradient id="pgMid" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-250"><stop offset="0" stop-color="#ffe08a"/><stop offset=".45" stop-color="#ffa6c2"/><stop offset="1" stop-color="#f0457f"/></linearGradient>
+          <linearGradient id="pgFront" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-210"><stop offset="0" stop-color="#fff0b8"/><stop offset=".5" stop-color="#ffc9db"/><stop offset="1" stop-color="#ff7ba6"/></linearGradient>
+          <linearGradient id="pgIn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-150"><stop offset="0" stop-color="#fff6c8"/><stop offset="1" stop-color="#ffc24a"/></linearGradient>
+          <radialGradient id="hg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fffbe6"/><stop offset=".45" stop-color="#ffd25a"/><stop offset="1" stop-color="rgba(255,170,40,0)"/></radialGradient>
+        </defs>
+        <g transform="translate(400 500)" id="petals-g"></g>
+        <g transform="translate(400 330)"><circle class="heart" r="120" fill="url(#hg)"/></g>
+      </svg>
+    </div>
+    <div class="flash"></div>
+    <div class="motes" id="motes"></div>
+  </div>
+
+  <div class="stage-dar"><div class="darshan hl-kb"><img src="assets/baba.png" alt="Baba Shyam"></div></div>
+  <div class="late shade-l"></div><div class="late shade-v"></div><div class="late aura"></div>
+  <div class="shimmer"><i></i></div>
+  <div class="petals" id="petals"></div>
+
+  <div class="copy">
+    <div>
+      <span class="eyebrow">Jai Shree Shyam</span>
+      <h1 class="headline"><span class="w1">सहयोग</span><span class="w2">सेवा</span><span class="w3">समर्पण</span></h1>
+      <p class="sub">Shree Shyam Jagat is a platform dedicated to spreading devotion and serving humanity</p>
+      <div data-ctas></div>
+    </div>
+  </div>
+  <button id="replay" type="button"><svg class="i"><use href="#i-replay"/></svg>Replay</button>
+</section>
+
+<div data-switch="a2"></div>
+<script src="assets/hero.js"></script>
+<script>
+  HL.stars(document.getElementById('stars'), 60);
+  HL.embers(document.getElementById('motes'), 22);
+  HL.petals(document.getElementById('petals'), 14);
+
+  // the lotus: four rings of petals, drawn from the water upward; each opens from a closed bud to its own angle
+  function petalPath(L, W) {
+    return 'M0 0 C ' + (-W * .62) + ' ' + (-L * .14) + ', ' + (-W) + ' ' + (-L * .62) + ', 0 ' + (-L) + ' C ' + W + ' ' + (-L * .62) + ', ' + (W * .62) + ' ' + (-L * .14) + ', 0 0 Z';
+  }
+  var g = document.getElementById('petals-g');
+  function ring(n, spread, L, W, grad, delay) {
+    var out = '';
+    for (var i = 0; i < n; i++) {
+      var a = n === 1 ? 0 : -spread + (2 * spread) * (i / (n - 1));
+      var d = delay + Math.abs(i - (n - 1) / 2) * .08;
+      out += '<g><path class="petal" d="' + petalPath(L, W) + '" fill="url(#' + grad + ')" stroke="rgba(255,255,255,.45)" stroke-width="1.6" style="--a:' + a + 'deg;--bd:' + d + 's"/>' +
+             '<path class="petal" d="M0 -8 L0 ' + (-L * .78) + '" stroke="rgba(255,255,255,.35)" stroke-width="1.4" fill="none" style="--a:' + a + 'deg;--bd:' + d + 's"/></g>';
+    }
+    g.insertAdjacentHTML('beforeend', out);
+  }
+  ring(13, 88, 290, 70, 'pgBack', .5);
+  ring(11, 70, 250, 64, 'pgMid', 1.0);
+  ring(9, 52, 210, 58, 'pgFront', 1.5);
+  ring(7, 30, 150, 46, 'pgIn', 2.0);
+
+  var hero = document.getElementById('hero');
+  document.getElementById('replay').addEventListener('click', function () {
+    hero.classList.remove('run'); void hero.offsetWidth; hero.classList.add('run');
+  });
+</script>
+</body>
+</html>

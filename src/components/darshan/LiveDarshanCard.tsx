@@ -66,7 +66,7 @@ export default function LiveDarshanCard({ className = "" }: { className?: string
             onClick={darshan.embeddable ? () => setPlaying(true) : undefined}
             role={darshan.embeddable ? "button" : undefined}
             tabIndex={0}
-            aria-label={darshan.live ? "Play the live darshan" : "Play the latest aarti"}
+            aria-label="Play the darshan aarti"
             className="group absolute inset-0 block cursor-pointer"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -88,19 +88,19 @@ export default function LiveDarshanCard({ className = "" }: { className?: string
               <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
             </span>
           )}
-          {darshan.live ? "Live now" : "Latest aarti"}
+          {darshan.live ? "Aarti now" : "Latest aarti"}
         </span>
       </div>
 
       <div className="p-6 text-center lg:p-7">
-        <h3 className="font-serif text-2xl font-extrabold leading-tight">{"Live Darshan"}</h3>
+        <h3 className="font-serif text-2xl font-extrabold leading-tight">{"Darshan Aarti"}</h3>
         <p className="notranslate mt-2 text-sm font-medium text-[#6b4f4f]" translate="no">
           {darshan.title}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-[#6b4f4f]">
           {darshan.live
             ? "The aarti is being streamed live from Shri Shyam Mandir, Khatushyamji."
-            : "No aarti is on air right now, so the latest aarti is shown. The live stream appears here by itself when the next aarti begins."}
+            : "The latest aarti from Shri Shyam Mandir, Khatushyamji. When the next aarti begins, it appears here by itself."}
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
           <a
@@ -109,7 +109,7 @@ export default function LiveDarshanCard({ className = "" }: { className?: string
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-lg bg-[#e47105] px-6 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-lg transition-opacity hover:opacity-90"
           >
-            {darshan.live ? "Watch live on YouTube" : "Watch on YouTube"}
+            {"Watch on YouTube"}
           </a>
         </div>
       </div>

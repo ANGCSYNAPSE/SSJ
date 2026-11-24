@@ -1,4 +1,5 @@
 "use client";
+import Ornament from "@/components/ui/Ornament";
 
 import { useEffect, useRef, useState, type ComponentType } from "react";
 import { CONTACT, telHref } from "@/lib/constants";
@@ -317,7 +318,7 @@ export default function TempleDirectoryPage() {
               <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
                 Featured Temples
               </h2>
-              <div className="mt-4 h-[3px] w-[100px] bg-primary" />
+              <Ornament className="mt-4" />
             </div>
             <Link
               href="#"
@@ -408,7 +409,7 @@ export default function TempleDirectoryPage() {
             <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
               Temple Services
             </h2>
-            <div className="h-[3px] w-[100px] bg-primary" />
+            <Ornament />
             <p className="max-w-[760px] text-base text-[#595656]">
               Everything you need to manage, discover, and connect with temples.
             </p>
@@ -448,7 +449,7 @@ export default function TempleDirectoryPage() {
             <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
               Register Your Temple in 3 Steps
             </h2>
-            <div className="h-[3px] w-[100px] bg-primary" />
+            <Ornament />
             <p className="text-base text-[#595656]">
               Simple, free, and takes less than 5 minutes.
             </p>
@@ -493,7 +494,7 @@ export default function TempleDirectoryPage() {
               <h2 className="mt-4 font-serif text-3xl font-semibold text-maroon sm:text-4xl">
                 Latest from the Community
               </h2>
-              <div className="mt-4 h-[3px] w-[100px] bg-primary" />
+              <Ornament className="mt-4" />
             </div>
             <Link href="#" className="flex shrink-0 items-center gap-1.5 text-base font-semibold text-primary">
               View All <ArrowRight className="h-4 w-4" />
@@ -542,7 +543,7 @@ export default function TempleDirectoryPage() {
             <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
               What Temple Administrators Say
             </h2>
-            <div className="h-[3px] w-[100px] bg-primary" />
+            <Ornament />
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -575,7 +576,7 @@ export default function TempleDirectoryPage() {
             <h2 className="font-serif text-3xl font-semibold text-maroon sm:text-4xl">
               Frequently Asked Questions
             </h2>
-            <div className="h-[3px] w-[100px] bg-primary" />
+            <Ornament />
           </div>
 
           <div className="grid w-full gap-6 sm:grid-cols-2">

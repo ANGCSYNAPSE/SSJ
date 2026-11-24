@@ -8,7 +8,7 @@ import { DARSHAN_ITEM, DEVOTION_ITEMS } from "@/lib/data/devotion";
 
 export const metadata: Metadata = {
   title: "All Aarti - Chalisa, Bhajan, Katha, Darshan and Yatra",
-  description: "Aarti timings, live darshan, Chalisa, bhajan, the story of Barbarik, the Falgun Mela and the Khatushyamji yatra.",
+  description: "Aarti timings, darshan aarti, Chalisa, bhajan, the story of Barbarik, the Falgun Mela and the Khatushyamji yatra.",
 };
 
 export default function AartiHubPage() {
@@ -17,7 +17,7 @@ export default function AartiHubPage() {
       <DevotionHero
         title="All Aarti"
         hindi="आरती · चालीसा · भजन · कथा · दर्शन · मेला · यात्रा"
-        intro="Everything for the daily devotion of Baba Shyam in one place: the aarti timings, the live darshan, the Chalisa, bhajans, the katha, the Falgun Mela and the yatra to Khatushyamji."
+        intro="Everything for the daily devotion of Baba Shyam in one place: the aarti timings, the darshan aarti, the Chalisa, bhajans, the katha, the Falgun Mela and the yatra to Khatushyamji."
       />
 
       <section className="bg-[#fdf6ec] px-6 py-14 lg:px-[108px] lg:py-20">

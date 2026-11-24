@@ -175,14 +175,6 @@ function performer(o: {
             key: "regions", label: "Preferred Performance Regions", type: "multi",
             options: ["Rajasthan", "Delhi NCR", "Uttar Pradesh", "Madhya Pradesh", "Gujarat", "Maharashtra", "Pan India"],
           },
-          {
-            key: "honorarium", label: "Expected Honorarium Range", type: "select", half: true,
-            options: ["₹15,000-50,000", "₹50,000-100,000", "₹100,000-250,000", "₹250,000-500,000", "₹500,000+"],
-          },
-          {
-            key: "travelWillingness", label: "Travel Willingness", type: "select", half: true,
-            options: ["Within City", "Within State", "Across India"],
-          },
         ],
       },
       {
@@ -277,7 +269,7 @@ export const CATEGORIES: Category[] = [
     icon: Palette,
     ...performer({
       specialtyLabel: "Primary Art Form",
-      specialties: ["Bhajan Singer", "Musician", "Dancer", "Speaker", "Painter", "Composer", "Other"],
+      specialties: ["Bhajan Singer", "Musician", "Dancer", "Speaker", "Printer", "Composer", "Other"],
       secondaryLabel: "Secondary Art Form (Optional)",
       guruLabel: "Guru / Teacher Name (Optional)",
       bioLabel: "Brief Bio / About Your Art",
