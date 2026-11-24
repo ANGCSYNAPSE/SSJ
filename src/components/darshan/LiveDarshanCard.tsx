@@ -66,7 +66,7 @@ export default function LiveDarshanCard({ className = "" }: { className?: string
             onClick={darshan.embeddable ? () => setPlaying(true) : undefined}
             role={darshan.embeddable ? "button" : undefined}
             tabIndex={0}
-            aria-label="Play the darshan aarti"
+            aria-label="Play the aarti darshan"
             className="group absolute inset-0 block cursor-pointer"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -93,7 +93,7 @@ export default function LiveDarshanCard({ className = "" }: { className?: string
       </div>
 
       <div className="p-6 text-center lg:p-7">
-        <h3 className="font-serif text-2xl font-extrabold leading-tight">{"Darshan Aarti"}</h3>
+        <h3 className="font-serif text-2xl font-extrabold leading-tight">{"Aarti Darshan"}</h3>
         <p className="notranslate mt-2 text-sm font-medium text-[#6b4f4f]" translate="no">
           {darshan.title}
         </p>

@@ -6,7 +6,9 @@ import Link from "next/link";
 import { Check, Download, Link2, Loader2, Share2 } from "lucide-react";
 import { ApiError, cardApi, type MemberCardData } from "@/lib/api";
 import { CardPair, downloadCardPicture, shareCardLink } from "@/components/card/MemberCard";
-import { SITE } from "@/lib/constants";
+import HangingCards from "@/components/card/HangingCards";
+import { SocialIcons } from "@/components/profile/socialLinks";
+import { siteOrigin } from "@/lib/constants";
 
 /** A shared card, opened from its link or its QR code. */
 export default function SharedCardPage() {
@@ -17,7 +19,7 @@ export default function SharedCardPage() {
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const exportRef = useRef<HTMLDivElement>(null);
-  const url = `${typeof window === "undefined" ? SITE.url : window.location.origin}/card/${code}`;
+  const url = `${siteOrigin()}/card/${code}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -74,7 +76,16 @@ export default function SharedCardPage() {
               <p className="mt-1 text-[#595656]">{"Jai Shri Shyam. This card belongs to "}<span className="notranslate font-semibold" translate="no">{card.name}</span>{"."}</p>
             </div>
 
-            <CardPair card={card} url={url} />
+            <div className="w-full max-w-[760px]">
+              <HangingCards card={card} url={url} />
+            </div>
+
+            {(card.bio || Object.keys(card.links ?? {}).length > 0) && (
+              <div className="flex max-w-[520px] flex-col items-center gap-4 rounded-2xl border border-[#d4af37]/30 bg-white px-8 py-6">
+                {card.bio && <p className="font-serif text-lg italic leading-relaxed text-[#3e1815]">{card.bio}</p>}
+                <SocialIcons links={card.links} size={46} className="justify-center" />
+              </div>
+            )}
 
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button type="button" onClick={share} className="flex items-center gap-2 rounded-lg bg-[#e47105] px-5 py-3 text-sm font-bold text-white shadow transition-opacity hover:opacity-90">

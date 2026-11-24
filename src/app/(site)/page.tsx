@@ -311,7 +311,7 @@ export default function HomePage() {
                 {"Shyam Baba Darshan"}
               </h2>
               <p className="max-w-[560px] text-base leading-relaxed text-white/85">
-                {"The daily aarti timings, with the winter and summer times side by side, and the darshan aarti from the temple."}
+                {"The daily aarti timings, with the winter and summer times side by side, and the aarti darshan from the temple."}
               </p>
             </div>
             <DarshanSchedule />

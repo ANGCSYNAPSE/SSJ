@@ -136,3 +136,20 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 @keyframes gs-spin-slow { to { transform: rotate(360deg); } }
 .gs-spin-slow { animation: gs-spin-slow 90s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .gs-spin-slow { animation: none; } }
+
+/* ---- The hanging digital card: it drops in on its cord, then sways gently. ---- */
+@keyframes hang-in {
+  0% { transform: translateY(-46px) rotate(5deg); opacity: 0; }
+  55% { transform: translateY(8px) rotate(-2.4deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+@keyframes swing {
+  from { transform: rotate(-1.3deg); }
+  to { transform: rotate(1.3deg); }
+}
+.hung {
+  transform-origin: 50% 0;
+  animation: hang-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) var(--hd, 0s) both, swing 6.5s ease-in-out calc(var(--hd, 0s) + 1.2s) infinite alternate;
+}
+.hung:hover { animation-play-state: running, paused; }
+@media (prefers-reduced-motion: reduce) { .hung { animation: none !important; } }

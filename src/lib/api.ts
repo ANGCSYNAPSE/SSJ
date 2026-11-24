@@ -399,6 +399,9 @@ export type DashboardProfile = {
   data: Record<string, unknown> | null;
 };
 
+export type LinkKey = "youtube" | "instagram" | "facebook" | "x" | "linkedin" | "website";
+export type SocialLinks = Partial<Record<LinkKey, string>>;
+
 export type Dashboard = {
   account: {
     id: string;
@@ -413,6 +416,10 @@ export type Dashboard = {
     isMember: boolean;
     location: string | null;
     avatarUrl: string | null;
+    /** A few words about themselves (up to 300 characters). */
+    bio?: string | null;
+    /** Their own links: only the ones they have filled in. */
+    socialLinks?: SocialLinks;
     createdAt: string;
   };
   completion: { percent: number; missingAccount: string[] };
@@ -431,7 +438,7 @@ export const contactApi = {
 export const meApi = {
   /** Everything the signed-in user's dashboard shows, in one call. */
   dashboard: () => request<Dashboard>("/me/dashboard", { method: "GET", auth: true }),
-  update: (patch: { fullName?: string; location?: string | null; avatarUrl?: string | null }) =>
+  update: (patch: { fullName?: string; location?: string | null; avatarUrl?: string | null; bio?: string | null; socialLinks?: Partial<Record<LinkKey, string | null>> }) =>
     request<unknown>("/me", { method: "PATCH", body: patch, auth: true }),
 
   /** Texts a 6-digit code to the account's mobile number. */
@@ -455,6 +462,10 @@ export interface MemberCardData {
   name: string;
   photoUrl: string | null;
   location: string | null;
+  /** A few words about themselves, if they wrote any. */
+  bio?: string | null;
+  /** The links they chose to put on their card. */
+  links?: SocialLinks;
   verified: boolean;
   memberSince: string;
   /** What the team has approved, or they have paid for: Member, Volunteer, Artist... ("Devotee" if none yet). */

@@ -2,24 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  BadgeCheck,
-  Bell,
-  CheckCircle2,
-  CircleAlert,
-  HandHeart,
-  Heart,
-  Mail,
-  MapPin,
-  Pencil,
-  Phone,
-  Sparkles,
-  UserRound,
-} from "lucide-react";
+import { ArrowRight, Bell, CheckCircle2, CircleAlert, HandHeart, Heart, Pencil, Sparkles, UserRound } from "lucide-react";
 import RequireAuth from "@/components/auth/RequireAuth";
 import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
-import VerificationStatus from "@/components/profile/VerificationStatus";
+import EditProfileDialog from "@/components/profile/EditProfileDialog";
+import ProfileHero from "@/components/profile/ProfileHero";
+import RegistrationEditor from "@/components/profile/RegistrationEditor";
+import { DetailsCard, LinksCard } from "@/components/profile/ProfileDetails";
 import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
 import VolunteerCard from "@/components/profile/VolunteerCard";
@@ -27,7 +16,7 @@ import DigitalCardSection from "@/components/profile/DigitalCardSection";
 import PaymentDocuments from "@/components/payments/PaymentDocuments";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { CATEGORIES, categoryByKey, type Field } from "@/components/auth/signup/categories";
-import { ApiError, meApi, type Dashboard, type DashboardProfile } from "@/lib/api";
+import { ApiError, meApi, uploadsApi, type Dashboard, type DashboardProfile } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const STATUS_STYLE: Record<string, string> = {
@@ -80,7 +69,8 @@ function Bar({ percent }: { percent: number }) {
   );
 }
 
-function ProfileCard({ profile }: { profile: DashboardProfile }) {
+function ProfileCard({ profile, onSaved }: { profile: DashboardProfile; onSaved: () => void | Promise<void> }) {
+  const [editing, setEditing] = useState(false);
   const category = categoryByKey(profile.category);
   if (!category) return null;
   const data = profile.data ?? {};
@@ -104,13 +94,25 @@ function ProfileCard({ profile }: { profile: DashboardProfile }) {
         <span className={cn("rounded-full px-3 py-1 text-xs font-bold capitalize", STATUS_STYLE[profile.status] ?? "bg-gray-100 text-gray-700")}>
           {profile.status}
         </span>
-        {!profile.isComplete && (
-          <Link
-            href={`/complete-profile?category=${profile.category}`}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90"
+        {!editing && (
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            className={cn(
+              "flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold transition-all hover:-translate-y-0.5",
+              profile.isComplete ? "border border-[#e0b94f] text-maroon hover:bg-[#fff1d8]" : "bg-primary text-white hover:opacity-90",
+            )}
           >
-            Complete now <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-          </Link>
+            {profile.isComplete ? (
+              <>
+                <Pencil className="h-3.5 w-3.5" aria-hidden /> Edit details
+              </>
+            ) : (
+              <>
+                Complete now <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              </>
+            )}
+          </button>
         )}
       </div>
 
@@ -125,6 +127,17 @@ function ProfileCard({ profile }: { profile: DashboardProfile }) {
         </p>
       )}
 
+      {editing ? (
+        <RegistrationEditor
+          category={category}
+          data={data}
+          onCancel={() => setEditing(false)}
+          onSaved={async () => {
+            await onSaved();
+            setEditing(false);
+          }}
+        />
+      ) : (
       <div className="flex flex-col gap-6 px-5 py-5">
         {category.steps.map((step) => {
           const fields = step.fields.filter((f) => !f.local && f.type !== "checkbox");
@@ -161,6 +174,7 @@ function ProfileCard({ profile }: { profile: DashboardProfile }) {
           );
         })}
       </div>
+      )}
     </section>
   );
 }
@@ -180,43 +194,19 @@ function Stat({ icon: Icon, label, value, hint }: { icon: typeof Heart; label: s
   );
 }
 
-function AccountRow({ icon: Icon, label, value, missing }: { icon: typeof Mail; label: string; value?: string | null; missing?: boolean }) {
-  return (
-    <div className="flex items-center gap-3 py-3">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff1d8] text-primary">
-        <Icon className="h-4 w-4" aria-hidden />
-      </span>
-      <div className="min-w-0 flex-1">
-        <p className="text-xs text-[#8a8580]">{label}</p>
-        {value ? (
-          <p className="truncate text-sm font-medium text-[#3e1815]">{value}</p>
-        ) : (
-          <p className={cn("text-sm font-semibold", missing ? "text-red-600" : "text-gray-400")}>Not added yet</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function DashboardView() {
   const { refreshUser } = useAuth();
   const [data, setData] = useState<Dashboard | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState(false);
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
   const [verifyingPhone, setVerifyingPhone] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
 
   const load = () =>
     meApi
       .dashboard()
-      .then((d) => {
-        setData(d);
-        setName(d.account.fullName);
-        setLocation(d.account.location ?? "");
-      })
+      .then(setData)
       .catch((err) => setError(err instanceof ApiError ? err.message : "Could not load your dashboard."));
 
   useEffect(() => {
@@ -227,17 +217,20 @@ function DashboardView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function save() {
-    setSaveError(null);
-    setSaving(true);
+  /** A new profile photo: checked here, uploaded, and saved on the account. */
+  async function changePhoto(file: File) {
+    setPhotoError(null);
+    if (!file.type.startsWith("image/")) return setPhotoError("Please choose a picture (JPG or PNG).");
+    if (file.size > 5 * 1024 * 1024) return setPhotoError("Please choose a picture smaller than 5 MB.");
+    setUploading(true);
     try {
-      await meApi.update({ fullName: name.trim(), location: location.trim() || null });
+      const { url } = await uploadsApi.upload(file);
+      await meApi.update({ avatarUrl: url });
       await Promise.all([load(), refreshUser()]);
-      setEditing(false);
     } catch (err) {
-      setSaveError(err instanceof ApiError ? err.message : "Could not save. Please try again.");
+      setPhotoError(err instanceof ApiError ? err.message : "Could not upload the picture. Please try again.");
     } finally {
-      setSaving(false);
+      setUploading(false);
     }
   }
 
@@ -247,7 +240,7 @@ function DashboardView() {
   const { account, completion, profiles, notifications, donations } = data;
   const registered = new Set(profiles.map((p) => p.category));
   const others = CATEGORIES.filter((c) => !registered.has(c.key));
-  const initial = account.fullName.trim().charAt(0).toUpperCase();
+  const kinds = profiles.map((p) => categoryByKey(p.category)?.label).filter((k): k is string => Boolean(k));
 
   return (
     <div className="bg-[#fffaf1]">
@@ -260,42 +253,37 @@ function DashboardView() {
           }}
         />
       )}
-      {/* Banner */}
-      <section className="bg-gradient-to-br from-[#4a1414] via-[#6b1f1f] to-[#8b3a12] px-6 py-10 text-white lg:px-[88px]">
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-6 md:flex-row md:items-center">
-          <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-[#ffd66b] bg-white/10 font-serif text-4xl font-bold text-[#ffd66b]">
-            {initial}
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm text-[#ffd66b]">Jai Shri Shyam 🙏</p>
-            <h1 className="truncate font-serif text-3xl font-bold">{account.fullName}</h1>
-            <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold">
-              {account.isMember && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#ffd66b] px-3 py-1 text-[#4a1414]">
-                  <BadgeCheck className="h-3.5 w-3.5" aria-hidden /> Member
-                </span>
-              )}
-              <span className="rounded-full bg-white/15 px-3 py-1">Joined {date(account.createdAt)}</span>
-            </div>
-          </div>
-          <div className="w-full max-w-[280px]">
-            <div className="mb-1.5 flex items-center justify-between text-xs font-semibold">
-              <span>Profile completion</span>
-              <span className="text-[#ffd66b]">{completion.percent}%</span>
-            </div>
-            <Bar percent={completion.percent} />
-          </div>
-        </div>
-      </section>
+      {editing && (
+        <EditProfileDialog
+          account={account}
+          onClose={() => setEditing(false)}
+          onSaved={() => {
+            setEditing(false);
+            void Promise.all([load(), refreshUser()]);
+          }}
+        />
+      )}
 
-      <div className="mx-auto flex max-w-[1240px] flex-col gap-8 px-6 py-8 lg:px-[88px] lg:py-10">
+      <ProfileHero data={data} kinds={kinds} onEdit={() => setEditing(true)} onPhoto={changePhoto} uploading={uploading} photoError={photoError} />
+
+      <div className="relative z-10 mx-auto -mt-16 flex max-w-[1240px] flex-col gap-8 px-6 pb-12 lg:-mt-20 lg:px-[88px] lg:pb-16">
+        {/* Who I am, and where to find me */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <DetailsCard account={account} onEdit={() => setEditing(true)} onVerifyPhone={() => setVerifyingPhone(true)} />
+          <LinksCard account={account} onEdit={() => setEditing(true)} />
+        </div>
+
+        {/* My digital card, with its QR code */}
+        <div id="my-card" className="scroll-mt-32">
+          <DigitalCardSection />
+        </div>
+
         {data.volunteer && <VolunteerCard volunteer={data.volunteer} />}
         {/* Registration fee: pending with the two plans, or paid. A volunteer sees an optional "become a member" version. */}
         <RegistrationFeeCard />
         <PaymentDocuments />
-        <DigitalCardSection />
 
-        {/* Stats */}
+        {/* Numbers */}
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Stat icon={Sparkles} label="Profile completion" value={`${completion.percent}%`} />
           <Stat icon={UserRound} label="Registrations" value={String(profiles.length)} hint={profiles.length ? "as artist, temple…" : "none yet"} />
@@ -304,71 +292,8 @@ function DashboardView() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
-          {/* Left: account, messages, donations */}
+          {/* Left: messages and donations */}
           <div className="flex flex-col gap-6">
-            <section className="rounded-2xl border border-[#d4af37]/30 bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <h2 className="font-serif text-lg font-bold text-maroon">My account</h2>
-                {!editing && (
-                  <button
-                    type="button"
-                    onClick={() => setEditing(true)}
-                    className="flex items-center gap-1.5 rounded-lg border border-[#d4af37]/40 px-3 py-1.5 text-xs font-semibold text-maroon transition-colors hover:bg-[#fff1d8]"
-                  >
-                    <Pencil className="h-3.5 w-3.5" aria-hidden /> Edit
-                  </button>
-                )}
-              </div>
-
-              {editing ? (
-                <div className="mt-4 flex flex-col gap-3">
-                  <label className="text-xs font-semibold text-maroon">
-                    Full name
-                    <input
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-[#d4af37]/40 bg-[#fffaf1] px-3 py-2 text-sm font-normal text-[#3e1815] outline-none focus:border-primary"
-                    />
-                  </label>
-                  <label className="text-xs font-semibold text-maroon">
-                    City / location
-                    <input
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      placeholder="e.g. Jaipur, Rajasthan"
-                      className="mt-1 w-full rounded-lg border border-[#d4af37]/40 bg-[#fffaf1] px-3 py-2 text-sm font-normal text-[#3e1815] outline-none focus:border-primary"
-                    />
-                  </label>
-                  {saveError && <p className="text-xs text-red-600">{saveError}</p>}
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={save}
-                      disabled={saving || name.trim().length < 2}
-                      className="rounded-lg bg-primary px-4 py-2 text-xs font-bold text-white disabled:opacity-60"
-                    >
-                      {saving ? "Saving…" : "Save"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setEditing(false)}
-                      className="rounded-lg border border-[#d4af37]/40 px-4 py-2 text-xs font-semibold text-maroon"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-2 divide-y divide-[#d4af37]/20">
-                  <AccountRow icon={UserRound} label="Full name" value={account.fullName} />
-                  <AccountRow icon={Mail} label="Email" value={account.email} />
-                  <AccountRow icon={Phone} label="Mobile" value={`+91 ${account.mobile}`} />
-                  <AccountRow icon={MapPin} label="Location" value={account.location} missing />
-                  <VerificationStatus account={account} onVerifyPhone={() => setVerifyingPhone(true)} />
-                </div>
-              )}
-            </section>
-
             <section className="rounded-2xl border border-[#d4af37]/30 bg-white p-5 shadow-sm">
               <h2 className="font-serif text-lg font-bold text-maroon">Messages from the team</h2>
               {notifications.recent.length === 0 ? (
@@ -389,8 +314,8 @@ function DashboardView() {
             <section className="rounded-2xl border border-[#d4af37]/30 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
                 <h2 className="font-serif text-lg font-bold text-maroon">My donations</h2>
-                <Link href="/donation" className="flex items-center gap-1 text-xs font-bold text-primary hover:underline">
-                  <HandHeart className="h-4 w-4" aria-hidden /> Donate
+                <Link href="/#give-seva" className="flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+                  <HandHeart className="h-4 w-4" aria-hidden /> Give seva
                 </Link>
               </div>
               {donations.recent.length === 0 ? (
@@ -422,7 +347,7 @@ function DashboardView() {
                 </p>
               </div>
             ) : (
-              profiles.map((p) => <ProfileCard key={p.category} profile={p} />)
+              profiles.map((p) => <ProfileCard key={p.category} profile={p} onSaved={async () => { await Promise.all([load(), refreshUser()]); }} />)
             )}
 
             {others.length > 0 && (

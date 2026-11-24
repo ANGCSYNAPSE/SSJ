@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, Building2, Check, CreditCard, Lock, Share2, Smar
 import PolicyLink from "@/components/legal/PolicyDialog";
 import SevaArt from "@/components/seva/SevaArt";
 import { API_URL } from "@/lib/api";
-import { SITE } from "@/lib/constants";
+import { siteOrigin } from "@/lib/constants";
 import { CheckoutDismissed, openRazorpayCheckout } from "@/lib/razorpay";
 import { ATTEND_OPTIONS, OCCASIONS, PAY_METHODS, UPDATE_OPTIONS, WITNESS_OPTIONS, WITNESS_TIMES, type PayMethodKey, type SevaType } from "@/lib/data/seva";
 
@@ -498,7 +498,7 @@ function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) 
 
 /** After a successful Arpan: a quiet thank-you, with a way to share it. */
 function Thanks({ seva, done, onClose }: { seva: SevaType; done: { amount: number; email: string; receipt: boolean; witness: string }; onClose: () => void }) {
-  const text = `I made an arpan for ${seva.title} through Shyam Jagat. Jai Shree Shyam! ${SITE.url}`;
+  const text = `I made an arpan for ${seva.title} through Shyam Jagat. Jai Shree Shyam! ${siteOrigin()}`;
   return (
     <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 overflow-y-auto px-8 py-10 text-center">
       <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center">

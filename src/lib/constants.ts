@@ -4,6 +4,19 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 
+/**
+ * The address links we hand out should start with (a card's link, its QR code, a "share" text). When the site's own address is
+ * set (NEXT_PUBLIC_SITE_URL on the live site), that one is used, so every link uses the one proper domain. While it is not set,
+ * or is still the localhost of development, the address the visitor is on is used, so a link is never "localhost" on the live
+ * site and always opens the site it was made on while developing.
+ */
+export function siteOrigin(): string {
+  const configured = SITE.url.replace(/\/+$/, "");
+  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/i.test(configured);
+  if (typeof window === "undefined") return configured;
+  return isLocal ? window.location.origin : configured;
+}
+
 /** Where people reach the team. Shown on the policy pages. */
 export const CONTACT = {
   email: "shyamjagatindia@gmail.com",

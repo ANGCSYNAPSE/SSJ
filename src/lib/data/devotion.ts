@@ -29,7 +29,7 @@ export const DARSHAN_ITEM = {
   title: "Shyam Baba Darshan",
   hindi: "श्याम बाबा दर्शन",
   icon: "darshan" as const,
-  blurb: "Aarti timings for winter and summer, and the darshan aarti from the temple.",
+  blurb: "Aarti timings for winter and summer, and the aarti darshan from the temple.",
 };
 
 export const DEVOTION_ITEMS: readonly DevotionItem[] = [
@@ -73,7 +73,7 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
       },
     ],
     verses: [],
-    links: [{ href: "/aarti/darshan", label: "Aarti timings and darshan aarti" }],
+    links: [{ href: "/aarti/darshan", label: "Aarti timings and aarti darshan" }],
   },
   {
     slug: "bhajan",
