@@ -30,6 +30,13 @@ export const telHref = (phone: string) => {
   return `tel:+${digits.length === 10 ? `91${digits}` : digits}`;
 };
 
+/**
+ * Which hero the homepage shows. Change this one word to switch; both heroes stay in the code, so nothing has to be rebuilt.
+ *   "parda" : the temple curtain that opens to Baba Shyam's darshan (components/home/HeroParda.tsx)
+ *   "gate"  : the carved gateway, in daylight or at night by the hour (components/home/HeroGateway.tsx, in app/(site)/page.tsx)
+ */
+export const HOME_HERO: "parda" | "gate" = "parda";
+
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/baba-shyam", label: "Baba Shyam" },
