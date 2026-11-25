@@ -19,12 +19,6 @@ export interface Source {
 /** What the facts below were taken from. They are listed on the About page, under "Sources". */
 export const SOURCES: readonly Source[] = [
   {
-    id: "committee",
-    label: "Shri Shyam Mandir Committee, Khatushyamji",
-    what: "The temple's own committee: the aarti timetable, the live darshan, notices and the Falgun Mela announcements.",
-    url: "https://www.shrishyammandir.com/",
-  },
-  {
     id: "wiki-temple",
     label: "Khatu Shyam Temple (Wikipedia)",
     what: "The history of the temple, Shyam Kund, the Nishan Yatra and the Falgun Mela.",
@@ -94,4 +88,4 @@ export const KHATU = {
 } as const;
 
 /** One small line, for the foot of a section: where the details above it come from. */
-export const SOURCE_LINE = "Details about Baba Shyam and Khatushyamji follow the Shri Shyam Mandir Committee and the public sources listed on our About page.";
+export const SOURCE_LINE = "Details about Baba Shyam and Khatushyamji follow the public sources listed on our About page.";

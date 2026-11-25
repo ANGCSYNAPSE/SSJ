@@ -26,7 +26,7 @@ const contributions = [
     title: "Donate",
     desc: "Your donation helps us begin and carry on seva such as meals, water, shelter and care.",
     cta: "Donate Now",
-    href: "/donation",
+    href: "/donation#donate",
   },
   {
     icon: BadgeCheck, tone: "#a16207", pattern: "jaali" as DharmaPattern,
@@ -40,14 +40,14 @@ const contributions = [
     title: "Support Education",
     desc: "Help children with books, school supplies and learning support.",
     cta: "Support a Child",
-    href: "/donation",
+    href: "/donation?cause=education#donate",
   },
   {
     icon: Soup, tone: "#2f6b3a", pattern: "lotus" as DharmaPattern,
     title: "Share Meals",
     desc: "Help us share simple meals with people who need them.",
     cta: "Share Meals",
-    href: "/donation",
+    href: "/donation?cause=annadan#donate",
   },
   {
     icon: Handshake, tone: "#0f766e", pattern: "rays" as DharmaPattern,

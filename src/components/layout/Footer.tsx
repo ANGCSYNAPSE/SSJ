@@ -131,11 +131,7 @@ export default function Footer() {
 
           {/* where the Khatu Shyam details on the site come from (the reference is in lib/data/khatuReference.ts) */}
           <p className="mt-6 text-center text-[11px] leading-relaxed text-white/40">
-            {"Details about Baba Shyam and Khatushyamji follow the "}
-            <a href="https://www.shrishyammandir.com/" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted underline-offset-2 transition-colors hover:text-white/70">
-              {"Shri Shyam Mandir Committee"}
-            </a>
-            {" and public sources. "}
+            {"Details about Baba Shyam and Khatushyamji follow public sources. "}
             <Link href="/about#sources" className="underline decoration-dotted underline-offset-2 transition-colors hover:text-white/70">
               {"See the sources"}
             </Link>
