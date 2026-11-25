@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ComponentType, ReactNode } from "react";
+import { Flower2 } from "lucide-react";
 import { Mandala } from "@/components/seva/DharmaIcons";
 
 /**
@@ -98,6 +99,88 @@ export function NumberTile({ n, icon: Icon, title, children, tone, className = "
       <h3 className="font-serif text-[22px] font-bold leading-snug text-[#3e1815] transition-colors duration-500 group-hover:text-white">{title}</h3>
       <p className="text-sm leading-[1.7] text-[#6b6b6b] transition-colors duration-500 group-hover:text-white/90">{children}</p>
       <span aria-hidden className="mt-auto h-[3px] w-10 rounded-full transition-all duration-500 group-hover:w-24 group-hover:bg-white" style={{ background: colour }} />
+    </div>
+  );
+}
+
+export type DharmaPattern = "mandala" | "rays" | "dots" | "ripples" | "jaali" | "lotus";
+
+/** The pattern drawn in the corner of a DharmaCard, in the card's own colour, fading out towards the middle. */
+function CornerPattern({ pattern, tone }: { pattern: DharmaPattern; tone: string }) {
+  const fade = "radial-gradient(circle at 100% 0%, #000 0%, transparent 68%)";
+  const base: React.CSSProperties = { WebkitMaskImage: fade, maskImage: fade };
+  const layer: Record<Exclude<DharmaPattern, "mandala" | "lotus">, React.CSSProperties> = {
+    rays: { ...base, background: `repeating-conic-gradient(from 0deg at 100% 0%, ${tone}33 0deg 5deg, transparent 5deg 10deg)` },
+    dots: { ...base, backgroundImage: `radial-gradient(${tone}66 1.8px, transparent 2.2px)`, backgroundSize: "14px 14px" },
+    ripples: { ...base, background: `repeating-radial-gradient(circle at 100% 0%, transparent 0 12px, ${tone}40 12px 13.5px)` },
+    jaali: { ...base, backgroundImage: `linear-gradient(45deg, ${tone}33 1px, transparent 1px), linear-gradient(-45deg, ${tone}33 1px, transparent 1px)`, backgroundSize: "18px 18px" },
+  };
+  return (
+    <span aria-hidden className="pointer-events-none absolute -right-px -top-px h-[210px] w-[210px] overflow-hidden rounded-tr-[26px] transition-transform duration-700 ease-out group-hover:scale-110">
+      {pattern === "mandala" ? (
+        <Mandala className="gs-spin-slow absolute -right-16 -top-16 h-[230px] w-[230px] opacity-[0.2]" />
+      ) : pattern === "lotus" ? (
+        <Flower2 className="absolute -right-8 -top-8 h-[190px] w-[190px] rotate-[18deg] opacity-[0.13]" strokeWidth={1.1} />
+      ) : (
+        <span className="absolute inset-0" style={layer[pattern]} />
+      )}
+    </span>
+  );
+}
+
+/**
+ * The one card of the site's pages for "ways in": things to do, kinds of events, ways to help. It keeps the site's look (cream and
+ * gold, serif titles, an arch medallion, a gold flourish), and gives each card its own colour and its own pattern in the corner
+ * (mandala, rays, dots, ripples, lattice or lotus), so a row of them has a character without any two being the same.
+ */
+export function DharmaCard({
+  icon: Icon,
+  title,
+  eyebrow,
+  tone = "#e47105",
+  pattern = "mandala",
+  children,
+  footer,
+  className = "",
+}: {
+  icon: Icon;
+  title: string;
+  eyebrow?: string;
+  tone?: string;
+  pattern?: DharmaPattern;
+  children: ReactNode;
+  footer?: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`group relative isolate flex h-full flex-col overflow-hidden rounded-[26px] border bg-gradient-to-br from-[#fffdf8] to-[#fdf0d8] p-7 shadow-[0_10px_30px_rgba(107,31,31,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_26px_50px_rgba(107,31,31,0.18)] ${className}`}
+      style={{ borderColor: `${tone}40`, color: tone }}
+    >
+      <span aria-hidden className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${tone}, ${GOLD}, ${tone})` }} />
+      <CornerPattern pattern={pattern} tone={tone} />
+      {/* the gold corner jewel */}
+      <span aria-hidden className="absolute left-3 top-4 h-2 w-2 rotate-45 bg-[#e0b94f]" />
+
+      <div className="relative flex items-start justify-between gap-3">
+        <span
+          className="relative flex h-[86px] w-[66px] shrink-0 items-center justify-center rounded-t-[33px] rounded-b-lg text-white shadow-[0_14px_26px_rgba(0,0,0,0.18)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+          style={{ background: `linear-gradient(160deg, ${tone}, color-mix(in srgb, ${tone} 55%, #1a0505))` }}
+        >
+          <span aria-hidden className="absolute inset-[4px] rounded-t-[29px] rounded-b-md border border-[#f6dc8c]/70" />
+          <Icon className="relative h-8 w-8" strokeWidth={1.6} />
+        </span>
+        {eyebrow && <span className="mt-1 rounded-full border px-3 py-1 text-[10.5px] font-bold uppercase tracking-[0.18em]" style={{ borderColor: `${tone}55`, color: tone }}>{eyebrow}</span>}
+      </div>
+
+      <h3 className="relative mt-5 font-serif text-[26px] font-bold leading-tight text-[#3e1815]">{title}</h3>
+      <span aria-hidden className="mt-3 flex items-center gap-2" style={{ color: GOLD }}>
+        <span className="h-px w-10 bg-current" />
+        <span className="h-1.5 w-1.5 rotate-45 bg-current" />
+        <span className="h-px w-4 bg-current" />
+      </span>
+      <div className="relative mt-3 flex-1 text-[14.5px] leading-[1.7] text-[#5b4a4a]">{children}</div>
+      {footer && <div className="relative mt-5">{footer}</div>}
     </div>
   );
 }

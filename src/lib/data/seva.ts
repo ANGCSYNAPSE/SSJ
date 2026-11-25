@@ -30,7 +30,7 @@ export interface SevaType {
   icon: SevaIcon;
   /** The seva's own colours: [light, deep]. */
   tone: [string, string];
-  /** The one seva that is not like the others (“Seva of My Choice”): drawn light, with dark text, so it stands apart. */
+  /** The one seva that is not like the others (“Seva of Own Wish”): drawn light, with dark text, so it stands apart. */
   special?: boolean;
   offerings: SevaOffering[];
 }
@@ -175,10 +175,10 @@ export const SEVA_TYPES: SevaType[] = [
     slug: "your-choice",
     special: true,
     icon: "diya",
-    title: "Seva of My Choice",
+    title: "Seva of Own Wish",
     hindi: "अपनी इच्छा की सेवा",
     tagline: "Tell us what is in your heart.",
-    about: "Give for something that is not listed. Write what you would like your seva to go towards, and our team will get in touch to see how it can be done.",
+    about: "Give for something that is not listed. Write what you would like your seva to go towards, and our team will get in touch to see how it can be done. What others have given in their own wish is shown on the Seva page.",
     tone: ["#f2b53f", "#9a5b00"],
     offerings: [
       { amount: 501, label: "A seva gift" },
@@ -190,6 +190,18 @@ export const SEVA_TYPES: SevaType[] = [
 ];
 
 export const findSeva = (slug: string | null | undefined) => SEVA_TYPES.find((seva) => seva.slug === slug);
+
+/**
+ * The seva form for a service on the Our Initiatives page. A service that has a seva of its own (food, cows, children, water and
+ * so on) opens that seva; one that has none (dharamshala, shauchalay, swachh vahini) opens "Seva of Own Wish" with the service's
+ * name already written in as the wish, so the offering still says what it is for.
+ */
+export function sevaForInitiative(slug: string, title: string): { seva: SevaType; wish?: string } {
+  const own = findSeva(slug);
+  if (own && !own.special) return { seva: own };
+  const choice = SEVA_TYPES.find((seva) => seva.special) as SevaType;
+  return { seva: choice, wish: title };
+}
 
 /** What the seva is being given for. */
 export const OCCASIONS = [

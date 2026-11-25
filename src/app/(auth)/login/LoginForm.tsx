@@ -44,9 +44,9 @@ export default function LoginForm() {
     return found;
   }
 
-  // After signing in, people always land on the home page (the ?next= pointer that guarded
-  // pages add is deliberately ignored, so logging in never drops someone onto the dashboard).
-  const destination = "/";
+  // After signing in, people land on their profile, the place of their own account (the ?next= pointer that guarded
+  // pages add is deliberately ignored, so everyone arrives at the same place).
+  const destination = "/profile";
 
   // Someone already signed in has no business on this page.
   useEffect(() => {

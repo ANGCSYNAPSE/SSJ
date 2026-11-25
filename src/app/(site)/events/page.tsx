@@ -7,18 +7,18 @@ import {
   Calendar,
   MapPin,
   Filter,
-  ChevronLeft,
-  ChevronRight,
   ShieldCheck,
   Clock,
-  XCircle,
-  BookOpen,
-  Music,
-  Star,
-  Heart,
-  Sun,
+  Landmark,
+  BookOpenText,
+  Music4,
+  Drama,
+  HandHeart,
+  Flower2,
 } from "lucide-react";
 import AdSlot from "@/components/ui/AdSlot";
+import { DharmaCard, type DharmaPattern } from "@/components/ui/ArtCard";
+import RegularCalendar from "@/components/events/RegularCalendar";
 import { EVENTS } from "@/lib/events";
 
 type SelectProps = {
@@ -75,13 +75,6 @@ function FilterSelect({ icon: Icon, options, selectedIndex, onChange }: SelectPr
   );
 }
 
-const calendarWeeks = [
-  ["23", "24", "25", "26", "27", "28", "29"],
-  ["30", "31", "1", "2", "3", "4", "5"],
-];
-const highlightedDates: Record<string, "major" | "bhajan"> = { "24": "major", "26": "bhajan" };
-const dimmedDates = new Set(["1", "2", "3", "4", "5"]);
-
 function SectionHeader({
   eyebrow,
   title,
@@ -133,27 +126,13 @@ export default function EventsPage() {
 
   const upcomingEvents = EVENTS;
 
-  const timeline = [
-    { day: "MON", date: "23", title: "Monthly Ekadashi Kirtan", time: "05:00 PM", location: "Shyam Mandir, Jaipur" },
-    { day: "TUE", date: "24", title: "Procession Nishan Yatra Start", time: "06:00 AM", location: "Khatu Dham" },
-    { day: "THU", date: "26", title: "Bhajan Sandhya by Kanhiya Mittal", time: "07:00 PM", location: "Jaipur Grounds" },
-    { day: "SAT", date: "28", title: "Dharma Charioty Medical Camp", time: "09:00 AM", location: "Sikar Community Hall" },
-  ];
-
-  const categories = [
-    { icon: XCircle, title: "Temple Festivals", desc: "Janmashtami, Holi, Phalguna & Deepawali celebrations" },
-    { icon: BookOpen, title: "Spiritual Discourses", desc: "Bhagwat Katha, Pravachan, Satsangs & spiritual teachings" },
-    { icon: Music, title: "Bhajan Sandhya", desc: "Soulful devotional music and night long kirtans" },
-    { icon: Star, title: "Cultural Programs", desc: "Classical dance drama, theatrical arts & exhibits" },
-    { icon: Heart, title: "Seva Charity Drives", desc: "Volunteering for Food Seva, Medical Camps & Old Age assistance" },
-    { icon: Sun, title: "Meditation Retreats", desc: "Pranayama, yoga shivirs, and quiet mind workshops" },
-  ];
-
-  const pastEvents = [
-    { date: "Nov 2025", title: "Gopashtami Gauseva Celebration", image: "/images/events/gauseva.png" },
-    { date: "Nov 2025", title: "Grand Deepawali Mahotsav Jaipur", image: "/images/events/deepawali.png" },
-    { date: "Dec 2025", title: "Shyam Bhajan Sandhya - Kolkata", image: "/images/events/kolkata-bhajan.png" },
-    { date: "Jan 2026", title: "Winter Blanket Distribution Drive", image: "/images/events/winter-blanket.png" },
+  const categories: { icon: typeof Landmark; title: string; desc: string; tone: string; pattern: DharmaPattern }[] = [
+    { icon: Landmark, title: "Temple Festivals", desc: "Janmashtami, Holi, Phalguna & Deepawali celebrations", tone: "#c2570c", pattern: "mandala" },
+    { icon: BookOpenText, title: "Spiritual Discourses", desc: "Bhagwat Katha, Pravachan, Satsangs & spiritual teachings", tone: "#3b4a9e", pattern: "jaali" },
+    { icon: Music4, title: "Bhajan Sandhya", desc: "Soulful devotional music and night long kirtans", tone: "#9b2335", pattern: "ripples" },
+    { icon: Drama, title: "Cultural Programs", desc: "Classical dance drama, theatrical arts & exhibits", tone: "#a16207", pattern: "rays" },
+    { icon: HandHeart, title: "Seva Charity Drives", desc: "Volunteering for Food Seva, Medical Camps & Old Age assistance", tone: "#2f6b3a", pattern: "dots" },
+    { icon: Flower2, title: "Meditation Retreats", desc: "Pranayama, yoga shivirs, and quiet mind workshops", tone: "#0f766e", pattern: "lotus" },
   ];
 
   return (
@@ -201,9 +180,9 @@ export default function EventsPage() {
       <section className="bg-white px-6 py-16 lg:px-20 lg:py-24">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-12">
           <SectionHeader
-            eyebrow={"Featured Gatherings"}
-            title={"Prominent Upcoming Events"}
-            desc={"Experience divine grace and spiritual bliss. Book your slots, coordinate travel, and secure nishan prasad for these upcoming prominent satsangs."}
+            eyebrow={"Every Year, Every Fortnight"}
+            title={"Regular Observances"}
+            desc={"The festivals and days that come round again and again for devotees of Baba Shyam. Their dates follow the lunar calendar, so confirm them with the temple committee before you travel."}
           />
 
           <div className="grid gap-6 lg:grid-cols-3">
@@ -222,9 +201,9 @@ export default function EventsPage() {
                       className="object-cover"
                       sizes="(min-width: 1024px) 33vw, 100vw"
                     />
-                    <div className="absolute left-4 top-4 flex w-16 flex-col items-center justify-center rounded-xl border border-[#d4af37] bg-white p-3">
-                      <p className="text-[22px] font-bold leading-none text-primary">{event.day}</p>
-                      <p className="text-xs font-semibold uppercase text-[#595656]">{event.month}</p>
+                    <div className="absolute left-4 top-4 flex min-w-16 flex-col items-center justify-center rounded-xl border border-[#d4af37] bg-white px-3 py-2.5">
+                      <p className="text-lg font-bold leading-none text-primary">{event.day}</p>
+                      <p className="mt-1 text-[10px] font-semibold uppercase text-[#595656]">{event.month}</p>
                     </div>
                     <span className="absolute right-4 top-4 rounded-full bg-[#7b2d2d] px-3 py-1.5 text-[11px] font-bold text-white">
                       {event.tag}
@@ -252,11 +231,11 @@ export default function EventsPage() {
                 </div>
                 <div className="flex items-center justify-between border-t border-[#e5e7eb] p-5">
                   <div className="flex items-center gap-1">
-                    <p className="text-sm font-semibold text-primary">{"Free Entry"}</p>
-                    <p className="text-xs text-[#8c8c8c]">{"(Registration Mandatory)"}</p>
+                    <p className="text-sm font-semibold text-primary">{"Free"}</p>
+                    <p className="text-xs text-[#8c8c8c]">{"(no pass needed)"}</p>
                   </div>
                   <span className="rounded-md bg-primary px-4 py-2 text-[13px] font-bold text-white">
-                    {"Register"}
+                    {"Know more"}
                   </span>
                 </div>
               </Link>
@@ -267,115 +246,15 @@ export default function EventsPage() {
 
       <AdSlot size="rectangle" />
 
-      {/* Weekly Calendar */}
+      {/* The regular calendar */}
       <section className="bg-cream px-6 py-16 lg:px-20 lg:py-24">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-12">
           <SectionHeader
-            eyebrow={"Sacred Timeline"}
-            title={"Weekly Dharamik Calendar"}
-            desc={"Plan your pilgrimage and devotional attendance. Review hourly schedules for Aarti, satsangs, and free healthcare camps active this week."}
+            eyebrow={"Sacred Rhythm"}
+            title={"The Regular Dharmik Calendar"}
+            desc={"What comes round again and again for a devotee of Baba Shyam: the aartis of every day, Ekadashi every fortnight, and the great days of the year."}
           />
-
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-start">
-            <div className="flex w-full flex-col gap-6 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white p-8 shadow-[0px_12px_16px_rgba(139,0,0,0.05)] lg:w-[519px] lg:shrink-0">
-              <div className="flex items-center justify-between">
-                <p className="text-lg font-bold text-[#3e1815]">March 2026</p>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    className="flex size-8 items-center justify-center rounded-full text-[#3e1815] hover:bg-cream"
-                  >
-                    <ChevronLeft className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    className="flex size-8 items-center justify-center rounded-full text-[#3e1815] hover:bg-cream"
-                  >
-                    <ChevronRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between text-sm font-semibold text-[#8c8c8c]">
-                  {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-                    <p key={i} className="w-10 text-center">
-                      {d}
-                    </p>
-                  ))}
-                </div>
-                {calendarWeeks.map((week, wi) => (
-                  <div key={wi} className="flex justify-between">
-                    {week.map((day, di) => {
-                      const highlight = highlightedDates[day];
-                      const dimmed = wi === 1 && dimmedDates.has(day) && di >= 2;
-                      return (
-                        <div key={di} className="flex w-10 justify-center">
-                          {highlight ? (
-                            <span
-                              className={`flex h-8 w-10 items-center justify-center rounded-full text-sm font-bold text-white ${
-                                highlight === "major" ? "bg-primary" : "bg-[#7b2d2d]"
-                              }`}
-                            >
-                              {day}
-                            </span>
-                          ) : (
-                            <p
-                              className={`text-sm ${
-                                dimmed ? "text-[#8c8c8c]" : "font-medium text-[#3e1815]"
-                              }`}
-                            >
-                              {day}
-                            </p>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-              <div className="h-px w-full bg-border" />
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="size-3 rounded-[3px] bg-primary" />
-                  <p className="text-[13px] text-[#595656]">{"Major Festival / Mela Days"}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="size-3 rounded-[3px] bg-[#7b2d2d]" />
-                  <p className="text-[13px] text-[#595656]">{"Bhajan Sandhya & Katha"}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-1 flex-col gap-4">
-              {timeline.map((row) => (
-                <div
-                  key={row.title}
-                  className="flex items-center gap-5 rounded-xl border border-[rgba(212,175,55,0.25)] bg-white p-5 shadow-[0px_8px_8px_rgba(139,0,0,0.02)]"
-                >
-                  <div className="flex w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-lg bg-cream-light p-3">
-                    <p className="text-xs font-semibold text-[#8c8c8c]">{row.day}</p>
-                    <p className="text-xl font-bold text-primary">{row.date}</p>
-                  </div>
-                  <div className="flex flex-1 flex-col gap-1.5">
-                    <p className="text-lg font-bold text-[#3e1815]">{row.title}</p>
-                    <div className="flex flex-wrap items-center gap-4">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="h-3.5 w-3.5 shrink-0 text-[#595656]" />
-                        <p className="text-[13px] text-[#595656]">{row.time}</p>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 shrink-0 text-[#595656]" />
-                        <p className="text-[13px] text-[#595656]">{row.location}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="shrink-0 rounded-md bg-primary px-4 py-2 text-[13px] font-bold text-white">
-                    {"Join"}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <RegularCalendar />
         </div>
       </section>
 
@@ -390,55 +269,23 @@ export default function EventsPage() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
-              <div
-                key={category.title}
-                className="flex flex-col gap-4 rounded-2xl border border-[rgba(212,175,55,0.25)] bg-cream-light p-8"
-              >
-                <div className="flex size-14 items-center justify-center rounded-xl bg-primary shadow-[0px_10px_12px_rgba(232,119,34,0.2)]">
-                  <category.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="font-serif text-2xl font-bold text-[#3e1815]">{category.title}</h3>
-                <p className="text-sm leading-[1.5] text-[#595656]">{category.desc}</p>
-                <div className="h-px w-full bg-[rgba(212,175,55,0.4)]" />
-              </div>
+              <DharmaCard key={category.title} icon={category.icon} title={category.title} tone={category.tone} pattern={category.pattern}>
+                {category.desc}
+              </DharmaCard>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Past events gallery */}
+      {/* The Seva Gallery */}
       <section className="bg-cream px-6 py-16 lg:px-20 lg:py-24">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-12">
-          <SectionHeader
-            eyebrow={"Retrospective Gallery"}
-            title={"Moments of Divine Joy & Service"}
-            desc={"Look back at our successful community efforts, massive cultural events, and temple festivals. Our past is a living testament of collective devotion."}
-          />
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {pastEvents.map((event) => (
-              <div
-                key={event.title}
-                className="overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.25)] bg-white shadow-[0px_8px_24px_rgba(139,0,0,0.04)]"
-              >
-                <div className="relative h-[200px] w-full">
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  />
-                </div>
-                <div className="flex flex-col gap-1 p-5">
-                  <p className="text-xs font-semibold text-primary">{event.date}</p>
-                  <p className="truncate font-serif text-xl font-bold text-[#3e1815]">
-                    {event.title}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="mx-auto flex max-w-[1000px] flex-col items-center gap-6 rounded-[28px] border border-[rgba(212,175,55,0.45)] bg-white px-6 py-12 text-center shadow-[0px_12px_32px_rgba(139,0,0,0.06)] sm:px-12">
+          <p className="text-sm font-bold uppercase tracking-wide text-primary">{"Gallery"}</p>
+          <h2 className="font-serif text-3xl font-semibold leading-[1.1] text-[#3e1815] sm:text-4xl">{"Wishes fulfilled, in pictures and videos"}</h2>
+          <p className="max-w-[640px] text-base leading-relaxed text-[#595656]">{"Photographs and videos of the seva of own wish, shared with the people whose wish it was."}</p>
+          <Link href="/seva#gallery" className="rounded-lg bg-primary px-8 py-3.5 text-[15px] font-bold text-white transition hover:bg-primary-dark">
+            {"Open the gallery"}
+          </Link>
         </div>
       </section>
 

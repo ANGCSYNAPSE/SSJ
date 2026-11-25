@@ -19,7 +19,9 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import { ArchCollage, FramedCard, NumberTile } from "@/components/ui/ArtCard";
+import { FramedCard, NumberTile } from "@/components/ui/ArtCard";
+import WhoWeAreArt from "@/components/about/WhoWeAreArt";
+import { SOURCES } from "@/lib/data/khatuReference";
 import AdSlot from "@/components/ui/AdSlot";
 
 export default function AboutPage() {
@@ -79,6 +81,10 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[100px]">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
             <div>
+              <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e0b94f] bg-[#fdebd0] px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#b45309]">
+                <span className="h-2 w-2 rounded-full bg-[#e47105]" aria-hidden />
+                {"Our story"}
+              </span>
               <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-[#583939] lg:text-[48px]">
                 {"Who We Are"}
               </h2>
@@ -88,14 +94,7 @@ export default function AboutPage() {
                 <p>{"We believe that true devotion is expressed through selfless service. Every initiative we undertake is driven by the values of kindness, equality, and humanity, helping individuals and families build a brighter future."}</p>
               </div>
             </div>
-            <ArchCollage
-              className="mx-auto w-full max-w-[560px]"
-              images={[
-                { src: "/images/initiatives/seva/annadan-1.jpg", alt: "Volunteers serving a meal" },
-                { src: "/images/initiatives/seva/education-1.jpg", alt: "Children learning" },
-                { src: "/images/initiatives/seva/gaushala-1.jpg", alt: "Caring for cows" },
-              ]}
-            />
+            <WhoWeAreArt className="mx-auto w-full max-w-[540px]" />
           </div>
         </div>
       </section>
@@ -103,7 +102,7 @@ export default function AboutPage() {
       {/* VISION & MISSION SECTION */}
       <section className="bg-[#fdf6ec] py-16 lg:py-24">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-[100px]">
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div id="mission" className="grid scroll-mt-32 gap-8 lg:grid-cols-2">
             <FramedCard tone="light" icon={Sunrise} eyebrow="Vision" title="Our Vision">
               <p>{"To build a compassionate, empowered, and self-reliant society where every individual has access to education, healthcare, food, shelter, employment opportunities, and a life of dignity under the blessings of Baba Shyam."}</p>
             </FramedCard>
@@ -191,6 +190,30 @@ export default function AboutPage() {
               {"Get Started"}
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* SOURCES: where the details about Baba Shyam and Khatushyamji come from */}
+      <section id="sources" className="scroll-mt-32 bg-[#fdf6ec] px-6 py-14 lg:py-16">
+        <div className="mx-auto max-w-[900px]">
+          <h2 className="font-serif text-2xl font-semibold text-[#583939] lg:text-3xl">{"Sources"}</h2>
+          <div className="mt-3 h-1 w-14 rounded-full bg-[#e47105]" />
+          <p className="mt-5 text-[15px] leading-relaxed text-[#444]">
+            {"The details on this site about Baba Shyam and the Khatushyamji temple (the story, the history, the aarti times, the distances and the Falgun Mela) are written from one reference, and from these sources:"}
+          </p>
+          <ul className="mt-5 flex flex-col gap-3">
+            {SOURCES.map((src) => (
+              <li key={src.id} className="rounded-xl border border-[#e0b94f]/50 bg-white px-5 py-4">
+                <a href={src.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#9a4b06] underline decoration-dotted underline-offset-2 hover:text-[#e47105]">
+                  {src.label}
+                </a>
+                <p className="mt-1 text-sm leading-relaxed text-[#6b6b6b]">{src.what}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-[13px] leading-relaxed text-[#6b6b6b]">
+            {"The story of Barbarik comes from folk and Puranic tradition and is told in more than one way. Where the tellings differ, we write only what they share, and say \"by tradition\" for dates such as the first temple (1027 CE). Aarti times can change on festivals; the temple committee's notice is final."}
+          </p>
         </div>
       </section>
     </>

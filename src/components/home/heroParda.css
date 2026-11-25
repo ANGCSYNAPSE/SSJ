@@ -6,15 +6,17 @@
   hp-run  : the opening plays (a first visit in this tab).
   hp-done : the same ending, with no motion (a return visit, or a visitor who asked for less motion).
 */
-.hp { position: relative; isolation: isolate; overflow: hidden; background: #140505; height: max(calc(100svh - 112px), 700px); --tw: 2.4s; }
-.hp-pending { opacity: 0; }
+/* The hero is as tall as the screen (and never shorter than its words), and the words sit in a column on the left. */
+.hp { position: relative; isolation: isolate; overflow: hidden; display: flex; background: #140505; min-height: max(calc(100svh - 112px), 780px); --tw: 2.4s; }
 
 /* the darshan is already there, behind the curtains, in the dark */
 .hp-dar { position: absolute; inset: 0; filter: brightness(0.1) saturate(0.8); }
 .hp-run .hp-dar { animation: hp-lit 3.6s ease 1.9s both; }
 .hp-done .hp-dar { filter: none; }
 @keyframes hp-lit { to { filter: brightness(1) saturate(1); } }
-.hp-darshan { position: absolute; top: 0; bottom: 0; right: -4%; aspect-ratio: 2286 / 1620; }
+/* The picture sits a little lower than the top so the crown clears the valance; its top fades into the dark. */
+.hp-dar { -webkit-mask-image: linear-gradient(180deg, transparent 45px, #000 170px); mask-image: linear-gradient(180deg, transparent 45px, #000 170px); }
+.hp-darshan { position: absolute; top: 56px; bottom: -56px; right: -4%; aspect-ratio: 2286 / 1620; }
 .hp-run .hp-darshan, .hp-done .hp-darshan { animation: hp-kb 22s ease-in-out 5s infinite alternate; }
 @keyframes hp-kb { from { transform: scale(1.02); } to { transform: scale(1.08) translate3d(-1%, -0.8%, 0); } }
 
@@ -65,30 +67,42 @@
 
 /* the two lamps, and the words in the dark before the curtain moves */
 .hp-lamp { position: absolute; bottom: 4%; z-index: 28; width: clamp(64px, 7vw, 104px); filter: drop-shadow(0 0 22px rgba(255, 170, 60, 0.95)); pointer-events: none; }
-.hp-lamp.l { left: 3%; } .hp-lamp.r { right: 3%; }
+.hp-lamp.r { right: 15%; opacity: 0; }
+/* the lamp is lit only after the curtains have opened and the picture and the words are all in place */
+.hp-run .hp-lamp { animation: hp-fade 1.6s ease calc(var(--tw) + 4.6s) both; }
+.hp-done .hp-lamp { opacity: 1; }
 .hp-lamp::before { content: ""; position: absolute; left: 50%; top: -30%; width: 190%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(255, 190, 80, 0.5), transparent 65%); animation: hp-pulse 3s ease-in-out infinite; }
 @keyframes hp-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.95; } }
-.hp-cue { position: absolute; left: 50%; top: 50%; z-index: 27; transform: translate(-50%, -50%); font: 800 clamp(2rem, 4vw, 3.4rem) "EB Garamond", "Noto Sans Devanagari", serif; letter-spacing: 0.08em; color: rgba(246, 220, 140, 0.9); text-shadow: 0 0 30px rgba(255, 190, 80, 0.7); opacity: 0; pointer-events: none; white-space: nowrap; }
-.hp-run .hp-cue { animation: hp-cue 2.6s ease 0.1s both; }
-@keyframes hp-cue { 0%, 100% { opacity: 0; } 30%, 65% { opacity: 1; } }
+.hp-greet { position: absolute; left: 50%; top: 50%; z-index: 27; display: flex; flex-direction: column; align-items: center; gap: 18px; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+/* a soft dark glow behind the greeting, so it reads clearly across the gold seam of the curtains */
+.hp-greet::before { content: ""; position: absolute; inset: -60px -110px; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(38, 4, 8, 0.82), rgba(38, 4, 8, 0.55) 55%, transparent); }
+.hp-hand { display: block; height: clamp(210px, 27vh, 300px); aspect-ratio: 640 / 989; filter: drop-shadow(0 0 24px rgba(255, 150, 40, 0.5)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45)); }
+.hp-hand img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.hp-greet p { margin: 0; font: 800 clamp(1.25rem, 2.4vw, 2.3rem) "EB Garamond", "Noto Sans Devanagari", serif; letter-spacing: 0.08em; color: rgba(246, 220, 140, 0.95); text-shadow: 0 0 26px rgba(255, 190, 80, 0.7); white-space: nowrap; }
+/* it shows while the curtains are closed (and while the picture is still coming), and fades as they begin to open */
+.hp-wait .hp-greet { animation: hp-greet-in 0.9s ease both; }
+.hp-run .hp-greet { animation: hp-greet-out 1.5s ease 1.4s both; }
+.hp-done .hp-greet { opacity: 0; }
+@keyframes hp-greet-in { from { opacity: 0; transform: translate(-50%, -46%); } to { opacity: 1; transform: translate(-50%, -50%); } }
+@keyframes hp-greet-out { from { opacity: 1; } to { opacity: 0; } }
 
 /* the words */
-.hp-copy { position: relative; z-index: 30; display: flex; height: 100%; max-width: 1440px; align-items: center; margin: 0 auto; padding: 0 clamp(24px, 5vw, 72px); pointer-events: none; }
-.hp-copy > div { display: flex; max-width: 680px; flex-direction: column; gap: 24px; padding-bottom: 70px; pointer-events: auto; }
+.hp-copy { position: relative; z-index: 30; display: flex; width: 100%; max-width: 1440px; align-items: center; margin: 0 auto; padding: 104px clamp(24px, 5vw, 72px) 48px; pointer-events: none; }
+.hp-copy > div { display: flex; max-width: 680px; flex-direction: column; gap: 22px; pointer-events: auto; }
 .hp-copy > div > * { opacity: 0; }
 .hp-run .hp-copy > div > * { animation: hp-in 0.95s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--tw) + 1.9s + var(--n) * 0.22s); }
 .hp-done .hp-copy > div > * { opacity: 1; }
-.hp-copy > div > *:nth-child(1) { --n: 0; } .hp-copy > div > *:nth-child(2) { --n: 1; } .hp-copy > div > *:nth-child(3) { --n: 2; } .hp-copy > div > *:nth-child(4) { --n: 3; }
+.hp-copy > div > *:nth-child(1) { --n: 0; } .hp-copy > div > *:nth-child(2) { --n: 1; } .hp-copy > div > *:nth-child(3) { --n: 2; } .hp-copy > div > *:nth-child(4) { --n: 3; } .hp-copy > div > *:nth-child(5) { --n: 4; } .hp-copy > div > *:nth-child(6) { --n: 5; }
 @keyframes hp-in { from { opacity: 0; transform: translateY(28px); filter: blur(6px); } to { opacity: 1; transform: none; filter: blur(0); } }
-.hp-stats { position: absolute; left: 0; right: 0; bottom: 0; z-index: 30; max-width: 1000px; margin: 0 auto; padding: 0 24px 24px; opacity: 0; }
-.hp-run .hp-stats { animation: hp-fade 1.2s ease calc(var(--tw) + 3s) both; }
-.hp-done .hp-stats { opacity: 1; }
 
 @media (max-width: 820px) {
+  .hp { min-height: max(calc(100svh - 112px), 700px); }
+  .hp-lamp { display: none; }
   .hp-darshan { right: -42%; opacity: 0.6; }
   .hp-shade-l { background: linear-gradient(0deg, rgba(20, 5, 5, 0.94), rgba(20, 5, 5, 0.4) 70%, rgba(20, 5, 5, 0.25)); }
   .hp-copy { align-items: flex-end; }
-  .hp-copy > div { padding-bottom: 60px; gap: 18px; }
+  .hp-copy { padding: 90px clamp(24px, 5vw, 72px) 36px; }
+  .hp-copy > div { gap: 16px; }
   .hp-valance { height: 70px; background-size: 100px 70px; }
   .hp-garlands { top: 50px; }
   .hp-curt .gold { width: 20px; }

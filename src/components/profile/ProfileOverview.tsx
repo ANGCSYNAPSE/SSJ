@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Bell, CheckCircle2, ClipboardList, Clock, HandHeart, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, Bell, CheckCircle2, ClipboardList, Clock, HandHeart, MessageCircle } from "lucide-react";
 import SevaArt from "@/components/seva/SevaArt";
 import { SEVA_TYPES } from "@/lib/data/seva";
 import type { Dashboard } from "@/lib/api";
@@ -79,16 +79,16 @@ export function ActivityList({ data, onGo }: { data: Dashboard; onGo: (tab: Over
 
       {items.length === 0 ? (
         <div className="mt-5 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-[#e0b94f]/70 bg-[#fffaf1] px-5 py-9 text-center">
-          <Sparkles className="h-7 w-7 text-[#e47105]" aria-hidden />
+          <HandHeart className="h-7 w-7 text-[#e47105]" aria-hidden />
           <p className="max-w-[300px] text-sm text-[#6b6b6b]">{"Nothing here yet. When you give seva or the team writes to you, it appears here."}</p>
-          <Link href="/#give-seva" className="rounded-full bg-gradient-to-r from-[#f47700] to-[#ff9417] px-5 py-2.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(244,119,0,0.3)] transition-transform hover:-translate-y-0.5">
+          <Link href="/seva#give-seva" className="rounded-full bg-gradient-to-r from-[#f47700] to-[#ff9417] px-5 py-2.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(244,119,0,0.3)] transition-transform hover:-translate-y-0.5">
             {"Give seva"}
           </Link>
         </div>
       ) : (
         <ul className="mt-5 flex flex-col gap-3">
           {items.map((a) => {
-            const seva = a.cause ? SEVA_TYPES.find((s) => s.title === a.cause) : undefined;
+            const seva = a.cause ? SEVA_TYPES.find((s) => s.title === a.cause || (s.slug === "your-choice" && a.cause === "Seva of My Choice")) : undefined;
             return (
               <li key={a.id} className="group flex items-center gap-4 rounded-2xl border border-[#f0e3cc] bg-[#fffdf8] p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#e0b94f] hover:shadow-[0_10px_24px_rgba(194,87,12,0.12)]">
                 {a.kind === "seva" ? (

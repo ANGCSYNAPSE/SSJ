@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, Building2, Check, CreditCard, Lock, Share2, Smartphone, Video, Wallet, X, Zap } from "lucide-react";
 import PolicyLink from "@/components/legal/PolicyDialog";
+import { useAuth } from "@/components/auth/AuthProvider";
+import OwnWishFeed from "@/components/seva/OwnWishFeed";
 import SevaArt from "@/components/seva/SevaArt";
 import { API_URL } from "@/lib/api";
 import { siteOrigin } from "@/lib/constants";
@@ -81,16 +83,17 @@ const STEPS = [
  * they give, and how they would like the seva done. Only then comes the Arpan: the amount and how to offer it. It all happens
  * here, in one dialog, with no page of its own.
  */
-export default function SevaDialog({ seva, onClose }: { seva: SevaType | null; onClose: () => void }) {
+export default function SevaDialog({ seva, onClose, initialWish }: { seva: SevaType | null; onClose: () => void; /** What a "Seva of Own Wish" starts with (for example, when it is opened from a service that has no seva of its own). */ initialWish?: string }) {
   if (!seva) return null;
-  return createPortal(<DialogBody key={seva.slug} seva={seva} onClose={onClose} />, document.body);
+  return createPortal(<DialogBody key={`${seva.slug}:${initialWish ?? ""}`} seva={seva} onClose={onClose} initialWish={initialWish} />, document.body);
 }
 
-function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) {
+function DialogBody({ seva, onClose, initialWish }: { seva: SevaType; onClose: () => void; initialWish?: string }) {
   const isChoice = !!seva.special;
+  const { user } = useAuth();
   const [step, setStep] = useState(0);
   const [details, setDetails] = useState<Details>(EMPTY);
-  const [wish, setWish] = useState("");
+  const [wish, setWish] = useState(initialWish ?? "");
   const [attend, setAttend] = useState<"yes" | "maybe" | "no" | "">("");
   const [updates, setUpdates] = useState<"whatsapp" | "call" | "email" | "none" | "">("");
   const [witness, setWitness] = useState<"none" | "photos" | "video" | "live" | "">("");
@@ -129,6 +132,13 @@ function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) 
   useEffect(() => {
     scroller.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [step, done]);
+
+  // Someone signed in is offering from their own account: their name, phone and email come in by themselves, and the email is
+  // kept as the account's, because the profile finds a person's offerings by it.
+  useEffect(() => {
+    if (!user) return;
+    setDetails((d) => ({ ...d, name: d.name || user.fullName, phone: d.phone || user.mobile || "", email: user.email }));
+  }, [user]);
 
   const set = (key: keyof Details) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setDetails((d) => ({ ...d, [key]: e.target.value }));
 
@@ -264,7 +274,7 @@ function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) 
 
         <div className="flex min-h-0 flex-1 flex-col">
           {done ? (
-            <Thanks seva={seva} done={done} onClose={onClose} />
+            <Thanks seva={seva} done={done} onClose={onClose} signedIn={!!user} />
           ) : (
             <>
               {/* Sankalp, then Arpan */}
@@ -301,7 +311,14 @@ function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) 
                     {isChoice && (
                       <Field label="What would you like your seva to go towards?">
                         <textarea value={wish} onChange={(e) => setWish(e.target.value.slice(0, 300))} rows={3} placeholder="For example: blankets for people on the roadside this winter" className={areaClass} />
+                        <span className="text-xs leading-snug text-[#8c8c8c]">{"Your wish, the amount and your name may be shown on our Seva page for others to see, unless you choose to keep your offering private below."}</span>
                       </Field>
+                    )}
+                    {isChoice && (
+                      <div className="flex flex-col gap-2.5">
+                        <p className="text-[13px] font-semibold text-[#444]">{"What others have given, in their own wish"}</p>
+                        <OwnWishFeed compact limit={3} />
+                      </div>
                     )}
 
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -311,8 +328,11 @@ function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) 
                       <Field label="Phone number">
                         <input value={details.phone} onChange={set("phone")} placeholder="+91 00000 00000" inputMode="tel" autoComplete="tel" className={inputClass} />
                       </Field>
-                      <Field label="Email address" hint="(your receipt comes here)">
-                        <input value={details.email} onChange={set("email")} type="email" placeholder="rahul@example.com" autoComplete="email" className={inputClass} />
+                      <Field label="Email address" hint={user ? "(your account's email)" : "(your receipt comes here)"}>
+                        <input value={details.email} onChange={set("email")} type="email" placeholder="rahul@example.com" autoComplete="email" readOnly={!!user} className={`${inputClass} ${user ? "cursor-not-allowed bg-[#faf6ef] text-[#6b6b6b]" : ""}`} />
+                        <span className="text-xs leading-snug text-[#8c8c8c]">
+                          {user ? "This seva will be saved in your profile." : "To see this seva in your profile later, use the email of your Shyam Jagat account."}
+                        </span>
                       </Field>
                       <Field label="City" hint="(optional)">
                         <input value={details.city} onChange={set("city")} placeholder="e.g. Jaipur" autoComplete="address-level2" className={inputClass} />
@@ -497,7 +517,7 @@ function DialogBody({ seva, onClose }: { seva: SevaType; onClose: () => void }) 
 }
 
 /** After a successful Arpan: a quiet thank-you, with a way to share it. */
-function Thanks({ seva, done, onClose }: { seva: SevaType; done: { amount: number; email: string; receipt: boolean; witness: string }; onClose: () => void }) {
+function Thanks({ seva, done, onClose, signedIn }: { seva: SevaType; done: { amount: number; email: string; receipt: boolean; witness: string }; onClose: () => void; signedIn: boolean }) {
   const text = `I made an arpan for ${seva.title} through Shyam Jagat. Jai Shree Shyam! ${siteOrigin()}`;
   return (
     <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 overflow-y-auto px-8 py-10 text-center">
@@ -523,6 +543,9 @@ function Thanks({ seva, done, onClose }: { seva: SevaType; done: { amount: numbe
         {done.receipt && done.email ? `Your receipt is on its way to ${done.email}. ` : ""}
         {done.witness === "live" ? "Our team will call you to fix the time of your live video call. " : done.witness === "video" ? "We will send you a short video of your seva. " : done.witness === "photos" ? "We will send you photographs of your seva. " : ""}
         {"Our team aims to put your seva to the purpose you chose, and will reach out in the way you told us. If you have any question, you can write or call us any time."}
+      </p>
+      <p className="gs-rise relative max-w-[460px] text-sm font-semibold text-[#9a4b06]" style={{ animationDelay: "0.25s" }}>
+        {signedIn ? "This seva is saved in your profile, under Payments & seva." : "Create an account with the same email, and this seva will appear in your profile."}
       </p>
       <div className="gs-rise relative mt-2 flex flex-wrap items-center justify-center gap-3" style={{ animationDelay: "0.3s" }}>
         <a href={`https://wa.me/?text=${encodeURIComponent(text)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#e87722] px-6 py-3 text-sm font-bold text-white shadow-lg transition-transform hover:scale-[1.03]">

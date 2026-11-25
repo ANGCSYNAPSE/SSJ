@@ -73,14 +73,17 @@ export function PasswordField({
 export function SubmitButton({
   children,
   pending,
+  blocked,
 }: {
   children: React.ReactNode;
   pending?: boolean;
+  /** Not allowed to go on yet (for example, the Terms are not accepted): the button is greyed and cannot be pressed. */
+  blocked?: boolean;
 }) {
   return (
     <button
       type="submit"
-      disabled={pending}
+      disabled={pending || blocked}
       className="w-full rounded-[14px] bg-gradient-to-r from-primary to-primary-dark py-2 text-base font-semibold text-white transition-opacity hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? "Please wait…" : children}

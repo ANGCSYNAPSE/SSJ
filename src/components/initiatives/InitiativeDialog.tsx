@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { Check, X } from "lucide-react";
+import { Check, HandHeart, X } from "lucide-react";
+import SevaDialog from "@/components/seva/SevaDialog";
 import { INITIATIVE_NOTE, type Initiative } from "@/lib/data/initiatives";
+import { sevaForInitiative, type SevaType } from "@/lib/data/seva";
 
 /**
  * A short, plain description of one service: its picture(s), what we aim to do, and a reminder that these are aims, not
@@ -13,6 +15,8 @@ import { INITIATIVE_NOTE, type Initiative } from "@/lib/data/initiatives";
  */
 export default function InitiativeDialog({ item, onClose }: { item: Initiative | null; onClose: () => void }) {
   const [shown, setShown] = useState(0);
+  // the seva form, opened from this service ("Give this seva")
+  const [giving, setGiving] = useState<{ seva: SevaType; wish?: string } | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   // A different service starts again from its first picture.
@@ -34,10 +38,13 @@ export default function InitiativeDialog({ item, onClose }: { item: Initiative |
     };
   }, [item, onClose]);
 
-  if (!item) return null;
+  if (!item && !giving) return null;
+  if (!item) return <SevaDialog seva={giving!.seva} initialWish={giving!.wish} onClose={() => setGiving(null)} />;
   const picture = item.images[Math.min(shown, item.images.length - 1)];
 
-  return createPortal(
+  return (
+    <>
+      {createPortal(
     <div
       className="fixed inset-0 z-[90] flex items-end justify-center bg-black/55 p-0 sm:items-center sm:p-6"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
@@ -46,7 +53,7 @@ export default function InitiativeDialog({ item, onClose }: { item: Initiative |
         role="dialog"
         aria-modal="true"
         aria-label={item.title}
-        className="relative flex max-h-[94vh] w-full max-w-[760px] flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
+        className="relative flex max-h-[94vh] w-full max-w-[min(960px,calc(54vh*1.82))] flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
       >
         <button
           ref={closeRef}
@@ -58,12 +65,32 @@ export default function InitiativeDialog({ item, onClose }: { item: Initiative |
           <X className="h-5 w-5" />
         </button>
 
-        <div className="overflow-y-auto">
-          <div className="relative aspect-[16/9] w-full bg-[#2b1111]">
-            <Image key={picture} src={picture} alt={item.title} fill sizes="(min-width: 768px) 760px, 100vw" className="object-contain" priority />
+        <div className="flex min-h-0 flex-1 flex-col">
+          <div className="relative aspect-[1399/768] w-full shrink-0 bg-[#2b1111]">
+            <Image key={picture} src={picture} alt={item.title} fill sizes="(min-width: 768px) 900px, 100vw" className="object-contain" priority />
+            {/* the actions, over the foot of the picture, where they are always in view */}
+            <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center gap-2.5 bg-gradient-to-t from-black/75 via-black/45 to-transparent px-4 pb-3.5 pt-14 sm:gap-3 sm:px-6 sm:pb-5">
+              <button
+                type="button"
+                onClick={() => {
+                  setGiving(sevaForInitiative(item.slug, item.title.split(" (")[0]));
+                  onClose();
+                }}
+                className="inline-flex items-center gap-2 rounded-xl bg-[#f47700] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(0,0,0,0.4)] ring-1 ring-white/30 transition-all hover:-translate-y-0.5 hover:brightness-110 sm:text-[15px]"
+              >
+                <HandHeart className="h-4 w-4" aria-hidden />
+                {"Give this seva"}
+              </button>
+              <Link href="/signup?register=volunteer" onClick={onClose} className="rounded-xl bg-white/95 px-5 py-3 text-sm font-bold text-[#6b1f1f] shadow-[0_8px_20px_rgba(0,0,0,0.35)] transition-all hover:-translate-y-0.5 hover:bg-white sm:text-[15px]">
+                {"Volunteer with us"}
+              </Link>
+              <Link href="/contact" onClick={onClose} className="rounded-xl border border-white/70 bg-white/10 px-4 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/25 sm:text-[15px]">
+                {"Ask a question"}
+              </Link>
+            </div>
           </div>
           {item.images.length > 1 && (
-            <div className="flex gap-2 bg-[#fdf6ec] px-5 py-3">
+            <div className="flex shrink-0 gap-2 bg-[#fdf6ec] px-5 py-3">
               {item.images.map((src, i) => (
                 <button
                   key={src}
@@ -78,7 +105,8 @@ export default function InitiativeDialog({ item, onClose }: { item: Initiative |
             </div>
           )}
 
-          <div className="flex flex-col gap-5 px-6 pb-7 pt-5 sm:px-8">
+          {/* the words scroll, without showing a scrollbar */}
+          <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 pb-7 pt-5 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-9 [&::-webkit-scrollbar]:hidden">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#e47105]">{item.tag}</span>
               <h2 className="mt-1 font-serif text-3xl font-bold leading-tight text-[#3e1815]">{item.title}</h2>
@@ -102,22 +130,13 @@ export default function InitiativeDialog({ item, onClose }: { item: Initiative |
             </div>
 
             <div className="rounded-xl bg-[#fdf6ec] px-4 py-3 text-sm leading-relaxed text-[#6b4f4f]">{INITIATIVE_NOTE}</div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <Link href="/donation" onClick={onClose} className="rounded-lg bg-[#e47105] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90">
-                {"Support this seva"}
-              </Link>
-              <Link href="/signup?register=volunteer" onClick={onClose} className="rounded-lg border border-[#e47105] px-5 py-3 text-sm font-bold text-[#e47105] transition-colors hover:bg-[#e47105]/10">
-                {"Volunteer with us"}
-              </Link>
-              <Link href="/contact" onClick={onClose} className="text-sm font-semibold text-[#e47105] hover:underline">
-                {"Ask a question"}
-              </Link>
-            </div>
           </div>
         </div>
       </div>
     </div>,
     document.body,
+      )}
+      {giving && <SevaDialog seva={giving.seva} initialWish={giving.wish} onClose={() => setGiving(null)} />}
+    </>
   );
 }

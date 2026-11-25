@@ -5,10 +5,6 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Lamp,
-  PlayCircle,
-  ChevronLeft,
-  ChevronRight,
   MapPin,
   Clock,
   Car,
@@ -16,48 +12,54 @@ import {
   Target, Flame, Flower2, HeartHandshake, HandHeart, Sun, Scale, HandHelping } from "lucide-react";
 import { NumberTile } from "@/components/ui/ArtCard";
 import AdSlot from "@/components/ui/AdSlot";
+import SourceNote from "@/components/ui/SourceNote";
+import BhajanPlayer, { type Bhajan } from "@/components/baba-shyam/BhajanPlayer";
+import WisdomCarousel, { type Wisdom } from "@/components/baba-shyam/WisdomCarousel";
+import RitualsTimeline from "@/components/baba-shyam/RitualsTimeline";
+import { KHATU } from "@/lib/data/khatuReference";
 
 const wisdomQuotes = [
   "सच्चे दिल से जो याद करे, बाबा श्याम उसकी सुनते हैं।",
   "जो शरण में आया, उसे मेरा आसरा मिला।",
 ];
 
-function Waveform({ seed }: { seed: number }) {
-  const bars = Array.from({ length: 20 }, (_, i) => {
-    const h = 4 + ((seed * (i + 3) * 37) % 20);
-    return h;
-  });
-  return (
-    <div className="flex items-center gap-[2px] pt-2">
-      {bars.map((h, i) => (
-        <span key={i} className="w-[3px] rounded-sm bg-[#d4a017]" style={{ height: `${h}px` }} />
-      ))}
-    </div>
-  );
-}
+/** The sayings that turn by themselves in "Words of Divine Wisdom". */
+const WISDOM: Wisdom[] = [
+  { text: "Where devotion resides, blessings follow.", by: "Devotional saying" },
+  { text: "सच्चे दिल से जो याद करे, बाबा श्याम उसकी सुनते हैं।", by: "Devotional saying", hindi: true },
+  { text: "हारे का सहारा, बाबा श्याम हमारा।", by: "The devotees' cry", hindi: true },
+  { text: "जो शरण में आया, उसे मेरा आसरा मिला।", by: "Devotional saying", hindi: true },
+  { text: "True devotion is shown in selfless service.", by: "Teaching of Baba Shyam" },
+];
+
+/** Each bhajan plays from the artist's own (or the label's) channel on YouTube. */
+const BHAJANS: Bhajan[] = [
+  { title: "Gajab Mere Khatu Wale", hindi: "गजब मेरे खाटू वाले", artist: "Kanhiya Mittal", youtubeId: "2RgwkOoG3R8", channel: "Kanhiya Mittal Entertainments" },
+  { title: "Kuch To Hai Sarkar Teri", hindi: "कुछ तो है सरकार तेरी सरकारी में", artist: "Sanjay Mittal", youtubeId: "mnxbQAym4G8", channel: "Saawariya" },
+  { title: "Shyam Charno Mein De Do Thikana", hindi: "श्याम चरणों में दे दो ठिकाना", artist: "Lakhbir Singh Lakkha", youtubeId: "hYQ1kM9LJbg", channel: "JMD Bhakti Sagar" },
+];
 
 export default function BabaShyamPage() {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [quoteIndex, setQuoteIndex] = useState(0);
 
   const journey = [
     {
       step: 1,
       title: "Birth",
       image: "/images/baba-shyam/timeline/1-birth.png",
-      desc: "Born to Ghatotkacha and Ahilyavati, grandson of the mighty Bhima, destined for greatness.",
+      desc: "Born to Ghatotkacha and Maurvi (Morvi), and grandson of the mighty Bhima, he was destined for greatness.",
     },
     {
       step: 2,
-      title: "Training from Lord Shiva",
+      title: "Penance and the Grace of Shiva",
       image: "/images/baba-shyam/timeline/2-training-shiva.png",
-      desc: "Blessed with unmatched skills in warfare and archery directly from Lord Shiva.",
+      desc: "A warrior of rare skill, he learnt the art of war from his mother Maurvi and prayed with deep devotion to Lord Shiva.",
     },
     {
       step: 3,
-      title: "Three Divine Arrows",
+      title: "Three Infallible Arrows",
       image: "/images/baba-shyam/timeline/3-three-arrows.png",
-      desc: "Received three invincible arrows from Lord Agni, capable of ending any war instantly.",
+      desc: "He held three infallible arrows (Teen Baan), a divine boon that could end any war in moments.",
     },
     {
       step: 4,
@@ -69,7 +71,7 @@ export default function BabaShyamPage() {
       step: 5,
       title: "The Supreme Sacrifice",
       image: "/images/baba-shyam/timeline/5-supreme-sacrifice.png",
-      desc: "Offered his own head as the ultimate act of devotion to ensure fairness in the great war.",
+      desc: "When Krishna asked for his head as a gift, he gave it gladly, asking only to see the great war.",
     },
     {
       step: 6,
@@ -102,34 +104,20 @@ export default function BabaShyamPage() {
   ];
 
   const miracleStats = [
-    { value: "10M+", label: "Devotees Annually" },
-    { value: "800+", label: "Years of Worship" },
-    { value: "100K+", label: "Daily Prayers" },
-    { value: "∞", label: "Miracles of Faith" },
+    { value: "Millions", label: "Devotees every year" },
+    { value: `${KHATU.history.firstTempleYear} CE`, label: "First temple, by tradition" },
+    { value: `${KHATU.distances.ringas} km`, label: "Nishan Yatra walk from Ringas" },
+    { value: String(KHATU.aartiCount), label: "Aartis every day" },
   ];
 
   const festivals = [
-    { image: "/images/baba-shyam/festivals/falgun-mela.png", title: "Falgun Mela", when: "March (Annual)", desc: "The grandest celebration, drawing millions of devotees over several days of devotion and festivity." },
-    { image: "/images/baba-shyam/festivals/janmashtami.png", title: "Janmashtami", when: "August", desc: "Celebrating Lord Krishna's birth with grand festivities and midnight prayers at the temple." },
-    { image: "/images/baba-shyam/festivals/ekadashi.png", title: "Ekadashi", when: "Twice Monthly", desc: "Special prayers and fasting observed by devotees, seeking Baba Shyam's blessings." },
-    { image: "/images/baba-shyam/festivals/bhajan-sandhya.png", title: "Bhajan Sandhya", when: "Every Evening", desc: "Devotional music sessions filling the temple with soulful hymns and prayers." },
-    { image: "/images/baba-shyam/festivals/shyam-katha.png", title: "Shyam Katha", when: "Weekly", desc: "Storytelling sessions narrating the divine tales and teachings of Baba Shyam." },
+    { image: "/images/baba-shyam/festivals/falgun-mela.png", title: "Falgun Mela", when: "February – March (Phalguna)", desc: "The grandest celebration: millions of devotees come, many of them walking the Nishan Yatra from Ringas, over several days." },
+    { image: "/images/baba-shyam/festivals/janmashtami.png", title: "Janmashtami", when: "August – September", desc: "Celebrating Lord Krishna's birth with festivities and prayers, for the one who carries Krishna's own name." },
+    { image: "/images/baba-shyam/festivals/ekadashi.png", title: "Ekadashi", when: "Twice every month", desc: "A special day for Baba Shyam: devotees fast, pray and travel to Khatushyamji, seeking his blessings." },
+    { image: "/images/baba-shyam/festivals/bhajan-sandhya.png", title: "Bhajan Sandhya", when: "At satsang and jagran", desc: "Evenings and all-night gatherings of devotional music, filled with soulful hymns and prayers." },
+    { image: "/images/baba-shyam/festivals/shyam-katha.png", title: "Shyam Katha", when: "As devotees gather", desc: "Storytelling sessions narrating the divine tales and teachings of Baba Shyam." },
   ];
 
-  const rituals = [
-    { time: "4:30 AM", title: "Mangla Aarti", desc: "The first prayer of the day, welcoming Baba Shyam with devotion at dawn." },
-    { time: "7:00 AM", title: "Shringar Darshan", desc: "Devotees witness Baba Shyam adorned in beautiful attire and ornaments." },
-    { time: "12:00 PM", title: "Rajbhog", desc: "A grand offering of food is presented to Baba Shyam at midday." },
-    { time: "3:00 PM", title: "Afternoon Darshan", desc: "Devotees continue to seek blessings throughout the afternoon hours." },
-    { time: "7:00 PM", title: "Sandhya Aarti", desc: "The evening prayer, marking the transition from day to night with devotion." },
-    { time: "9:00 PM", title: "Shayan Darshan", desc: "The final prayer of the day, as Baba Shyam is prepared for rest." },
-  ];
-
-  const bhajans = [
-    { title: "Shyam Teri Bansi", artist: "Popular Devotional Artist" },
-    { title: "Hey Shyam Sunder", artist: "Popular Devotional Artist" },
-    { title: "Khatu Wale Shyam", artist: "Popular Devotional Artist" },
-  ];
 
   const galleryFilters = [
     { key: "all", label: "All" },
@@ -151,11 +139,11 @@ export default function BabaShyamPage() {
   ];
 
   const visitFacts = [
-    { icon: MapPin, label: "Location", value: "Khatu, Sikar District, Rajasthan" },
-    { icon: Clock, label: "Timings", value: "4:00 AM – 10:00 PM (Daily)" },
-    { icon: Car, label: "Parking", value: "Ample parking available near the temple complex" },
-    { icon: Building2, label: "Accommodation", value: "Numerous dharamshalas and hotels nearby" },
-    { icon: Target, label: "Nearby", value: "Well connected by road, rail, and air from major cities" },
+    { icon: MapPin, label: "Location", value: KHATU.place },
+    { icon: Clock, label: "Timings", value: "Darshan follows the aarti timetable, which differs in winter and summer (see Daily Temple Rituals)" },
+    { icon: Car, label: "Getting there", value: `About ${KHATU.distances.jaipur} km from Jaipur and ${KHATU.distances.sikar} km from Sikar. Nearest station: ${KHATU.nearest.railway} (about ${KHATU.distances.ringas} km); nearest airport: ${KHATU.nearest.airport}` },
+    { icon: Building2, label: "Where to stay", value: "Dharamshalas and hotels near the temple (see our Dharamshala directory)" },
+    { icon: Target, label: "Nearby", value: "Shyam Kund, the sacred pond beside the temple" },
   ];
 
   const visibleGallery =
@@ -226,15 +214,15 @@ export default function BabaShyamPage() {
               <Ornament />
             </div>
             <div className="flex flex-col gap-5 text-base leading-[1.8] text-[#6b4f4f]">
-              <p>{"Khatu Shyam Ji, revered as Baba Shyam, is worshipped as an incarnation of Lord Krishna's blessing to Barbarika, the grandson of the mighty Bhima. Known as the “King of Kalyug,” he is the deity of the poor, the wronged, and the hopeless."}</p>
-              <p>{"His temple in Khatu, Rajasthan, draws millions of devotees each year who come seeking his blessings, believing that he answers every sincere prayer, especially those made from a place of true devotion and surrender."}</p>
+              <p>{"Khatu Shyam Ji, revered as Baba Shyam, is Barbarik, the grandson of the mighty Bhima, whom Lord Krishna blessed to be worshipped in Kalyug by his own name, Shyam. Known as Haare Ka Sahara, the strength of the one who has lost, he is the deity of the poor, the wronged and the hopeless."}</p>
+              <p>{"His temple in Khatu, Rajasthan, draws millions of devotees each year who come seeking his blessings, believing that he hears every sincere prayer, especially those made from a place of true devotion and surrender."}</p>
               <p>{"Baba Shyam's story is one of ultimate sacrifice, unwavering faith, and boundless compassion — a story that continues to inspire generations of devotees across the world."}</p>
             </div>
             <div className="grid w-full grid-cols-3 gap-6 text-center text-white">
               {[
-                { value: "10M+", label: "Annual Devotees" },
-                { value: "800+", label: "Years of Faith" },
-                { value: "1", label: "Sacred Temple" },
+                { value: "Millions", label: "Devotees every year" },
+                { value: `${KHATU.history.firstTempleYear} CE`, label: "First temple, by tradition" },
+                { value: String(KHATU.aartiCount), label: "Aartis every day" },
               ].map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-1 rounded-xl bg-[#e47105] p-5">
                   <p className="font-serif text-[28px] font-bold">{stat.value}</p>
@@ -242,6 +230,7 @@ export default function BabaShyamPage() {
                 </div>
               ))}
             </div>
+            <SourceNote />
           </div>
         </div>
       </section>
@@ -267,16 +256,17 @@ export default function BabaShyamPage() {
             </div>
             <div className="flex max-w-[580px] flex-col gap-6">
               <div className="flex flex-col gap-4 text-base leading-[1.8] text-[#f5f1e8]">
-                <p>{"Barbarika was the son of Ghatotkacha and grandson of Bhima, one of the five Pandavas. From a young age, he was blessed with extraordinary courage and was trained in the art of warfare by none other than Lord Shiva himself."}</p>
-                <p>{"He was granted three invincible arrows by Lord Agni, which could destroy any enemy and always returned to his quiver. With this power, Barbarika vowed to fight for the weaker side in any battle to ensure fairness."}</p>
+                <p>{"Barbarika was the son of Ghatotkacha and Maurvi (Morvi), and the grandson of Bhima, one of the five Pandavas. From a young age he showed extraordinary courage. He learnt the art of war from his mother and prayed to Lord Shiva with deep devotion."}</p>
+                <p>{"By tradition he held three infallible arrows, a divine boon, with which a single warrior could end a whole war. With this power, Barbarika vowed to fight for the weaker side in any battle, so that fairness would be kept."}</p>
                 <p>{"When the Mahabharata war approached, Lord Krishna tested Barbarika's resolve. Understanding that Barbarika's power alone could end the war in a single day, Krishna asked for his head as alms, disguised as a Brahmin."}</p>
-                <p>{"Barbarika, recognizing Krishna's true form, offered his head willingly, fulfilling his promise of ultimate sacrifice. Pleased with his devotion, Krishna blessed him to be worshipped in Kalyug under the name Shyam."}</p>
+                <p>{"Barbarika recognised Krishna's true form and offered his head willingly, asking only that he might see the war. His head was placed on a hill, from where he watched the whole battle. Pleased with his devotion, Krishna blessed him to be worshipped in Kalyug under the name Shyam."}</p>
               </div>
               <div className="rounded-xl border border-[#d4a017] bg-white/[0.04] p-8">
                 <p className="font-serif text-xl italic leading-relaxed text-[#d4a017]">
-                  {"“Whoever worships Barbarika's head with a true heart shall receive blessings equal to worshipping me myself.”"} — Lord Krishna
+                  {"“In Kalyug you will be worshipped by my own name, Shyam, and you will be the support of those who have lost.”"} — Lord Krishna, as the tradition tells it
                 </p>
               </div>
+              <SourceNote tone="dark" />
             </div>
           </div>
         </div>
@@ -404,17 +394,18 @@ export default function BabaShyamPage() {
               <Ornament />
             </div>
             <div className="flex flex-col gap-5 text-base leading-[1.8] text-[#6b4f4f]">
-              <p>{"The Khatu Shyam Ji temple, located in the small town of Khatu in Sikar district, Rajasthan, stands as one of the most revered pilgrimage sites in India, drawing devotees from every corner of the country and beyond."}</p>
+              <p>{"The Khatu Shyam Ji temple, in the small town of Khatu in Sikar district, Rajasthan, is one of the most revered pilgrimage sites in India, drawing devotees from every corner of the country and beyond. By tradition the first temple was built in 1027 CE, at the place where Baba Shyam's head is said to have been found, near what is now Shyam Kund."}</p>
               <p>{"The temple complex, with its intricate architecture and serene atmosphere, offers a spiritual sanctuary where devotees come to seek blessings, fulfill vows, and experience the divine presence of Baba Shyam."}</p>
               <p>{"Every year, especially during the Falgun Mela, the temple witnesses an extraordinary gathering of devotees, each carrying their own story of faith, hope, and gratitude toward Baba Shyam."}</p>
             </div>
             <div className="flex flex-col gap-3">
-              {["📍 Sikar, Rajasthan", "🕐 Open 4 AM – 10 PM", "🎪 Falgun Mela (Annual)"].map((chip) => (
+              {["📍 Khatushyamji, Sikar, Rajasthan", "🕐 Darshan follows the aarti timetable", "🎪 Falgun Mela, every Phalguna"].map((chip) => (
                 <span key={chip} className="w-fit rounded-lg bg-[#fdf6ec] px-5 py-3 text-[15px] font-semibold text-[#6b1f1f]">
                   {chip}
                 </span>
               ))}
             </div>
+            <SourceNote />
           </div>
         </div>
       </section>
@@ -502,30 +493,11 @@ export default function BabaShyamPage() {
             </h2>
             <Ornament />
             <p className="max-w-[600px] text-lg text-[#6b4f4f]">
-              {"The sacred rhythm of devotion at Khatu Shyam Ji temple"}
+              {"The five aartis of every day at Shri Shyam Mandir, Khatushyamji, with their winter and summer times"}
             </p>
           </div>
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-6 lg:gap-0">
-            {rituals.map((r, i) => (
-              <div key={r.time} className="flex flex-col items-center gap-6">
-                <div className="flex w-full items-center">
-                  <span className={`h-px flex-1 ${i === 0 ? "bg-transparent" : "bg-[#d4a017]/50"}`} />
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-[3px] border-white bg-maroon text-xs font-bold text-white">
-                    {i + 1}
-                  </span>
-                  <span className={`h-px flex-1 ${i === rituals.length - 1 ? "bg-transparent" : "bg-[#d4a017]/50"}`} />
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-white shadow-[0_4px_5px_rgba(0,0,0,0.05)]">
-                    <Lamp className="h-8 w-8 text-[#8b2e2e]" aria-hidden />
-                  </div>
-                  <p className="text-sm font-bold text-[#e87722]">{r.time}</p>
-                  <p className="text-center font-serif text-xl font-bold text-[#6b1f1f]">{r.title}</p>
-                  <p className="max-w-[160px] text-center text-[13px] leading-relaxed text-[#6b4f4f]">{r.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <RitualsTimeline />
+          <SourceNote className="text-center" />
         </div>
       </section>
 
@@ -541,20 +513,8 @@ export default function BabaShyamPage() {
             </h2>
             <Ornament />
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {bhajans.map((b, i) => (
-              <div key={b.title} className="flex items-center gap-5 rounded-2xl bg-white/5 p-6">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#d4a017]">
-                  <PlayCircle className="h-[18px] w-[18px] text-maroon" aria-hidden />
-                </span>
-                <div className="flex flex-1 flex-col gap-1">
-                  <p className="font-serif text-xl font-bold text-white">{b.title}</p>
-                  <p className="text-xs text-[#d4a017]/80">{b.artist}</p>
-                  <Waveform seed={i + 1} />
-                </div>
-              </div>
-            ))}
-          </div>
+          <BhajanPlayer bhajans={BHAJANS} />
+          <p className="-mt-8 text-center text-xs text-white/45">{"Press play to listen. Each bhajan plays from the singer's own channel on YouTube."}</p>
           <div className="grid gap-6 lg:grid-cols-2">
             {wisdomQuotes.map((q) => (
               <div
@@ -631,6 +591,7 @@ export default function BabaShyamPage() {
                   </div>
                 </div>
               ))}
+              <SourceNote />
             </div>
             <div className="relative h-[400px] w-full max-w-[677px] overflow-hidden rounded-3xl border-8 border-[#d4af37]/25 lg:h-[560px]">
               <Image
@@ -658,39 +619,7 @@ export default function BabaShyamPage() {
           <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">
             {"Words of Divine Wisdom"}
           </h2>
-          <div className="flex w-full items-center justify-between gap-6">
-            <button
-              type="button"
-              aria-label="Previous quote"
-              onClick={() => setQuoteIndex((i) => (i === 0 ? wisdomQuotes.length - 1 : i - 1))}
-              className="shrink-0 text-[#3e1815] transition-opacity hover:opacity-70"
-            >
-              <ChevronLeft className="h-8 w-8" aria-hidden />
-            </button>
-            <div className="flex max-w-[800px] flex-col items-center gap-6">
-              <p className="text-[80px] leading-[0.1] text-[#e87722] opacity-30">&ldquo;</p>
-              <p className="text-center font-serif text-3xl font-semibold italic text-[#e47105] lg:text-4xl">
-                {"Where devotion resides, blessings follow."}
-              </p>
-              <p className="text-sm font-semibold uppercase text-[#3e1815]">{"Divine Proverb"}</p>
-              <div className="flex gap-2">
-                {[0, 1, 2].map((i) => (
-                  <span
-                    key={i}
-                    className={`h-2 w-2 rounded-full ${i === quoteIndex % 3 ? "bg-[#3e1815]" : "bg-[#3e1815]/30"}`}
-                  />
-                ))}
-              </div>
-            </div>
-            <button
-              type="button"
-              aria-label="Next quote"
-              onClick={() => setQuoteIndex((i) => (i + 1) % wisdomQuotes.length)}
-              className="shrink-0 text-[#3e1815] transition-opacity hover:opacity-70"
-            >
-              <ChevronRight className="h-8 w-8" aria-hidden />
-            </button>
-          </div>
+          <WisdomCarousel items={WISDOM} />
         </div>
       </section>
 

@@ -187,7 +187,8 @@ export default function SignupForm() {
   // Set when this page was opened already part-way (from the login screen), so that first step replaces the entry.
   const arrivedMidway = useRef(false);
   const [values, setValues] = useState(initial);
-  const [acceptTerms, setAcceptTerms] = useState(true);
+  // Not ticked to begin with: nobody agrees to the Terms for them. Without the tick, the account cannot be created.
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [becomeMember, setBecomeMember] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
@@ -690,7 +691,7 @@ export default function SignupForm() {
           </p>
         )}
 
-        <SubmitButton pending={pending}>{"Create My Account →"}</SubmitButton>
+        <SubmitButton pending={pending} blocked={!acceptTerms}>{"Create My Account →"}</SubmitButton>
       </form>
 
       <div className="mt-2 flex flex-col gap-3">

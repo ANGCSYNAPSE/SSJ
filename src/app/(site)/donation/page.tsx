@@ -29,7 +29,7 @@ import {
   BarChart3,
   Crown,
   Shield,
-  Sparkles,
+  Flower2,
   Check,
   Phone,
   Mail,
@@ -107,7 +107,7 @@ const plans = [
   },
   {
     key: "karyakarta",
-    icon: Sparkles,
+    icon: Flower2,
     title: "कार्यकर्ता",
     subtitle: "Serve & Grow",
     price: "₹ 1,100",

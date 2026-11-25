@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,11 +12,12 @@ import {
   ArrowRight,
   Music,
   Heart,
-  ChevronDown,
   Info,
   Clock,
 } from "lucide-react";
 import AdSlot from "@/components/ui/AdSlot";
+import SourceNote from "@/components/ui/SourceNote";
+import { CONTACT, telHref } from "@/lib/constants";
 import { getEventBySlug, getRelatedEvents, type TimelineIcon } from "@/lib/events";
 
 const timelineIcons: Record<TimelineIcon, typeof Star> = {
@@ -27,24 +27,11 @@ const timelineIcons: Record<TimelineIcon, typeof Star> = {
   heart: Heart,
 };
 
-const countOptions = ["1 Person", "2 People", "3-5 People", "6-10 People", "10+ People"];
-
 export default function EventDetailPage({ params }: { params: { slug: string } }) {
   const event = getEventBySlug(params.slug);
   if (!event) notFound();
 
   const related = getRelatedEvents(params.slug);
-
-  const [form, setForm] = useState({ name: "", mobile: "" });
-  const [count, setCount] = useState(countOptions[0]);
-  const [countOpen, setCountOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!form.name || !form.mobile) return;
-    setSubmitted(true);
-  }
 
   return (
     <>
@@ -67,9 +54,7 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
             {event.title}
           </h1>
           <p className="max-w-[800px] text-base leading-[1.6] text-cream sm:text-lg">
-            Embark on the most sacred journey of devotion. Witness this gathering
-            transformed into a divine paradise where devotees come together to seek
-            the blessings of Baba Shyam.
+            {"A day of devotion kept by Baba Shyam's devotees, who come together to seek his blessings."}
           </p>
         </div>
       </section>
@@ -108,7 +93,7 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
             <User className="h-5 w-5 text-primary" aria-hidden />
           </span>
           <div className="flex flex-col gap-1">
-            <p className="text-[11px] font-bold text-[#8c8c8c]">ENTRY PASS</p>
+            <p className="text-[11px] font-bold text-[#8c8c8c]">ENTRY</p>
             <p className="text-[15px] font-semibold text-[#3e1815]">{event.entryPass}</p>
           </div>
         </div>
@@ -187,106 +172,37 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
             </div>
           </div>
 
-          {/* Register card */}
-          <div className="w-full shrink-0 rounded-[20px] border border-[rgba(212,175,55,0.25)] bg-white p-8 shadow-[0px_12px_16px_rgba(139,0,0,0.08)] lg:w-[400px]">
+          {/* Plan your visit */}
+          <div className="w-full shrink-0 rounded-[20px] border border-[rgba(212,175,55,0.35)] bg-white p-8 shadow-[0px_12px_16px_rgba(139,0,0,0.08)] lg:w-[400px]">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <p className="text-xs font-bold uppercase text-primary">
-                  Secure Your Entry Pass
-                </p>
-                <h2 className="font-serif text-[28px] font-bold text-[#3e1815]">
-                  Register / RSVP
-                </h2>
-                <p className="text-[13px] leading-[1.4] text-[#8c8c8c]">
-                  Registration is mandatory to comply with security guidelines during
-                  this event.
+                <p className="text-xs font-bold uppercase text-primary">{"Before You Go"}</p>
+                <h2 className="font-serif text-[28px] font-bold text-[#3e1815]">{"Plan your visit"}</h2>
+                <p className="text-[13px] leading-[1.5] text-[#6b6b6b]">
+                  {"There is no ticket or registration for this. Dates that follow the lunar calendar are announced by the temple committee, so check them before you travel."}
                 </p>
               </div>
-
-              {submitted ? (
-                <p className="rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
-                  Thank you, {form.name}! Your registration is confirmed. Jai Shree
-                  Shyam. 🙏
-                </p>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-semibold text-[#595656]">
-                      Full Name
-                    </label>
-                    <input
-                      value={form.name}
-                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                      placeholder="Enter your full name"
-                      className="h-11 rounded-lg border border-[#e5e7eb] bg-cream-light px-4 text-sm text-[#3e1815] placeholder:text-[#8c8c8c] focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-semibold text-[#595656]">
-                      Mobile Number (WhatsApp)
-                    </label>
-                    <input
-                      value={form.mobile}
-                      onChange={(e) => setForm((f) => ({ ...f, mobile: e.target.value }))}
-                      placeholder="+91 99905 3600"
-                      className="h-11 rounded-lg border border-[#e5e7eb] bg-cream-light px-4 text-sm text-[#3e1815] placeholder:text-[#8c8c8c] focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                  <div className="relative flex flex-col gap-1.5">
-                    <label className="text-[13px] font-semibold text-[#595656]">
-                      Total Devotees / Family Members
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setCountOpen((v) => !v)}
-                      className="flex h-11 items-center justify-between rounded-lg border border-[#e5e7eb] bg-cream-light px-4 text-sm text-[#3e1815]"
-                    >
-                      {count}
-                      <ChevronDown
-                        className={`h-3.5 w-3.5 text-[#8c8c8c] transition-transform ${countOpen ? "rotate-180" : ""}`}
-                        aria-hidden
-                      />
-                    </button>
-                    {countOpen && (
-                      <div className="absolute top-full z-20 mt-1 w-full overflow-hidden rounded-lg border border-[rgba(212,175,55,0.25)] bg-white shadow-lg">
-                        {countOptions.map((option) => (
-                          <button
-                            key={option}
-                            type="button"
-                            onClick={() => {
-                              setCount(option);
-                              setCountOpen(false);
-                            }}
-                            className={`block w-full px-4 py-2.5 text-left text-sm ${
-                              count === option
-                                ? "bg-primary text-white"
-                                : "text-[#3e1815] hover:bg-cream"
-                            }`}
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    type="submit"
-                    className="flex items-center justify-center rounded-lg bg-primary py-3.5 text-[15px] font-bold text-white transition hover:bg-primary-dark"
-                  >
-                    CONFIRM REGISTRATION
-                  </button>
-                </form>
-              )}
-
+              <div className="flex flex-col gap-3">
+                <a href="https://www.shrishyammandir.com/" target="_blank" rel="noreferrer" className="rounded-lg bg-primary py-3.5 text-center text-[15px] font-bold text-white transition hover:bg-primary-dark">
+                  {"Temple committee notices"}
+                </a>
+                <Link href="/aarti/darshan" className="rounded-lg border border-primary py-3 text-center text-[15px] font-bold text-primary transition hover:bg-cream">
+                  {"Aarti timings and live darshan"}
+                </Link>
+                <Link href="/dharamshala" className="rounded-lg border border-primary py-3 text-center text-[15px] font-bold text-primary transition hover:bg-cream">
+                  {"Find a dharamshala"}
+                </Link>
+              </div>
               <div className="h-px w-full bg-[#e5e7eb]" />
-
               <div className="flex items-start gap-3">
                 <Info className="h-4 w-4 shrink-0 text-[#8c8c8c]" aria-hidden />
-                <p className="text-xs leading-[1.4] text-[#8c8c8c]">
-                  Need assistance with bookings or event queries? Call our helpdesk:{" "}
-                  <span className="font-bold text-primary">+91 9876543210</span>
+                <p className="text-xs leading-[1.5] text-[#6b6b6b]">
+                  {"Questions about Shyam Jagat? Call us on "}
+                  <a href={telHref(CONTACT.phone)} className="font-bold text-primary">{CONTACT.phone}</a>
+                  {"."}
                 </p>
               </div>
+              <SourceNote />
             </div>
           </div>
         </div>
@@ -326,11 +242,11 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
                       className="object-cover"
                       sizes="(min-width: 1024px) 50vw, 100vw"
                     />
-                    <div className="absolute left-4 top-4 flex w-16 flex-col items-center justify-center rounded-xl border border-[#d4af37] bg-white p-3">
-                      <p className="text-[22px] font-bold leading-none text-primary">
+                    <div className="absolute left-4 top-4 flex min-w-16 flex-col items-center justify-center rounded-xl border border-[#d4af37] bg-white px-3 py-2.5">
+                      <p className="text-lg font-bold leading-none text-primary">
                         {rel.day}
                       </p>
-                      <p className="text-xs font-semibold uppercase text-[#595656]">
+                      <p className="mt-1 text-[10px] font-semibold uppercase text-[#595656]">
                         {rel.month}
                       </p>
                     </div>
@@ -360,11 +276,11 @@ export default function EventDetailPage({ params }: { params: { slug: string } }
                 </div>
                 <div className="flex items-center justify-between border-t border-[rgba(212,175,55,0.25)] p-5">
                   <div className="flex items-center gap-1">
-                    <p className="text-sm font-semibold text-primary">Free Entry</p>
-                    <p className="text-xs text-[#8c8c8c]">(Reg. Mandatory)</p>
+                    <p className="text-sm font-semibold text-primary">Free</p>
+                    <p className="text-xs text-[#8c8c8c]">(no pass needed)</p>
                   </div>
                   <span className="rounded-md bg-primary px-4 py-2 text-[13px] font-bold text-white">
-                    Register
+                    Know more
                   </span>
                 </div>
               </Link>

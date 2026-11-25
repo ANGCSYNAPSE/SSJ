@@ -101,7 +101,7 @@ export default function CategoryWizard({
   // Resuming after the email was verified: the first step is already done, so start at the next one.
   const [index, setIndex] = useState(resume && resume.stage !== "otp" ? 1 : 0);
   const [account, setAccount] = useState(resume ? { ...emptyAccount, ...resume.account } : emptyAccount);
-  const [acceptTerms, setAcceptTerms] = useState(true);
+  const [acceptTerms, setAcceptTerms] = useState(false); // not ticked to begin with; the first step cannot go on without it
   const [accountErrors, setAccountErrors] = useState<AccountErrors>({});
   const [taken, setTaken] = useState<Availability | null>(null);
   const [checking, setChecking] = useState(false);

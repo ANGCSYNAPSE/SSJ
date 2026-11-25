@@ -3,6 +3,8 @@
  * The pages whose content is a hymn (Chalisa, Aarti, Bhajan) are ready to show their full text as soon as it is added:
  * put the lines in `verses` and the page shows them under the introduction.
  */
+import { KHATU } from "@/lib/data/khatuReference";
+
 export type DevotionIcon = "darshan" | "chalisa" | "aarti" | "bhajan" | "katha" | "mela" | "yatra";
 
 export interface DevotionSection {
@@ -68,7 +70,7 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
         heading: "About the Aarti",
         body: [
           "The aarti is sung with a lit lamp at the end of a puja. It is the moment when everyone present joins in, and it is sung at the temple several times a day.",
-          "At Shri Shyam Mandir, Khatushyamji, five aartis are held every day: Mangala, Shringar, Bhog, Sandhya and Shayan. See the timings on the Shyam Baba Darshan page.",
+          `At ${KHATU.templeName}, Khatushyamji, ${KHATU.aartiCount} aartis are held every day: Mangala, Shringar, Bhog, Sandhya and Shayan. See the timings on the Shyam Baba Darshan page.`,
         ],
       },
     ],
@@ -103,7 +105,7 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
       {
         heading: "Who was Barbarik?",
         body: [
-          "Barbarik was the son of Ghatotkacha and the grandson of Bhima, one of the Pandavas. From childhood he was a great warrior, and he held three unfailing arrows.",
+          "Barbarik was the son of Ghatotkacha and Maurvi (also called Morvi), and the grandson of Bhima, one of the Pandavas. From childhood he was a great warrior, and by tradition he held three unfailing arrows.",
           "He had made a promise to his mother: he would always stand with the side that was losing.",
         ],
       },
@@ -133,14 +135,14 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
       {
         heading: "When it is held",
         body: [
-          "The Falgun Mela is held every year in the month of Phalguna (February to March), and its main days are around Phalguna Shukla Ekadashi and Dwadashi.",
+          `The Falgun Mela is held every year in the month of ${KHATU.mela.month}, and its main days are ${KHATU.mela.mainDays}.`,
           "The dates follow the lunar calendar, so they move every year. The Shri Shyam Mandir Committee announces them.",
         ],
       },
       {
         heading: "What happens",
         body: [
-          "Devotees from all over India walk to Khatushyamji carrying nishan, the flags offered to Baba Shyam, singing bhajans on the way. Langars and rest points are set up along the roads.",
+          `Devotees from all over India walk to Khatushyamji carrying nishan, the flags offered to Baba Shyam, singing bhajans on the way. ${KHATU.mela.nishanYatra} Langars and rest points are set up along the roads.`,
           "Millions visit during the Mela, so the queues are long and the temple timings can change.",
         ],
       },
@@ -166,14 +168,14 @@ export const DEVOTION_ITEMS: readonly DevotionItem[] = [
     sections: [
       {
         heading: "Where it is",
-        body: ["Shri Shyam Mandir is in Khatushyamji, in the Sikar district of Rajasthan."],
+        body: [`${KHATU.templeName} is in ${KHATU.place}.`],
       },
       {
         heading: "How to reach",
         body: [
-          "By road: Khatushyamji is about 80 km from Jaipur and about 45 km from Sikar, with regular buses and taxis.",
-          "By train: the nearest railway station is Ringas Junction, about 17 km away. Taxis and buses run from there to the temple.",
-          "By air: the nearest airport is Jaipur. From there you can go by road.",
+          `By road: Khatushyamji is about ${KHATU.distances.jaipur} km from Jaipur and about ${KHATU.distances.sikar} km from Sikar, with regular buses and taxis.`,
+          `By train: the nearest railway station is ${KHATU.nearest.railway}, about ${KHATU.distances.ringas} km away. Taxis and buses run from there to the temple.`,
+          `By air: the nearest airport is ${KHATU.nearest.airport}. From there you can go by road.`,
         ],
       },
       {

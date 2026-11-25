@@ -49,7 +49,7 @@ export function Sticker({ text = "Jai Shree Shyam", className = "" }: { text?: s
 export function PhotoFrame({
   children,
   side = "left",
-  sticker = true,
+  sticker = false,
   className = "",
 }: {
   children: ReactNode;
@@ -59,14 +59,17 @@ export function PhotoFrame({
 }) {
   const left = side === "left";
   return (
-    <div className={`relative ${className}`}>
-      <span aria-hidden className={`absolute -bottom-5 h-[92%] w-[92%] rounded-[35px] bg-gradient-to-br from-[#ffb347] to-[#e47105] ${left ? "-left-5" : "-right-5"}`} />
-      <span
-        aria-hidden
-        className={`absolute -top-6 h-24 w-32 opacity-70 ${left ? "-right-6" : "-left-6"}`}
-        style={{ backgroundImage: "radial-gradient(#e47105 2px, transparent 2.4px)", backgroundSize: "14px 14px" }}
-      />
-      <div className="relative">{children}</div>
+    <div className={`relative isolate ${className}`}>
+      {/* the frame is sized from the picture itself, so the orange block only peeks out a little at its foot and side */}
+      <div className="relative">
+        <span aria-hidden className={`absolute -bottom-4 -z-10 h-[94%] w-[94%] rounded-[35px] bg-gradient-to-br from-[#ffb347] to-[#e47105] ${left ? "-left-4" : "-right-4"}`} />
+        <span
+          aria-hidden
+          className={`absolute -top-6 -z-10 h-24 w-32 opacity-70 ${left ? "-right-6" : "-left-6"}`}
+          style={{ backgroundImage: "radial-gradient(#e47105 2px, transparent 2.4px)", backgroundSize: "14px 14px" }}
+        />
+        {children}
+      </div>
       {sticker && <Sticker className={`absolute -bottom-8 ${left ? "right-4 lg:-right-8" : "left-4 lg:-left-8"}`} />}
     </div>
   );

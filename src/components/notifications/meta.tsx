@@ -1,4 +1,4 @@
-import { BadgeCheck, CalendarDays, HandHeart, Megaphone, Newspaper, ReceiptIndianRupee, Sparkles, type LucideIcon } from "lucide-react";
+import { BadgeCheck, CalendarDays, HandHeart, Megaphone, Newspaper, ReceiptIndianRupee, Flower2, type LucideIcon } from "lucide-react";
 import type { NotificationCategory } from "@/lib/api";
 
 /** How each kind of message looks: its icon, a plain label, and a soft colour that groups them at a glance. */
@@ -9,7 +9,7 @@ export const CATEGORY_META: Record<NotificationCategory, { label: string; Icon: 
   seva: { label: "Seva", Icon: HandHeart, tint: "bg-emerald-100 text-emerald-700" },
   payment: { label: "Payment", Icon: ReceiptIndianRupee, tint: "bg-green-100 text-green-700" },
   registration: { label: "Registration", Icon: BadgeCheck, tint: "bg-violet-100 text-violet-700" },
-  system: { label: "Shyam Jagat", Icon: Sparkles, tint: "bg-amber-100 text-amber-700" },
+  system: { label: "Shyam Jagat", Icon: Flower2, tint: "bg-amber-100 text-amber-700" },
 };
 
 export const FILTER_CATEGORIES: NotificationCategory[] = ["announcement", "event", "seva", "update", "payment", "registration"];

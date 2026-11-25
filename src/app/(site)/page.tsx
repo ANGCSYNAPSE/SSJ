@@ -12,9 +12,6 @@ import {
   Building2,
   Map,
   MapPin,
-  Star,
-  ChevronLeft,
-  ChevronRight,
   Eye,
   BadgeCheck,
   Headphones,
@@ -31,13 +28,15 @@ import {
 import { INITIATIVES } from "@/lib/data/initiatives";
 import InitiativeShowcase from "@/components/initiatives/InitiativeShowcase";
 import AdSlot from "@/components/ui/AdSlot";
-import SevaHomeSection from "@/components/seva/SevaHomeSection";
+import OwnWishSection from "@/components/seva/OwnWishSection";
+import InitiativesGalleryButton from "@/components/initiatives/InitiativesGalleryButton";
 import TickerBand from "@/components/ui/TickerBand";
 import { Mandala, SEVA_ICONS } from "@/components/seva/DharmaIcons";
 import { Eyebrow, HighlightWord, PhotoFrame } from "@/components/ui/Flourish";
 import { CONTACT, HOME_HERO, telHref } from "@/lib/constants";
 import HeroGateway from "@/components/home/HeroGateway";
-import HeroParda, { HeroStats } from "@/components/home/HeroParda";
+import HeroParda from "@/components/home/HeroParda";
+import StoriesSoon from "@/components/home/StoriesSoon";
 import DarshanSchedule from "@/components/darshan/DarshanSchedule";
 import LiveDarshanCard from "@/components/darshan/LiveDarshanCard";
 
@@ -59,12 +58,6 @@ export default function HomePage() {
     subject: "",
     message: "",
   });
-
-  const testimonials = [
-    { name: "Rahul Sharma", program: "Education Support", text: "The scholarship from Shyam Jagat changed my life. Today I am a software engineer and I owe it all to their support and faith in me.", photo: "/images/home/success-1.png" },
-    { name: "Priya Verma", program: "Employment Portal", text: "Through the Employment Portal, I found a job that matches my skills. Shyam Jagat didn't just give me work — they gave me purpose and confidence.", photo: "/images/home/success-2.png" },
-    { name: "Rameshwar Ji", program: "Old Age Home", text: "I was alone and struggling. The Old Age Home gave me a family again. The warmth, care, and respect I receive here is beyond words.", photo: "/images/home/success-3.png" },
-  ];
 
   const whyChoose = [
     { icon: SEVA_ICONS.diya, title: "Faith Driven", desc: "Our seva is rooted in the teachings of Baba Shyam: service as devotion.", colour: "#c2570c" },
@@ -105,7 +98,7 @@ export default function HomePage() {
     {
       q: "How can I give seva?",
       a: "Choose a seva you love, give any amount, and add a name or a prayer if you wish. It takes about two minutes, and you get a receipt by email.",
-      href: "/#give-seva",
+      href: "/seva",
       cta: "Give seva",
     },
   ];
@@ -182,7 +175,7 @@ export default function HomePage() {
             </div>
 
             {/* Mission card */}
-            <div className="flex w-full max-w-[430px] items-center gap-4 rounded-[17px] border border-white/30 bg-gradient-to-r from-[#fff1d8] to-[#ffe2ad] px-4 py-3 text-left shadow-[0_10px_28px_rgba(0,0,0,0.25)] sm:px-5 sm:py-3.5">
+            <Link href="/about#mission" className="flex w-full max-w-[430px] items-center gap-4 rounded-[17px] border border-white/30 bg-gradient-to-r from-[#fff1d8] to-[#ffe2ad] px-4 py-3 text-left shadow-[0_10px_28px_rgba(0,0,0,0.25)] transition-transform duration-300 hover:-translate-y-1 sm:px-5 sm:py-3.5">
               <div className="h-9 w-1 shrink-0 rounded-full bg-[#e47105]" />
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-extrabold text-[#21170b]">Our Mission</p>
@@ -191,7 +184,7 @@ export default function HomePage() {
                 </p>
               </div>
               <CtaArrow src="/images/home/feather.svg" className="h-12 w-9 shrink-0" />
-            </div>
+            </Link>
 
             {/* Quick links, over the road at the foot of the gateway */}
             <div className="mt-auto grid w-full max-w-[860px] grid-cols-2 gap-2.5 pt-4 sm:gap-3 lg:grid-cols-4">
@@ -220,44 +213,7 @@ export default function HomePage() {
         </section>
         </>
       ) : (
-        <>
-          <HeroParda />
-
-          {/* What the gateway hero carries over its foot (the mission and the quick links), as a band just below the Parda hero */}
-          <section className="bg-[#fdf6ec] px-4 py-10 sm:px-6 lg:px-[88px]">
-            <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-7">
-              <HeroStats light className="w-full sm:hidden" />
-
-              <div className="flex w-full max-w-[460px] items-center gap-4 rounded-[17px] border border-[#e0b94f]/50 bg-gradient-to-r from-[#fff1d8] to-[#ffe2ad] px-5 py-3.5 text-left shadow-[0_10px_28px_rgba(194,87,12,0.16)]">
-                <div className="h-9 w-1 shrink-0 rounded-full bg-[#e47105]" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-extrabold text-[#21170b]">Our Mission</p>
-                  <p className="mt-1 text-xs leading-[18px] text-[#4a3800]">To create a global community of devotees united by faith, service and compassion.</p>
-                </div>
-                <CtaArrow src="/images/home/feather.svg" className="h-12 w-9 shrink-0" />
-              </div>
-
-              <div className="grid w-full grid-cols-2 gap-3 lg:grid-cols-4">
-                {[
-                  { icon: Landmark, title: "Find a Temple", text: "Browse temples", href: "/temple-directory" },
-                  { icon: CalendarDays, title: "Upcoming Events", text: "Join a satsang near you", href: "/events" },
-                  { icon: HeartHandshake, title: "Seva Initiatives", text: "Serve with devotion", href: "/initiatives" },
-                  { icon: Heart, title: "Donate", text: "Support our mission", href: "/donation" },
-                ].map((q) => (
-                  <Link key={q.href} href={q.href} className="group flex items-center gap-3 rounded-2xl border border-[#e0b94f]/50 bg-white px-3.5 py-3.5 text-left shadow-[0_8px_20px_rgba(107,31,31,0.07)] transition-all duration-300 hover:-translate-y-1 hover:border-[#e0b94f] hover:shadow-[0_16px_30px_rgba(194,87,12,0.16)]">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f47700] text-white transition-transform duration-300 group-hover:scale-110">
-                      <q.icon className="h-[18px] w-[18px]" aria-hidden />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-[13px] font-bold leading-tight text-[#3e1815]">{q.title}</span>
-                      <span className="block text-[11px] leading-tight text-[#8a6a4a]">{q.text}</span>
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        </>
+        <HeroParda />
       )}
 
       {/* A ribbon of our seva, strung across the foot of the hero */}
@@ -327,11 +283,11 @@ export default function HomePage() {
             <PhotoFrame side="right">
             <div className="relative h-96 overflow-hidden rounded-[35px] lg:h-[550px] shadow-[16px_18px_50px_rgba(0,0,0,0.25)] ">
               <Image
-                src="/images/home/about-baba.png"
-                alt="Baba Shyam"
+                src="/images/home/about-diyas.jpg"
+                alt="An open prayer book between two brass lamps, with marigold petals and a saffron flag"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                className="object-cover object-center"
               />
             </div>
             </PhotoFrame>
@@ -391,20 +347,21 @@ export default function HomePage() {
             <InitiativeShowcase items={INITIATIVES} layout="bento" />
           </div>
 
-          <div className="mt-14 text-center">
+          <div className="mt-14 flex flex-wrap items-center justify-center gap-4 text-center">
             <Link
               href="/initiatives"
-              className="inline-flex items-center gap-2 rounded-full bg-[#e87722] px-3.5 py-2.5 text-sm font-bold text-white shadow-lg transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-full bg-[#e87722] px-5 py-3 text-sm font-bold text-white shadow-lg transition-opacity hover:opacity-90"
             >
               {"See all our initiatives"}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
+            <InitiativesGalleryButton />
           </div>
         </div>
       </section>
 
-      {/* GIVE SEVA */}
-      <SevaHomeSection />
+      {/* SEVA OF OWN WISH: the other sevas are in Our Initiatives above, and open the same form from there */}
+      <OwnWishSection />
 
       {/* AD - LARGE BANNER */}
       <AdSlot size="banner" cta={"Explore"} />
@@ -418,57 +375,11 @@ export default function HomePage() {
             </h2>
             <Ornament />
             <p className="text-lg leading-7 text-[#595656]">
-              {"Real lives, real impact — stories of hope and transformation."}
+              {"Stories of hope, from the people we serve and the people who serve."}
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
-            {testimonials.map((item) => (
-              <div
-                key={item.name}
-                className="group relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-[#d4af37]/25 bg-[#fffbf3] p-7 shadow-[0_12px_16px_rgba(139,0,0,0.05)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_40px_rgba(194,87,12,0.18)]"
-              >
-                <span aria-hidden className="pointer-events-none absolute -right-2 -top-6 select-none font-serif text-[120px] font-bold leading-none text-[#e47105]/15">&rdquo;</span>
-                <div className="flex items-center gap-4">
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-4 ring-[#e47105]/20 transition-transform duration-300 group-hover:scale-105">
-                    <Image src={item.photo} alt={item.name} fill sizes="64px" className="object-cover" />
-                  </div>
-                  <div className="flex min-w-0 flex-col gap-1.5">
-                    <p className="font-serif text-xl font-bold leading-tight text-[#3e1815]">{item.name}</p>
-                    <span className="w-fit rounded-full bg-[#7b2d2d] px-2.5 py-1 text-xs font-semibold text-white">{item.program}</span>
-                  </div>
-                </div>
-                <div className="flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-[#e47105] text-[#e47105]" aria-hidden />
-                  ))}
-                </div>
-                <p className="relative italic leading-[27px] text-[#3e1815]">&ldquo;{item.text}&rdquo;</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              aria-label="Previous testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#d4af37]/25 bg-white transition-colors hover:bg-cream"
-            >
-              <ChevronLeft className="h-5 w-5 text-[#3e1815]" aria-hidden />
-            </button>
-            <div className="flex items-center gap-2.5">
-              <span className="h-2 w-6 rounded-full bg-[#e47105]" />
-              <span className="h-2 w-2 rounded-full bg-[#d4af37]" />
-              <span className="h-2 w-2 rounded-full bg-[#d4af37]" />
-            </div>
-            <button
-              type="button"
-              aria-label="Next testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#d4af37]/25 bg-white transition-colors hover:bg-cream"
-            >
-              <ChevronRight className="h-5 w-5 text-[#3e1815]" aria-hidden />
-            </button>
-          </div>
+          <StoriesSoon />
         </div>
       </section>
 

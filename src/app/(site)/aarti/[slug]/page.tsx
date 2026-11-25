@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import DevotionHero from "@/components/darshan/DevotionHero";
+import SourceNote from "@/components/ui/SourceNote";
 import { DEVOTION_ITEMS, findDevotion } from "@/lib/data/devotion";
 
 export function generateStaticParams() {
@@ -79,6 +80,8 @@ export default function DevotionPage({ params }: { params: { slug: string } }) {
               )}
             </div>
           )}
+
+          <SourceNote />
 
           <Link href="/aarti" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#e47105] hover:underline">
             <ArrowLeft className="h-4 w-4" aria-hidden />

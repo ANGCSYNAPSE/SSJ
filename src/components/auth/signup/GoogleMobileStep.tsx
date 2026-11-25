@@ -35,7 +35,7 @@ export default function GoogleMobileStep({
 }) {
   const toast = useToast();
   const [mobile, setMobile] = useState(initialMobile);
-  const [accept, setAccept] = useState(true);
+  const [accept, setAccept] = useState(false); // not ticked to begin with; without it the step cannot go on
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -142,7 +142,7 @@ export default function GoogleMobileStep({
           </p>
         )}
 
-        <SubmitButton pending={pending}>{"Continue →"}</SubmitButton>
+        <SubmitButton pending={pending} blocked={!accept}>{"Continue →"}</SubmitButton>
         <p className="text-center text-xs text-muted-foreground">{"You will sign in with Google next time. You can also set a password later with Forgot password."}</p>
       </form>
     </>

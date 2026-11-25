@@ -2,6 +2,8 @@ import Ornament from "@/components/ui/Ornament";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { BookOpenText, BadgeCheck, Handshake, HandHelping, Heart, Soup } from "lucide-react";
+import { DharmaCard, type DharmaPattern } from "@/components/ui/ArtCard";
 import AdSlot from "@/components/ui/AdSlot";
 import InitiativeShowcase from "@/components/initiatives/InitiativeShowcase";
 import { COMING_SOON, INITIATIVES } from "@/lib/data/initiatives";
@@ -13,42 +15,42 @@ export const metadata: Metadata = {
 
 const contributions = [
   {
-    emoji: "🤲",
+    icon: HandHelping, tone: "#c2570c", pattern: "mandala" as DharmaPattern,
     title: "Volunteer",
     desc: "Give your time and skills to seva in your own neighbourhood, however much or little you can.",
     cta: "Join as Volunteer",
     href: "/signup?register=volunteer",
   },
   {
-    emoji: "💛",
+    icon: Heart, tone: "#b4233a", pattern: "ripples" as DharmaPattern,
     title: "Donate",
     desc: "Your donation helps us begin and carry on seva such as meals, water, shelter and care.",
     cta: "Donate Now",
     href: "/donation",
   },
   {
-    emoji: "🪪",
+    icon: BadgeCheck, tone: "#a16207", pattern: "jaali" as DharmaPattern,
     title: "Become a Member",
     desc: "Become a Shyam Jagat member and be part of a growing family that believes in seva.",
     cta: "Become a Member",
     href: "/signup",
   },
   {
-    emoji: "📚",
+    icon: BookOpenText, tone: "#3b4a9e", pattern: "dots" as DharmaPattern,
     title: "Support Education",
     desc: "Help children with books, school supplies and learning support.",
     cta: "Support a Child",
     href: "/donation",
   },
   {
-    emoji: "🍱",
+    icon: Soup, tone: "#2f6b3a", pattern: "lotus" as DharmaPattern,
     title: "Share Meals",
     desc: "Help us share simple meals with people who need them.",
     cta: "Share Meals",
     href: "/donation",
   },
   {
-    emoji: "🤝",
+    icon: Handshake, tone: "#0f766e", pattern: "rays" as DharmaPattern,
     title: "Partner With Us",
     desc: "Organisations and businesses that would like to help with seva are welcome to get in touch.",
     cta: "Partner With Us",
@@ -205,17 +207,24 @@ export default function InitiativesPage() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {contributions.map((item) => (
-              <div key={item.title} className="flex flex-col gap-4 rounded-[20px] border border-[#e5e7eb] bg-white p-6 shadow-[0_8px_12px_rgba(0,0,0,0.08)]">
-                <div className="flex h-14 w-14 items-center justify-center rounded-[28px] bg-[#e87722] text-2xl">{item.emoji}</div>
-                <h3 className="font-serif text-2xl font-bold text-[#3d1010]">{item.title}</h3>
-                <p className="text-sm leading-[22px] text-[#444]">{item.desc}</p>
-                <Link
-                  href={item.href}
-                  className="mt-auto inline-flex w-fit items-center justify-center rounded-lg bg-[#e87722] px-6 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
-                >
-                  {item.cta}
-                </Link>
-              </div>
+              <DharmaCard
+                key={item.title}
+                icon={item.icon}
+                title={item.title}
+                tone={item.tone}
+                pattern={item.pattern}
+                footer={
+                  <Link
+                    href={item.href}
+                    className="inline-flex w-fit items-center justify-center rounded-xl px-6 py-3 text-[15px] font-semibold text-white shadow-[0_10px_22px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-0.5 hover:brightness-110"
+                    style={{ background: `linear-gradient(135deg, ${item.tone}, color-mix(in srgb, ${item.tone} 60%, #1a0505))` }}
+                  >
+                    {item.cta}
+                  </Link>
+                }
+              >
+                {item.desc}
+              </DharmaCard>
             ))}
           </div>
         </div>

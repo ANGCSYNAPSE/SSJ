@@ -8,7 +8,7 @@ import Link from "next/link";
 import {
   MapPin,
   Building2,
-  Sparkles,
+  Flower2,
   Star,
   ChevronDown,
   Search,
@@ -290,7 +290,7 @@ export default function TempleDirectoryPage() {
           <div className="mt-10 flex flex-col gap-4 rounded-2xl bg-white p-4 shadow-[0px_15px_15px_rgba(0,0,0,0.04)] lg:flex-row lg:items-center">
             <FilterSelect icon={MapPin} options={cities} value={city} onChange={setCity} />
             <FilterSelect icon={Building2} options={templeTypes} value={templeType} onChange={setTempleType} />
-            <FilterSelect icon={Sparkles} options={pujaTypes} value={pujaType} onChange={setPujaType} />
+            <FilterSelect icon={Flower2} options={pujaTypes} value={pujaType} onChange={setPujaType} />
             <FilterSelect icon={Star} options={ratings} value={rating} onChange={setRating} />
             <button
               type="button"

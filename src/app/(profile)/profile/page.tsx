@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Bell, CheckCircle2, CircleAlert, ClipboardList, HandHeart, Heart, LayoutGrid, Pencil, UserRound, Wallet } from "lucide-react";
+import { ArrowRight, Bell, CheckCircle2, CircleAlert, ClipboardList, HandHeart, Heart, Pencil, UserRound, Wallet } from "lucide-react";
+import { ProfileBottomNav, ProfileSidebar, type NavTab } from "@/components/profile/ProfileNav";
 import RequireAuth from "@/components/auth/RequireAuth";
 import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
 import EditProfileDialog from "@/components/profile/EditProfileDialog";
@@ -71,7 +72,8 @@ function Bar({ percent }: { percent: number }) {
 }
 
 function ProfileCard({ profile, onSaved }: { profile: DashboardProfile; onSaved: () => void | Promise<void> }) {
-  const [editing, setEditing] = useState(false);
+  // While something required is still missing, the blank fields are open for filling at once; a complete profile shows its details to read.
+  const [editing, setEditing] = useState(!profile.isComplete);
   const category = categoryByKey(profile.category);
   if (!category) return null;
   const data = profile.data ?? {};
@@ -154,18 +156,7 @@ function ProfileCard({ profile, onSaved }: { profile: DashboardProfile; onSaved:
                     <div key={field.key} className="min-w-0">
                       <dt className="text-xs text-[#8a8580]">{field.label.replace(" (Optional)", "")}</dt>
                       <dd className="mt-0.5 break-words text-sm font-medium text-[#3e1815]">
-                        {filled ? (
-                          <Value field={field} value={value} />
-                        ) : (
-                          <span
-                            className={cn(
-                              "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold",
-                              profile.missing.includes(field.key) ? "bg-red-50 text-red-700" : "bg-gray-100 text-gray-500",
-                            )}
-                          >
-                            {profile.missing.includes(field.key) ? "Required, not filled" : "Not filled"}
-                          </span>
-                        )}
+                        {filled ? <Value field={field} value={value} /> : <span aria-label="Not filled" className="text-[#c9c0b6]">{"—"}</span>}
                       </dd>
                     </div>
                   );
@@ -195,7 +186,9 @@ function Stat({ icon: Icon, label, value, hint }: { icon: typeof Heart; label: s
   );
 }
 
-type TabKey = "overview" | "profile" | "registrations" | "payments" | "messages";
+/** The four places of the account. "Profile" holds everything about the person (the numbers, the chart, the details, the links and the digital card). */
+type TabKey = "profile" | "registrations" | "payments" | "messages";
+const TAB_KEYS: TabKey[] = ["profile", "registrations", "payments", "messages"];
 
 function DashboardView() {
   const { user, refreshUser } = useAuth();
@@ -205,7 +198,7 @@ function DashboardView() {
   const [verifyingPhone, setVerifyingPhone] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
-  const [tab, setTab] = useState<TabKey>("overview");
+  const [tab, setTab] = useState<TabKey>("profile");
 
   const load = () =>
     meApi
@@ -232,7 +225,9 @@ function DashboardView() {
   useEffect(() => {
     const read = () => {
       const hash = window.location.hash.replace("#", "");
-      if (hash === "overview" || hash === "profile" || hash === "registrations" || hash === "payments" || hash === "messages") setTab(hash);
+      // the old names still work: "overview" is now part of Profile, and "notifications" is the messages
+      const named = hash === "overview" ? "profile" : hash === "notifications" ? "messages" : hash;
+      if ((TAB_KEYS as string[]).includes(named)) setTab(named as TabKey);
       else if (hash === "my-card") {
         setTab("profile");
         window.setTimeout(() => document.getElementById("my-card")?.scrollIntoView({ behavior: "smooth", block: "start" }), 400);
@@ -279,16 +274,16 @@ function DashboardView() {
   // Whatever shows on the card changes this key, so the card is made again at once and always matches the page.
   const cardKey = JSON.stringify([account.fullName, account.avatarUrl, account.location, account.bio, account.socialLinks, account.isMember, account.isVerified, profiles.map((p) => [p.category, p.status]), data.volunteer?.status]);
 
-  const tabs: { key: TabKey; label: string; short: string; icon: typeof Bell; badge?: number; dot?: boolean }[] = [
-    { key: "overview", label: "Overview", short: "Home", icon: LayoutGrid },
+  const tabs: NavTab<TabKey>[] = [
     { key: "profile", label: "Profile", short: "Profile", icon: UserRound },
     { key: "registrations", label: "Registrations", short: "Forms", icon: ClipboardList, badge: incomplete || undefined },
-    { key: "payments", label: "Payments & seva", short: "Seva", icon: Wallet, dot: feeDue },
-    { key: "messages", label: "Messages", short: "Inbox", icon: Bell, badge: notifications.unread || undefined },
+    { key: "payments", label: "Payments & seva", short: "Payments", icon: Wallet, dot: feeDue },
+    { key: "messages", label: "Notifications", short: "Alerts", icon: Bell, badge: notifications.unread || undefined },
   ];
+  const tag = account.isMember ? "Member" : data.volunteer ? "Volunteer" : "Devotee";
 
   return (
-    <div className="bg-[#fffaf1] pb-24 md:pb-0">
+    <div className="bg-[#fffaf1] pb-32 lg:pb-12 lg:pl-[264px]">
       {verifyingPhone && (
         <VerifyPhoneDialog
           onClose={() => setVerifyingPhone(false)}
@@ -309,52 +304,32 @@ function DashboardView() {
         />
       )}
 
-      <ProfileHero data={data} kinds={kinds} onEdit={() => setEditing(true)} onCard={openCard} onPhoto={changePhoto} uploading={uploading} photoError={photoError} />
-      <StatCard data={data} onGo={choose} />
+      {/* the way round the account: a panel down the left on a computer, a floating bar at the foot on a phone */}
+      <ProfileSidebar tabs={tabs} tab={tab} onChoose={choose} name={account.fullName} avatarUrl={account.avatarUrl} percent={data.completion.percent} tag={tag} />
 
-      <div className="relative z-10 mx-auto max-w-[1240px] px-4 pb-14 pt-8 sm:px-6 lg:px-[88px] lg:pb-20">
-        {/* the tabs, as a pill bar (on a phone they are the bar at the foot of the screen instead) */}
-        <div className="sticky top-[72px] z-30 mb-8 hidden justify-center md:flex">
-          <div role="tablist" aria-label="Profile sections" className="flex max-w-full gap-1 overflow-x-auto rounded-full border border-[#e0b94f]/50 bg-white/95 p-1.5 shadow-[0_14px_34px_rgba(107,31,31,0.16)] backdrop-blur">
-            {tabs.map((t) => {
-              const on = tab === t.key;
-              return (
-                <button
-                  key={t.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={on}
-                  onClick={() => choose(t.key)}
-                  className={cn("relative flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300", on ? "bg-gradient-to-r from-[#f47700] to-[#ff9417] text-white shadow-[0_8px_18px_rgba(244,119,0,0.35)]" : "text-maroon hover:bg-[#fff1d8]")}
-                >
-                  <t.icon className="h-4 w-4" aria-hidden />
-                  {t.label}
-                  {t.badge ? <span className={cn("flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-bold", on ? "bg-white text-[#e47105]" : "bg-red-500 text-white")}>{t.badge}</span> : null}
-                  {t.dot && <span aria-label="Fee balance due" className="absolute right-2 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
+      <div className="mx-auto max-w-[1080px] px-4 pt-5 sm:px-6 lg:px-8 lg:pt-8">
         <div key={tab} role="tabpanel" className="gs-slide flex flex-col gap-6 sm:gap-8">
-          {tab === "overview" && (
-            <>
-              <CompleteNudge data={data} onEdit={() => setEditing(true)} />
-              <ReportTiles data={data} onGo={choose} />
-              <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
-                <ActivityList data={data} onGo={choose} />
-                <SevaChart monthly={donations.monthly ?? []} />
-              </div>
-            </>
-          )}
-
           {tab === "profile" && (
             <>
-              <div className="grid gap-6 lg:grid-cols-2">
-                <DetailsCard account={account} onEdit={() => setEditing(true)} onVerifyPhone={() => setVerifyingPhone(true)} />
-                <LinksCard account={account} onEdit={() => setEditing(true)} />
+              <div>
+                <ProfileHero data={data} kinds={kinds} onEdit={() => setEditing(true)} onCard={openCard} onPhoto={changePhoto} uploading={uploading} photoError={photoError} />
+                <StatCard data={data} onGo={choose} />
               </div>
+
+              <CompleteNudge data={data} onEdit={() => setEditing(true)} />
+
+              <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+                <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
+                  <ReportTiles data={data} onGo={choose} />
+                  <SevaChart monthly={donations.monthly ?? []} />
+                  <ActivityList data={data} onGo={choose} />
+                </div>
+                <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
+                  <DetailsCard account={account} onEdit={() => setEditing(true)} onVerifyPhone={() => setVerifyingPhone(true)} />
+                  <LinksCard account={account} onEdit={() => setEditing(true)} />
+                </div>
+              </div>
+
               <div id="my-card" className="scroll-mt-24">
                 <DigitalCardSection syncKey={cardKey} />
               </div>
@@ -404,12 +379,16 @@ function DashboardView() {
 
           {tab === "payments" && (
             <>
+              <div>
+                <h2 className="font-serif text-2xl font-bold text-maroon">{"Payments & seva"}</h2>
+                <p className="mt-1 text-sm text-[#595656]">{"Your registration fee, receipts and every offering you have made."}</p>
+              </div>
               {/* Registration fee: pending with the two plans, or paid. A volunteer sees an optional "become a member" version. */}
               <RegistrationFeeCard />
               <PaymentDocuments />
               <div className="grid gap-4 sm:grid-cols-2">
                 <Stat icon={Heart} label="Given in seva so far" value={rupees(donations.total)} hint={`${donations.count} offering${donations.count === 1 ? "" : "s"}`} />
-                <Link href="/#give-seva" className="group flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-[#f47700] to-[#ff9417] px-5 py-4 text-white shadow-[0_12px_28px_rgba(244,119,0,0.3)] transition-transform hover:-translate-y-1">
+                <Link href="/seva#give-seva" className="group flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-[#f47700] to-[#ff9417] px-5 py-4 text-white shadow-[0_12px_28px_rgba(244,119,0,0.3)] transition-transform hover:-translate-y-1">
                   <span>
                     <span className="block font-serif text-xl font-bold">Give seva</span>
                     <span className="block text-xs text-white/90">Food, cows, children, water and more</span>
@@ -440,7 +419,7 @@ function DashboardView() {
 
           {tab === "messages" && (
             <section className="rounded-2xl border border-[#d4af37]/30 bg-white p-5 shadow-sm sm:p-6">
-              <h2 className="font-serif text-2xl font-bold text-maroon">Messages from the team</h2>
+              <h2 className="font-serif text-2xl font-bold text-maroon">Notifications</h2>
               {notifications.recent.length === 0 ? (
                 <p className="mt-3 text-sm text-[#8a8580]">No new messages. You are all caught up.</p>
               ) : (
@@ -459,30 +438,12 @@ function DashboardView() {
         </div>
       </div>
 
-      {/* the round "give seva" button, as in a phone app */}
-      <Link href="/#give-seva" aria-label="Give seva" title="Give seva" className="gs-glow fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#f47700] to-[#ff9417] text-white shadow-[0_14px_30px_rgba(244,119,0,0.5)] transition-transform hover:scale-110 md:bottom-8 md:right-8">
+      {/* the round "give seva" button, on a phone (on a computer it is in the panel at the left) */}
+      <Link href="/seva#give-seva" aria-label="Give seva" title="Give seva" className="gs-glow fixed bottom-[92px] right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#f47700] to-[#ff9417] text-white shadow-[0_14px_30px_rgba(244,119,0,0.5)] transition-transform active:scale-95 lg:hidden">
         <HandHeart className="h-6 w-6" aria-hidden />
       </Link>
 
-      {/* on a phone: the bar of tabs at the foot of the screen */}
-      <nav aria-label="Profile sections" className="fixed inset-x-0 bottom-0 z-40 border-t border-[#e0b94f]/40 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-10px_30px_rgba(107,31,31,0.12)] backdrop-blur md:hidden">
-        <div className="mx-auto grid max-w-[520px] grid-cols-5">
-          {tabs.map((t) => {
-            const on = tab === t.key;
-            return (
-              <button key={t.key} type="button" onClick={() => choose(t.key)} aria-current={on ? "page" : undefined} className="relative flex flex-col items-center gap-0.5 px-1 pb-2 pt-2.5">
-                {on && <span aria-hidden className="absolute inset-x-5 top-0 h-[3px] rounded-b-full bg-[#e47105]" />}
-                <span className="relative">
-                  <t.icon className={cn("h-[22px] w-[22px] transition-all duration-300", on ? "scale-110 text-[#e47105]" : "text-[#8a7a6a]")} aria-hidden />
-                  {t.badge ? <span className="absolute -right-2.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">{t.badge}</span> : null}
-                  {t.dot && <span aria-label="Fee balance due" className="absolute -right-1 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500" />}
-                </span>
-                <span className={cn("text-[10.5px] font-semibold", on ? "text-[#e47105]" : "text-[#8a7a6a]")}>{t.short}</span>
-              </button>
-            );
-          })}
-        </div>
-      </nav>
+      <ProfileBottomNav tabs={tabs} tab={tab} onChoose={choose} />
     </div>
   );
 }
