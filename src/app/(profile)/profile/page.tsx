@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Bell, CheckCircle2, CircleAlert, ClipboardList, HandHeart, Heart, Pencil, UserRound, Wallet } from "lucide-react";
+import { ArrowRight, Bell, Images, CheckCircle2, CircleAlert, ClipboardList, HandHeart, Heart, Pencil, UserRound, Wallet } from "lucide-react";
 import { ProfileBottomNav, ProfileSidebar, type NavTab } from "@/components/profile/ProfileNav";
 import RequireAuth from "@/components/auth/RequireAuth";
 import { ACCOUNT_CHANGED } from "@/components/notifications/NotificationBell";
@@ -11,6 +11,7 @@ import ProfileHero from "@/components/profile/ProfileHero";
 import { ActivityList, CompleteNudge, ReportTiles, SevaChart, StatCard } from "@/components/profile/ProfileOverview";
 import RegistrationEditor from "@/components/profile/RegistrationEditor";
 import { DetailsCard, LinksCard } from "@/components/profile/ProfileDetails";
+import ProfileGallery from "@/components/profile/ProfileGallery";
 import VerifyPhoneDialog from "@/components/profile/VerifyPhoneDialog";
 import RegistrationFeeCard from "@/components/payments/RegistrationFeeCard";
 import VolunteerCard from "@/components/profile/VolunteerCard";
@@ -187,8 +188,8 @@ function Stat({ icon: Icon, label, value, hint }: { icon: typeof Heart; label: s
 }
 
 /** The four places of the account. "Profile" holds everything about the person (the numbers, the chart, the details, the links and the digital card). */
-type TabKey = "profile" | "registrations" | "payments" | "messages";
-const TAB_KEYS: TabKey[] = ["profile", "registrations", "payments", "messages"];
+type TabKey = "profile" | "registrations" | "payments" | "gallery" | "messages";
+const TAB_KEYS: TabKey[] = ["profile", "registrations", "payments", "gallery", "messages"];
 
 function DashboardView() {
   const { user, refreshUser } = useAuth();
@@ -278,6 +279,7 @@ function DashboardView() {
     { key: "profile", label: "Profile", short: "Profile", icon: UserRound },
     { key: "registrations", label: "Registrations", short: "Forms", icon: ClipboardList, badge: incomplete || undefined },
     { key: "payments", label: "Payments & seva", short: "Payments", icon: Wallet, dot: feeDue },
+    { key: "gallery", label: "My gallery", short: "Gallery", icon: Images },
     { key: "messages", label: "Notifications", short: "Alerts", icon: Bell, badge: notifications.unread || undefined },
   ];
   const tag = account.isMember ? "Member" : data.volunteer ? "Volunteer" : "Devotee";
@@ -416,6 +418,8 @@ function DashboardView() {
               </section>
             </>
           )}
+
+          {tab === "gallery" && <ProfileGallery />}
 
           {tab === "messages" && (
             <section className="rounded-2xl border border-[#d4af37]/30 bg-white p-5 shadow-sm sm:p-6">

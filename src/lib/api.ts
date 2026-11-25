@@ -403,6 +403,8 @@ export interface MyGalleryItem {
 export const galleryApi = {
   /** A signed-in member shares a photograph or a video (already uploaded). It waits for an admin's approval. */
   share: (item: { gallery: "initiatives" | "own-wish"; folder: string; kind: "photo" | "video"; url: string; caption?: string }) => request<{ id: string; status: string }>("/gallery", { body: item, auth: true }),
+  /** The sevas the member has given: the folders they can share pictures into. */
+  mySevas: () => request<{ sevaType: string; offerings: number; lastAt: string }[]>("/gallery/my-sevas", { method: "GET", auth: true }),
   /** What the member has shared, and where each one stands. */
   mine: () => request<MyGalleryItem[]>("/gallery/mine", { method: "GET", auth: true }),
 };

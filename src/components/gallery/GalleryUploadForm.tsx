@@ -33,9 +33,10 @@ export default function GalleryUploadForm({ gallery, folders, defaultFolder }: {
   const loadMine = useCallback(() => {
     galleryApi
       .mine()
-      .then((items) => setMine(items.filter((i) => i.gallery === gallery)))
+      .then((items) => setMine(items.filter((i) => i.gallery === gallery && folders.some((f) => f.slug === i.folder))))
       .catch(() => undefined);
-  }, [gallery]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gallery, folders.map((f) => f.slug).join()]);
 
   useEffect(() => loadMine(), [loadMine]);
 

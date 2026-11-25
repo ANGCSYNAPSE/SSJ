@@ -13,10 +13,13 @@ type Tab = "photos" | "videos";
  * keyboard move between photographs, Esc closes); a video plays right there. A folder with nothing in it yet says so kindly.
  */
 export default function GalleryBody({ folders: base, gallery, note, emptyText }: { folders: GalleryFolder[]; /** Which gallery: the approved photographs and videos of it are added to the folders. */ gallery: "initiatives" | "own-wish"; note?: string; /** What a folder (or the whole gallery) with nothing in it says. */ emptyText: string }) {
-  const folders = useApprovedGallery(gallery, base);
+  const all = useApprovedGallery(gallery, base);
+  const nothingAtAll = all.every((f) => f.photos.length === 0 && f.videos.length === 0);
+  // Only folders that hold something approved are shown. The folders with nothing in them are left out altogether.
+  const folders = nothingAtAll ? all : all.filter((f) => f.photos.length > 0 || f.videos.length > 0);
   const single = folders.length === 1;
-  const nothingAtAll = folders.every((f) => f.photos.length === 0 && f.videos.length === 0);
-  const [openSlug, setOpenSlug] = useState<string | null>(single ? folders[0].slug : null);
+  const [chosenSlug, setOpenSlug] = useState<string | null>(null);
+  const openSlug = single ? folders[0].slug : chosenSlug;
   const [tab, setTab] = useState<Tab>("photos");
   const [lightbox, setLightbox] = useState<number | null>(null);
   const open = folders.find((f) => f.slug === openSlug) ?? null;

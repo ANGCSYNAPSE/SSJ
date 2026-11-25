@@ -117,7 +117,7 @@ export default function SevaPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.96px] text-[#e87722]">{"FOR MEMBERS"}</p>
             <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#3e1815] lg:text-[48px]">{"Share the story of your wish"}</h2>
             <Ornament />
-            <p className="text-lg leading-7 text-[#595656]">{"The people who make our family are its best story. Members will be able to add photographs and videos of their own wish fulfilled."}</p>
+            <p className="text-lg leading-7 text-[#595656]">{"The people who make our family are its best story. Members can add photographs and videos of their own wish fulfilled. Each one is shown after our team has approved it."}</p>
           </div>
           <SevaShare />
         </div>

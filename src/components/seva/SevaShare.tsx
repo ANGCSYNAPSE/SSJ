@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { FolderOpen, ImagePlus, Lock, ShieldCheck, UserRound, UploadCloud } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import GalleryUploadForm from "@/components/gallery/GalleryUploadForm";
-import { OWN_WISH_FOLDER } from "@/lib/data/gallery";
 import { SEVA_TYPES } from "@/lib/data/seva";
 
 const STEPS = [
-  { icon: UserRound, title: "Sign in as a member", text: "Sharing is for people who have a Shyam Jagat account." },
-  { icon: FolderOpen, title: "Pick your wish", text: "Choose the seva of own wish that your photo or video belongs to." },
-  { icon: UploadCloud, title: "Upload photos or videos", text: "Add a JPG or PNG, or a short video, with a few words about it." },
+  { icon: UserRound, title: "Give a seva", text: "Sharing is for members who have given that seva, signed in to their Shyam Jagat account." },
+  { icon: FolderOpen, title: "Open My gallery in your profile", text: "Each seva you have given has its own folder there." },
+  { icon: UploadCloud, title: "Upload photos or videos", text: "Add a JPG, PNG, WebP or a short video, with a few words about it." },
   { icon: ShieldCheck, title: "We check, then it appears", text: "Our team looks at each photo and video first. Once it is approved, it joins the gallery for everyone to see." },
 ];
 
@@ -20,17 +18,6 @@ const STEPS = [
  */
 export default function SevaShare() {
   const { user, loading } = useAuth();
-
-  // A signed-in member can share right here.
-  if (user) {
-    return (
-      <div className="rounded-[28px] border border-[#e0b94f]/50 bg-white p-6 shadow-[0_24px_60px_rgba(107,31,31,0.12)] sm:p-10">
-        <h3 className="font-serif text-2xl font-bold text-[#3e1815] sm:text-3xl">{"Share your wish fulfilled"}</h3>
-        <p className="mb-6 mt-2 text-[15px] leading-relaxed text-[#595656]">{"Add a photograph or a short video. It goes to our team first, and appears in the gallery only after it is approved."}</p>
-        <GalleryUploadForm gallery="own-wish" folders={[{ slug: OWN_WISH_FOLDER.slug, title: OWN_WISH_FOLDER.title }]} />
-      </div>
-    );
-  }
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-[#e0b94f]/50 bg-white shadow-[0_24px_60px_rgba(107,31,31,0.12)]">
@@ -57,7 +44,7 @@ export default function SevaShare() {
             {"For members"}
           </span>
           <h3 className="mt-3 font-serif text-2xl font-bold text-[#3e1815] sm:text-3xl">{"Share your wish fulfilled"}</h3>
-          <p className="mx-auto mt-2 max-w-[560px] text-[15px] leading-relaxed text-[#595656]">{"Members can add photographs and videos of their own wish to the gallery above. Sign in to share. This is how it works:"}</p>
+          <p className="mx-auto mt-2 max-w-[560px] text-[15px] leading-relaxed text-[#595656]">{"Members who have given a seva can add its photographs and videos from their profile. This is how it works:"}</p>
 
           <ol className="mt-5 grid gap-3 text-left sm:grid-cols-2">
             {STEPS.map((s, i) => (
@@ -75,7 +62,11 @@ export default function SevaShare() {
           </ol>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {loading ? null : (
+            {loading ? null : user ? (
+              <Link href="/profile#gallery" className="rounded-xl bg-gradient-to-r from-[#f47700] to-[#ff9417] px-6 py-3 text-sm font-bold text-white shadow-[0_10px_22px_rgba(244,119,0,0.35)] transition-transform hover:-translate-y-0.5">
+                {"Open My gallery in your profile"}
+              </Link>
+            ) : (
               <>
                 <Link href="/signup" className="rounded-xl bg-gradient-to-r from-[#f47700] to-[#ff9417] px-6 py-3 text-sm font-bold text-white shadow-[0_10px_22px_rgba(244,119,0,0.35)] transition-transform hover:-translate-y-0.5">
                   {"Create your account"}
