@@ -389,6 +389,24 @@ export const uploadsApi = {
   },
 };
 
+export interface MyGalleryItem {
+  id: string;
+  gallery: "initiatives" | "own-wish";
+  folder: string;
+  kind: "photo" | "video";
+  url: string;
+  caption: string | null;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+}
+
+export const galleryApi = {
+  /** A signed-in member shares a photograph or a video (already uploaded). It waits for an admin's approval. */
+  share: (item: { gallery: "initiatives" | "own-wish"; folder: string; kind: "photo" | "video"; url: string; caption?: string }) => request<{ id: string; status: string }>("/gallery", { body: item, auth: true }),
+  /** What the member has shared, and where each one stands. */
+  mine: () => request<MyGalleryItem[]>("/gallery/mine", { method: "GET", auth: true }),
+};
+
 export type DashboardProfile = {
   category: CategoryKey;
   status: string;

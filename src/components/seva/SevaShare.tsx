@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, FolderOpen, ImagePlus, Lock, ShieldCheck, UserRound, UploadCloud } from "lucide-react";
+import { FolderOpen, ImagePlus, Lock, ShieldCheck, UserRound, UploadCloud } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import GalleryUploadForm from "@/components/gallery/GalleryUploadForm";
+import { OWN_WISH_FOLDER } from "@/lib/data/gallery";
 import { SEVA_TYPES } from "@/lib/data/seva";
 
 const STEPS = [
@@ -18,6 +20,17 @@ const STEPS = [
  */
 export default function SevaShare() {
   const { user, loading } = useAuth();
+
+  // A signed-in member can share right here.
+  if (user) {
+    return (
+      <div className="rounded-[28px] border border-[#e0b94f]/50 bg-white p-6 shadow-[0_24px_60px_rgba(107,31,31,0.12)] sm:p-10">
+        <h3 className="font-serif text-2xl font-bold text-[#3e1815] sm:text-3xl">{"Share your wish fulfilled"}</h3>
+        <p className="mb-6 mt-2 text-[15px] leading-relaxed text-[#595656]">{"Add a photograph or a short video. It goes to our team first, and appears in the gallery only after it is approved."}</p>
+        <GalleryUploadForm gallery="own-wish" folders={[{ slug: OWN_WISH_FOLDER.slug, title: OWN_WISH_FOLDER.title }]} />
+      </div>
+    );
+  }
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-[#e0b94f]/50 bg-white shadow-[0_24px_60px_rgba(107,31,31,0.12)]">
@@ -41,10 +54,10 @@ export default function SevaShare() {
         <div className="w-full max-w-[880px] rounded-3xl border border-[#e0b94f]/70 bg-white/92 p-5 text-center shadow-[0_24px_60px_rgba(107,31,31,0.22)] backdrop-blur-md sm:p-8">
           <span className="inline-flex items-center gap-2 rounded-full bg-[#fdf0d5] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#8a6100]">
             <Lock className="h-3.5 w-3.5" aria-hidden />
-            {"Opens soon"}
+            {"For members"}
           </span>
           <h3 className="mt-3 font-serif text-2xl font-bold text-[#3e1815] sm:text-3xl">{"Share your wish fulfilled"}</h3>
-          <p className="mx-auto mt-2 max-w-[560px] text-[15px] leading-relaxed text-[#595656]">{"Soon, members will be able to add photographs and videos of their own wish to the gallery above. This is how it will work:"}</p>
+          <p className="mx-auto mt-2 max-w-[560px] text-[15px] leading-relaxed text-[#595656]">{"Members can add photographs and videos of their own wish to the gallery above. Sign in to share. This is how it works:"}</p>
 
           <ol className="mt-5 grid gap-3 text-left sm:grid-cols-2">
             {STEPS.map((s, i) => (
@@ -62,12 +75,7 @@ export default function SevaShare() {
           </ol>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {loading ? null : user ? (
-              <p className="inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-sm font-semibold text-green-800">
-                <CheckCircle2 className="h-4 w-4" aria-hidden />
-                {"You are signed in. We will tell you here when sharing opens."}
-              </p>
-            ) : (
+            {loading ? null : (
               <>
                 <Link href="/signup" className="rounded-xl bg-gradient-to-r from-[#f47700] to-[#ff9417] px-6 py-3 text-sm font-bold text-white shadow-[0_10px_22px_rgba(244,119,0,0.35)] transition-transform hover:-translate-y-0.5">
                   {"Create your account"}

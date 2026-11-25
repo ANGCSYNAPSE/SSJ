@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Images, X } from "lucide-react";
+import Link from "next/link";
+import { ChevronDown, Images, Upload, X } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthProvider";
+import GalleryUploadForm from "@/components/gallery/GalleryUploadForm";
 import GalleryBody from "@/components/gallery/GalleryBody";
 import type { GalleryFolder } from "@/lib/data/gallery";
 
@@ -12,6 +15,8 @@ import type { GalleryFolder } from "@/lib/data/gallery";
  */
 export default function GalleryDialog({ open, onClose, title, subtitle, folders, gallery, note, emptyText }: { open: boolean; onClose: () => void; title: string; subtitle: string; folders: GalleryFolder[]; gallery: "initiatives" | "own-wish"; note?: string; emptyText: string }) {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const { user } = useAuth();
+  const [sharing, setSharing] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -47,6 +52,36 @@ export default function GalleryDialog({ open, onClose, title, subtitle, folders,
         </header>
         <div className="min-h-0 flex-1 overflow-y-auto p-5 sm:p-7">
           <GalleryBody folders={folders} gallery={gallery} note={note} emptyText={emptyText} />
+
+          {/* sharing: for a signed-in member the form, for anyone else a way in */}
+          <div className="mt-8 rounded-2xl border border-[#e0b94f]/50 bg-white p-5 sm:p-6">
+            {user ? (
+              <>
+                <button type="button" onClick={() => setSharing((v) => !v)} aria-expanded={sharing} className="flex w-full items-center justify-between gap-3 text-left">
+                  <span className="flex items-center gap-3 font-serif text-lg font-bold text-[#3e1815]">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#f47700] to-[#ff9417] text-white">
+                      <Upload className="h-5 w-5" aria-hidden />
+                    </span>
+                    {"Share a photo or a video"}
+                  </span>
+                  <ChevronDown className={`h-5 w-5 text-[#8a6100] transition-transform ${sharing ? "rotate-180" : ""}`} aria-hidden />
+                </button>
+                {sharing && (
+                  <div className="mt-5">
+                    <GalleryUploadForm gallery={gallery} folders={folders.map((f) => ({ slug: f.slug, title: f.title }))} />
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className="text-sm leading-relaxed text-[#595656]">
+                {"Members can share photos and videos here. They appear after our team has approved them. "}
+                <Link href="/login" onClick={onClose} className="font-bold text-[#e47105] hover:underline">{"Log in"}</Link>
+                {" or "}
+                <Link href="/signup" onClick={onClose} className="font-bold text-[#e47105] hover:underline">{"create an account"}</Link>
+                {" to share."}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>,
